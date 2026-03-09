@@ -33,6 +33,7 @@ Platform-specific adapters live in:
 - HUD, inventory, popup, and mobile safe-area layout rules
 - concrete MCP call recipes for common UI tasks
 - common failure patterns and recovery guidance
+- final review checks before calling a UI task done
 - screenshot verification loops
 - safer `unity-mcp` prompting across different LLM products
 
@@ -41,6 +42,7 @@ Platform-specific adapters live in:
 - HUD, 인벤토리, 팝업, 모바일 safe area 레이아웃 규칙
 - 자주 쓰는 UI 작업용 구체적인 MCP 호출 레시피
 - 자주 실패하는 패턴과 복구 가이드
+- 작업 완료 전에 보는 최종 검수 체크
 - 스크린샷 기반 검증 루프
 - 다양한 LLM 서비스에서 더 안전하게 `unity-mcp`를 쓰는 프롬프트 구성
 

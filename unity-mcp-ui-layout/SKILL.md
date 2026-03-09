@@ -1,4 +1,4 @@
----
+﻿---
 name: unity-mcp-ui-layout
 description: Guide for building or fixing Unity UI through MCP for Unity when working from mockups, screenshots, wireframes, or target resolutions, especially for UGUI HUDs, inventories, popups, mobile safe-area layouts, or UI Toolkit screens where anchors drift, scaling breaks, spacing is inconsistent, or the result does not match the intended composition. Use when Codex is controlling Unity with unity-mcp to translate layout images into anchored UI, choose CanvasScaler rules, repair popup safe-area behavior, iterate from screenshots, and keep UI work in small verifiable steps instead of one large generation.
 ---
@@ -114,6 +114,7 @@ Use screenshots aggressively.
 - Read `references/common-failures.md` when the UI result technically exists but still feels fragile, inconsistent, overfit to one resolution, or structurally wrong.
 - Read `references/image-to-layout.md` when the user provides a mockup, screenshot, wireframe, or other layout image plus a target resolution.
 - Read `references/mcp-call-recipes.md` when you need concrete `unity-mcp` call sequences for discovery, creation, repair, verification, or script-backed UI work.
+- Read `references/review-checks.md` when you need a final quality pass before calling a Unity UI task complete.
 - Read `references/ugui-anchors-canvas-scaler.md` when the target is UGUI or when anchor, pivot, or screen-scaling behavior is causing drift.
 - Read `references/ugui-hud.md` for always-on-screen HUD, minimap, status bars, and action bars.
 - Read `references/ugui-inventory.md` for slot grids, item lists, equipment panels, and shop layouts.
