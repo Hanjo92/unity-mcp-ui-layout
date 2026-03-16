@@ -29,6 +29,7 @@ Break the layout into:
 - Atomic widgets
 
 Do not jump directly from whole image to dozens of leaf nodes.
+Group the topmost composition by anchor-owned regions first so the largest blocks already belong to stable screen relationships.
 
 ### 2. Estimate normalized geometry
 
@@ -62,8 +63,17 @@ Create the parent zones before children:
 - Nested rows, columns, or grids
 
 Once the parent is right, many child values become smaller and more stable.
+If the same structure appears multiple times, make one reusable prefab or reusable block before placing all copies.
 
-### 5. Convert proportions into concrete values
+### 5. Respect single-image regions
+
+If a visual area appears to be one baked image or sprite:
+
+- Keep it as a single image resource unless there is clear evidence that parts must resize, animate, or respond independently.
+- Do not force decorative shapes into separate widgets just to trace the mockup more literally.
+- Only split the image when interaction, dynamic text, or adaptive layout requires it.
+
+### 6. Convert proportions into concrete values
 
 For a given target resolution:
 
@@ -82,8 +92,10 @@ Prefer "anchored top-right with 4% inset" over "x=1798, y=54".
 - Use anchor presets that match the image region before setting `anchoredPosition`.
 - Use stretch anchors for structural containers and corner/center anchors for leaf widgets.
 - For groups of siblings, prefer layout groups and padding to repeated manual offsets.
+- Turn repeated sibling structures into prefabs or reusable blocks when they recur across the same screen.
 - Align pivot with anchor and expected growth or animation direction.
 - Keep manual positions only for isolated decorative elements or deliberate overlaps.
+- If a decorative area is likely a single sprite, keep it as one image instead of rebuilding it from many forced sub-elements.
 
 ## UI Toolkit Rules
 
@@ -97,8 +109,11 @@ Prefer "anchored top-right with 4% inset" over "x=1798, y=54".
 Before calling the result correct, verify:
 
 - Does the composition match the image at the target resolution?
+- Are the top-level regions grouped by stable anchor ownership before child tuning?
 - Are anchors consistent with the element's visual role?
+- Were repeated structures converted into reusable prefabs or layout blocks where appropriate?
 - If the resolution changes a little, does the UI still preserve intent?
+- Was any likely single-image region over-decomposed into fake widgets without a runtime need?
 - Are any values suspiciously pixel-specific where a ratio or container rule should exist?
 
 If the answer to the last question is yes, refactor before continuing.

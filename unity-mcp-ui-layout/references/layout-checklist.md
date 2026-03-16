@@ -55,6 +55,13 @@ Check these top to bottom.
 - Check for active layout groups on the parent.
 - Disable or reconfigure the layout group before applying manual child transforms.
 - Confirm the child should be hand-placed at all; repeated siblings usually should not be.
+- If the same child structure repeats, replace manual reconstruction with a reusable prefab or reusable layout block.
+
+### Top-level composition feels unstable
+
+- Check whether the screen was grouped into anchor-owned top regions before child tuning.
+- Rebuild the largest header, footer, sidebar, corner cluster, or center modal containers first.
+- Avoid solving top-level drift with many per-widget offsets.
 
 ### Text overflows or collapses the row
 
@@ -67,6 +74,12 @@ Check these top to bottom.
 - Verify anchors and pivot.
 - Confirm safe-area logic for mobile layouts.
 - Put edge UI under a dedicated safe-area container instead of offsetting each child.
+
+### Mockup was over-translated into fake widgets
+
+- Check whether a decorative area is actually one sprite or one baked image resource.
+- Collapse forced sub-elements back into a single image unless they need separate runtime behavior.
+- Keep structural splitting only where interaction, animation, text, or adaptive sizing requires it.
 
 ### Modal scales strangely or animates from the wrong point
 
@@ -113,6 +126,9 @@ After each iteration, ask:
 - Is any text clipped, wrapping unexpectedly, or causing row growth?
 - Are sibling gaps visually even?
 - Does the design survive one alternate aspect ratio?
+- Are the top-level regions grouped by anchor ownership rather than many leaf-level corrections?
+- Were repeated structures reused instead of rebuilt one by one?
+- Was any likely single-image region kept simple instead of over-modeled?
 - Did any placement depend on raw image pixels when an anchor or container rule should have been used?
 
 If any answer is no, fix structure before polishing visuals.

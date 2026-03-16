@@ -53,10 +53,13 @@ Use `manage_camera` for screenshot verification. Use `refresh_unity` followed by
 When a layout image and target resolution are provided, derive structure from the image before editing:
 
 1. Identify major regions and each element's intended parent container.
-2. Estimate each element's position and size as percentages of the target resolution, not as final hard-coded pixels.
-3. Choose anchors from the element's semantic region: top bar, bottom HUD, left rail, right panel, centered modal, full stretch content.
-4. Use pixel values only as the result of converting those proportions into the current reference resolution.
-5. Re-check that the chosen anchors preserve the composition if the aspect ratio changes slightly.
+2. Group the topmost composition into anchor-owned regions first so every major block belongs to a stable top, bottom, left, right, or center frame before you tune children.
+3. Estimate each element's position and size as percentages of the target resolution, not as final hard-coded pixels.
+4. Choose anchors from the element's semantic region: top bar, bottom HUD, left rail, right panel, centered modal, full stretch content.
+5. For repeated structures, build one reusable prefab or reusable layout block first, then duplicate or instantiate it instead of rebuilding the same shape manually.
+6. If a region appears to be a single image resource, do not force it into an artificial multi-widget structure just to mimic shapes that are already baked into the art.
+7. Use pixel values only as the result of converting those proportions into the current reference resolution.
+8. Re-check that the chosen anchors preserve the composition if the aspect ratio changes slightly.
 
 If an element is described as "10% from the left, 8% from the top, 25% width", encode that intent through anchors and container rules first. Use offsets only for the final local adjustment inside the anchored region.
 
@@ -87,13 +90,16 @@ Use screenshots aggressively.
 
 - Prefer anchors and layout groups over hard-coded child positions in UGUI.
 - When the user provides a layout image, interpret it as a proportional composition guide, not a demand for exact screen pixels everywhere.
+- Group major top-level regions by anchor ownership before detailing leaf widgets.
 - Choose anchors based on the element's persistent relationship to screen edges or center, then fit size and offsets inside that anchored frame.
 - For UGUI, pick a `CanvasScaler` strategy before sizing children: usually `Scale With Screen Size`, occasionally `Constant Pixel Size`, rarely `Constant Physical Size`.
 - For UGUI, use stretch anchors for containers and fixed anchors for leaf widgets that hug a stable corner or center.
 - Do not mix `LayoutGroup` control with manual child placement unless you intentionally disable the layout system first.
+- Turn repeated sibling patterns into reusable prefabs or reusable layout blocks when the same structure appears more than once.
 - Always inspect `CanvasScaler` before judging element sizes across resolutions.
 - Avoid storing a design as "x=742, y=118" unless the UI intentionally targets a fixed render surface with no adaptive behavior.
 - Avoid combining `ContentSizeFitter` and parent layout control in ways that create feedback loops.
+- Do not decompose a likely single-image asset into fake sub-shapes unless interaction, animation, or dynamic layout actually requires separate elements.
 - Treat text as a layout driver. Check wrapping, overflow, best-fit/auto-size, and font asset limits before resizing containers.
 - For UI Toolkit, prefer USS classes and container rules over many inline style overrides.
 - If the user gives only a visual description, assume one target resolution first, implement for that resolution, then test at additional aspect ratios.

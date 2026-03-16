@@ -60,8 +60,10 @@ Use when the user provides a mockup or screenshot and target resolution.
 
 ```text
 Use the attached layout image as the composition reference and [WIDTHxHEIGHT] as the reference resolution.
-Before creating objects, identify the major UI regions and estimate each region's normalized position and size.
+Before creating objects, identify the major UI regions, group the top-level composition by anchor ownership, and estimate each region's normalized position and size.
 Create the parent containers and anchors first.
+If the same structure repeats, make one reusable prefab or reusable layout block before placing all copies.
+If a region looks like a single image resource, keep it as one image unless runtime behavior requires it to be split.
 Do not translate the image into raw pixel coordinates unless a fixed-size element truly requires it.
 After implementation, capture a screenshot and compare it against the reference image.
 Use `manage_camera` for the screenshot capture.
@@ -74,7 +76,9 @@ Use when the current UI should match an image more closely.
 ```text
 Compare the current UI against the provided layout image at [WIDTHxHEIGHT].
 Find where the composition diverges.
-Fix parent containers, anchors, and scaling rules before adjusting local offsets.
+Fix parent containers, top-level anchor grouping, and scaling rules before adjusting local offsets.
+Convert repeated structures into reusable prefabs or reusable layout blocks when the same shape appears multiple times.
+Collapse over-modeled decorative regions back into a single image when they are likely one baked asset.
 Keep the repair proportional to the reference image, not tied to arbitrary screen pixels.
 Use `manage_camera` to verify the repaired result against the image.
 ```
@@ -108,6 +112,7 @@ Build this screen as UGUI HUD.
 Use a `Canvas -> SafeAreaRoot -> HUDRoot` structure and create corner or center containers before leaf widgets.
 Choose anchors by screen role: top-left, top-right, bottom-left, bottom-right, bottom-center, or center.
 Do not hand-place repeated buttons or status icons if a layout group should own them.
+Turn repeated HUD clusters into reusable prefabs when the same structure appears more than once.
 After implementation, capture a screenshot at [WIDTHxHEIGHT] and one alternate aspect ratio.
 ```
 

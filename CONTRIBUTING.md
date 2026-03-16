@@ -22,6 +22,9 @@ Prioritize contributions in this order:
 - Prefer symptom-first documentation when describing failures.
 - Prefer bounded, practical examples over broad theoretical advice.
 - Preserve the distinction between UGUI and UI Toolkit when it matters.
+- Keep top-level layout grouping anchor-driven before leaf-level detail.
+- Prefer documenting repeated UI structures as reusable prefabs or reusable blocks.
+- Do not encourage splitting likely single-image assets unless runtime behavior requires it.
 
 ## Recommended Workflow
 
@@ -56,6 +59,7 @@ Use this for:
 - failure patterns
 - call recipes
 - review checklists
+- asset granularity guidance when mockups might be over-decomposed
 
 ### `examples/`
 
@@ -64,6 +68,7 @@ Use this for:
 - realistic user prompts
 - scenario walkthroughs
 - copyable starting points
+- prompts that reinforce anchor-first grouping and prefab reuse where appropriate
 
 ### `Platform/`
 
@@ -83,6 +88,8 @@ Use this for:
 
 - changing popup safe-area rules
 - changing ownership between layout groups and manual placement
+- changing guidance around repeated-structure prefab reuse
+- changing guidance around when a mockup region should remain a single image asset
 - changing guidance that affects both UGUI and UI Toolkit
 - expanding `SKILL.md` without moving details into references
 

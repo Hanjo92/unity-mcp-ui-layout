@@ -15,10 +15,14 @@ Treat the artifact as a structured layout plan, not just a visual guess. The art
 - Build the interface in slices, not in one shot.
 - Use screenshots to verify every structural step.
 - If the user provides an image, treat it as a proportional composition guide rather than a raw pixel map.
+- Group the top-level composition by anchor-owned regions before leaf-level tuning.
+- Turn repeated structures into reusable prefabs or reusable layout blocks when appropriate.
+- Keep likely single-image regions intact unless interaction, animation, or adaptive behavior requires them to be split.
 
 ## What the Artifact Should Emphasize
 
 - parent container ownership
+- top-level region grouping
 - anchor and pivot intent
 - `CanvasScaler` or flex behavior
 - safe-area ownership when relevant
@@ -32,8 +36,10 @@ Treat the artifact as a structured layout plan, not just a visual guess. The art
 - Build parent containers before leaf widgets.
 - Choose anchors before applying local offsets.
 - Prefer layout groups for repeated siblings.
+- Keep repeated UI patterns reusable instead of rebuilding them manually.
 - Keep popup `Dimmer` and `PopupRoot` as siblings under `ModalLayer`.
 - Apply safe-area handling to `PopupRoot`.
+- Do not over-decompose likely single-image assets.
 
 ## UI Toolkit Priorities
 

@@ -11,27 +11,33 @@ The user provides a HUD mockup image and wants a `1920x1080` UGUI implementation
 ```text
 Use $unity-mcp-ui-layout to build a 1920x1080 UGUI HUD from the attached mockup.
 Treat the image as a composition reference, not a raw pixel map.
+Group the top-level layout by anchor-owned regions first.
 Create the root canvas structure first, then SafeAreaRoot and HUDRoot, then add corner and center containers before leaf widgets.
+Turn repeated HUD structures into reusable prefabs or reusable layout blocks.
+If a decorative region is likely a single image resource, keep it intact instead of forcing it into sub-widgets.
 Verify each structural step with screenshots and re-check one alternate aspect ratio before finalizing.
 ```
 
 ```text
 $unity-mcp-ui-layout를 사용해서 첨부한 목업으로 1920x1080 UGUI HUD를 만들어줘.
 이미지는 raw pixel map이 아니라 composition reference로 취급해줘.
+최상단 레이아웃은 먼저 anchor 기준 영역으로 그룹화해줘.
 먼저 root canvas 구조를 만들고, 그다음 SafeAreaRoot와 HUDRoot를 만든 뒤, leaf widget보다 corner와 center container를 먼저 추가해줘.
+반복되는 HUD 구조는 재사용 가능한 프리팹 또는 레이아웃 블록으로 만들어줘.
+장식 영역이 단일 이미지 리소스로 보이면 억지로 sub-widget으로 쪼개지 말아줘.
 각 구조 변경 단계마다 스크린샷으로 검증하고, 마무리 전에 다른 aspect ratio 한 가지도 다시 확인해줘.
 ```
 
 ## Expected Working Style / 기대 작업 흐름
 
 1. Inspect current scene and UI roots
-2. Build shell and major regions
-3. Add one HUD cluster at a time
+2. Group the top-level layout and build shell and major regions
+3. Add one HUD cluster at a time, reusing repeated structures
 4. Verify after each slice
 
 1. 현재 씬과 UI 루트를 확인
-2. 화면 셸과 주요 영역 구성
-3. HUD 클러스터를 하나씩 추가
+2. 최상단 레이아웃을 그룹화하고 화면 셸과 주요 영역 구성
+3. HUD 클러스터를 하나씩 추가하되 반복 구조는 재사용
 4. 각 단계마다 검증
 
 ## Useful References / 함께 보면 좋은 문서

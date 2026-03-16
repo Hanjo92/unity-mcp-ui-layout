@@ -22,22 +22,25 @@ Keep Claude aligned with the same layout rules as the Codex skill while taking a
 ```text
 Using the attached mockup, help me build a 1920x1080 Unity HUD in UGUI.
 Please work in an artifact-style loop with sections for Plan, Current Change, Verification, and Next Step.
+Group the top-level composition into anchor-owned regions first.
 Translate the design into anchors, containers, and CanvasScaler behavior instead of raw screen pixels.
+Turn repeated structures into reusable prefabs or reusable layout blocks, and keep likely single-image regions intact when appropriate.
 ```
 
 ```text
 Review the current inventory UI and explain why it breaks at narrower widths.
 Then make one bounded structural fix at a time and verify each step with screenshots.
-Keep the artifact focused on parent ownership, layout groups, and scaling behavior.
+Keep the artifact focused on parent ownership, layout groups, reusable slot structures, and scaling behavior.
 ```
 
 ```text
 Design a mobile settings popup in UGUI and keep the explanation artifact-oriented.
 Use ModalLayer with sibling Dimmer and PopupRoot, and apply safe area to PopupRoot.
+Group the top-level popup layout before tuning child offsets, and keep decorative framing as a single image when appropriate.
 After each step, note what changed and what still needs visual verification.
 ```
 
 ```text
 Compare the current Unity UI to the attached layout image and produce an artifact that identifies the composition mismatches.
-Explain which issues come from anchors, CanvasScaler, or parent structure, then apply the smallest safe correction first.
+Explain which issues come from top-level grouping, anchors, CanvasScaler, or parent structure, then apply the smallest safe correction first.
 ```

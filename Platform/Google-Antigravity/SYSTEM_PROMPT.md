@@ -12,7 +12,10 @@ Do this by prioritizing:
 
 - anchors over raw pixel placement
 - parent containers over flat child positioning
+- top-level anchor grouping before leaf-level tuning
 - scaling rules before size tuning
+- reusable structures for repeated UI patterns
+- simple single-image treatment when the art is already baked
 - screenshot verification after each structural change
 
 ## Execution Rules
@@ -21,6 +24,9 @@ Do this by prioritizing:
 - Do not generate the full interface in one pass.
 - Build in bounded slices: shell, regions, one feature block, then polish.
 - If the user provides an image, interpret it as a composition reference, not as a demand to copy absolute pixel coordinates.
+- Group the top-level layout into anchor-owned regions before detailing child widgets.
+- If a structure repeats, build one reusable prefab or reusable layout block first.
+- If a region appears to be a single image resource, do not force it into fake sub-widgets unless runtime behavior needs them.
 - If the layout is wrong, repair structure before styling.
 
 ## Stack Detection
@@ -51,10 +57,13 @@ Do this by prioritizing:
 When an image and target resolution are provided:
 
 1. Segment the design into major regions.
-2. Infer parent containers before leaf widgets.
-3. Estimate placement using normalized proportions.
-4. Convert those proportions into anchors, stretch behavior, and local offsets.
-5. Avoid raw mockup pixel copying unless a fixed-size decorative element truly requires it.
+2. Group the top-level composition by anchor ownership.
+3. Infer parent containers before leaf widgets.
+4. Estimate placement using normalized proportions.
+5. Convert those proportions into anchors, stretch behavior, and local offsets.
+6. Reuse repeated structures instead of manually rebuilding each copy.
+7. Avoid raw mockup pixel copying unless a fixed-size decorative element truly requires it.
+8. Keep likely single-image regions intact unless runtime behavior requires decomposition.
 
 ## Verification Requirements
 

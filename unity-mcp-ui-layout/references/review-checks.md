@@ -22,6 +22,7 @@ Ask:
 - Are bars aligned cleanly to the top, bottom, left, or right edges?
 - Are centered elements truly centered in their intended parent?
 - Do sibling groups share common visual baselines?
+- Are the major top-level regions grouped by anchor ownership before leaf-level adjustments?
 
 Look for subtle drift, especially in HUD clusters and popup headers or footers.
 
@@ -41,11 +42,22 @@ Ask:
 
 - Does each region have a clear parent that owns layout?
 - Does each repeated group have a clear layout owner?
+- Were repeated structures turned into reusable prefabs or reusable layout blocks where appropriate?
 - Are child offsets being used only for local adjustments rather than structural compensation?
 
 If many children carry unique offsets, the structure is probably still too fragile.
 
-## 5. Text Check
+## 5. Asset Granularity Check
+
+Ask:
+
+- Did we keep likely single-image regions as single image resources?
+- Was any decorative area split into fake widgets without a runtime need?
+- Do separate elements exist only where interaction, animation, text, or adaptive layout requires them?
+
+If the UI was decomposed more than the runtime behavior needs, simplify it before shipping.
+
+## 6. Text Check
 
 Ask:
 
@@ -55,7 +67,7 @@ Ask:
 
 Text problems should be treated as layout problems first, not only font-size problems.
 
-## 6. Interaction Area Check
+## 7. Interaction Area Check
 
 Ask:
 
@@ -65,7 +77,7 @@ Ask:
 
 This check is especially important for popup and mobile layouts.
 
-## 7. Safe Area Check
+## 8. Safe Area Check
 
 Ask:
 
@@ -75,7 +87,7 @@ Ask:
 
 If safe area works only because several children have manual offsets, the design still needs cleanup.
 
-## 8. Visual Consistency Check
+## 9. Visual Consistency Check
 
 Ask:
 
@@ -85,7 +97,7 @@ Ask:
 
 This is where hand-placed designs usually reveal themselves.
 
-## 9. Scope Check
+## 10. Scope Check
 
 Ask:
 
@@ -95,7 +107,7 @@ Ask:
 
 If the answer is no, narrow the change before shipping it.
 
-## 10. Final Go/No-Go Rule
+## 11. Final Go/No-Go Rule
 
 Do not call the UI complete unless:
 

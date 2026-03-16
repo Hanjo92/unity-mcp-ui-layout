@@ -11,26 +11,30 @@ The user wants a mobile popup that respects safe area and does not drift in port
 ```text
 Use $unity-mcp-ui-layout to build this as a mobile UGUI popup.
 Keep Dimmer and PopupRoot as siblings under ModalLayer, and apply safe area to PopupRoot.
+Group the top-level modal layout by anchor-owned regions before tuning child offsets.
 Build title, content, and footer sections inside PopupRoot using local layout rules instead of hard-coded offsets.
+If decorative framing looks like a single image resource, keep it intact unless runtime behavior requires it to be split.
 Verify portrait and landscape before finalizing.
 ```
 
 ```text
 $unity-mcp-ui-layout를 사용해서 이 화면을 모바일 UGUI 팝업으로 만들어줘.
 Dimmer와 PopupRoot는 ModalLayer 아래에서 형제로 두고, safe area는 PopupRoot에 적용해줘.
+최상단 모달 레이아웃은 먼저 anchor 기준 영역으로 그룹화해줘.
 title, content, footer 영역은 hard-coded offset 대신 PopupRoot 내부의 local layout rule로 구성해줘.
+장식 프레임이 단일 이미지 리소스로 보이면 런타임 동작상 필요할 때만 분리해줘.
 마무리 전에 portrait와 landscape를 모두 검증해줘.
 ```
 
 ## Expected Working Style / 기대 작업 흐름
 
 1. Create or inspect ModalLayer
-2. Keep Dimmer and PopupRoot as siblings
+2. Group the top-level modal regions and keep Dimmer and PopupRoot as siblings
 3. Apply safe area to PopupRoot
 4. Verify title, close button, content, and footer placement in portrait and landscape
 
 1. ModalLayer를 생성하거나 기존 구조 확인
-2. Dimmer와 PopupRoot를 형제로 유지
+2. 최상단 모달 영역을 그룹화하고 Dimmer와 PopupRoot를 형제로 유지
 3. PopupRoot에 safe area 적용
 4. portrait와 landscape에서 title, close button, content, footer 위치 검증
 
