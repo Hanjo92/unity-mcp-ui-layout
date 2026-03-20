@@ -37,9 +37,16 @@ After the initial scene/editor inspection, run a quick capability check before p
 
 - Detect whether `unity-resource-rag` MCP/tools are available.
 - Detect whether an asset catalog or asset index is available.
-- If both are available and the task would benefit from reusing existing assets, switch into an asset-aware mode and look for matching reusable assets before building replacements from scratch.
-- If `unity-resource-rag` is unavailable, continue with image-to-layout translation using the existing layout rules, preserve structure-first execution, use placeholder visuals or existing manually discovered assets, and explicitly state that asset-aware retrieval was skipped.
-- If `unity-resource-rag` is available but retrieval confidence is low, do not force an asset match, keep the layout workflow moving, mark visuals as provisional, and verify structure first.
+- Default to layout-only mode unless there is a clear reuse signal.
+- Switch into asset-aware mode only when at least one of these is true:
+  - the user explicitly asks to preserve existing project visuals
+  - the user mentions existing assets, prefabs, fonts, sprite atlases, or design system reuse
+  - the requested screen type strongly suggests reusable project widgets
+  - the project already contains similar UI and consistency clearly matters
+- If those reuse signals are absent, stay in layout-only mode even if asset-retrieval tooling is available.
+- If asset-aware mode is warranted and both `unity-resource-rag` and an asset catalog or asset index are available, look for matching reusable assets before building replacements from scratch.
+- If asset-aware mode is warranted but `unity-resource-rag` is unavailable, continue with image-to-layout translation using the existing layout rules, preserve structure-first execution, use placeholder visuals or existing manually discovered assets, and explicitly state that asset-aware retrieval was skipped.
+- If asset-aware mode is warranted and `unity-resource-rag` is available but retrieval confidence is low, do not force an asset match, keep the layout workflow moving, mark visuals as provisional, and verify structure first.
 - Missing or low-confidence asset-RAG capability is not a hard blocker unless the user explicitly requires asset-index-backed reuse.
 - Make it explicit in your reasoning that missing `unity-resource-rag` support is normal and supported. Treat its absence as an expected environment variation, not as an error condition.
 
