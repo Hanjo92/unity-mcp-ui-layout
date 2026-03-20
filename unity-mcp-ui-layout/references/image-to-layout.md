@@ -17,6 +17,18 @@ Require these inputs when available:
 
 If the image is the only reliable source of truth, use it as the composition reference.
 
+## Asset-RAG Fallback Contract
+
+When image-to-layout work intersects with asset reuse, keep the layout workflow moving even if asset retrieval is incomplete.
+
+- If `unity-resource-rag` is unavailable, continue with image-to-layout translation using the existing layout rules.
+- Preserve structure-first execution: build regions, anchors, and parent containers before spending time on final art selection.
+- Use placeholder visuals or existing manually discovered assets when retrieval support is missing.
+- Explicitly say that asset-aware retrieval was skipped when `unity-resource-rag` is unavailable.
+- If `unity-resource-rag` is available but retrieval confidence is low, do not force an asset match just to claim reuse.
+- Keep the layout workflow moving, mark visuals as provisional, and verify structure first.
+- Never present missing or low-confidence asset-RAG capability as a hard blocker unless the user explicitly requires asset-index-backed reuse.
+
 ## Translation Procedure
 
 ### 1. Segment the image
