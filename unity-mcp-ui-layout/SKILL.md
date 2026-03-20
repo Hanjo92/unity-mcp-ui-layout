@@ -33,6 +33,14 @@ Read the current context before making changes.
 - For UI Toolkit, find the active `UIDocument`, linked `UXML`, linked `USS`, and panel settings before editing styles.
 - If the user provides a layout image and target resolution, treat them as the source spec for composition before creating any objects.
 
+After the initial scene/editor inspection, run a quick capability check before planning the implementation:
+
+- Detect whether `unity-resource-rag` MCP/tools are available.
+- Detect whether an asset catalog or asset index is available.
+- If both are available and the task would benefit from reusing existing assets, switch into an asset-aware mode and look for matching reusable assets before building replacements from scratch.
+- Otherwise, continue in layout-only mode without blocking the task.
+- Make it explicit in your reasoning that missing `unity-resource-rag` support is normal and supported. Treat its absence as an expected environment variation, not as an error condition.
+
 ### 2. Build in Vertical Slices
 
 Do not generate the full interface in one shot.
