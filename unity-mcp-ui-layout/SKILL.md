@@ -49,6 +49,9 @@ After the initial scene/editor inspection, run a quick capability check before p
 - If asset-aware mode is warranted and `unity-resource-rag` is available but retrieval confidence is low, do not force an asset match, keep the layout workflow moving, mark visuals as provisional, and verify structure first.
 - Missing or low-confidence asset-RAG capability is not a hard blocker unless the user explicitly requires asset-index-backed reuse.
 - Make it explicit in your reasoning that missing `unity-resource-rag` support is normal and supported. Treat its absence as an expected environment variation, not as an error condition.
+- Keep any mode disclosure brief: one or two lines only.
+- In asset-aware mode, say that existing project assets will be retrieved and reused where confidence is high.
+- In layout-only mode, say that the task will proceed without asset-index-backed retrieval, focus on stable structure first, and use placeholders or directly inspected assets if needed.
 
 ### 2. Build in Vertical Slices
 
