@@ -38,7 +38,9 @@ After the initial scene/editor inspection, run a quick capability check before p
 - Detect whether `unity-resource-rag` MCP/tools are available.
 - Detect whether an asset catalog or asset index is available.
 - If both are available and the task would benefit from reusing existing assets, switch into an asset-aware mode and look for matching reusable assets before building replacements from scratch.
-- Otherwise, continue in layout-only mode without blocking the task.
+- If `unity-resource-rag` is unavailable, continue with image-to-layout translation using the existing layout rules, preserve structure-first execution, use placeholder visuals or existing manually discovered assets, and explicitly state that asset-aware retrieval was skipped.
+- If `unity-resource-rag` is available but retrieval confidence is low, do not force an asset match, keep the layout workflow moving, mark visuals as provisional, and verify structure first.
+- Missing or low-confidence asset-RAG capability is not a hard blocker unless the user explicitly requires asset-index-backed reuse.
 - Make it explicit in your reasoning that missing `unity-resource-rag` support is normal and supported. Treat its absence as an expected environment variation, not as an error condition.
 
 ### 2. Build in Vertical Slices
