@@ -28,6 +28,9 @@ When image-to-layout work intersects with asset reuse, keep the layout workflow 
 - If `unity-resource-rag` is available but retrieval confidence is low, do not force an asset match just to claim reuse.
 - Keep the layout workflow moving, mark visuals as provisional, and verify structure first.
 - Never present missing or low-confidence asset-RAG capability as a hard blocker unless the user explicitly requires asset-index-backed reuse.
+- Keep any asset-mode disclosure to one or two lines.
+- In asset-aware mode, say that existing project assets will be retrieved and reused where confidence is high.
+- In layout-only mode, say that the task will proceed without asset-index-backed retrieval, focus on stable structure first, and use placeholders or directly inspected assets if needed.
 
 ## Translation Procedure
 
