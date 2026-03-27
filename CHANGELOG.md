@@ -4,6 +4,28 @@ This project follows a lightweight documentation-focused release flow.
 
 이 프로젝트는 문서 중심 저장소에 맞춘 가벼운 릴리스 흐름을 따릅니다.
 
+## v0.2.1 - 2026-03-27
+
+### Added
+
+- Sprite versus `RawImage` guidance for static versus texture-driven UI assets
+- Review checks for catching static UI visuals that incorrectly drift into `RawImage`
+- Failure-pattern guidance for converting ordinary static UI visuals back into the sprite workflow
+
+### Added / 추가
+
+- 정적 UI 자산과 texture-driven UI 자산을 구분하기 위한 Sprite 대 `RawImage` 규칙 추가
+- 정적 UI 비주얼이 잘못 `RawImage`로 흘러간 경우를 잡아내는 최종 검수 체크 추가
+- 일반 정적 UI 비주얼을 다시 sprite 워크플로로 되돌리기 위한 실패 패턴 가이드 추가
+
+### Changed
+
+- Updated the root README and skill references so sprite-based UI asset usage is easier to discover
+
+### Changed / 변경
+
+- sprite 기반 UI 자산 사용 규칙을 더 쉽게 찾을 수 있도록 루트 README와 스킬 참조를 정리
+
 ## v0.2.0 - 2026-03-27
 
 ### Added
