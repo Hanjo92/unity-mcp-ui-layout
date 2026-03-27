@@ -2,6 +2,8 @@
 
 Use this guide when the project may already contain a similar UI prefab and the safer choice might be reuse, variant creation, or a small extension instead of building a new asset from scratch.
 
+If the best answer is "same base, but scoped divergence", pair this guide with `prefab-variants.md`.
+
 ## Goal
 
 Prefer stable reuse over duplication by checking whether a similar project prefab already exists, deciding whether it should be reused directly, turned into a variant, or replaced by a new base prefab, and keeping that decision explicit.

@@ -170,3 +170,14 @@ Choose explicitly between direct reuse, prefab variant, thin wrapper, or a new b
 Do not edit a shared base prefab for a one-screen request unless you verify the impact on another known usage.
 Keep screen-level placement in the parent container rather than pushing one-screen offsets into the shared prefab.
 ```
+
+## Pattern 16: Use a Prefab Variant, Not a Base Edit
+
+Use when the base prefab is structurally right but the current screen needs scoped differences.
+
+```text
+Inspect the existing base prefab and determine whether this request should be solved as a prefab variant instead of a direct base edit.
+Keep the base contract intact, limit overrides to local visuals, optional sections, or scoped behavior, and do not push one-screen placement rules into the variant asset.
+If the variant would need too many structural overrides, stop and reconsider a wrapper or new base prefab instead.
+Verify the target variant and one related base-family usage with screenshots.
+```

@@ -49,6 +49,7 @@ Platform-specific adapters live in:
 - HUD, inventory, popup, and mobile safe-area layout rules
 - prefab promotion rules for repeated UI structures
 - reuse/variant/new-base decision rules for existing prefabs
+- prefab variant rules for controlled divergence from a shared base
 - concrete MCP call recipes for common UI tasks
 - common failure patterns and recovery guidance
 - final review checks before calling a UI task done
@@ -60,6 +61,7 @@ Platform-specific adapters live in:
 - HUD, 인벤토리, 팝업, 모바일 safe area 레이아웃 규칙
 - 반복되는 UI 구조를 프리팹으로 승격하는 규칙
 - 기존 프리팹을 재사용/Variant/신규 생성 중 무엇으로 갈지 판단하는 규칙
+- 공용 base에서 안전하게 분기하는 Prefab Variant 규칙
 - 자주 쓰는 UI 작업용 구체적인 MCP 호출 레시피
 - 자주 실패하는 패턴과 복구 가이드
 - 작업 완료 전에 보는 최종 검수 체크

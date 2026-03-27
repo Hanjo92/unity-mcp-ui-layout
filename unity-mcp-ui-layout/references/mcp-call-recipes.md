@@ -250,3 +250,32 @@ If you edit a shared prefab, verify the current target and one other known usage
 - `manage_components`
 - `manage_camera`
 - `read_console`
+
+## 10. Create a Prefab Variant Safely
+
+Use this when an existing base prefab is right, but the current screen needs scoped differences that should not be pushed into the base.
+
+### Typical sequence
+
+1. Inspect the base prefab and the requested differences
+2. Confirm that the change should be a variant rather than direct reuse or a new base
+3. Create or update the prefab variant
+4. Keep screen placement parent-owned and keep overrides local to the variant
+5. Verify the target variant and one related base-family usage
+
+### Example prompt
+
+```text
+Inspect the existing base prefab for this UI block and decide whether the requested differences belong in a prefab variant.
+If so, create a variant that keeps the base contract intact, limits overrides to local visual or optional-content differences, and avoids pushing one-screen placement rules into the asset.
+Verify the target variant and one related base-family usage with screenshots.
+```
+
+### Common calls
+
+- `find_gameobjects`
+- `manage_prefabs`
+- `manage_gameobject`
+- `manage_components`
+- `manage_camera`
+- `read_console`
