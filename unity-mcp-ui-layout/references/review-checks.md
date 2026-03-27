@@ -57,7 +57,17 @@ Ask:
 
 If the UI was decomposed more than the runtime behavior needs, simplify it before shipping.
 
-## 6. Text Check
+## 6. Asset Type Check
+
+Ask:
+
+- Are ordinary static UI visuals using `Image` and sprite-backed assets instead of `RawImage`?
+- If a `RawImage` exists, is there a clear runtime texture source such as `RenderTexture`, video, or generated texture data?
+- Did any static icon, panel, slot, or button art bypass the sprite workflow without a good reason?
+
+If the answer is no, convert the asset usage back toward the normal sprite workflow before calling the UI done.
+
+## 7. Text Check
 
 Ask:
 
@@ -67,7 +77,7 @@ Ask:
 
 Text problems should be treated as layout problems first, not only font-size problems.
 
-## 7. Interaction Area Check
+## 8. Interaction Area Check
 
 Ask:
 
@@ -77,7 +87,7 @@ Ask:
 
 This check is especially important for popup and mobile layouts.
 
-## 8. Safe Area Check
+## 9. Safe Area Check
 
 Ask:
 
@@ -87,7 +97,7 @@ Ask:
 
 If safe area works only because several children have manual offsets, the design still needs cleanup.
 
-## 9. Visual Consistency Check
+## 10. Visual Consistency Check
 
 Ask:
 
@@ -97,7 +107,7 @@ Ask:
 
 This is where hand-placed designs usually reveal themselves.
 
-## 10. Scope Check
+## 11. Scope Check
 
 Ask:
 
@@ -107,7 +117,7 @@ Ask:
 
 If the answer is no, narrow the change before shipping it.
 
-## 11. Final Go/No-Go Rule
+## 12. Final Go/No-Go Rule
 
 Do not call the UI complete unless:
 

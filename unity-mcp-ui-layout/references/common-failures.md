@@ -187,7 +187,27 @@ This document is organized by symptom first, because that is usually how problem
 - name the exact region that may change
 - verify the current state before making new structure decisions
 
-## 10. Quick Recovery Strategy
+## 10. Static UI Assets Drift Into RawImage
+
+### Typical symptoms
+
+- static icons, panels, or button visuals are wired through `RawImage`
+- sprite slicing or normal UI asset reuse no longer fits the implementation
+- prefab reuse feels awkward because the visual source is treated like arbitrary texture data
+
+### Likely causes
+
+- `RawImage` was used as a shortcut instead of importing or reusing a proper sprite
+- the agent did not distinguish between a mockup image and a runtime texture source
+- the real issue was asset lookup or import setup, not component type
+
+### Fix direction
+
+- convert ordinary static UI visuals back to `Image` plus sprite-based assets
+- reserve `RawImage` for `RenderTexture`, video, runtime-generated textures, or other true texture-driven cases
+- if the screen already uses sprite-backed UI assets elsewhere, stay consistent with that workflow
+
+## 11. Quick Recovery Strategy
 
 When the work starts drifting, reset the process:
 

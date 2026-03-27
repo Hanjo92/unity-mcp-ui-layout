@@ -120,6 +120,7 @@ Use screenshots aggressively.
 - Avoid storing a design as "x=742, y=118" unless the UI intentionally targets a fixed render surface with no adaptive behavior.
 - Avoid combining `ContentSizeFitter` and parent layout control in ways that create feedback loops.
 - Do not decompose a likely single-image asset into fake sub-shapes unless interaction, animation, or dynamic layout actually requires separate elements.
+- For static UI visuals, prefer `Image` plus sprite-based assets. Reserve `RawImage` for true texture-driven content such as `RenderTexture`, video, or runtime-generated textures.
 - Treat text as a layout driver. Check wrapping, overflow, best-fit/auto-size, and font asset limits before resizing containers.
 - For UI Toolkit, prefer USS classes and container rules over many inline style overrides.
 - If the user gives only a visual description, assume one target resolution first, implement for that resolution, then test at additional aspect ratios.
@@ -144,6 +145,7 @@ Use screenshots aggressively.
 - Read `references/prefab-variants.md` when one shared base prefab should branch into a controlled family of variants without polluting the base asset.
 - Read `references/prefab-reuse.md` when the same UI shape appears more than once and should be extracted into one reusable prefab or template-style block.
 - Read `references/review-checks.md` when you need a final quality pass before calling a Unity UI task complete.
+- Read `references/sprite-vs-rawimage.md` when static UI assets are being wired through `RawImage` instead of the normal sprite workflow.
 - Read `references/ugui-anchors-canvas-scaler.md` when the target is UGUI or when anchor, pivot, or screen-scaling behavior is causing drift.
 - Read `references/ugui-hud.md` for always-on-screen HUD, minimap, status bars, and action bars.
 - Read `references/ugui-inventory.md` for slot grids, item lists, equipment panels, and shop layouts.
