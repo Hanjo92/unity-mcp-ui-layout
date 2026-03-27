@@ -140,6 +140,7 @@ Use screenshots aggressively.
 - Read `references/common-failures.md` when the UI result technically exists but still feels fragile, inconsistent, overfit to one resolution, or structurally wrong.
 - Read `references/image-to-layout.md` when the user provides a mockup, screenshot, wireframe, or other layout image plus a target resolution.
 - Read `references/mcp-call-recipes.md` when you need concrete `unity-mcp` call sequences for discovery, creation, repair, verification, or script-backed UI work.
+- Read `references/existing-prefab-reuse.md` when the project likely already contains a similar reusable UI block and you need to choose reuse, variant, wrapper, or a new base prefab.
 - Read `references/prefab-reuse.md` when the same UI shape appears more than once and should be extracted into one reusable prefab or template-style block.
 - Read `references/review-checks.md` when you need a final quality pass before calling a Unity UI task complete.
 - Read `references/ugui-anchors-canvas-scaler.md` when the target is UGUI or when anchor, pivot, or screen-scaling behavior is causing drift.
