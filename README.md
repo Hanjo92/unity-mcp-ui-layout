@@ -94,7 +94,12 @@ examples/
   popup-safe-area-example.md
 
 CONTRIBUTING.md
+CHANGELOG.md
 ```
+
+## Release Notes / 릴리스 노트
+
+- [`CHANGELOG.md`](./CHANGELOG.md)
 
 ## Platform Notes / 플랫폼 설명
 
