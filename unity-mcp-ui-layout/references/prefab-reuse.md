@@ -2,7 +2,7 @@
 
 Use this guide when the same UI shape appears more than once and should become one reusable prefab or reusable template block instead of repeated manual reconstruction.
 
-If the project may already contain a similar reusable asset, pair this guide with `existing-prefab-reuse.md` before creating a new base prefab.
+If the project may already contain a similar reusable asset, pair this guide with `existing-prefab-reuse.md` before creating a new base prefab. If one shared base should branch into controlled visual or behavioral families, also read `prefab-variants.md`.
 
 ## Goal
 
