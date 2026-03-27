@@ -1,4 +1,4 @@
-﻿---
+---
 name: unity-mcp-ui-layout
 description: Guide for building or fixing Unity UI through MCP for Unity when working from mockups, screenshots, wireframes, or target resolutions, especially for UGUI HUDs, inventories, popups, mobile safe-area layouts, or UI Toolkit screens where anchors drift, scaling breaks, spacing is inconsistent, or the result does not match the intended composition. Use when Codex is controlling Unity with unity-mcp to translate layout images into anchored UI, choose CanvasScaler rules, repair popup safe-area behavior, iterate from screenshots, and keep UI work in small verifiable steps instead of one large generation.
 ---
@@ -17,7 +17,7 @@ Identify the target before editing:
 - Use UI Toolkit when the project uses `UIDocument`, `UXML`, `USS`, `VisualElement`, or `PanelSettings`.
 - Do not mix both stacks in the same change unless the user explicitly asks for a bridge or migration.
 
-For UGUI, prefer `find_gameobjects`, `manage_gameobject`, `manage_components`, `manage_scene`, `manage_script`, `manage_camera`, `refresh_unity`, and `read_console`.
+For UGUI, prefer `find_gameobjects`, `manage_gameobject`, `manage_components`, `manage_scene`, `manage_prefabs`, `manage_script`, `manage_camera`, `refresh_unity`, and `read_console`.
 
 For UI Toolkit, prefer `manage_ui`, `manage_script`, `find_in_file`, `manage_camera`, `refresh_unity`, and `read_console`.
 
@@ -140,6 +140,8 @@ Use screenshots aggressively.
 - Read `references/common-failures.md` when the UI result technically exists but still feels fragile, inconsistent, overfit to one resolution, or structurally wrong.
 - Read `references/image-to-layout.md` when the user provides a mockup, screenshot, wireframe, or other layout image plus a target resolution.
 - Read `references/mcp-call-recipes.md` when you need concrete `unity-mcp` call sequences for discovery, creation, repair, verification, or script-backed UI work.
+- Read `references/existing-prefab-reuse.md` when the project likely already contains a similar reusable UI block and you need to choose reuse, variant, wrapper, or a new base prefab.
+- Read `references/prefab-reuse.md` when the same UI shape appears more than once and should be extracted into one reusable prefab or template-style block.
 - Read `references/review-checks.md` when you need a final quality pass before calling a Unity UI task complete.
 - Read `references/ugui-anchors-canvas-scaler.md` when the target is UGUI or when anchor, pivot, or screen-scaling behavior is causing drift.
 - Read `references/ugui-hud.md` for always-on-screen HUD, minimap, status bars, and action bars.

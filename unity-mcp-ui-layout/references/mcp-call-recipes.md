@@ -192,3 +192,61 @@ Then verify with a screenshot.
 - `manage_script`
 - `manage_camera`
 - `read_console`
+
+## 8. Promote a Repeated UI Block to a Prefab
+
+Use this when the same slot, card, row, badge, or button cluster appears more than once and should stop being rebuilt manually.
+
+### Typical sequence
+
+1. Find the repeated instances and choose the cleanest one as the base
+2. Normalize the base hierarchy and component setup
+3. Create or update one reusable prefab
+4. Replace repeated copies with prefab instances
+5. Verify the base instance and at least one variant
+
+### Example prompt
+
+```text
+Inspect the repeated UI blocks on this screen and find the cleanest shared structure.
+Extract one reusable prefab for that structure, keep screen-level placement in the parent container, then replace the repeated manual copies with prefab instances.
+Verify one base case and one content variant with screenshots.
+```
+
+### Common calls
+
+- `find_gameobjects`
+- `manage_gameobject`
+- `manage_components`
+- `manage_prefabs`
+- `manage_camera`
+- `read_console`
+
+## 9. Reuse an Existing Project Prefab
+
+Use this when the project may already contain a shared widget and you need to decide between direct reuse, variant creation, or a new base prefab.
+
+### Typical sequence
+
+1. Inspect similar existing UI and candidate prefabs
+2. Compare role, hierarchy, layout ownership, and state model
+3. Decide between direct reuse, variant, wrapper, or new base
+4. Apply the smallest safe prefab change
+5. Verify the target screen and one shared usage path if the base prefab was edited
+
+### Example prompt
+
+```text
+Inspect the project for an existing prefab that already matches this UI block before creating a new one.
+Choose whether to reuse it directly, create a variant, wrap it, or make a new base prefab.
+If you edit a shared prefab, verify the current target and one other known usage with screenshots.
+```
+
+### Common calls
+
+- `find_gameobjects`
+- `manage_prefabs`
+- `manage_gameobject`
+- `manage_components`
+- `manage_camera`
+- `read_console`
