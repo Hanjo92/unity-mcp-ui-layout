@@ -47,6 +47,7 @@ Platform-specific adapters live in:
 - image-to-layout translation
 - UGUI anchors and `CanvasScaler`
 - HUD, inventory, popup, and mobile safe-area layout rules
+- prefab promotion rules for repeated UI structures
 - concrete MCP call recipes for common UI tasks
 - common failure patterns and recovery guidance
 - final review checks before calling a UI task done
@@ -56,6 +57,7 @@ Platform-specific adapters live in:
 - 이미지 기반 레이아웃 해석
 - UGUI 앵커와 `CanvasScaler` 설정
 - HUD, 인벤토리, 팝업, 모바일 safe area 레이아웃 규칙
+- 반복되는 UI 구조를 프리팹으로 승격하는 규칙
 - 자주 쓰는 UI 작업용 구체적인 MCP 호출 레시피
 - 자주 실패하는 패턴과 복구 가이드
 - 작업 완료 전에 보는 최종 검수 체크

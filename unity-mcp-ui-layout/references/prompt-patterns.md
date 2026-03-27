@@ -148,3 +148,14 @@ Use `SafeAreaRoot` for normal full-screen UI, but for modal popups apply safe-ar
 Remove duplicate per-widget safe-area offsets where a single parent should own them.
 Verify both portrait and landscape and report any controls that still touch unsafe edges.
 ```
+
+## Pattern 14: Reusable Prefab First
+
+Use when the same UI shape appears more than once.
+
+```text
+Inspect the repeated UI structures on this screen before rebuilding them.
+Choose the cleanest shared structure, extract one reusable prefab or template-style block, and keep screen-level placement in the parent container.
+Only vary data-level content such as text, icon, count, or state per instance.
+Verify that one structural change propagates cleanly across repeated instances.
+```

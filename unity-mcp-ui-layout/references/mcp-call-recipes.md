@@ -192,3 +192,32 @@ Then verify with a screenshot.
 - `manage_script`
 - `manage_camera`
 - `read_console`
+
+## 8. Promote a Repeated UI Block to a Prefab
+
+Use this when the same slot, card, row, badge, or button cluster appears more than once and should stop being rebuilt manually.
+
+### Typical sequence
+
+1. Find the repeated instances and choose the cleanest one as the base
+2. Normalize the base hierarchy and component setup
+3. Create or update one reusable prefab
+4. Replace repeated copies with prefab instances
+5. Verify the base instance and at least one variant
+
+### Example prompt
+
+```text
+Inspect the repeated UI blocks on this screen and find the cleanest shared structure.
+Extract one reusable prefab for that structure, keep screen-level placement in the parent container, then replace the repeated manual copies with prefab instances.
+Verify one base case and one content variant with screenshots.
+```
+
+### Common calls
+
+- `find_gameobjects`
+- `manage_gameobject`
+- `manage_components`
+- `manage_prefabs`
+- `manage_camera`
+- `read_console`
