@@ -69,6 +69,8 @@ After implementation, capture a screenshot and compare it against the reference 
 Use `manage_camera` for the screenshot capture.
 ```
 
+If no explicit target resolution is provided, use the mockup image's native resolution as the reference resolution instead of falling back immediately to `1920x1080`.
+
 ## Pattern 7: Image-Based Layout Repair
 
 Use when the current UI should match an image more closely.
@@ -81,6 +83,28 @@ Convert repeated structures into reusable prefabs or reusable layout blocks when
 Collapse over-modeled decorative regions back into a single image when they are likely one baked asset.
 Keep the repair proportional to the reference image, not tied to arbitrary screen pixels.
 Use `manage_camera` to verify the repaired result against the image.
+```
+
+## Pattern 17: Use Mockup Native Resolution First
+
+Use when the user provides a design image but does not explicitly name a target resolution.
+
+```text
+Inspect the mockup image and capture its native pixel resolution first.
+Use that mockup resolution as the planning reference frame instead of defaulting to 1920x1080.
+Estimate geometry as normalized ratios from the mockup, then convert those ratios into anchors and offsets for implementation.
+If a separate target resolution is later provided, keep the mockup as the composition space and the target resolution as the implementation space.
+```
+
+## Pattern 18: Decompose the Mockup by Runtime Responsibility
+
+Use when a mockup exists and the agent might over-split decorative regions into fake widgets.
+
+```text
+Before creating objects, inspect the mockup and decide which regions should stay as one baked visual asset, which regions should become interactive UI elements, and which repeated regions should become reusable blocks.
+Decompose by runtime responsibility, not by visual outline alone.
+Keep decorative regions whole unless interaction, animation, dynamic text, or adaptive layout requires separation.
+Turn repeated structures into reusable prefabs or reusable layout blocks instead of rebuilding them manually.
 ```
 
 ## Pattern 8: Script-Aware UI Editing

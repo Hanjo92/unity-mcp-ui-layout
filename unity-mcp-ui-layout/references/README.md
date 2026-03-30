@@ -9,6 +9,8 @@ Use it when `SKILL.md` points you here for deeper guidance.
 - `layout-checklist.md`
 - `image-to-layout.md` - includes the asset-RAG fallback contract for when `unity-resource-rag` is unavailable or low-confidence.
 - `mcp-call-recipes.md`
+- `mockup-decomposition.md`
+- `mockup-resolution.md`
 - `existing-prefab-reuse.md`
 - `prefab-variants.md`
 - `prefab-reuse.md`

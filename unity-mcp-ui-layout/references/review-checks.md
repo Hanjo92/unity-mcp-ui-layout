@@ -33,6 +33,7 @@ Ask:
 - Does the UI still look correct at the target resolution?
 - Does it remain acceptable at one alternate aspect ratio?
 - Are size changes caused by `CanvasScaler`, anchors, or container logic behaving as expected?
+- If a mockup image was provided, did we use the mockup's native resolution or the explicitly stated target resolution deliberately instead of falling back to an arbitrary default?
 
 If only one resolution works, the implementation is not done yet.
 
@@ -54,6 +55,7 @@ Ask:
 - Did we keep likely single-image regions as single image resources?
 - Was any decorative area split into fake widgets without a runtime need?
 - Do separate elements exist only where interaction, animation, text, or adaptive layout requires them?
+- Were repeated mockup regions promoted into reusable blocks where appropriate instead of being manually rebuilt?
 
 If the UI was decomposed more than the runtime behavior needs, simplify it before shipping.
 

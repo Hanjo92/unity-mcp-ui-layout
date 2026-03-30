@@ -2,9 +2,12 @@
 
 Use this guide when the user provides a layout image, mockup, wireframe, or screenshot together with a target resolution.
 
+Pair it with `mockup-resolution.md` when the mockup's own native pixel size should become the planning reference frame.
+Pair it with `mockup-decomposition.md` when you need a stricter rule for deciding what should stay as one asset versus what should become runtime-owned UI.
+
 ## Goal
 
-Translate a visual reference into Unity UI that is stable at the target resolution and anchored by screen relationships, not by arbitrary absolute pixels.
+Translate a visual reference into Unity UI that is stable at the target resolution or mockup reference resolution and anchored by screen relationships, not by arbitrary absolute pixels.
 
 ## Input Rules
 
@@ -16,6 +19,18 @@ Require these inputs when available:
 - Any fixed constraints such as safe area, notch area, or margins
 
 If the image is the only reliable source of truth, use it as the composition reference.
+If no explicit target resolution is provided, use the image's native resolution as the initial reference frame instead of defaulting immediately to `1920x1080`.
+
+## Reference Resolution Priority
+
+Choose the planning frame in this order:
+
+1. explicit target resolution from the user
+2. mockup image native resolution
+3. project-defined target resolution if already known
+4. fallback default such as `1920x1080`
+
+If both the mockup resolution and an explicit target resolution exist, keep both and normalize geometry between them instead of pretending they are the same pixel space.
 
 ## Asset-RAG Fallback Contract
 
@@ -45,6 +60,7 @@ Break the layout into:
 
 Do not jump directly from whole image to dozens of leaf nodes.
 Group the topmost composition by anchor-owned regions first so the largest blocks already belong to stable screen relationships.
+Split only when runtime behavior requires it, and keep likely decorative baked regions whole.
 
 ### 2. Estimate normalized geometry
 
@@ -56,6 +72,7 @@ For each major element, estimate:
 - Height ratio: `h / screen_height`
 
 Treat these as planning values, not necessarily as final serialized numbers.
+When a mockup image exists, derive them from the mockup's own width and height before mapping them to the implementation frame.
 
 ### 3. Pick anchor strategy by region
 
@@ -124,6 +141,7 @@ Prefer "anchored top-right with 4% inset" over "x=1798, y=54".
 Before calling the result correct, verify:
 
 - Does the composition match the image at the target resolution?
+- If the mockup had a native resolution, was that resolution captured and used correctly as the planning frame?
 - Are the top-level regions grouped by stable anchor ownership before child tuning?
 - Are anchors consistent with the element's visual role?
 - Were repeated structures converted into reusable prefabs or layout blocks where appropriate?
