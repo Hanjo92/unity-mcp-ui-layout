@@ -16,7 +16,9 @@ Use these files when you want a copyable starting point instead of only referenc
 - `hud-example.md`
 - `inventory-example.md`
 - `mockup-resolution-example.md`
+- `mobile-safe-area-mockup-example.md`
 - `popup-safe-area-example.md`
+- `shared-asset-safety-example.md`
 
 ## How to Use
 
@@ -30,4 +32,6 @@ Use these files when you want a copyable starting point instead of only referenc
 1. `hud-example.md` if you are starting with a composition-driven overlay
 2. `inventory-example.md` if your UI is slot- or list-based
 3. `mockup-resolution-example.md` if the mockup's native pixel resolution should drive planning
-4. `popup-safe-area-example.md` if mobile safe area and modal structure matter
+4. `mobile-safe-area-mockup-example.md` if the mockup ignores notch or home-indicator constraints
+5. `popup-safe-area-example.md` if mobile safe area and modal structure matter
+6. `shared-asset-safety-example.md` if a repair might touch shared prefabs or other shared UI assets

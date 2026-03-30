@@ -129,6 +129,27 @@ Only reduce font size after the container and sibling layout rules are already s
 Leave reasonable headroom for slightly longer labels or runtime value growth.
 ```
 
+## Pattern 20: Map a Notch-Agnostic Mockup Into Safe Area
+
+Use when a mobile mockup looks like a clean rectangle but the real target device has a notch or home indicator.
+
+```text
+Treat the mockup as composition guidance, not as raw unsafe edge geometry.
+Identify the correct safe-area owner first, then remap top and bottom spacing inside that safe-area-owned container.
+Preserve the mockup's hierarchy and spacing rhythm, but do not preserve raw top or bottom edge pixels if that would place controls into unsafe areas.
+Verify portrait and landscape when the target product supports both.
+```
+
+## Pattern 21: Avoid Risky Shared Asset Base Edits
+
+Use when the requested change may touch a common prefab, sprite, material, or TMP style.
+
+```text
+Inspect whether this change targets a truly shared asset family before editing it.
+If the request is one-screen or one-flow specific, prefer a variant, wrapper, or local override instead of editing the shared base directly.
+Only edit the shared asset when the change clearly belongs to the common contract and would make sense across other usages too.
+```
+
 ## Pattern 8: Script-Aware UI Editing
 
 Use when script changes are necessary.

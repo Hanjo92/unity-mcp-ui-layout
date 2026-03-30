@@ -272,7 +272,49 @@ This document is organized by symptom first, because that is usually how problem
 - leave headroom for longer labels and runtime number growth
 - use font shrinking only as a controlled final adjustment, not as the default structural fix
 
-## 14. Quick Recovery Strategy
+## 14. A One-Screen Fix Quietly Damages a Shared Asset
+
+### Typical symptoms
+
+- a common button or row suddenly looks different in several unrelated screens
+- one local popup fix changes spacing across the whole UI family
+- a shared material or text style becomes slightly wrong everywhere after a targeted repair
+
+### Likely causes
+
+- a shared base asset was edited for a local need
+- a variant or wrapper should have been used instead
+- the impact radius of the direct edit was never checked
+
+### Fix direction
+
+- identify whether the asset is truly shared
+- revert risky direct edits if the change is only local
+- move the difference into a variant, wrapper, or screen-owned asset
+- verify at least one other usage before accepting a direct shared-base edit
+
+## 15. The Mobile Result Copies Unsafe Mockup Edges Too Literally
+
+### Typical symptoms
+
+- top controls sit too close to the notch
+- bottom CTA rows feel crushed against the home indicator
+- the hierarchy matches the mockup visually, but the runtime screen feels unsafe or cramped
+
+### Likely causes
+
+- a notch-free mockup was treated like raw device-edge geometry
+- safe area was applied late as a patch instead of as a layout boundary
+- edge spacing was copied from the image instead of remapped into the safe area
+
+### Fix direction
+
+- treat the mockup as composition guidance
+- apply safe area at the correct parent first
+- rebuild top and bottom spacing relative to the safe-area-owned container
+- verify portrait and landscape instead of trusting the flat mockup image alone
+
+## 16. Quick Recovery Strategy
 
 When the work starts drifting, reset the process:
 

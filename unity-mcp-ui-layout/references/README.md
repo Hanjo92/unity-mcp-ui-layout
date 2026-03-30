@@ -15,8 +15,10 @@ Use it when `SKILL.md` points you here for deeper guidance.
 - `asset-discovery-priority.md`
 - `asset-naming-and-folders.md`
 - `existing-prefab-reuse.md`
+- `shared-asset-edit-safety.md`
 - `prefab-variants.md`
 - `prefab-reuse.md`
+- `mockup-safe-area-mapping.md`
 - `sprite-vs-rawimage.md`
 - `text-layout-rules.md`
 - `common-failures.md`

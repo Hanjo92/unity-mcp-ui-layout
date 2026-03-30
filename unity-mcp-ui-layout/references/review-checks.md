@@ -111,6 +111,7 @@ Ask:
 - Are top and bottom edge controls inside the safe area?
 - Is safe-area ownership applied only once at the correct container?
 - For popups, is safe area owned by `PopupRoot` rather than the dimmer or individual children?
+- If the mockup was notch-agnostic, did we reinterpret edge spacing inside the safe area instead of copying raw top and bottom pixels?
 
 If safe area works only because several children have manual offsets, the design still needs cleanup.
 
@@ -132,6 +133,7 @@ Ask:
 - Were unrelated screens or widgets changed unnecessarily?
 - Was the original style preserved when the request was a repair?
 - Did we stay in the correct operating mode: bounded repair for fixes, or build mode for true greenfield work?
+- If an existing shared asset was edited directly, was that scope truly justified?
 
 If the answer is no, narrow the change before shipping it.
 
