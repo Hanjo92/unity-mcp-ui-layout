@@ -34,6 +34,8 @@ Read the current context before making changes.
 - If the user provides a layout image and target resolution, treat them as the source spec for composition before creating any objects.
 - If the user provides a layout image but no explicit target resolution, capture the image's native resolution and treat that as the initial reference frame.
 
+Before planning changes, decide whether the task should stay in bounded repair mode or operate in greenfield build mode. Do not silently treat an existing-screen repair request like a full rebuild.
+
 After the initial scene/editor inspection, run a quick capability check before planning the implementation:
 
 - Detect whether `unity-resource-rag` MCP/tools are available.
@@ -146,6 +148,7 @@ Use screenshots aggressively.
 - Read `references/mcp-call-recipes.md` when you need concrete `unity-mcp` call sequences for discovery, creation, repair, verification, or script-backed UI work.
 - Read `references/mockup-decomposition.md` when a design image exists and you need to decide which regions should stay as one asset, which should be split, and which should become reusable blocks.
 - Read `references/mockup-resolution.md` when a design image exists and its own native resolution should become the planning reference frame.
+- Read `references/ui-change-modes.md` when you need to decide whether the task should be handled as bounded repair or as a new build.
 - Read `references/existing-prefab-reuse.md` when the project likely already contains a similar reusable UI block and you need to choose reuse, variant, wrapper, or a new base prefab.
 - Read `references/prefab-variants.md` when one shared base prefab should branch into a controlled family of variants without polluting the base asset.
 - Read `references/prefab-reuse.md` when the same UI shape appears more than once and should be extracted into one reusable prefab or template-style block.

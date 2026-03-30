@@ -44,6 +44,16 @@ Inspect the parent chain first and explain whether the issue comes from scaling,
 Apply the smallest structural fix, then verify with a screenshot.
 ```
 
+## Pattern 4A: Stay In Repair Mode
+
+Use when the screen already exists and the user wants a bounded fix, not a redesign.
+
+```text
+Treat this as a repair of the existing UI, not as a new screen build.
+Inspect the current parent chain first, keep the scope bounded to the named region, and preserve the current style unless it is the direct source of the problem.
+Only widen the change if you can explain why the parent structure or shared asset is the real cause.
+```
+
 ## Pattern 5: Cross-Resolution Verification
 
 Use before finalizing.
@@ -125,6 +135,16 @@ Use when the request is vague.
 Do not generate the whole UI at once.
 Inspect first, then create or fix the interface in small slices.
 Prioritize structure over visual polish, and verify each slice with a screenshot before moving on.
+```
+
+## Pattern 9A: Decide Repair Mode vs Build Mode First
+
+Use when it is not yet clear whether the request is a bounded repair or a fresh screen build.
+
+```text
+Inspect the current UI first and decide whether this request should stay in repair mode or switch to build mode.
+If the relevant UI already exists, default to repair mode until a rebuild is clearly justified.
+If a rebuild is required, explain why the existing structure is not worth preserving before switching modes.
 ```
 
 ## Pattern 10: UGUI HUD Build

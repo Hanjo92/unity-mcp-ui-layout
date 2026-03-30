@@ -11,6 +11,7 @@ Use it when `SKILL.md` points you here for deeper guidance.
 - `mcp-call-recipes.md`
 - `mockup-decomposition.md`
 - `mockup-resolution.md`
+- `ui-change-modes.md`
 - `existing-prefab-reuse.md`
 - `prefab-variants.md`
 - `prefab-reuse.md`
