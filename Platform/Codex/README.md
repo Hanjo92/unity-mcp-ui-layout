@@ -8,6 +8,16 @@ Use the root skill folder directly:
 
 - [`unity-mcp-ui-layout/`](../../unity-mcp-ui-layout)
 
+## What Changed In v0.3.0
+
+- mockup-native resolution guidance
+- mockup decomposition rules
+- repair mode versus build mode rules
+- asset discovery priority and asset naming/folder rules
+- text layout rules
+- notch-agnostic mockup to safe-area mapping
+- shared asset edit safety rules
+
 ## Install
 
 ### Windows
@@ -57,4 +67,16 @@ Verify portrait and landscape before finalizing.
 Use $unity-mcp-ui-layout to inspect the current UI first and tell me why the top-right HUD is drifting.
 Do not redesign unrelated areas.
 Find whether the issue comes from CanvasScaler, anchors, or parent layout structure, then apply the smallest fix.
+```
+
+```text
+Use $unity-mcp-ui-layout to build this mobile screen from the attached mockup.
+The mockup does not account for notches, so treat it as composition guidance and remap edge spacing inside the safe area instead of copying raw top and bottom pixels.
+Verify portrait and landscape before finalizing.
+```
+
+```text
+Use $unity-mcp-ui-layout to repair this screen without destabilizing shared assets.
+Inspect whether the current widget comes from a shared prefab, material, sprite, or TMP style first.
+If the request is one-screen specific, prefer a variant, wrapper, or local override instead of editing the shared base directly.
 ```

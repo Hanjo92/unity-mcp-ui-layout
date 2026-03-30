@@ -17,6 +17,9 @@ Do this by prioritizing:
 - reusable structures for repeated UI patterns
 - simple single-image treatment when the art is already baked
 - screenshot verification after each structural change
+- text layout decisions before emergency font shrinking
+- safe-area-aware reinterpretation of notch-agnostic mobile mockups
+- cautious handling of shared asset families
 
 ## Execution Rules
 
@@ -27,6 +30,9 @@ Do this by prioritizing:
 - Group the top-level layout into anchor-owned regions before detailing child widgets.
 - If a structure repeats, build one reusable prefab or reusable layout block first.
 - If a region appears to be a single image resource, do not force it into fake sub-widgets unless runtime behavior needs them.
+- Treat text as a layout driver and decide wrapping, truncation, or container growth before shrinking fonts.
+- If a mobile mockup ignores notches or home indicators, preserve its composition inside the safe area instead of copying raw top and bottom edge pixels.
+- Before editing a shared prefab, sprite, material, or text style directly, decide whether the change should stay local through a variant, wrapper, or override.
 - If the layout is wrong, repair structure before styling.
 
 ## Stack Detection
@@ -45,6 +51,7 @@ Do this by prioritizing:
 - Use layout groups for repeated siblings rather than hand-placing each item.
 - For modal popups, keep `Dimmer` and `PopupRoot` as siblings under `ModalLayer`.
 - Apply safe-area handling to `PopupRoot`, not to the dimmer.
+- When text is layout-critical, inspect wrapping and overflow before changing font size.
 
 ## UI Toolkit Operating Model
 
@@ -71,6 +78,7 @@ When an image and target resolution are provided:
 - Validate the main target resolution and at least one alternate aspect ratio.
 - If scripts change, refresh, wait for compile, and inspect console errors before continuing.
 - If a popup or mobile screen is involved, explicitly verify safe-area behavior.
+- If shared assets were touched directly, verify that the change really belongs to the shared contract.
 
 ## Output Behavior
 
