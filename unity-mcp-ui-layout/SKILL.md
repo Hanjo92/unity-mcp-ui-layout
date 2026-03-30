@@ -52,6 +52,7 @@ After the initial scene/editor inspection, run a quick capability check before p
 - If asset-aware mode is warranted and both `unity-resource-rag` and an asset catalog or asset index are available, look for matching reusable assets before building replacements from scratch.
 - In asset-aware mode, follow a stable discovery order: reusable prefabs first, then variants or wrappers, then sprite-backed visuals, then text styles, then materials, and placeholders last.
 - In asset-aware mode, name and place any new reusable assets deliberately so future discovery stays predictable: shared assets should read as shared, screen-specific assets should stay near the screen that owns them, and placeholder assets should stay visibly provisional.
+- Before directly editing an existing shared asset family, decide whether the change really belongs in the shared base or should stay local through a variant, wrapper, or screen-owned override.
 - If asset-aware mode is warranted but `unity-resource-rag` is unavailable, continue with image-to-layout translation using the existing layout rules, preserve structure-first execution, use placeholder visuals or existing manually discovered assets, and explicitly state that asset-aware retrieval was skipped.
 - If asset-aware mode is warranted and `unity-resource-rag` is available but retrieval confidence is low, do not force an asset match, keep the layout workflow moving, mark visuals as provisional, and verify structure first.
 - Missing or low-confidence asset-RAG capability is not a hard blocker unless the user explicitly requires asset-index-backed reuse.
@@ -145,6 +146,7 @@ Use screenshots aggressively.
 - Re-check at one narrow aspect ratio and one wide aspect ratio before calling the layout done.
 - If the project appears mobile-first, verify portrait and landscape separately.
 - Use visual comparison language in follow-up steps: aligned, clipped, stretched, overflowing, uneven, off-safe-area.
+- If a mobile mockup appears notch-agnostic, preserve its composition inside the safe area instead of copying raw top and bottom edge pixels from the image.
 
 ## Use the References
 
@@ -161,7 +163,9 @@ Use screenshots aggressively.
 - Read `references/prefab-variants.md` when one shared base prefab should branch into a controlled family of variants without polluting the base asset.
 - Read `references/prefab-reuse.md` when the same UI shape appears more than once and should be extracted into one reusable prefab or template-style block.
 - Read `references/review-checks.md` when you need a final quality pass before calling a Unity UI task complete.
+- Read `references/shared-asset-edit-safety.md` when a one-screen request might tempt you to edit a shared prefab, sprite, material, or text style directly.
 - Read `references/sprite-vs-rawimage.md` when static UI assets are being wired through `RawImage` instead of the normal sprite workflow.
+- Read `references/mockup-safe-area-mapping.md` when a mobile mockup did not visibly account for safe area but the runtime layout must.
 - Read `references/text-layout-rules.md` when text length, wrapping, overflow, auto-size, counters, or localization safety are driving layout instability.
 - Read `references/ugui-anchors-canvas-scaler.md` when the target is UGUI or when anchor, pivot, or screen-scaling behavior is causing drift.
 - Read `references/ugui-hud.md` for always-on-screen HUD, minimap, status bars, and action bars.

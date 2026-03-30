@@ -57,6 +57,8 @@ Platform-specific adapters live in:
 - asset discovery priority rules for prefab, sprite, font, material, and placeholder reuse order
 - asset naming and folder rules so reusable assets stay discoverable and screen-owned assets stay scoped correctly
 - text layout rules for wrapping, truncation, auto-size discipline, counters, and localization headroom
+- safe-area remapping rules for mobile mockups that do not visibly account for notches or home indicators
+- shared asset edit safety rules for deciding when direct base edits are too risky
 - concrete MCP call recipes for common UI tasks
 - common failure patterns and recovery guidance
 - final review checks before calling a UI task done
@@ -76,6 +78,8 @@ Platform-specific adapters live in:
 - 프리팹, 스프라이트, 폰트, 머티리얼, 플레이스홀더를 어떤 순서로 찾을지에 대한 자산 탐색 우선순위 규칙
 - 재사용 자산은 다시 찾기 쉽고 화면 전용 자산은 범위가 드러나도록 만드는 자산 네이밍/폴더 규칙
 - 줄바꿈, truncation, auto-size 절제, 숫자 영역, 지역화 여유를 위한 텍스트 레이아웃 규칙
+- 노치/홈 인디케이터가 없는 시안을 모바일 safe area 안쪽 여백으로 재해석하는 규칙
+- 공용 prefab/sprite/material/text style에 대한 직접 수정이 위험한지 판단하는 안전 규칙
 - 자주 쓰는 UI 작업용 구체적인 MCP 호출 레시피
 - 자주 실패하는 패턴과 복구 가이드
 - 작업 완료 전에 보는 최종 검수 체크
