@@ -56,6 +56,7 @@ Platform-specific adapters live in:
 - repair mode vs greenfield build mode rules for existing-screen fixes versus new UI creation
 - asset discovery priority rules for prefab, sprite, font, material, and placeholder reuse order
 - asset naming and folder rules so reusable assets stay discoverable and screen-owned assets stay scoped correctly
+- text layout rules for wrapping, truncation, auto-size discipline, counters, and localization headroom
 - concrete MCP call recipes for common UI tasks
 - common failure patterns and recovery guidance
 - final review checks before calling a UI task done
@@ -74,6 +75,7 @@ Platform-specific adapters live in:
 - 기존 UI 수정 요청과 신규 UI 생성 요청을 구분하는 작업 모드 규칙
 - 프리팹, 스프라이트, 폰트, 머티리얼, 플레이스홀더를 어떤 순서로 찾을지에 대한 자산 탐색 우선순위 규칙
 - 재사용 자산은 다시 찾기 쉽고 화면 전용 자산은 범위가 드러나도록 만드는 자산 네이밍/폴더 규칙
+- 줄바꿈, truncation, auto-size 절제, 숫자 영역, 지역화 여유를 위한 텍스트 레이아웃 규칙
 - 자주 쓰는 UI 작업용 구체적인 MCP 호출 레시피
 - 자주 실패하는 패턴과 복구 가이드
 - 작업 완료 전에 보는 최종 검수 체크

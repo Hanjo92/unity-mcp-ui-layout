@@ -249,7 +249,30 @@ This document is organized by symptom first, because that is usually how problem
 - keep screen-owned assets near the screen that owns them
 - keep placeholder assets visibly provisional so later replacement stays easy
 
-## 13. Quick Recovery Strategy
+## 13. Text Is Forced to Fit Instead of Being Designed to Fit
+
+### Typical symptoms
+
+- button labels become tiny just to stay on one line
+- counters overlap icons when values grow
+- one localized string breaks a row that looked fine in the mockup
+- text auto-size hides the issue at one resolution but fails at another
+
+### Likely causes
+
+- text line behavior was never decided explicitly
+- container width was copied from the mockup without runtime headroom
+- font shrinking was used before fixing parent width or sibling layout
+- reusable text styles were ignored in favor of local emergency tweaks
+
+### Fix direction
+
+- decide whether the text should wrap, truncate, stay single-line, or grow its container
+- stabilize the parent width and sibling layout first
+- leave headroom for longer labels and runtime number growth
+- use font shrinking only as a controlled final adjustment, not as the default structural fix
+
+## 14. Quick Recovery Strategy
 
 When the work starts drifting, reset the process:
 

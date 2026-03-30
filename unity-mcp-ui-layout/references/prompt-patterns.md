@@ -117,6 +117,18 @@ Keep decorative regions whole unless interaction, animation, dynamic text, or ad
 Turn repeated structures into reusable prefabs or reusable layout blocks instead of rebuilding them manually.
 ```
 
+## Pattern 19: Stabilize Text Before Shrinking Fonts
+
+Use when labels, counters, or descriptions are breaking the layout.
+
+```text
+Treat text as a layout driver for this task.
+Inspect the parent width rule, wrapping behavior, overflow mode, and reusable text styles first.
+Decide explicitly whether each important text region should stay single-line, wrap, truncate, or grow its container.
+Only reduce font size after the container and sibling layout rules are already stable.
+Leave reasonable headroom for slightly longer labels or runtime value growth.
+```
+
 ## Pattern 8: Script-Aware UI Editing
 
 Use when script changes are necessary.
