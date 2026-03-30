@@ -2,7 +2,45 @@
 
 This project follows a lightweight documentation-focused release flow.
 
-이 프로젝트는 문서 중심 저장소에 맞춘 가벼운 릴리스 흐름을 따릅니다.
+이 프로젝트는 문서 중심의 가벼운 릴리스 흐름을 따릅니다.
+
+## v0.3.0 - 2026-03-30
+
+### Added
+
+- Mockup-native resolution rules so design images can define the planning frame before implementation
+- Mockup decomposition guidance for deciding what should stay baked, what should split, and what should become reusable blocks
+- Repair mode versus build mode rules for bounded fixes versus greenfield UI creation
+- Asset discovery priority rules covering prefabs, variants, sprites, text styles, materials, and placeholders
+- Asset naming and folder rules for shared versus screen-owned UI assets
+- Text layout rules for wrapping, truncation, auto-size discipline, counters, and localization headroom
+- Safe-area remapping guidance for mobile mockups that do not visibly account for notches or home indicators
+- Shared asset edit safety rules for deciding when direct base edits are too risky
+- New practical examples for mockup resolution, mobile safe-area mapping, and shared asset safety
+
+### Added / 추가
+
+- 시안 이미지의 원본 해상도를 구현 전 계획 기준으로 삼을 수 있는 시안 해상도 규칙 추가
+- 어떤 요소를 단일 자산으로 유지하고, 어떤 요소를 분리하거나 재사용 블록으로 승격할지 판단하는 시안 분해 가이드 추가
+- 기존 화면 수정과 신규 UI 생성을 구분하는 Repair Mode / Build Mode 규칙 추가
+- 프리팹, Variant, 스프라이트, 텍스트 스타일, 머티리얼, 플레이스홀더를 어떤 순서로 찾을지 정리한 자산 탐색 우선순위 규칙 추가
+- 공유 자산과 화면 전용 자산을 구분하기 위한 자산 네이밍 및 폴더 규칙 추가
+- 줄바꿈, truncation, auto-size 절제, 숫자 영역, 지역화 여유를 다루는 텍스트 레이아웃 규칙 추가
+- 노치나 홈 인디케이터가 없는 시안을 모바일 safe area 안쪽 여백으로 재해석하는 규칙 추가
+- 공용 base 자산을 직접 수정하는 것이 위험한지 판단하는 공유 자산 수정 안전 규칙 추가
+- 시안 해상도, 모바일 safe area 매핑, 공유 자산 수정 안전성 관련 실전 예시 문서 추가
+
+### Changed
+
+- Expanded the skill references, review checks, prompt patterns, and failure guides to cover the new layout, asset, and text rules
+- Improved repository navigation through more complete example indexing and reference indexing
+- Rewrote the changelog in clean UTF-8 so bilingual release notes remain readable
+
+### Changed / 변경
+
+- 새로운 레이아웃, 자산, 텍스트 규칙을 반영하도록 스킬 참조, 검수 체크, 프롬프트 패턴, 실패 가이드를 확장
+- examples 및 references 인덱스를 보강해 저장소 탐색성을 개선
+- 한영 병기 릴리스 노트가 깨지지 않도록 changelog를 UTF-8 기준으로 정리
 
 ## v0.2.1 - 2026-03-27
 
@@ -15,7 +53,7 @@ This project follows a lightweight documentation-focused release flow.
 ### Added / 추가
 
 - 정적 UI 자산과 texture-driven UI 자산을 구분하기 위한 Sprite 대 `RawImage` 규칙 추가
-- 정적 UI 비주얼이 잘못 `RawImage`로 흘러간 경우를 잡아내는 최종 검수 체크 추가
+- 정적 UI 비주얼이 잘못 `RawImage`로 흘러가는 경우를 잡아내는 최종 검수 체크 추가
 - 일반 정적 UI 비주얼을 다시 sprite 워크플로로 되돌리기 위한 실패 패턴 가이드 추가
 
 ### Changed
@@ -41,7 +79,7 @@ This project follows a lightweight documentation-focused release flow.
 - 반복 UI 구조를 프리팹으로 승격하는 규칙 추가
 - 기존 프리팹을 직접 재사용할지, Variant/Wrapper로 갈지, 새 Base를 만들지 판단하는 규칙 추가
 - 공용 Base에서 안전하게 분기하는 Prefab Variant 규칙 추가
-- 프리팹 재사용, 기존 프리팹 재사용, Prefab Variant용 MCP 호출 레시피 추가
+- 프리팹 재사용, 기존 프리팹 재사용, Prefab Variant용 MCP 호출 예시 추가
 - 반복 구조, 기존 프리팹 재사용, Prefab Variant용 프롬프트 패턴 추가
 
 ### Changed
@@ -62,6 +100,6 @@ This project follows a lightweight documentation-focused release flow.
 
 ### Added / 추가
 
-- `unity-mcp-ui-layout` 저장소 최초 공개 버전
+- `unity-mcp-ui-layout` 저장소 첫 공개 버전
 - Codex 스킬 패키지와 Google Antigravity, Claude Artifacts용 플랫폼 어댑터 추가
 - 루트 README 한영 병기, MIT 라이선스, 첫 GitHub 공개 릴리스 추가
