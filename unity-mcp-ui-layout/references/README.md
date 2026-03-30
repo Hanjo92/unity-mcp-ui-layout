@@ -13,6 +13,7 @@ Use it when `SKILL.md` points you here for deeper guidance.
 - `mockup-resolution.md`
 - `ui-change-modes.md`
 - `asset-discovery-priority.md`
+- `asset-naming-and-folders.md`
 - `existing-prefab-reuse.md`
 - `prefab-variants.md`
 - `prefab-reuse.md`

@@ -157,6 +157,16 @@ Check reusable prefabs first, then variant or wrapper paths, then existing sprit
 Do not jump straight to placeholder-driven reconstruction while obvious reusable assets still exist.
 ```
 
+## Pattern 9C: Name and Place Assets Deliberately
+
+Use when asset-aware mode creates or promotes UI assets during the task.
+
+```text
+If this work creates, extracts, or promotes UI assets, name and place them deliberately.
+Keep shared assets in predictable shared UI folders, keep screen-owned assets near the screen that owns them, and keep placeholder assets visibly provisional.
+Do not leave reusable assets with clone, copy, temp, or coordinate-based names.
+```
+
 ## Pattern 10: UGUI HUD Build
 
 Use when building or repairing a HUD.

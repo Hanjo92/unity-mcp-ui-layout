@@ -228,7 +228,28 @@ This document is organized by symptom first, because that is usually how problem
 - then check sprite-backed visuals, text styles, and materials
 - leave placeholders as a deliberate last resort, not a default first step
 
-## 12. Quick Recovery Strategy
+## 12. New Assets Are Named and Stored Like Scratch Files
+
+### Typical symptoms
+
+- reusable assets are left as `Copy`, `New`, or `Temp`
+- shared widgets are buried inside one random screen folder
+- placeholder visuals start looking like permanent design-system assets
+
+### Likely causes
+
+- asset creation focused only on today's task, not future rediscovery
+- shared versus screen-owned scope was never decided
+- assets were extracted quickly but never normalized into a stable folder shape
+
+### Fix direction
+
+- rename assets by role instead of editor history
+- move shared assets into stable shared UI folders
+- keep screen-owned assets near the screen that owns them
+- keep placeholder assets visibly provisional so later replacement stays easy
+
+## 13. Quick Recovery Strategy
 
 When the work starts drifting, reset the process:
 
