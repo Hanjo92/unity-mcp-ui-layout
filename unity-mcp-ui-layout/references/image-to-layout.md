@@ -3,6 +3,7 @@
 Use this guide when the user provides a layout image, mockup, wireframe, or screenshot together with a target resolution.
 
 Pair it with `mockup-resolution.md` when the mockup's own native pixel size should become the planning reference frame.
+Pair it with `mockup-decomposition.md` when you need a stricter rule for deciding what should stay as one asset versus what should become runtime-owned UI.
 
 ## Goal
 
@@ -59,6 +60,7 @@ Break the layout into:
 
 Do not jump directly from whole image to dozens of leaf nodes.
 Group the topmost composition by anchor-owned regions first so the largest blocks already belong to stable screen relationships.
+Split only when runtime behavior requires it, and keep likely decorative baked regions whole.
 
 ### 2. Estimate normalized geometry
 

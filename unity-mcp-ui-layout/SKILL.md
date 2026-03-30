@@ -144,6 +144,7 @@ Use screenshots aggressively.
 - Read `references/common-failures.md` when the UI result technically exists but still feels fragile, inconsistent, overfit to one resolution, or structurally wrong.
 - Read `references/image-to-layout.md` when the user provides a mockup, screenshot, wireframe, or other layout image plus a target resolution.
 - Read `references/mcp-call-recipes.md` when you need concrete `unity-mcp` call sequences for discovery, creation, repair, verification, or script-backed UI work.
+- Read `references/mockup-decomposition.md` when a design image exists and you need to decide which regions should stay as one asset, which should be split, and which should become reusable blocks.
 - Read `references/mockup-resolution.md` when a design image exists and its own native resolution should become the planning reference frame.
 - Read `references/existing-prefab-reuse.md` when the project likely already contains a similar reusable UI block and you need to choose reuse, variant, wrapper, or a new base prefab.
 - Read `references/prefab-variants.md` when one shared base prefab should branch into a controlled family of variants without polluting the base asset.
