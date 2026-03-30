@@ -33,6 +33,7 @@ Ask:
 - Does the UI still look correct at the target resolution?
 - Does it remain acceptable at one alternate aspect ratio?
 - Are size changes caused by `CanvasScaler`, anchors, or container logic behaving as expected?
+- If a mockup image was provided, did we use the mockup's native resolution or the explicitly stated target resolution deliberately instead of falling back to an arbitrary default?
 
 If only one resolution works, the implementation is not done yet.
 

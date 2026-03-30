@@ -32,6 +32,7 @@ Read the current context before making changes.
 - For UGUI, inspect `Canvas`, `CanvasScaler`, parent `RectTransform`, active layout components, and safe-area handling before changing child objects.
 - For UI Toolkit, find the active `UIDocument`, linked `UXML`, linked `USS`, and panel settings before editing styles.
 - If the user provides a layout image and target resolution, treat them as the source spec for composition before creating any objects.
+- If the user provides a layout image but no explicit target resolution, capture the image's native resolution and treat that as the initial reference frame.
 
 After the initial scene/editor inspection, run a quick capability check before planning the implementation:
 
@@ -129,7 +130,9 @@ Use screenshots aggressively.
 ## Resolution and Verification Rules
 
 - Default to `1920x1080` only if the project does not already define another target resolution.
+- If a mockup or design image exists and no explicit target resolution was provided, use the mockup image's native resolution as the reference resolution.
 - If the user specifies a target resolution, treat it as the reference frame for size and offset calculations.
+- If both a mockup resolution and an explicit target resolution exist, use the mockup resolution as the composition measurement space and the explicit target resolution as the implementation and verification space.
 - Express intended measurements in normalized terms during planning: width ratio, height ratio, edge distance ratio, safe-area relationship.
 - Re-check at one narrow aspect ratio and one wide aspect ratio before calling the layout done.
 - If the project appears mobile-first, verify portrait and landscape separately.
@@ -141,6 +144,7 @@ Use screenshots aggressively.
 - Read `references/common-failures.md` when the UI result technically exists but still feels fragile, inconsistent, overfit to one resolution, or structurally wrong.
 - Read `references/image-to-layout.md` when the user provides a mockup, screenshot, wireframe, or other layout image plus a target resolution.
 - Read `references/mcp-call-recipes.md` when you need concrete `unity-mcp` call sequences for discovery, creation, repair, verification, or script-backed UI work.
+- Read `references/mockup-resolution.md` when a design image exists and its own native resolution should become the planning reference frame.
 - Read `references/existing-prefab-reuse.md` when the project likely already contains a similar reusable UI block and you need to choose reuse, variant, wrapper, or a new base prefab.
 - Read `references/prefab-variants.md` when one shared base prefab should branch into a controlled family of variants without polluting the base asset.
 - Read `references/prefab-reuse.md` when the same UI shape appears more than once and should be extracted into one reusable prefab or template-style block.
