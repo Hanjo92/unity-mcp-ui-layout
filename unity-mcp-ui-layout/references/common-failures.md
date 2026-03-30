@@ -207,7 +207,28 @@ This document is organized by symptom first, because that is usually how problem
 - reserve `RawImage` for `RenderTexture`, video, runtime-generated textures, or other true texture-driven cases
 - if the screen already uses sprite-backed UI assets elsewhere, stay consistent with that workflow
 
-## 11. Quick Recovery Strategy
+## 11. The Agent Skips Obvious Existing Assets
+
+### Typical symptoms
+
+- a placeholder-heavy UI is built even though similar widgets already exist in the project
+- a repeated widget is reconstructed from loose parts even though a prefab family already exists
+- text and icon styling drift away from the rest of the project
+
+### Likely causes
+
+- asset-aware mode was entered, but no clear lookup order was followed
+- placeholder creation started before prefab or sprite reuse was checked
+- the agent treated low-confidence retrieval as permission to stop checking nearby reusable assets
+
+### Fix direction
+
+- check reusable prefabs first
+- then check variant or wrapper paths
+- then check sprite-backed visuals, text styles, and materials
+- leave placeholders as a deliberate last resort, not a default first step
+
+## 12. Quick Recovery Strategy
 
 When the work starts drifting, reset the process:
 

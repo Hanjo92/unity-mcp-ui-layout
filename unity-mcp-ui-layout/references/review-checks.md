@@ -56,6 +56,7 @@ Ask:
 - Was any decorative area split into fake widgets without a runtime need?
 - Do separate elements exist only where interaction, animation, text, or adaptive layout requires them?
 - Were repeated mockup regions promoted into reusable blocks where appropriate instead of being manually rebuilt?
+- If asset-aware mode was active, did we follow a sensible discovery order instead of jumping straight to placeholders?
 
 If the UI was decomposed more than the runtime behavior needs, simplify it before shipping.
 

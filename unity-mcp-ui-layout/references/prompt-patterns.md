@@ -147,6 +147,16 @@ If the relevant UI already exists, default to repair mode until a rebuild is cle
 If a rebuild is required, explain why the existing structure is not worth preserving before switching modes.
 ```
 
+## Pattern 9B: Follow Asset Discovery Priority
+
+Use when asset-aware mode is active and the project likely already has reusable UI assets.
+
+```text
+Treat this as asset-aware work and follow a strict discovery order.
+Check reusable prefabs first, then variant or wrapper paths, then existing sprite-backed visuals, then text style systems, then materials, and use placeholders only if those higher-priority options are unavailable or low-confidence.
+Do not jump straight to placeholder-driven reconstruction while obvious reusable assets still exist.
+```
+
 ## Pattern 10: UGUI HUD Build
 
 Use when building or repairing a HUD.

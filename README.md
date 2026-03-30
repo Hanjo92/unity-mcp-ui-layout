@@ -54,6 +54,7 @@ Platform-specific adapters live in:
 - mockup-native resolution rules when a design image exists
 - mockup decomposition rules for deciding what should stay baked, what should split, and what should become reusable blocks
 - repair mode vs greenfield build mode rules for existing-screen fixes versus new UI creation
+- asset discovery priority rules for prefab, sprite, font, material, and placeholder reuse order
 - concrete MCP call recipes for common UI tasks
 - common failure patterns and recovery guidance
 - final review checks before calling a UI task done
@@ -70,6 +71,7 @@ Platform-specific adapters live in:
 - 시안 이미지가 있을 때 시안의 원본 해상도를 기준 프레임으로 삼는 규칙
 - 시안 요소를 어디까지 분해하고 어디를 단일 자산이나 재사용 블록으로 유지할지에 대한 규칙
 - 기존 UI 수정 요청과 신규 UI 생성 요청을 구분하는 작업 모드 규칙
+- 프리팹, 스프라이트, 폰트, 머티리얼, 플레이스홀더를 어떤 순서로 찾을지에 대한 자산 탐색 우선순위 규칙
 - 자주 쓰는 UI 작업용 구체적인 MCP 호출 레시피
 - 자주 실패하는 패턴과 복구 가이드
 - 작업 완료 전에 보는 최종 검수 체크
