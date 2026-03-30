@@ -12,6 +12,7 @@ Use it when `SKILL.md` points you here for deeper guidance.
 - `mockup-decomposition.md`
 - `mockup-resolution.md`
 - `ui-change-modes.md`
+- `asset-discovery-priority.md`
 - `existing-prefab-reuse.md`
 - `prefab-variants.md`
 - `prefab-reuse.md`

@@ -48,6 +48,7 @@ After the initial scene/editor inspection, run a quick capability check before p
   - the project already contains similar UI and consistency clearly matters
 - If those reuse signals are absent, stay in layout-only mode even if asset-retrieval tooling is available.
 - If asset-aware mode is warranted and both `unity-resource-rag` and an asset catalog or asset index are available, look for matching reusable assets before building replacements from scratch.
+- In asset-aware mode, follow a stable discovery order: reusable prefabs first, then variants or wrappers, then sprite-backed visuals, then text styles, then materials, and placeholders last.
 - If asset-aware mode is warranted but `unity-resource-rag` is unavailable, continue with image-to-layout translation using the existing layout rules, preserve structure-first execution, use placeholder visuals or existing manually discovered assets, and explicitly state that asset-aware retrieval was skipped.
 - If asset-aware mode is warranted and `unity-resource-rag` is available but retrieval confidence is low, do not force an asset match, keep the layout workflow moving, mark visuals as provisional, and verify structure first.
 - Missing or low-confidence asset-RAG capability is not a hard blocker unless the user explicitly requires asset-index-backed reuse.
@@ -149,6 +150,7 @@ Use screenshots aggressively.
 - Read `references/mockup-decomposition.md` when a design image exists and you need to decide which regions should stay as one asset, which should be split, and which should become reusable blocks.
 - Read `references/mockup-resolution.md` when a design image exists and its own native resolution should become the planning reference frame.
 - Read `references/ui-change-modes.md` when you need to decide whether the task should be handled as bounded repair or as a new build.
+- Read `references/asset-discovery-priority.md` when asset-aware mode is active and you need to decide what kinds of existing assets to search in what order.
 - Read `references/existing-prefab-reuse.md` when the project likely already contains a similar reusable UI block and you need to choose reuse, variant, wrapper, or a new base prefab.
 - Read `references/prefab-variants.md` when one shared base prefab should branch into a controlled family of variants without polluting the base asset.
 - Read `references/prefab-reuse.md` when the same UI shape appears more than once and should be extracted into one reusable prefab or template-style block.
