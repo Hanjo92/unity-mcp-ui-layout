@@ -4,6 +4,28 @@ This project follows a lightweight documentation-focused release flow.
 
 이 프로젝트는 문서 중심의 가벼운 릴리스 흐름을 따릅니다.
 
+## v0.3.1 - 2026-03-30
+
+### Added
+
+- Synchronized the Codex, Google Antigravity, and Claude adapter documents with the newer `v0.3.0` layout guidance
+- Added a `BACKLOG.md` file to track likely next improvements after `v0.3.0`
+
+### Added / 추가
+
+- `v0.3.0`에서 정리한 최신 레이아웃 규칙이 반영되도록 Codex, Google Antigravity, Claude 어댑터 문서를 동기화
+- `v0.3.0` 이후 이어갈 가능성이 높은 개선 항목을 정리한 `BACKLOG.md` 추가
+
+### Changed
+
+- Refined the repository description and topic metadata for discoverability
+- Linked the backlog from the root README so future work is easier to track
+
+### Changed / 변경
+
+- 검색성과 가독성을 위해 저장소 설명과 토픽 메타데이터를 정리
+- 이후 작업 추적이 쉽도록 루트 README에 backlog 링크 추가
+
 ## v0.3.0 - 2026-03-30
 
 ### Added
