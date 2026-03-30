@@ -17,6 +17,13 @@ This adapter repackages the Unity MCP UI layout workflow for Claude project or a
 
 Keep Claude aligned with the same layout rules as the Codex skill while taking advantage of Claude's artifact-style iterative explanation and review flow.
 
+This includes the newer guidance around:
+
+- mockup-native resolution planning
+- text layout as a structural concern
+- safe-area-aware reinterpretation of notch-agnostic mobile mockups
+- shared asset edit safety for prefabs, sprites, materials, and TMP styles
+
 ## Example User Prompts
 
 ```text
@@ -43,4 +50,15 @@ After each step, note what changed and what still needs visual verification.
 ```text
 Compare the current Unity UI to the attached layout image and produce an artifact that identifies the composition mismatches.
 Explain which issues come from top-level grouping, anchors, CanvasScaler, or parent structure, then apply the smallest safe correction first.
+```
+
+```text
+Using the attached mobile mockup, build the popup as a safe-area-aware UGUI layout.
+Treat the image as composition guidance instead of raw edge geometry, keep PopupRoot as the safe-area owner, and use artifact sections to explain how the mockup spacing was remapped.
+```
+
+```text
+Repair this UI without destabilizing shared assets.
+Before editing anything, explain whether the current widget belongs to a shared prefab or shared asset family.
+If the change is screen-specific, keep it local through a variant, wrapper, or local override and document that decision in the artifact.
 ```

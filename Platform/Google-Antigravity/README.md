@@ -25,6 +25,9 @@ Make Antigravity follow the same rules as the Codex skill, but in a firmer syste
 - keep likely single-image regions intact unless runtime behavior requires splitting
 - use anchors and scaling instead of raw pixels
 - verify with screenshots
+- treat text as a layout driver instead of a last-minute font tweak
+- remap notch-agnostic mockups into safe-area-aware layouts
+- avoid risky direct edits to shared base assets for one-screen fixes
 
 ## Example User Prompts
 
@@ -54,4 +57,15 @@ Compare the current UI against the attached reference image.
 Find the structural differences causing the layout drift.
 Fix top-level anchor grouping, parent containers, and scaling rules before changing styling or local offsets.
 Collapse over-modeled decorative regions back into a single image when they are likely one baked asset.
+```
+
+```text
+Build this mobile popup from the attached mockup, but do not copy raw edge pixels from the image.
+Treat the mockup as composition guidance, map top and bottom spacing into the safe area, keep Dimmer and PopupRoot separate, and verify both portrait and landscape.
+```
+
+```text
+Repair this UI without destabilizing the design system.
+Check whether the affected widget is part of a shared prefab or shared asset family first.
+If the requested change is local to one screen, prefer a variant, wrapper, or local override over a direct base edit.
 ```

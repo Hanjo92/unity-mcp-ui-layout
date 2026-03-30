@@ -18,6 +18,9 @@ Treat the artifact as a structured layout plan, not just a visual guess. The art
 - Group the top-level composition by anchor-owned regions before leaf-level tuning.
 - Turn repeated structures into reusable prefabs or reusable layout blocks when appropriate.
 - Keep likely single-image regions intact unless interaction, animation, or adaptive behavior requires them to be split.
+- Treat text as a layout driver and decide wrapping, truncation, or container growth before shrinking fonts.
+- If a mobile mockup is notch-agnostic, preserve its composition inside the safe area instead of copying raw top and bottom edge pixels.
+- Before editing shared prefabs, sprites, materials, or TMP styles directly, decide whether the change should stay local through a variant, wrapper, or local override.
 
 ## What the Artifact Should Emphasize
 
@@ -26,6 +29,7 @@ Treat the artifact as a structured layout plan, not just a visual guess. The art
 - anchor and pivot intent
 - `CanvasScaler` or flex behavior
 - safe-area ownership when relevant
+- text role and overflow behavior when relevant
 - what was changed in the current step
 - what should be verified next
 
@@ -39,6 +43,7 @@ Treat the artifact as a structured layout plan, not just a visual guess. The art
 - Keep repeated UI patterns reusable instead of rebuilding them manually.
 - Keep popup `Dimmer` and `PopupRoot` as siblings under `ModalLayer`.
 - Apply safe-area handling to `PopupRoot`.
+- When text is involved, explain whether the role should wrap, truncate, stay single-line, or grow its container.
 - Do not over-decompose likely single-image assets.
 
 ## UI Toolkit Priorities
@@ -63,4 +68,5 @@ For each iteration:
 - Explain layout intent in terms of regions, anchors, scaling, and parent ownership.
 - Be explicit about tradeoffs when a design seems too dependent on exact pixels.
 - When a popup or mobile layout is involved, call out safe-area ownership directly.
+- When a shared asset might be edited, call out the safety decision directly.
 - Prefer clear artifact sections such as `Plan`, `Current Change`, `Verification`, and `Next Step`.
