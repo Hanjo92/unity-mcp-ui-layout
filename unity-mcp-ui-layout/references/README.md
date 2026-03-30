@@ -18,6 +18,7 @@ Use it when `SKILL.md` points you here for deeper guidance.
 - `prefab-variants.md`
 - `prefab-reuse.md`
 - `sprite-vs-rawimage.md`
+- `text-layout-rules.md`
 - `common-failures.md`
 - `review-checks.md`
 

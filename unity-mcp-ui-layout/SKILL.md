@@ -30,7 +30,9 @@ Read the current context before making changes.
 - Check editor readiness through `editor_state` or equivalent resources.
 - Find the active scene, existing UI roots, and relevant cameras.
 - For UGUI, inspect `Canvas`, `CanvasScaler`, parent `RectTransform`, active layout components, and safe-area handling before changing child objects.
+- For text-heavy UGUI, also inspect `TextMeshProUGUI`, wrapping and overflow behavior, preferred width/height assumptions, and any existing TMP style patterns before resizing containers.
 - For UI Toolkit, find the active `UIDocument`, linked `UXML`, linked `USS`, and panel settings before editing styles.
+- For text-heavy UI Toolkit, inspect text roles, width rules, overflow behavior, and reusable USS text classes before applying local overrides.
 - If the user provides a layout image and target resolution, treat them as the source spec for composition before creating any objects.
 - If the user provides a layout image but no explicit target resolution, capture the image's native resolution and treat that as the initial reference frame.
 
@@ -127,6 +129,8 @@ Use screenshots aggressively.
 - Do not decompose a likely single-image asset into fake sub-shapes unless interaction, animation, or dynamic layout actually requires separate elements.
 - For static UI visuals, prefer `Image` plus sprite-based assets. Reserve `RawImage` for true texture-driven content such as `RenderTexture`, video, or runtime-generated textures.
 - Treat text as a layout driver. Check wrapping, overflow, best-fit/auto-size, and font asset limits before resizing containers.
+- Decide whether important text should wrap, truncate, stay single-line, or grow its container before shrinking fonts.
+- Leave reasonable headroom for longer labels, dynamic values, and likely localization growth instead of trusting mockup string lengths literally.
 - For UI Toolkit, prefer USS classes and container rules over many inline style overrides.
 - If the user gives only a visual description, assume one target resolution first, implement for that resolution, then test at additional aspect ratios.
 - If the screen looks crowded, reduce hierarchy complexity and nesting depth before adding more overrides.
@@ -158,6 +162,7 @@ Use screenshots aggressively.
 - Read `references/prefab-reuse.md` when the same UI shape appears more than once and should be extracted into one reusable prefab or template-style block.
 - Read `references/review-checks.md` when you need a final quality pass before calling a Unity UI task complete.
 - Read `references/sprite-vs-rawimage.md` when static UI assets are being wired through `RawImage` instead of the normal sprite workflow.
+- Read `references/text-layout-rules.md` when text length, wrapping, overflow, auto-size, counters, or localization safety are driving layout instability.
 - Read `references/ugui-anchors-canvas-scaler.md` when the target is UGUI or when anchor, pivot, or screen-scaling behavior is causing drift.
 - Read `references/ugui-hud.md` for always-on-screen HUD, minimap, status bars, and action bars.
 - Read `references/ugui-inventory.md` for slot grids, item lists, equipment panels, and shop layouts.

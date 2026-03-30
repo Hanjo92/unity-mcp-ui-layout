@@ -88,6 +88,9 @@ Ask:
 - Is any text clipped, wrapping incorrectly, or causing row expansion?
 - Are button labels visually balanced?
 - Would the current layout likely survive slightly longer strings?
+- Was line behavior chosen deliberately for major text roles instead of left to defaults?
+- Are counters, currencies, and dynamic values given enough room for realistic growth?
+- Did we solve the text issue by fixing layout first instead of immediately shrinking fonts?
 
 Text problems should be treated as layout problems first, not only font-size problems.
 
