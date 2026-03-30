@@ -70,7 +70,18 @@ Ask:
 
 If the answer is no, convert the asset usage back toward the normal sprite workflow before calling the UI done.
 
-## 7. Text Check
+## 7. Asset Naming and Placement Check
+
+Ask:
+
+- Were newly created or promoted assets given names that reveal role clearly?
+- Are shared assets stored in shared UI folders and screen-owned assets stored near the screen that owns them?
+- Are placeholder assets still visibly marked as provisional instead of looking like stable shared assets?
+- Would another agent be able to rediscover the asset family without guessing?
+
+If the answer is no, rename or relocate the assets before calling the UI done.
+
+## 8. Text Check
 
 Ask:
 
@@ -80,7 +91,7 @@ Ask:
 
 Text problems should be treated as layout problems first, not only font-size problems.
 
-## 8. Interaction Area Check
+## 9. Interaction Area Check
 
 Ask:
 
@@ -90,7 +101,7 @@ Ask:
 
 This check is especially important for popup and mobile layouts.
 
-## 9. Safe Area Check
+## 10. Safe Area Check
 
 Ask:
 
@@ -100,7 +111,7 @@ Ask:
 
 If safe area works only because several children have manual offsets, the design still needs cleanup.
 
-## 10. Visual Consistency Check
+## 11. Visual Consistency Check
 
 Ask:
 
@@ -110,7 +121,7 @@ Ask:
 
 This is where hand-placed designs usually reveal themselves.
 
-## 11. Scope Check
+## 12. Scope Check
 
 Ask:
 
@@ -121,7 +132,7 @@ Ask:
 
 If the answer is no, narrow the change before shipping it.
 
-## 12. Final Go/No-Go Rule
+## 13. Final Go/No-Go Rule
 
 Do not call the UI complete unless:
 
