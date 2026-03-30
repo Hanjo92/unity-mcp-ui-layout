@@ -116,6 +116,7 @@ Ask:
 - Did the task stay inside the requested region?
 - Were unrelated screens or widgets changed unnecessarily?
 - Was the original style preserved when the request was a repair?
+- Did we stay in the correct operating mode: bounded repair for fixes, or build mode for true greenfield work?
 
 If the answer is no, narrow the change before shipping it.
 
