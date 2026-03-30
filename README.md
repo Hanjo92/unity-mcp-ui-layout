@@ -52,6 +52,7 @@ Platform-specific adapters live in:
 - prefab variant rules for controlled divergence from a shared base
 - sprite/image vs `RawImage` rules for static versus texture-driven UI assets
 - mockup-native resolution rules when a design image exists
+- mockup decomposition rules for deciding what should stay baked, what should split, and what should become reusable blocks
 - concrete MCP call recipes for common UI tasks
 - common failure patterns and recovery guidance
 - final review checks before calling a UI task done
@@ -66,6 +67,7 @@ Platform-specific adapters live in:
 - 공용 base에서 안전하게 분기하는 Prefab Variant 규칙
 - 정적 UI 자산에서 sprite/image와 `RawImage`를 어떻게 구분할지에 대한 규칙
 - 시안 이미지가 있을 때 시안의 원본 해상도를 기준 프레임으로 삼는 규칙
+- 시안 요소를 어디까지 분해하고 어디를 단일 자산이나 재사용 블록으로 유지할지에 대한 규칙
 - 자주 쓰는 UI 작업용 구체적인 MCP 호출 레시피
 - 자주 실패하는 패턴과 복구 가이드
 - 작업 완료 전에 보는 최종 검수 체크

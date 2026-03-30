@@ -96,6 +96,17 @@ Estimate geometry as normalized ratios from the mockup, then convert those ratio
 If a separate target resolution is later provided, keep the mockup as the composition space and the target resolution as the implementation space.
 ```
 
+## Pattern 18: Decompose the Mockup by Runtime Responsibility
+
+Use when a mockup exists and the agent might over-split decorative regions into fake widgets.
+
+```text
+Before creating objects, inspect the mockup and decide which regions should stay as one baked visual asset, which regions should become interactive UI elements, and which repeated regions should become reusable blocks.
+Decompose by runtime responsibility, not by visual outline alone.
+Keep decorative regions whole unless interaction, animation, dynamic text, or adaptive layout requires separation.
+Turn repeated structures into reusable prefabs or reusable layout blocks instead of rebuilding them manually.
+```
+
 ## Pattern 8: Script-Aware UI Editing
 
 Use when script changes are necessary.
