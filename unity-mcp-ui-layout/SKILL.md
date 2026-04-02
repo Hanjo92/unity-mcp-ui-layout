@@ -20,6 +20,7 @@ Identify the target before editing:
 For UGUI, prefer `find_gameobjects`, `manage_gameobject`, `manage_components`, `manage_scene`, `manage_prefabs`, `manage_script`, `manage_camera`, `refresh_unity`, and `read_console`.
 
 For UI Toolkit, prefer `manage_ui`, `manage_script`, `find_in_file`, `manage_camera`, `refresh_unity`, and `read_console`.
+For UI Toolkit work, prefer stabilizing `UXML` structure, `USS` classes, and container ownership before adding many inline style patches.
 
 ## Workflow
 
@@ -32,6 +33,7 @@ Read the current context before making changes.
 - For UGUI, inspect `Canvas`, `CanvasScaler`, parent `RectTransform`, active layout components, and safe-area handling before changing child objects.
 - For text-heavy UGUI, also inspect `TextMeshProUGUI`, wrapping and overflow behavior, preferred width/height assumptions, and any existing TMP style patterns before resizing containers.
 - For UI Toolkit, find the active `UIDocument`, linked `UXML`, linked `USS`, and panel settings before editing styles.
+- For flex-heavy UI Toolkit screens, inspect container ownership for direction, growth, overflow, and scroll boundaries before changing leaf elements.
 - For text-heavy UI Toolkit, inspect text roles, width rules, overflow behavior, and reusable USS text classes before applying local overrides.
 - If the user provides a layout image and target resolution, treat them as the source spec for composition before creating any objects.
 - If the user provides a layout image but no explicit target resolution, capture the image's native resolution and treat that as the initial reference frame.
@@ -133,6 +135,7 @@ Use screenshots aggressively.
 - Decide whether important text should wrap, truncate, stay single-line, or grow its container before shrinking fonts.
 - Leave reasonable headroom for longer labels, dynamic values, and likely localization growth instead of trusting mockup string lengths literally.
 - For UI Toolkit, prefer USS classes and container rules over many inline style overrides.
+- For UI Toolkit, decide which container owns flex direction, width, overflow, and scroll behavior before patching leaf elements.
 - If the user gives only a visual description, assume one target resolution first, implement for that resolution, then test at additional aspect ratios.
 - If the screen looks crowded, reduce hierarchy complexity and nesting depth before adding more overrides.
 
@@ -167,6 +170,8 @@ Use screenshots aggressively.
 - Read `references/sprite-vs-rawimage.md` when static UI assets are being wired through `RawImage` instead of the normal sprite workflow.
 - Read `references/mockup-safe-area-mapping.md` when a mobile mockup did not visibly account for safe area but the runtime layout must.
 - Read `references/text-layout-rules.md` when text length, wrapping, overflow, auto-size, counters, or localization safety are driving layout instability.
+- Read `references/ui-toolkit-layout-rules.md` when the target is UI Toolkit and you need rules for container ownership, flex behavior, overflow, and text handling.
+- Read `references/ui-toolkit-failures.md` when a UI Toolkit screen renders but still feels fragile, over-patched, or unstable at narrower widths.
 - Read `references/ugui-anchors-canvas-scaler.md` when the target is UGUI or when anchor, pivot, or screen-scaling behavior is causing drift.
 - Read `references/ugui-hud.md` for always-on-screen HUD, minimap, status bars, and action bars.
 - Read `references/ugui-inventory.md` for slot grids, item lists, equipment panels, and shop layouts.

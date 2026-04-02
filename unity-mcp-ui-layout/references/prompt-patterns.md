@@ -150,6 +150,28 @@ If the request is one-screen or one-flow specific, prefer a variant, wrapper, or
 Only edit the shared asset when the change clearly belongs to the common contract and would make sense across other usages too.
 ```
 
+## Pattern 22: Repair a UI Toolkit Screen Through Container Ownership
+
+Use when the target clearly belongs to UI Toolkit.
+
+```text
+Treat this as a UI Toolkit repair.
+Inspect the current UIDocument, UXML, USS, and visual tree first.
+Identify which containers should own flex direction, width, overflow, and scroll behavior.
+Reduce leaf-level overrides, move repeatable intent into USS classes, and verify the result at the target width and one narrower width.
+```
+
+## Pattern 23: Stabilize UI Toolkit Text and Overflow
+
+Use when UI Toolkit labels, tabs, or body text are breaking the layout.
+
+```text
+Treat text behavior as structural.
+Inspect the parent width rule, white-space or wrapping behavior, overflow handling, and reusable USS text roles first.
+Decide whether important text regions should wrap, truncate, remain single-line, or grow their parent before shrinking fonts.
+Verify the result at a narrower width so the fix is not overfit to one screen size.
+```
+
 ## Pattern 8: Script-Aware UI Editing
 
 Use when script changes are necessary.

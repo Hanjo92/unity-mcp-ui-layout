@@ -19,6 +19,7 @@ Use these files when you want a copyable starting point instead of only referenc
 - `mobile-safe-area-mockup-example.md`
 - `popup-safe-area-example.md`
 - `shared-asset-safety-example.md`
+- `ui-toolkit-example.md`
 
 ## How to Use
 
@@ -35,3 +36,4 @@ Use these files when you want a copyable starting point instead of only referenc
 4. `mobile-safe-area-mockup-example.md` if the mockup ignores notch or home-indicator constraints
 5. `popup-safe-area-example.md` if mobile safe area and modal structure matter
 6. `shared-asset-safety-example.md` if a repair might touch shared prefabs or other shared UI assets
+7. `ui-toolkit-example.md` if the target screen is clearly driven by `UIDocument`, `UXML`, and `USS`
