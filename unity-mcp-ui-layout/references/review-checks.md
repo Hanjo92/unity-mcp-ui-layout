@@ -136,6 +136,7 @@ Ask:
 - Was the original style preserved when the request was a repair?
 - Did we stay in the correct operating mode: bounded repair for fixes, or build mode for true greenfield work?
 - If an existing shared asset was edited directly, was that scope truly justified?
+- If a shared asset was edited directly, was at least one additional known usage checked first where practical?
 
 If the answer is no, narrow the change before shipping it.
 

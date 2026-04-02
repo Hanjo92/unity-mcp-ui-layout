@@ -167,6 +167,7 @@ Use screenshots aggressively.
 - Read `references/prefab-reuse.md` when the same UI shape appears more than once and should be extracted into one reusable prefab or template-style block.
 - Read `references/review-checks.md` when you need a final quality pass before calling a Unity UI task complete.
 - Read `references/shared-asset-edit-safety.md` when a one-screen request might tempt you to edit a shared prefab, sprite, material, or text style directly.
+- Read `references/shared-asset-verification-recipes.md` when you need concrete shared-asset verification flow before directly editing a common prefab, sprite, material, or TMP style.
 - Read `references/sprite-vs-rawimage.md` when static UI assets are being wired through `RawImage` instead of the normal sprite workflow.
 - Read `references/mockup-safe-area-mapping.md` when a mobile mockup did not visibly account for safe area but the runtime layout must.
 - Read `references/text-layout-rules.md` when text length, wrapping, overflow, auto-size, counters, or localization safety are driving layout instability.

@@ -279,3 +279,69 @@ Verify the target variant and one related base-family usage with screenshots.
 - `manage_components`
 - `manage_camera`
 - `read_console`
+
+## 11. Verify Another Known Usage Before Editing a Shared Prefab
+
+Use this when a requested repair might tempt you to edit a shared prefab directly.
+
+### Typical sequence
+
+1. Identify the current target instance and likely shared prefab family
+2. Find one additional known usage of that family
+3. Compare whether the requested change belongs to the shared base or is only local
+4. Choose direct edit, variant, wrapper, or local override
+5. Verify the target and the additional known usage if a direct base edit is still chosen
+
+### Example prompt
+
+```text
+Before editing this shared prefab directly, inspect the target instance and one additional known usage of the same prefab family.
+Compare whether the requested change belongs to the shared base contract or should stay local through a variant, wrapper, or override.
+Only perform a direct base edit if the comparison shows the change is truly shared.
+```
+
+### Common calls
+
+- `find_gameobjects`
+- `manage_prefabs`
+- `manage_gameobject`
+- `manage_components`
+- `manage_camera`
+
+## 12. Verify a Shared Sprite or Material Before Mutating It
+
+Use this when a local repair might otherwise alter a common visual asset directly.
+
+### Typical sequence
+
+1. Confirm whether the sprite or material is common rather than screen-owned
+2. Find one additional usage that relies on the same asset
+3. Compare whether the requested visual change still makes sense there
+4. If not, duplicate or localize the asset instead of mutating the shared one
+
+### Example prompt
+
+```text
+Inspect whether this sprite or material is shared before editing it.
+Find one additional usage of the same asset and compare whether the requested visual change belongs to the shared contract or only to this screen.
+If it is local, keep the change in a duplicated or screen-owned asset instead of mutating the shared one.
+```
+
+## 13. Verify a Shared TMP Style Before Using It as a Rescue Fix
+
+Use this when a crowded row or overflow issue might tempt you to rewrite a shared text style.
+
+### Typical sequence
+
+1. Confirm whether the current text presentation comes from a shared style family
+2. Inspect one other usage of the same style role
+3. Decide whether the requested size, spacing, or overflow change is truly shared
+4. If not, keep the rescue local through a local style or new named style
+
+### Example prompt
+
+```text
+Inspect whether this TMP style is shared before changing it.
+Find one other usage of the same style role and compare whether the requested text adjustment should really apply there too.
+If it is only a local rescue change, keep it out of the shared text style.
+```
