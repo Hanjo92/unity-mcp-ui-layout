@@ -202,6 +202,28 @@ Find one additional usage of the same style role and compare whether the request
 If it is only a local rescue, keep it out of the shared style.
 ```
 
+## Pattern 27: Verify With Longer Localized Strings
+
+Use when the screen must survive both shorter source text and longer translated text.
+
+```text
+Treat this as a localization-sensitive layout task.
+Verify the UI with one shorter source-text set and one longer translated-text set before calling the layout stable.
+For each important text region, decide whether it should wrap, truncate, remain single-line, or grow its container.
+Do not use font shrinking as the default first fix.
+```
+
+## Pattern 28: Stabilize Long Labels, Body Text, and Number Growth Together
+
+Use when long labels, multi-line descriptions, and growing counters all compete for space.
+
+```text
+Inspect which containers own width and spacing first.
+Let descriptions wrap where appropriate, keep button labels balanced, and give counters room for realistic value growth.
+Do not rely on extreme auto-size ranges or one-screen-only string lengths.
+Verify the result with one longer text sample and one larger numeric sample.
+```
+
 ## Pattern 8: Script-Aware UI Editing
 
 Use when script changes are necessary.
