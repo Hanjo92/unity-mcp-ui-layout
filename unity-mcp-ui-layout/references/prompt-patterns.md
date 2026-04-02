@@ -172,6 +172,36 @@ Decide whether important text regions should wrap, truncate, remain single-line,
 Verify the result at a narrower width so the fix is not overfit to one screen size.
 ```
 
+## Pattern 24: Verify Another Known Usage Before Shared Base Edit
+
+Use when a requested fix might touch a shared prefab, sprite, material, or TMP style directly.
+
+```text
+Before editing the shared asset directly, inspect one additional known usage of the same asset family.
+Compare whether the requested change really belongs to the shared contract or should stay local through a variant, wrapper, duplicated asset, or local override.
+Do not edit the shared base until that comparison is explicit.
+```
+
+## Pattern 25: Verify a Shared Sprite or Material First
+
+Use when a local visual repair might otherwise mutate a common sprite or material.
+
+```text
+Inspect whether this sprite or material is shared before changing it.
+Find one additional usage of the same asset and compare whether the requested visual adjustment should really apply there too.
+If the change is local, keep it in a duplicated or screen-owned asset instead of mutating the shared one.
+```
+
+## Pattern 26: Verify a Shared TMP Style First
+
+Use when a text rescue might otherwise rewrite a common text style.
+
+```text
+Inspect whether the current TMP style is shared before changing it.
+Find one additional usage of the same style role and compare whether the requested text adjustment belongs to the shared role or only to this screen.
+If it is only a local rescue, keep it out of the shared style.
+```
+
 ## Pattern 8: Script-Aware UI Editing
 
 Use when script changes are necessary.

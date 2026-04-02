@@ -16,6 +16,7 @@ Use it when `SKILL.md` points you here for deeper guidance.
 - `asset-naming-and-folders.md`
 - `existing-prefab-reuse.md`
 - `shared-asset-edit-safety.md`
+- `shared-asset-verification-recipes.md`
 - `prefab-variants.md`
 - `prefab-reuse.md`
 - `mockup-safe-area-mapping.md`
