@@ -58,6 +58,7 @@ Platform-specific adapters live in:
 - asset naming and folder rules so reusable assets stay discoverable and screen-owned assets stay scoped correctly
 - practical naming and folder examples for shared versus screen-owned assets and variant family organization
 - text layout rules for wrapping, truncation, auto-size discipline, counters, and localization headroom
+- localization-focused examples for longer translated strings, multi-line body text, and number growth
 - safe-area remapping rules for mobile mockups that do not visibly account for notches or home indicators
 - shared asset edit safety rules for deciding when direct base edits are too risky
 - shared asset verification recipes for checking another known usage before direct base edits
@@ -82,6 +83,7 @@ Platform-specific adapters live in:
 - 재사용 자산은 다시 찾기 쉽고 화면 전용 자산은 범위가 드러나도록 만드는 자산 네이밍/폴더 규칙
 - shared vs screen-owned 자산과 variant family 구성을 실제 트리로 보여주는 실전 예시
 - 줄바꿈, truncation, auto-size 절제, 숫자 영역, 지역화 여유를 위한 텍스트 레이아웃 규칙
+- 긴 번역 문자열, multi-line body text, 숫자 증가에 대응하는 지역화 중심 예시
 - 노치/홈 인디케이터가 없는 시안을 모바일 safe area 안쪽 여백으로 재해석하는 규칙
 - 공용 prefab/sprite/material/text style에 대한 직접 수정이 위험한지 판단하는 안전 규칙
 - 공용 자산 직접 수정 전에 다른 known usage를 확인하는 shared asset verification 레시피
