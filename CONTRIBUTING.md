@@ -101,6 +101,7 @@ Before opening a PR:
 - make sure new docs are linked from the right entry points
 - make sure examples stay aligned with the actual rules
 - avoid adding duplicate guidance in multiple places unless it improves discoverability
+- if the change affects release prep or maintenance flow, check `RELEASE_CHECKLIST.md` and `MAINTENANCE.md`
 
 ## PR Guidance
 
