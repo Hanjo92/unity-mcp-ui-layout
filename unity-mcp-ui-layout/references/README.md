@@ -14,6 +14,7 @@ Use it when `SKILL.md` points you here for deeper guidance.
 - `ui-change-modes.md`
 - `asset-discovery-priority.md`
 - `asset-naming-and-folders.md`
+- `asset-naming-examples.md`
 - `existing-prefab-reuse.md`
 - `shared-asset-edit-safety.md`
 - `shared-asset-verification-recipes.md`

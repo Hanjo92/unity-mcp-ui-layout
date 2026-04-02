@@ -18,6 +18,7 @@ Use these files when you want a copyable starting point instead of only referenc
 - `mockup-resolution-example.md`
 - `mobile-safe-area-mockup-example.md`
 - `popup-safe-area-example.md`
+- `asset-naming-example.md`
 - `shared-asset-safety-example.md`
 - `shared-asset-verification-example.md`
 - `ui-toolkit-example.md`
@@ -36,6 +37,7 @@ Use these files when you want a copyable starting point instead of only referenc
 3. `mockup-resolution-example.md` if the mockup's native pixel resolution should drive planning
 4. `mobile-safe-area-mockup-example.md` if the mockup ignores notch or home-indicator constraints
 5. `popup-safe-area-example.md` if mobile safe area and modal structure matter
-6. `shared-asset-safety-example.md` if a repair might touch shared prefabs or other shared UI assets
-7. `shared-asset-verification-example.md` if you need a concrete “check another usage first” prompt for shared assets
-8. `ui-toolkit-example.md` if the target screen is clearly driven by `UIDocument`, `UXML`, and `USS`
+6. `asset-naming-example.md` if the task also needs shared-versus-screen asset cleanup
+7. `shared-asset-safety-example.md` if a repair might touch shared prefabs or other shared UI assets
+8. `shared-asset-verification-example.md` if you need a concrete “check another usage first” prompt for shared assets
+9. `ui-toolkit-example.md` if the target screen is clearly driven by `UIDocument`, `UXML`, and `USS`

@@ -56,6 +56,7 @@ Platform-specific adapters live in:
 - repair mode vs greenfield build mode rules for existing-screen fixes versus new UI creation
 - asset discovery priority rules for prefab, sprite, font, material, and placeholder reuse order
 - asset naming and folder rules so reusable assets stay discoverable and screen-owned assets stay scoped correctly
+- practical naming and folder examples for shared versus screen-owned assets and variant family organization
 - text layout rules for wrapping, truncation, auto-size discipline, counters, and localization headroom
 - safe-area remapping rules for mobile mockups that do not visibly account for notches or home indicators
 - shared asset edit safety rules for deciding when direct base edits are too risky
@@ -79,6 +80,7 @@ Platform-specific adapters live in:
 - 기존 UI 수정 요청과 신규 UI 생성 요청을 구분하는 작업 모드 규칙
 - 프리팹, 스프라이트, 폰트, 머티리얼, 플레이스홀더를 어떤 순서로 찾을지에 대한 자산 탐색 우선순위 규칙
 - 재사용 자산은 다시 찾기 쉽고 화면 전용 자산은 범위가 드러나도록 만드는 자산 네이밍/폴더 규칙
+- shared vs screen-owned 자산과 variant family 구성을 실제 트리로 보여주는 실전 예시
 - 줄바꿈, truncation, auto-size 절제, 숫자 영역, 지역화 여유를 위한 텍스트 레이아웃 규칙
 - 노치/홈 인디케이터가 없는 시안을 모바일 safe area 안쪽 여백으로 재해석하는 규칙
 - 공용 prefab/sprite/material/text style에 대한 직접 수정이 위험한지 판단하는 안전 규칙
