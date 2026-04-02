@@ -224,6 +224,37 @@ Do not rely on extreme auto-size ranges or one-screen-only string lengths.
 Verify the result with one longer text sample and one larger numeric sample.
 ```
 
+## Pattern 29: Verify Mobile Layout Across Device Profiles
+
+Use when the screen is mobile-first and should not be approved after one portrait check only.
+
+```text
+Verify this mobile UI at the main target profile, one taller phone profile, and one wider mobile or tablet profile when the product may support it.
+Report what changes in safe area pressure, spacing, clipping, and panel balance across those profiles.
+Do not assume portrait-only unless the product or task explicitly says so.
+```
+
+## Pattern 30: Compare Current UI Against the Mockup First
+
+Use when a screen already exists and should be repaired toward a reference image.
+
+```text
+Compare the current UI against the provided mockup before making changes.
+Identify which mismatches come from parent containers, anchor ownership, scaling rules, safe-area handling, or text behavior.
+Fix the highest-impact structural mismatch first, then verify the repaired result against the mockup with a screenshot.
+```
+
+## Pattern 31: Repair Only One Named Region
+
+Use when the user wants a bounded repair rather than a broad redesign.
+
+```text
+Repair only the named region of the current UI.
+Keep the rest of the screen unchanged unless the parent structure is the direct cause.
+Inspect the current parent chain first, explain the likely structural cause, then apply the smallest fix that stabilizes that region.
+Verify both the repaired region and one full-screen view after the change.
+```
+
 ## Pattern 8: Script-Aware UI Editing
 
 Use when script changes are necessary.

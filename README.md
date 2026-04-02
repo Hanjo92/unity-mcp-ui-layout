@@ -60,6 +60,8 @@ Platform-specific adapters live in:
 - text layout rules for wrapping, truncation, auto-size discipline, counters, and localization headroom
 - localization-focused examples for longer translated strings, multi-line body text, and number growth
 - safe-area remapping rules for mobile mockups that do not visibly account for notches or home indicators
+- mobile verification profiles for taller phones, wider mobile ratios, and tablet-capable layouts
+- visual comparison and bounded repair examples such as `current UI vs mockup` and `repair only one region`
 - shared asset edit safety rules for deciding when direct base edits are too risky
 - shared asset verification recipes for checking another known usage before direct base edits
 - UI Toolkit container ownership, flex stability, and text overflow guidance
@@ -85,6 +87,8 @@ Platform-specific adapters live in:
 - 줄바꿈, truncation, auto-size 절제, 숫자 영역, 지역화 여유를 위한 텍스트 레이아웃 규칙
 - 긴 번역 문자열, multi-line body text, 숫자 증가에 대응하는 지역화 중심 예시
 - 노치/홈 인디케이터가 없는 시안을 모바일 safe area 안쪽 여백으로 재해석하는 규칙
+- taller phone, wide mobile, tablet 검증 기준을 위한 모바일 검증 프로필
+- `current UI vs mockup`, `repair only one region` 같은 비교/범위 제한 예시
 - 공용 prefab/sprite/material/text style에 대한 직접 수정이 위험한지 판단하는 안전 규칙
 - 공용 자산 직접 수정 전에 다른 known usage를 확인하는 shared asset verification 레시피
 - UI Toolkit 화면에서 container ownership, flex 안정성, text overflow를 다루는 가이드

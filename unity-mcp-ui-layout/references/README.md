@@ -21,6 +21,7 @@ Use it when `SKILL.md` points you here for deeper guidance.
 - `prefab-variants.md`
 - `prefab-reuse.md`
 - `mockup-safe-area-mapping.md`
+- `mobile-device-profiles.md`
 - `sprite-vs-rawimage.md`
 - `text-layout-rules.md`
 - `common-failures.md`
