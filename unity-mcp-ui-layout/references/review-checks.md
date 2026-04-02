@@ -45,6 +45,7 @@ Ask:
 - Does each repeated group have a clear layout owner?
 - Were repeated structures turned into reusable prefabs or reusable layout blocks where appropriate?
 - Are child offsets being used only for local adjustments rather than structural compensation?
+- If this is UI Toolkit, do containers own flex direction, width, overflow, and scroll behavior instead of leaf overrides?
 
 If many children carry unique offsets, the structure is probably still too fragile.
 
@@ -91,6 +92,7 @@ Ask:
 - Was line behavior chosen deliberately for major text roles instead of left to defaults?
 - Are counters, currencies, and dynamic values given enough room for realistic growth?
 - Did we solve the text issue by fixing layout first instead of immediately shrinking fonts?
+- If this is UI Toolkit, are wrap and overflow behaviors explicit for important text regions instead of being left implicit?
 
 Text problems should be treated as layout problems first, not only font-size problems.
 

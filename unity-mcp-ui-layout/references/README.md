@@ -32,6 +32,11 @@ Use it when `SKILL.md` points you here for deeper guidance.
 - `ugui-popup.md`
 - `ugui-mobile-safe-area.md`
 
+## UI Toolkit-Focused Guidance
+
+- `ui-toolkit-layout-rules.md`
+- `ui-toolkit-failures.md`
+
 ## Prompting Guidance
 
 - `prompt-patterns.md`

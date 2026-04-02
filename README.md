@@ -59,6 +59,7 @@ Platform-specific adapters live in:
 - text layout rules for wrapping, truncation, auto-size discipline, counters, and localization headroom
 - safe-area remapping rules for mobile mockups that do not visibly account for notches or home indicators
 - shared asset edit safety rules for deciding when direct base edits are too risky
+- UI Toolkit container ownership, flex stability, and text overflow guidance
 - concrete MCP call recipes for common UI tasks
 - common failure patterns and recovery guidance
 - final review checks before calling a UI task done
@@ -80,6 +81,7 @@ Platform-specific adapters live in:
 - 줄바꿈, truncation, auto-size 절제, 숫자 영역, 지역화 여유를 위한 텍스트 레이아웃 규칙
 - 노치/홈 인디케이터가 없는 시안을 모바일 safe area 안쪽 여백으로 재해석하는 규칙
 - 공용 prefab/sprite/material/text style에 대한 직접 수정이 위험한지 판단하는 안전 규칙
+- UI Toolkit 화면에서 container ownership, flex 안정성, text overflow를 다루는 가이드
 - 자주 쓰는 UI 작업용 구체적인 MCP 호출 레시피
 - 자주 실패하는 패턴과 복구 가이드
 - 작업 완료 전에 보는 최종 검수 체크
