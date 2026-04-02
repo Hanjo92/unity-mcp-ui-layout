@@ -4,6 +4,38 @@ This project follows a lightweight documentation-focused release flow.
 
 이 프로젝트는 문서 중심의 가벼운 릴리스 흐름을 따릅니다.
 
+## v0.4.0 - 2026-04-02
+
+### Added
+
+- UI Toolkit layout rules for container ownership, flex stability, overflow, and text handling
+- UI Toolkit failure patterns for narrow-width collapse, inline-override drift, and unclear scroll ownership
+- UI Toolkit practical example prompt
+- Shared asset verification recipes for checking another known usage before direct base edits
+- Shared asset verification example prompt
+- Practical asset naming and folder examples, including before/after trees and variant-family organization
+- Asset naming practical example prompt
+
+### Added / 추가
+
+- container ownership, flex 안정성, overflow, text handling을 다루는 UI Toolkit 레이아웃 규칙 추가
+- 좁은 폭 붕괴, inline override 누적, 불명확한 scroll ownership을 다루는 UI Toolkit 실패 패턴 추가
+- UI Toolkit용 실전 예시 프롬프트 추가
+- 공용 자산 직접 수정 전에 다른 known usage를 확인하는 shared asset verification 레시피 추가
+- shared asset verification 예시 프롬프트 추가
+- before/after 폴더 트리와 variant family 구성을 포함한 자산 네이밍/폴더 실전 예시 추가
+- 자산 네이밍 정리용 실전 예시 프롬프트 추가
+
+### Changed
+
+- Expanded `SKILL.md`, prompt patterns, review checks, examples, and reference indexes to include the new UI Toolkit and shared-asset verification guidance
+- Refined the backlog by moving the completed high-priority items into the release history and leaving the next candidate items behind
+
+### Changed / 변경
+
+- 새 UI Toolkit 규칙과 shared asset verification 가이드를 반영하도록 `SKILL.md`, prompt patterns, review checks, examples, references index를 확장
+- 완료된 높은 우선순위 항목을 릴리스 이력으로 옮기고, 다음 후보만 남도록 backlog를 정리
+
 ## v0.3.1 - 2026-03-30
 
 ### Added
