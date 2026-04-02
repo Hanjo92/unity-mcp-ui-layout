@@ -148,6 +148,7 @@ Use screenshots aggressively.
 - Express intended measurements in normalized terms during planning: width ratio, height ratio, edge distance ratio, safe-area relationship.
 - Re-check at one narrow aspect ratio and one wide aspect ratio before calling the layout done.
 - If the project appears mobile-first, verify portrait and landscape separately.
+- If the project appears mobile-first, verify the main target plus one taller phone profile, and include a wider mobile or tablet profile when the product may support it.
 - Use visual comparison language in follow-up steps: aligned, clipped, stretched, overflowing, uneven, off-safe-area.
 - If a mobile mockup appears notch-agnostic, preserve its composition inside the safe area instead of copying raw top and bottom edge pixels from the image.
 
@@ -171,6 +172,7 @@ Use screenshots aggressively.
 - Read `references/shared-asset-verification-recipes.md` when you need concrete shared-asset verification flow before directly editing a common prefab, sprite, material, or TMP style.
 - Read `references/sprite-vs-rawimage.md` when static UI assets are being wired through `RawImage` instead of the normal sprite workflow.
 - Read `references/mockup-safe-area-mapping.md` when a mobile mockup did not visibly account for safe area but the runtime layout must.
+- Read `references/mobile-device-profiles.md` when a mobile-first screen needs a more deliberate verification set across taller phones, wider mobile ratios, or tablets.
 - Read `references/text-layout-rules.md` when text length, wrapping, overflow, auto-size, counters, or localization safety are driving layout instability.
 - Read `references/ui-toolkit-layout-rules.md` when the target is UI Toolkit and you need rules for container ownership, flex behavior, overflow, and text handling.
 - Read `references/ui-toolkit-failures.md` when a UI Toolkit screen renders but still feels fragile, over-patched, or unstable at narrower widths.

@@ -17,7 +17,9 @@ Use these files when you want a copyable starting point instead of only referenc
 - `inventory-example.md`
 - `mockup-resolution-example.md`
 - `mobile-safe-area-mockup-example.md`
+- `current-vs-mockup-example.md`
 - `popup-safe-area-example.md`
+- `repair-one-region-example.md`
 - `asset-naming-example.md`
 - `localized-screen-example.md`
 - `long-labels-and-counters-example.md`
@@ -37,11 +39,13 @@ Use these files when you want a copyable starting point instead of only referenc
 1. `hud-example.md` if you are starting with a composition-driven overlay
 2. `inventory-example.md` if your UI is slot- or list-based
 3. `mockup-resolution-example.md` if the mockup's native pixel resolution should drive planning
-4. `mobile-safe-area-mockup-example.md` if the mockup ignores notch or home-indicator constraints
-5. `popup-safe-area-example.md` if mobile safe area and modal structure matter
-6. `asset-naming-example.md` if the task also needs shared-versus-screen asset cleanup
-7. `localized-screen-example.md` if the screen must survive both short English and longer localized strings
-8. `long-labels-and-counters-example.md` if long labels, body text, and number growth compete for the same layout
-9. `shared-asset-safety-example.md` if a repair might touch shared prefabs or other shared UI assets
-10. `shared-asset-verification-example.md` if you need a concrete “check another usage first” prompt for shared assets
-11. `ui-toolkit-example.md` if the target screen is clearly driven by `UIDocument`, `UXML`, and `USS`
+4. `current-vs-mockup-example.md` if the screen already exists and should be compared against a reference image first
+5. `mobile-safe-area-mockup-example.md` if the mockup ignores notch or home-indicator constraints
+6. `popup-safe-area-example.md` if mobile safe area and modal structure matter
+7. `repair-one-region-example.md` if the request should stay bounded to one named region
+8. `asset-naming-example.md` if the task also needs shared-versus-screen asset cleanup
+9. `localized-screen-example.md` if the screen must survive both short English and longer localized strings
+10. `long-labels-and-counters-example.md` if long labels, body text, and number growth compete for the same layout
+11. `shared-asset-safety-example.md` if a repair might touch shared prefabs or other shared UI assets
+12. `shared-asset-verification-example.md` if you need a concrete “check another usage first” prompt for shared assets
+13. `ui-toolkit-example.md` if the target screen is clearly driven by `UIDocument`, `UXML`, and `USS`

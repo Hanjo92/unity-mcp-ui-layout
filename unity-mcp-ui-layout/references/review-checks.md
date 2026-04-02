@@ -34,6 +34,7 @@ Ask:
 - Does it remain acceptable at one alternate aspect ratio?
 - Are size changes caused by `CanvasScaler`, anchors, or container logic behaving as expected?
 - If a mockup image was provided, did we use the mockup's native resolution or the explicitly stated target resolution deliberately instead of falling back to an arbitrary default?
+- If this is mobile-first work, did we verify a taller phone profile and a wider mobile or tablet profile where appropriate?
 
 If only one resolution works, the implementation is not done yet.
 
@@ -114,6 +115,7 @@ Ask:
 - Is safe-area ownership applied only once at the correct container?
 - For popups, is safe area owned by `PopupRoot` rather than the dimmer or individual children?
 - If the mockup was notch-agnostic, did we reinterpret edge spacing inside the safe area instead of copying raw top and bottom pixels?
+- Did the safe area still behave correctly on the taller-phone verification profile?
 
 If safe area works only because several children have manual offsets, the design still needs cleanup.
 
