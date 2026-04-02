@@ -132,6 +132,11 @@ CHANGELOG.md
 - [`CHANGELOG.md`](./CHANGELOG.md)
 - [`BACKLOG.md`](./BACKLOG.md)
 
+## Maintenance Docs / 운영 문서
+
+- [`RELEASE_CHECKLIST.md`](./RELEASE_CHECKLIST.md)
+- [`MAINTENANCE.md`](./MAINTENANCE.md)
+
 ## Platform Notes / 플랫폼 설명
 
 ### Codex
