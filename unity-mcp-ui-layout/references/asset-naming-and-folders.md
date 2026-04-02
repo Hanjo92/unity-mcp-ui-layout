@@ -4,6 +4,8 @@ Use this guide when asset-aware mode creates, promotes, or reorganizes UI assets
 
 The goal is simple: if an agent creates or extracts a useful asset today, another agent should be able to find and reuse it later without guessing.
 
+If you need concrete before/after trees and variant folder examples, pair this guide with `asset-naming-examples.md`.
+
 ## 1. Core Naming Principles
 
 - Prefer short names that reveal role immediately.

@@ -162,6 +162,7 @@ Use screenshots aggressively.
 - Read `references/ui-change-modes.md` when you need to decide whether the task should be handled as bounded repair or as a new build.
 - Read `references/asset-discovery-priority.md` when asset-aware mode is active and you need to decide what kinds of existing assets to search in what order.
 - Read `references/asset-naming-and-folders.md` when asset-aware mode is creating, extracting, or reorganizing UI assets and you need stable naming plus shared-versus-screen folder rules.
+- Read `references/asset-naming-examples.md` when you want concrete before/after folder trees, naming comparisons, and variant folder examples for shared versus screen-owned assets.
 - Read `references/existing-prefab-reuse.md` when the project likely already contains a similar reusable UI block and you need to choose reuse, variant, wrapper, or a new base prefab.
 - Read `references/prefab-variants.md` when one shared base prefab should branch into a controlled family of variants without polluting the base asset.
 - Read `references/prefab-reuse.md` when the same UI shape appears more than once and should be extracted into one reusable prefab or template-style block.

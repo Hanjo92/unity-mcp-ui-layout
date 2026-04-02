@@ -252,6 +252,17 @@ Keep shared assets in predictable shared UI folders, keep screen-owned assets ne
 Do not leave reusable assets with clone, copy, temp, or coordinate-based names.
 ```
 
+## Pattern 9D: Normalize Shared vs Screen-Owned Asset Placement
+
+Use when asset-aware work also needs naming and folder cleanup.
+
+```text
+Normalize the names and folder placement of the UI assets touched by this change.
+Decide which assets are truly shared and which are still screen-owned.
+Move shared assets into stable common UI folders, keep screen-owned assets near the screen that owns them, group real variant families near their base prefab, and keep placeholders visibly provisional.
+Do not keep copy-history or coordinate-based names.
+```
+
 ## Pattern 10: UGUI HUD Build
 
 Use when building or repairing a HUD.
