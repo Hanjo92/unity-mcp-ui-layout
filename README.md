@@ -127,6 +127,20 @@ CONTRIBUTING.md
 CHANGELOG.md
 ```
 
+## How The Pieces Fit / 구성 관계
+
+- `unity-mcp-ui-layout/SKILL.md` is the fast decision layer: choose the UI stack, decide repair versus build mode, work in vertical slices, and verify before finishing.
+- `unity-mcp-ui-layout/references/` holds the deeper rules for failure modes, UI types, asset decisions, and fallback guidance.
+- `examples/` contains copyable task-shaped prompts that show how to apply the skill without rereading the whole reference set.
+- `Platform/` adapts the same core workflow to other LLM environments while keeping the Codex skill as the canonical source.
+- `unity-mcp-ui-layout/agents/` contains lightweight metadata used for agent discovery and default invocation text.
+
+- `unity-mcp-ui-layout/SKILL.md`는 빠른 의사결정 레이어입니다. UI 스택을 고르고, repair/build 모드를 정하고, vertical slice로 진행하고, 마무리 전 검증하는 흐름을 담습니다.
+- `unity-mcp-ui-layout/references/`는 실패 패턴, UI 유형, 자산 판단, fallback 규칙 같은 깊은 세부 지식을 담습니다.
+- `examples/`는 전체 레퍼런스를 다시 읽지 않아도 바로 적용할 수 있는 작업형 프롬프트 예시를 담습니다.
+- `Platform/`은 같은 코어 워크플로를 다른 LLM 환경에 맞게 옮긴 어댑터이며, 정본은 여전히 Codex 스킬입니다.
+- `unity-mcp-ui-layout/agents/`는 에이전트 검색과 기본 호출 문구에 쓰이는 가벼운 메타데이터를 담습니다.
+
 ## Release Notes / 릴리스 노트
 
 - [`CHANGELOG.md`](./CHANGELOG.md)

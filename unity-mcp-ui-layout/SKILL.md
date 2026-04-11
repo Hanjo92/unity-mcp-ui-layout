@@ -1,6 +1,6 @@
 ---
 name: unity-mcp-ui-layout
-description: Guide for building or fixing Unity UI through MCP for Unity when working from mockups, screenshots, wireframes, or target resolutions, especially for UGUI HUDs, inventories, popups, mobile safe-area layouts, or UI Toolkit screens where anchors drift, scaling breaks, spacing is inconsistent, or the result does not match the intended composition. Use when Codex is controlling Unity with unity-mcp to translate layout images into anchored UI, choose CanvasScaler rules, repair popup safe-area behavior, iterate from screenshots, and keep UI work in small verifiable steps instead of one large generation.
+description: Use when building or repairing Unity UI through `unity-mcp` from mockups, screenshots, wireframes, or target resolutions, especially when UGUI or UI Toolkit layouts drift across resolutions, safe areas, spacing rules, or text lengths.
 ---
 
 # Unity MCP UI Layout
@@ -8,6 +8,14 @@ description: Guide for building or fixing Unity UI through MCP for Unity when wo
 ## Overview
 
 Build Unity UI through `unity-mcp` in a staged loop: inspect first, create a small slice, verify with screenshots, then adjust structure before visuals. Prefer deterministic layout systems over manual pixel nudging and convert visual references into resolution-aware layout rules rather than raw absolute coordinates.
+
+## Quick Start
+
+1. Choose one UI stack: UGUI or UI Toolkit.
+2. Decide whether the request is bounded repair or a fresh build.
+3. Inspect the root layout owners before editing: canvas or `UIDocument`, scaling rules, safe area, and text/layout drivers.
+4. Build one vertical slice at a time and verify with screenshots after each slice.
+5. Use the completion gate before calling the task done.
 
 ## Choose the UI Stack First
 
@@ -21,6 +29,12 @@ For UGUI, prefer `find_gameobjects`, `manage_gameobject`, `manage_components`, `
 
 For UI Toolkit, prefer `manage_ui`, `manage_script`, `find_in_file`, `manage_camera`, `refresh_unity`, and `read_console`.
 For UI Toolkit work, prefer stabilizing `UXML` structure, `USS` classes, and container ownership before adding many inline style patches.
+
+## When Not to Use
+
+- Do not use this as the primary guide for pure illustration or asset-painting tasks where no runtime Unity layout is being built.
+- Do not use this as the main workflow for gameplay or data logic changes that only happen to touch UI code.
+- Do not use this for non-Unity UI work.
 
 ## Workflow
 
@@ -151,6 +165,19 @@ Use screenshots aggressively.
 - If the project appears mobile-first, verify the main target plus one taller phone profile, and include a wider mobile or tablet profile when the product may support it.
 - Use visual comparison language in follow-up steps: aligned, clipped, stretched, overflowing, uneven, off-safe-area.
 - If a mobile mockup appears notch-agnostic, preserve its composition inside the safe area instead of copying raw top and bottom edge pixels from the image.
+
+## Completion Gate
+
+Do not call the task done until every applicable check below passes:
+
+- Capture a fresh whole-screen verification screenshot after the final structural change.
+- Re-check one narrow and one wide aspect ratio, or portrait plus landscape for mobile-first work.
+- If scripts or script-backed components changed, confirm there are no unresolved compile or console errors.
+- If text drives the layout, confirm the intended wrap, truncate, or grow behavior still holds for longer labels, counters, or localized strings.
+- If shared prefabs, materials, sprites, or text styles were touched, verify the shared-asset safety flow before treating the change as complete.
+- If asset retrieval confidence stayed low, keep those visuals explicitly provisional instead of presenting them as final project-approved assets.
+
+If any check fails, continue iterating on structure before polishing visuals.
 
 ## Use the References
 

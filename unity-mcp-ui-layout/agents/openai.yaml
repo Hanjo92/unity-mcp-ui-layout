@@ -1,4 +1,4 @@
 interface:
   display_name: "Unity MCP UI Layout"
-  short_description: "Safer Unity UI layout work through MCP."
-  default_prompt: "Use $unity-mcp-ui-layout to build or fix a Unity UI layout through staged edits, layout checks, and screenshot verification."
+  short_description: "Unity UI layout from mockups through MCP with anchors, CanvasScaler, safe area, and screenshot verification."
+  default_prompt: "Use $unity-mcp-ui-layout to build or repair Unity UI from a mockup, screenshot, or target resolution through staged edits, stack-aware layout checks, and screenshot verification."
