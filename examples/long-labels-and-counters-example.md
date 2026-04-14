@@ -20,5 +20,5 @@ Verify the result with one longer body text sample and one larger numeric sample
 
 ## Suggested References
 
-- `D:\UnityUICreater\unity-mcp-ui-layout\references\text-layout-rules.md`
-- `D:\UnityUICreater\unity-mcp-ui-layout\references\prompt-patterns.md`
+- [text-layout-rules.md](../unity-mcp-ui-layout/references/text-layout-rules.md)
+- [prompt-patterns.md](../unity-mcp-ui-layout/references/prompt-patterns.md)

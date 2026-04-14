@@ -19,6 +19,6 @@ Verify the repaired result against the mockup with a screenshot.
 
 ## Suggested References
 
-- `D:\UnityUICreater\unity-mcp-ui-layout\references\image-to-layout.md`
-- `D:\UnityUICreater\unity-mcp-ui-layout\references\layout-checklist.md`
-- `D:\UnityUICreater\unity-mcp-ui-layout\references\prompt-patterns.md`
+- [image-to-layout.md](../unity-mcp-ui-layout/references/image-to-layout.md)
+- [layout-checklist.md](../unity-mcp-ui-layout/references/layout-checklist.md)
+- [prompt-patterns.md](../unity-mcp-ui-layout/references/prompt-patterns.md)

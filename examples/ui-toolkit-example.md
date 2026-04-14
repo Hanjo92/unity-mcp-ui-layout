@@ -21,6 +21,6 @@ Verify the result at the main target width and one narrower width.
 
 ## Suggested References
 
-- `D:\UnityUICreater\unity-mcp-ui-layout\references\ui-toolkit-layout-rules.md`
-- `D:\UnityUICreater\unity-mcp-ui-layout\references\ui-toolkit-failures.md`
-- `D:\UnityUICreater\unity-mcp-ui-layout\references\text-layout-rules.md`
+- [ui-toolkit-layout-rules.md](../unity-mcp-ui-layout/references/ui-toolkit-layout-rules.md)
+- [ui-toolkit-failures.md](../unity-mcp-ui-layout/references/ui-toolkit-failures.md)
+- [text-layout-rules.md](../unity-mcp-ui-layout/references/text-layout-rules.md)

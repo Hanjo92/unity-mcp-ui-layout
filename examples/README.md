@@ -34,6 +34,12 @@ Use these files when you want a copyable starting point instead of only referenc
 3. Keep the top-level layout grouped by anchor-owned regions, reuse repeated structures, and avoid over-splitting likely single-image assets.
 4. Use the linked reference documents when you need deeper rules or troubleshooting.
 
+## Pick by Stack
+
+- Start with `hud-example.md`, `inventory-example.md`, `popup-safe-area-example.md`, or `mobile-safe-area-mockup-example.md` when the target is clearly UGUI.
+- Start with `ui-toolkit-example.md` when the target is clearly driven by `UIDocument`, `UXML`, and `USS`.
+- If the stack is not obvious yet, decide that first before choosing a task-shaped example.
+
 ## Suggested Reading Order
 
 1. `hud-example.md` if you are starting with a composition-driven overlay

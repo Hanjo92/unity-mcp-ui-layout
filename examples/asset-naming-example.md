@@ -20,5 +20,5 @@ If a prefab family has real variants, group them near the base prefab in a clear
 
 ## Suggested References
 
-- `D:\UnityUICreater\unity-mcp-ui-layout\references\asset-naming-and-folders.md`
-- `D:\UnityUICreater\unity-mcp-ui-layout\references\asset-naming-examples.md`
+- [asset-naming-and-folders.md](../unity-mcp-ui-layout/references/asset-naming-and-folders.md)
+- [asset-naming-examples.md](../unity-mcp-ui-layout/references/asset-naming-examples.md)

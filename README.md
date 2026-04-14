@@ -12,6 +12,34 @@ It also assumes three practical defaults: group the top-level composition by anc
 
 또한 세 가지 실무 기본값을 전제로 합니다. 최상단 구성을 먼저 앵커 기준 영역으로 그룹화하고, 반복 구조는 재사용 가능한 프리팹 또는 레이아웃 블록으로 만들며, 단일 이미지 리소스로 보이는 영역은 런타임 동작상 분리가 필요할 때만 쪼갭니다.
 
+## Bias And Tradeoff / 작업 성향
+
+This workflow biases toward stable structure, scoped changes, and explicit verification over one-shot mockup mimicry.
+
+For trivial one-widget nudges, use judgment rather than forcing every step mechanically.
+
+이 워크플로는 one-shot 목업 복제보다 안정적인 구조, 범위가 분명한 변경, 명시적인 검증을 우선합니다.
+
+아주 작은 위젯 미세 조정 작업에서는 모든 단계를 기계적으로 강제하기보다 상황에 맞게 판단하는 편이 좋습니다.
+
+## Start Here / 시작점
+
+If you are using this repository for the first time, do not start by reading every file.
+
+처음 이 저장소를 쓰는 경우, 모든 파일을 처음부터 끝까지 읽는 방식으로 시작하지 않는 편이 좋습니다.
+
+1. Open [`unity-mcp-ui-layout/SKILL.md`](./unity-mcp-ui-layout/SKILL.md) first if you are using the Codex skill directly.
+2. Choose the UI stack first: `UGUI` or `UI Toolkit`.
+3. Choose the change mode next: repair an existing screen or build a new one.
+4. Decide whether this is layout-only work or asset-aware reuse work.
+5. Then open [`examples/README.md`](./examples/README.md) for a task-shaped entry point, or jump into [`unity-mcp-ui-layout/references/README.md`](./unity-mcp-ui-layout/references/README.md) if you already know the failure mode.
+
+1. Codex 스킬을 직접 쓴다면 먼저 [`unity-mcp-ui-layout/SKILL.md`](./unity-mcp-ui-layout/SKILL.md)부터 엽니다.
+2. UI 스택을 먼저 고릅니다: `UGUI` 또는 `UI Toolkit`.
+3. 그다음 기존 화면 수정인지, 신규 화면 생성인지 작업 모드를 고릅니다.
+4. 이 작업이 layout-only인지, asset-aware reuse까지 필요한지 결정합니다.
+5. 그 후 작업형 진입점이 필요하면 [`examples/README.md`](./examples/README.md)를, 실패 유형을 이미 알고 있다면 [`unity-mcp-ui-layout/references/README.md`](./unity-mcp-ui-layout/references/README.md)를 엽니다.
+
 ## Quick Rules / 빠른 작업 기준
 
 - Group the top-level layout by anchor-owned regions before tuning leaf widgets.
@@ -23,6 +51,18 @@ It also assumes three practical defaults: group the top-level composition by anc
 - 반복되는 UI 구조는 재사용 가능한 프리팹 또는 레이아웃 블록으로 만듭니다.
 - 단일 이미지 리소스로 보이는 영역은 상호작용, 애니메이션, 적응형 동작이 필요할 때만 분해합니다.
 - raw pixel 정렬을 쫓기보다 스크린샷으로 구조를 검증합니다.
+
+## Quick Success Signal / 빠른 완료 신호
+
+- the layout still holds at the main target and one additional aspect ratio
+- text still behaves correctly with longer labels, counters, or localization growth
+- shared assets were either left alone, localized safely, or explicitly verified before base edits
+- script-backed UI changes do not leave unresolved compile or console errors
+
+- 메인 타깃 해상도와 추가 비율 한 가지에서 레이아웃이 유지됩니다
+- 긴 라벨, 카운터, 지역화 문자열 증가에도 텍스트 동작이 무너지지 않습니다
+- shared asset는 그대로 두었거나, 안전하게 국소화했거나, base 수정 전에 명시적으로 검증했습니다
+- 스크립트가 얽힌 UI 변경이 미해결 컴파일/콘솔 오류를 남기지 않습니다
 
 ## Default Platform / 기본 플랫폼
 

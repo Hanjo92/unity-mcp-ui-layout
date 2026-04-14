@@ -19,6 +19,6 @@ Do not edit the shared base directly until that comparison is explicit.
 
 ## Suggested References
 
-- `D:\UnityUICreater\unity-mcp-ui-layout\references\shared-asset-edit-safety.md`
-- `D:\UnityUICreater\unity-mcp-ui-layout\references\shared-asset-verification-recipes.md`
-- `D:\UnityUICreater\unity-mcp-ui-layout\references\prefab-variants.md`
+- [shared-asset-edit-safety.md](../unity-mcp-ui-layout/references/shared-asset-edit-safety.md)
+- [shared-asset-verification-recipes.md](../unity-mcp-ui-layout/references/shared-asset-verification-recipes.md)
+- [prefab-variants.md](../unity-mcp-ui-layout/references/prefab-variants.md)

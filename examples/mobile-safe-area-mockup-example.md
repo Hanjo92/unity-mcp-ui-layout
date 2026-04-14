@@ -19,6 +19,6 @@ Keep the dimmer full-screen, but keep popup content local to PopupRoot.
 
 ## Suggested References
 
-- `D:\UnityUICreater\unity-mcp-ui-layout\references\mockup-safe-area-mapping.md`
-- `D:\UnityUICreater\unity-mcp-ui-layout\references\ugui-mobile-safe-area.md`
-- `D:\UnityUICreater\unity-mcp-ui-layout\references\ugui-popup.md`
+- [mockup-safe-area-mapping.md](../unity-mcp-ui-layout/references/mockup-safe-area-mapping.md)
+- [ugui-mobile-safe-area.md](../unity-mcp-ui-layout/references/ugui-mobile-safe-area.md)
+- [ugui-popup.md](../unity-mcp-ui-layout/references/ugui-popup.md)

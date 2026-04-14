@@ -1,211 +1,171 @@
 ---
 name: unity-mcp-ui-layout
-description: Use when building or repairing Unity UI through `unity-mcp` from mockups, screenshots, wireframes, or target resolutions, especially when UGUI or UI Toolkit layouts drift across resolutions, safe areas, spacing rules, or text lengths.
+description: Use when Unity UI needs layout-focused repair or implementation through `unity-mcp`, especially for UGUI or UI Toolkit screens with cross-resolution drift, safe-area problems, text overflow, mockup translation, or shared prefab reuse decisions.
 ---
 
 # Unity MCP UI Layout
 
 ## Overview
 
-Build Unity UI through `unity-mcp` in a staged loop: inspect first, create a small slice, verify with screenshots, then adjust structure before visuals. Prefer deterministic layout systems over manual pixel nudging and convert visual references into resolution-aware layout rules rather than raw absolute coordinates.
+Use this skill for Unity UI work where layout stability matters more than raw pixel imitation. The core idea is to translate visual intent into anchors, containers, scaling rules, text behavior, and verification loops that survive resolution changes.
 
-## Quick Start
+**Bias:** Prefer stable structure, scoped changes, and explicit verification over one-shot mockup mimicry. For trivial one-widget nudges, use judgment rather than forcing the full workflow mechanically.
 
-1. Choose one UI stack: UGUI or UI Toolkit.
-2. Decide whether the request is bounded repair or a fresh build.
-3. Inspect the root layout owners before editing: canvas or `UIDocument`, scaling rules, safe area, and text/layout drivers.
-4. Build one vertical slice at a time and verify with screenshots after each slice.
-5. Use the completion gate before calling the task done.
+## When to Use
 
-## Choose the UI Stack First
-
-Identify the target before editing:
-
-- Use UGUI when the scene uses `Canvas`, `RectTransform`, `CanvasScaler`, `LayoutGroup`, `ContentSizeFitter`, `Image`, or `TextMeshProUGUI`.
-- Use UI Toolkit when the project uses `UIDocument`, `UXML`, `USS`, `VisualElement`, or `PanelSettings`.
-- Do not mix both stacks in the same change unless the user explicitly asks for a bridge or migration.
-
-For UGUI, prefer `find_gameobjects`, `manage_gameobject`, `manage_components`, `manage_scene`, `manage_prefabs`, `manage_script`, `manage_camera`, `refresh_unity`, and `read_console`.
-
-For UI Toolkit, prefer `manage_ui`, `manage_script`, `find_in_file`, `manage_camera`, `refresh_unity`, and `read_console`.
-For UI Toolkit work, prefer stabilizing `UXML` structure, `USS` classes, and container ownership before adding many inline style patches.
+- A mockup, screenshot, or wireframe needs to become runtime Unity UI.
+- An existing UGUI screen drifts across aspect ratios or target resolutions.
+- A UI Toolkit screen looks correct once but breaks after width, overflow, or text changes.
+- Safe area, localization, counters, or long labels are destabilizing the layout.
+- A repeated UI block should become reusable instead of being rebuilt manually.
+- A one-screen repair may touch shared prefabs, sprites, materials, or text styles.
 
 ## When Not to Use
 
-- Do not use this as the primary guide for pure illustration or asset-painting tasks where no runtime Unity layout is being built.
-- Do not use this as the main workflow for gameplay or data logic changes that only happen to touch UI code.
-- Do not use this for non-Unity UI work.
+- Pure gameplay or data logic work that only happens to touch UI code.
+- Illustration or asset-painting work where no runtime Unity layout is being built.
+- Non-Unity UI work.
+- Full-stack migration work unless the task is specifically about stabilizing the target UI layout.
 
-## Workflow
+## Quick Router
 
-### 1. Inspect Before Writing
+Choose these three boundaries before editing anything:
 
-Read the current context before making changes.
+### 1. UI Stack
 
-- Check editor readiness through `editor_state` or equivalent resources.
-- Find the active scene, existing UI roots, and relevant cameras.
-- For UGUI, inspect `Canvas`, `CanvasScaler`, parent `RectTransform`, active layout components, and safe-area handling before changing child objects.
-- For text-heavy UGUI, also inspect `TextMeshProUGUI`, wrapping and overflow behavior, preferred width/height assumptions, and any existing TMP style patterns before resizing containers.
-- For UI Toolkit, find the active `UIDocument`, linked `UXML`, linked `USS`, and panel settings before editing styles.
-- For flex-heavy UI Toolkit screens, inspect container ownership for direction, growth, overflow, and scroll boundaries before changing leaf elements.
-- For text-heavy UI Toolkit, inspect text roles, width rules, overflow behavior, and reusable USS text classes before applying local overrides.
-- If the user provides a layout image and target resolution, treat them as the source spec for composition before creating any objects.
-- If the user provides a layout image but no explicit target resolution, capture the image's native resolution and treat that as the initial reference frame.
+- Use **UGUI** when the target uses `Canvas`, `RectTransform`, `CanvasScaler`, `LayoutGroup`, `Image`, or `TextMeshProUGUI`.
+- Use **UI Toolkit** when the target uses `UIDocument`, `UXML`, `USS`, `VisualElement`, or `PanelSettings`.
+- Do not mix both stacks in one change unless the user explicitly asks for a bridge or migration.
 
-Before planning changes, decide whether the task should stay in bounded repair mode or operate in greenfield build mode. Do not silently treat an existing-screen repair request like a full rebuild.
+### 2. Change Mode
 
-After the initial scene/editor inspection, run a quick capability check before planning the implementation:
+- Use **repair mode** when the screen already exists and the user wants it fixed, aligned, stabilized, or kept stylistically consistent.
+- Use **build mode** when the screen does not exist yet or the user clearly wants a fresh implementation.
+- If a repair request starts revealing broken parent structure, explain the scope expansion instead of silently rebuilding.
 
-- Detect whether `unity-resource-rag` MCP/tools are available.
-- Detect whether an asset catalog or asset index is available.
-- Default to layout-only mode unless there is a clear reuse signal.
-- Switch into asset-aware mode only when at least one of these is true:
-  - the user explicitly asks to preserve existing project visuals
-  - the user mentions existing assets, prefabs, fonts, sprite atlases, or design system reuse
-  - the requested screen type strongly suggests reusable project widgets
-  - the project already contains similar UI and consistency clearly matters
-- If those reuse signals are absent, stay in layout-only mode even if asset-retrieval tooling is available.
-- If asset-aware mode is warranted and both `unity-resource-rag` and an asset catalog or asset index are available, look for matching reusable assets before building replacements from scratch.
-- In asset-aware mode, follow a stable discovery order: reusable prefabs first, then variants or wrappers, then sprite-backed visuals, then text styles, then materials, and placeholders last.
-- In asset-aware mode, name and place any new reusable assets deliberately so future discovery stays predictable: shared assets should read as shared, screen-specific assets should stay near the screen that owns them, and placeholder assets should stay visibly provisional.
-- Before directly editing an existing shared asset family, decide whether the change really belongs in the shared base or should stay local through a variant, wrapper, or screen-owned override.
-- If asset-aware mode is warranted but `unity-resource-rag` is unavailable, continue with image-to-layout translation using the existing layout rules, preserve structure-first execution, use placeholder visuals or existing manually discovered assets, and explicitly state that asset-aware retrieval was skipped.
-- If asset-aware mode is warranted and `unity-resource-rag` is available but retrieval confidence is low, do not force an asset match, keep the layout workflow moving, mark visuals as provisional, and verify structure first.
-- Missing or low-confidence asset-RAG capability is not a hard blocker unless the user explicitly requires asset-index-backed reuse.
-- Make it explicit in your reasoning that missing `unity-resource-rag` support is normal and supported. Treat its absence as an expected environment variation, not as an error condition.
-- Keep any mode disclosure brief: one or two lines only.
-- In asset-aware mode, say that existing project assets will be retrieved and reused where confidence is high.
-- In layout-only mode, say that the task will proceed without asset-index-backed retrieval, focus on stable structure first, and use placeholders or directly inspected assets if needed.
+For the full decision guide, read `references/ui-change-modes.md`.
 
-### 2. Build in Vertical Slices
+### 3. Asset Strategy
 
-Do not generate the full interface in one shot.
+- Start in **layout-only mode** by default.
+- Switch to **asset-aware mode** only when existing prefab, sprite, font, material, or design-system reuse clearly matters.
+- Missing `unity-resource-rag`, asset catalogs, or asset indexes is a supported fallback, not an error condition.
 
-Build in this order:
+## Requires and Fallbacks
 
-1. Root shell: canvas or root visual element, scaler/panel settings, safe area container.
-2. Main regions: header, content, footer, sidebar, modal layer.
-3. One feature block at a time: inventory panel, HUD bar, dialog, settings row.
-4. Visual polish after structure is stable.
+- This skill assumes Unity is available through `unity-mcp` or an equivalent MCP bridge.
+- It works best when you can inspect the current scene or UI document and verify with screenshots.
+- Use asset-aware retrieval only when the environment supports it and the task actually needs reuse-sensitive decisions.
+- If asset retrieval is unavailable or low-confidence, continue with structure-first layout work, use placeholders or directly inspected assets, and keep uncertain visuals provisional.
 
-After each slice, verify with a screenshot and only then continue.
+## Quick Success Signal
 
-Use `manage_camera` for screenshot verification. Use `refresh_unity` followed by `read_console` after script edits or when the layout depends on newly compiled components.
+- The layout stays stable in a fresh screenshot at the main target and one additional aspect ratio.
+- Text still behaves correctly with longer strings, counters, or localization growth.
+- Shared assets were either left alone, localized through variants/wrappers, or explicitly verified before base edits.
+- Script-backed UI changes do not leave unresolved compile or console errors.
 
-### 3. Convert Images Into Relative Layout
+## Four Principles
 
-When a layout image and target resolution are provided, derive structure from the image before editing:
+### 1. Clarify the Layout Contract
 
-1. Identify major regions and each element's intended parent container.
-2. Group the topmost composition into anchor-owned regions first so every major block belongs to a stable top, bottom, left, right, or center frame before you tune children.
-3. Estimate each element's position and size as percentages of the target resolution, not as final hard-coded pixels.
-4. Choose anchors from the element's semantic region: top bar, bottom HUD, left rail, right panel, centered modal, full stretch content.
-5. For repeated structures, build one reusable prefab or reusable layout block first, then duplicate or instantiate it instead of rebuilding the same shape manually.
-6. If a region appears to be a single image resource, do not force it into an artificial multi-widget structure just to mimic shapes that are already baked into the art.
-7. Use pixel values only as the result of converting those proportions into the current reference resolution.
-8. Re-check that the chosen anchors preserve the composition if the aspect ratio changes slightly.
+- Identify the active scene or `UIDocument` before editing.
+- Choose the UI stack, change mode, and asset strategy explicitly.
+- Inspect the root layout owner before touching children.
+- For UGUI, inspect `Canvas`, `CanvasScaler`, parent `RectTransform`, layout components, and safe-area handling.
+- For UI Toolkit, inspect `UIDocument`, linked `UXML`, linked `USS`, panel settings, and container ownership.
+- Treat any mockup or screenshot as composition guidance first, not as a command to freeze raw pixels.
 
-If an element is described as "10% from the left, 8% from the top, 25% width", encode that intent through anchors and container rules first. Use offsets only for the final local adjustment inside the anchored region.
+**The test:** If two reasonable interpretations exist for stack, repair scope, reference resolution, or reuse expectations, do not silently pick one.
 
-### 4. Fix Structure Before Styling
+### 2. Stabilize Structure Before Polish
 
-When layout is wrong, inspect these in order:
+- Build or repair in vertical slices: root shell, main regions, one feature block at a time, then polish.
+- Fix parent ownership before child offsets.
+- When the layout is wrong, inspect parent container choice, anchors or flex ownership, sizing rules, text behavior, then visual polish.
+- Convert image-based layouts into relative measurements tied to the reference resolution.
+- Keep likely single-image regions intact unless runtime behavior requires decomposition.
 
-1. Parent container choice
-2. Anchors, pivot, and stretch rules
-3. Layout groups or flex direction
-4. Size constraints and preferred sizes
-5. Text wrapping, overflow, and auto-sizing
-6. Spacing, padding, margins, colors, and sprites
+**The test:** If you are reaching for pixel nudges before checking the parent structure, you are probably fixing the symptom instead of the cause.
 
-Do not start with pixel offsets if the parent layout model is wrong.
+### 3. Reuse Carefully and Locally
 
-### 5. Verify Every Iteration
+- Start in layout-only mode and only switch into asset-aware mode when reuse clearly matters.
+- Promote repeated structures into reusable prefabs or reusable layout blocks when repetition is real.
+- Prefer scoped variants, wrappers, or screen-owned overrides over direct shared-base edits for one-screen requests.
+- Reserve `RawImage` for texture-driven content such as `RenderTexture`, video, or runtime-generated textures.
+- Leave room for longer labels, localization growth, and number growth instead of overfitting to the mockup strings.
 
-Use screenshots aggressively.
+**The test:** If a structure appears once, do not abstract it yet. If a change is screen-specific, shared-base edits need proof.
 
-- Capture the whole screen after each structural change.
-- Capture verification screenshots with `manage_camera`.
-- If a specific panel is wrong, isolate that region and inspect its parent chain.
-- Read console errors after script edits or component changes with `read_console`.
-- If scripts were added or modified, run `refresh_unity`, confirm compilation, then continue UI edits.
+### 4. Define Success and Verify It
 
-## Guardrails
+- Capture fresh screenshots after structural changes.
+- Verify at the main target plus at least one additional aspect ratio.
+- If scripts changed, refresh Unity and confirm there are no unresolved compile or console errors.
+- If text drives layout, re-check longer labels, counters, or localized strings before calling the task done.
+- Use the completion gate below as the final stop condition.
 
-- Prefer anchors and layout groups over hard-coded child positions in UGUI.
-- When the user provides a layout image, interpret it as a proportional composition guide, not a demand for exact screen pixels everywhere.
-- Group major top-level regions by anchor ownership before detailing leaf widgets.
-- Choose anchors based on the element's persistent relationship to screen edges or center, then fit size and offsets inside that anchored frame.
-- For UGUI, pick a `CanvasScaler` strategy before sizing children: usually `Scale With Screen Size`, occasionally `Constant Pixel Size`, rarely `Constant Physical Size`.
-- For UGUI, use stretch anchors for containers and fixed anchors for leaf widgets that hug a stable corner or center.
-- Do not mix `LayoutGroup` control with manual child placement unless you intentionally disable the layout system first.
-- Turn repeated sibling patterns into reusable prefabs or reusable layout blocks when the same structure appears more than once.
-- Always inspect `CanvasScaler` before judging element sizes across resolutions.
-- Avoid storing a design as "x=742, y=118" unless the UI intentionally targets a fixed render surface with no adaptive behavior.
-- Avoid combining `ContentSizeFitter` and parent layout control in ways that create feedback loops.
-- Do not decompose a likely single-image asset into fake sub-shapes unless interaction, animation, or dynamic layout actually requires separate elements.
-- For static UI visuals, prefer `Image` plus sprite-based assets. Reserve `RawImage` for true texture-driven content such as `RenderTexture`, video, or runtime-generated textures.
-- Treat text as a layout driver. Check wrapping, overflow, best-fit/auto-size, and font asset limits before resizing containers.
-- Decide whether important text should wrap, truncate, stay single-line, or grow its container before shrinking fonts.
-- Leave reasonable headroom for longer labels, dynamic values, and likely localization growth instead of trusting mockup string lengths literally.
-- For UI Toolkit, prefer USS classes and container rules over many inline style overrides.
-- For UI Toolkit, decide which container owns flex direction, width, overflow, and scroll behavior before patching leaf elements.
-- If the user gives only a visual description, assume one target resolution first, implement for that resolution, then test at additional aspect ratios.
-- If the screen looks crowded, reduce hierarchy complexity and nesting depth before adding more overrides.
-
-## Resolution and Verification Rules
-
-- Default to `1920x1080` only if the project does not already define another target resolution.
-- If a mockup or design image exists and no explicit target resolution was provided, use the mockup image's native resolution as the reference resolution.
-- If the user specifies a target resolution, treat it as the reference frame for size and offset calculations.
-- If both a mockup resolution and an explicit target resolution exist, use the mockup resolution as the composition measurement space and the explicit target resolution as the implementation and verification space.
-- Express intended measurements in normalized terms during planning: width ratio, height ratio, edge distance ratio, safe-area relationship.
-- Re-check at one narrow aspect ratio and one wide aspect ratio before calling the layout done.
-- If the project appears mobile-first, verify portrait and landscape separately.
-- If the project appears mobile-first, verify the main target plus one taller phone profile, and include a wider mobile or tablet profile when the product may support it.
-- Use visual comparison language in follow-up steps: aligned, clipped, stretched, overflowing, uneven, off-safe-area.
-- If a mobile mockup appears notch-agnostic, preserve its composition inside the safe area instead of copying raw top and bottom edge pixels from the image.
+**The test:** If you cannot name the screenshot, aspect-ratio, text, and error checks that prove success, the task is not done yet.
 
 ## Completion Gate
 
 Do not call the task done until every applicable check below passes:
 
-- Capture a fresh whole-screen verification screenshot after the final structural change.
-- Re-check one narrow and one wide aspect ratio, or portrait plus landscape for mobile-first work.
-- If scripts or script-backed components changed, confirm there are no unresolved compile or console errors.
-- If text drives the layout, confirm the intended wrap, truncate, or grow behavior still holds for longer labels, counters, or localized strings.
-- If shared prefabs, materials, sprites, or text styles were touched, verify the shared-asset safety flow before treating the change as complete.
-- If asset retrieval confidence stayed low, keep those visuals explicitly provisional instead of presenting them as final project-approved assets.
-
-If any check fails, continue iterating on structure before polishing visuals.
+- A fresh whole-screen verification screenshot exists.
+- The layout was re-checked at one additional aspect ratio, or portrait plus landscape for mobile-first work.
+- Compile or console errors were cleared if script-backed UI changed.
+- Text behavior still works for longer or more realistic content.
+- Shared-asset edits were treated with explicit safety checks.
+- Low-confidence asset reuse stayed clearly provisional.
 
 ## Use the References
 
-- Read `references/layout-checklist.md` when the UI is misaligned, clipped, stretched, or behaving differently across resolutions.
-- Read `references/common-failures.md` when the UI result technically exists but still feels fragile, inconsistent, overfit to one resolution, or structurally wrong.
-- Read `references/image-to-layout.md` when the user provides a mockup, screenshot, wireframe, or other layout image plus a target resolution.
-- Read `references/mcp-call-recipes.md` when you need concrete `unity-mcp` call sequences for discovery, creation, repair, verification, or script-backed UI work.
-- Read `references/mockup-decomposition.md` when a design image exists and you need to decide which regions should stay as one asset, which should be split, and which should become reusable blocks.
-- Read `references/mockup-resolution.md` when a design image exists and its own native resolution should become the planning reference frame.
-- Read `references/ui-change-modes.md` when you need to decide whether the task should be handled as bounded repair or as a new build.
-- Read `references/asset-discovery-priority.md` when asset-aware mode is active and you need to decide what kinds of existing assets to search in what order.
-- Read `references/asset-naming-and-folders.md` when asset-aware mode is creating, extracting, or reorganizing UI assets and you need stable naming plus shared-versus-screen folder rules.
-- Read `references/asset-naming-examples.md` when you want concrete before/after folder trees, naming comparisons, and variant folder examples for shared versus screen-owned assets.
-- Read `references/existing-prefab-reuse.md` when the project likely already contains a similar reusable UI block and you need to choose reuse, variant, wrapper, or a new base prefab.
-- Read `references/prefab-variants.md` when one shared base prefab should branch into a controlled family of variants without polluting the base asset.
-- Read `references/prefab-reuse.md` when the same UI shape appears more than once and should be extracted into one reusable prefab or template-style block.
-- Read `references/review-checks.md` when you need a final quality pass before calling a Unity UI task complete.
-- Read `references/shared-asset-edit-safety.md` when a one-screen request might tempt you to edit a shared prefab, sprite, material, or text style directly.
-- Read `references/shared-asset-verification-recipes.md` when you need concrete shared-asset verification flow before directly editing a common prefab, sprite, material, or TMP style.
-- Read `references/sprite-vs-rawimage.md` when static UI assets are being wired through `RawImage` instead of the normal sprite workflow.
-- Read `references/mockup-safe-area-mapping.md` when a mobile mockup did not visibly account for safe area but the runtime layout must.
-- Read `references/mobile-device-profiles.md` when a mobile-first screen needs a more deliberate verification set across taller phones, wider mobile ratios, or tablets.
-- Read `references/text-layout-rules.md` when text length, wrapping, overflow, auto-size, counters, or localization safety are driving layout instability.
-- Read `references/ui-toolkit-layout-rules.md` when the target is UI Toolkit and you need rules for container ownership, flex behavior, overflow, and text handling.
-- Read `references/ui-toolkit-failures.md` when a UI Toolkit screen renders but still feels fragile, over-patched, or unstable at narrower widths.
-- Read `references/ugui-anchors-canvas-scaler.md` when the target is UGUI or when anchor, pivot, or screen-scaling behavior is causing drift.
-- Read `references/ugui-hud.md` for always-on-screen HUD, minimap, status bars, and action bars.
-- Read `references/ugui-inventory.md` for slot grids, item lists, equipment panels, and shop layouts.
-- Read `references/ugui-popup.md` for modal dialogs, settings windows, reward popups, and overlays.
-- Read `references/ugui-mobile-safe-area.md` for notch-safe mobile layouts in portrait or landscape.
-- Read `references/prompt-patterns.md` when decomposing a UI request into smaller MCP operations or when you need a safer prompt shape for iterative generation.
+### First Stop
+
+- `references/layout-checklist.md`
+- `references/common-failures.md`
+- `references/review-checks.md`
+- `references/ui-change-modes.md`
+
+### Mockups, Resolution, and Safe Area
+
+- `references/image-to-layout.md`
+- `references/mockup-decomposition.md`
+- `references/mockup-resolution.md`
+- `references/mockup-safe-area-mapping.md`
+- `references/mobile-device-profiles.md`
+
+### Asset Reuse and Shared-Asset Safety
+
+- `references/asset-discovery-priority.md`
+- `references/existing-prefab-reuse.md`
+- `references/prefab-reuse.md`
+- `references/prefab-variants.md`
+- `references/shared-asset-edit-safety.md`
+- `references/shared-asset-verification-recipes.md`
+- `references/asset-naming-and-folders.md`
+- `references/asset-naming-examples.md`
+
+### Text and Image Decisions
+
+- `references/text-layout-rules.md`
+- `references/sprite-vs-rawimage.md`
+
+### UGUI
+
+- `references/ugui-anchors-canvas-scaler.md`
+- `references/ugui-hud.md`
+- `references/ugui-inventory.md`
+- `references/ugui-popup.md`
+- `references/ugui-mobile-safe-area.md`
+
+### UI Toolkit
+
+- `references/ui-toolkit-layout-rules.md`
+- `references/ui-toolkit-failures.md`
+
+### Prompting and MCP Sequences
+
+- `references/mcp-call-recipes.md`
+- `references/prompt-patterns.md`

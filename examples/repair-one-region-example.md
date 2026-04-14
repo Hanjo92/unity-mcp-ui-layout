@@ -19,6 +19,6 @@ Verify the result with a screenshot focused on the repaired region and one full-
 
 ## Suggested References
 
-- `D:\UnityUICreater\unity-mcp-ui-layout\references\ui-change-modes.md`
-- `D:\UnityUICreater\unity-mcp-ui-layout\references\common-failures.md`
-- `D:\UnityUICreater\unity-mcp-ui-layout\references\prompt-patterns.md`
+- [ui-change-modes.md](../unity-mcp-ui-layout/references/ui-change-modes.md)
+- [common-failures.md](../unity-mcp-ui-layout/references/common-failures.md)
+- [prompt-patterns.md](../unity-mcp-ui-layout/references/prompt-patterns.md)

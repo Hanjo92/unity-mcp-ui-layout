@@ -20,5 +20,5 @@ Verify the result with one shorter label set and one longer translated label set
 
 ## Suggested References
 
-- `D:\UnityUICreater\unity-mcp-ui-layout\references\text-layout-rules.md`
-- `D:\UnityUICreater\unity-mcp-ui-layout\references\review-checks.md`
+- [text-layout-rules.md](../unity-mcp-ui-layout/references/text-layout-rules.md)
+- [review-checks.md](../unity-mcp-ui-layout/references/review-checks.md)

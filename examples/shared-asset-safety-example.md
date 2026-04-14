@@ -19,6 +19,6 @@ Only edit the shared asset itself if you can justify that the change should appl
 
 ## Suggested References
 
-- `D:\UnityUICreater\unity-mcp-ui-layout\references\shared-asset-edit-safety.md`
-- `D:\UnityUICreater\unity-mcp-ui-layout\references\existing-prefab-reuse.md`
-- `D:\UnityUICreater\unity-mcp-ui-layout\references\prefab-variants.md`
+- [shared-asset-edit-safety.md](../unity-mcp-ui-layout/references/shared-asset-edit-safety.md)
+- [existing-prefab-reuse.md](../unity-mcp-ui-layout/references/existing-prefab-reuse.md)
+- [prefab-variants.md](../unity-mcp-ui-layout/references/prefab-variants.md)
