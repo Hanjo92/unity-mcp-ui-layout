@@ -26,6 +26,7 @@ Use it when `SKILL.md` points you here for deeper guidance.
 - `text-layout-rules.md`
 - `common-failures.md`
 - `review-checks.md`
+- `scroll-view-patterns.md`
 
 ## UGUI-Focused Guidance
 

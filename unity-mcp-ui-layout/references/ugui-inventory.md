@@ -11,6 +11,8 @@ Use this guide for inventories, equipment windows, shops, crafting panels, and s
   - detail or preview region
   - bottom action row if needed
 - Keep repeated slots under a dedicated content container.
+- If the list or grid can exceed the visible area, structure it as `ScrollRect -> Viewport -> Content -> repeated slot/item`.
+- Keep tabs, filters, headers, and bottom actions outside the scrolling content unless the design explicitly wants them to scroll too.
 
 ## Anchor Rules
 
@@ -25,6 +27,8 @@ Use this guide for inventories, equipment windows, shops, crafting panels, and s
 - Use `GridLayoutGroup` or `VerticalLayoutGroup` for repeated slots and rows.
 - Use `LayoutElement` for special slot sizing instead of manual offsets on each slot.
 - Prefer scroll views for long content instead of vertically stacking many absolute-positioned items.
+- Let `Viewport` own clipping and let `Content` own repeated placement.
+- Treat the slot or row unit as the reusable prefab or reusable block, not the whole scroll shell.
 
 ## Sizing Rules
 
@@ -37,9 +41,12 @@ Use this guide for inventories, equipment windows, shops, crafting panels, and s
 - Confirm that item rows and slot gaps stay uniform.
 - Confirm that the detail panel does not overlap the list at narrower widths.
 - Confirm text labels do not break the row unexpectedly.
+- Confirm only the intended content area scrolls and that headers, filters, and footer actions stay fixed when they should.
+- Confirm repeated rows or slots are instantiated as reusable units instead of hand-placed children.
 
 ## Avoid
 
 - Manually placing dozens of slots
+- Treating the entire scroll view shell as the repeated reusable unit
 - Mixing `ContentSizeFitter` and `GridLayoutGroup` without clear ownership
 - Treating the whole inventory as one flat group with no structural regions

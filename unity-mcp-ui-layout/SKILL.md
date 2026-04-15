@@ -16,6 +16,7 @@ Use this skill for Unity UI work where layout stability matters more than raw pi
 - A mockup, screenshot, or wireframe needs to become runtime Unity UI.
 - An existing UGUI screen drifts across aspect ratios or target resolutions.
 - A UI Toolkit screen looks correct once but breaks after width, overflow, or text changes.
+- A scroll-heavy list, feed, catalog, or picker mockup needs one clear scroll owner plus reusable repeated items.
 - Safe area, localization, counters, or long labels are destabilizing the layout.
 - A repeated UI block should become reusable instead of being rebuilt manually.
 - A one-screen repair may touch shared prefabs, sprites, materials, or text styles.
@@ -74,6 +75,7 @@ For the full decision guide, read `references/ui-change-modes.md`.
 - Inspect the root layout owner before touching children.
 - For UGUI, inspect `Canvas`, `CanvasScaler`, parent `RectTransform`, layout components, and safe-area handling.
 - For UI Toolkit, inspect `UIDocument`, linked `UXML`, linked `USS`, panel settings, and container ownership.
+- If the UI is scroll-heavy, decide the scroll owner, viewport boundary, content container, and repeated-item strategy before styling rows or cards.
 - Treat any mockup or screenshot as composition guidance first, not as a command to freeze raw pixels.
 
 **The test:** If two reasonable interpretations exist for stack, repair scope, reference resolution, or reuse expectations, do not silently pick one.
@@ -92,6 +94,7 @@ For the full decision guide, read `references/ui-change-modes.md`.
 
 - Start in layout-only mode and only switch into asset-aware mode when reuse clearly matters.
 - Promote repeated structures into reusable prefabs or reusable layout blocks when repetition is real.
+- For scroll-heavy UIs, keep the scroll shell structural and treat repeated rows/cards/cells as the reusable unit.
 - Prefer scoped variants, wrappers, or screen-owned overrides over direct shared-base edits for one-screen requests.
 - Reserve `RawImage` for texture-driven content such as `RenderTexture`, video, or runtime-generated textures.
 - Leave room for longer labels, localization growth, and number growth instead of overfitting to the mockup strings.
@@ -126,6 +129,7 @@ Do not call the task done until every applicable check below passes:
 - `references/layout-checklist.md`
 - `references/common-failures.md`
 - `references/review-checks.md`
+- `references/scroll-view-patterns.md`
 - `references/ui-change-modes.md`
 
 ### Mockups, Resolution, and Safe Area

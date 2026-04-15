@@ -47,6 +47,7 @@ Ask:
 - Were repeated structures turned into reusable prefabs or reusable layout blocks where appropriate?
 - Are child offsets being used only for local adjustments rather than structural compensation?
 - If this is UI Toolkit, do containers own flex direction, width, overflow, and scroll behavior instead of leaf overrides?
+- If this is a scroll-heavy UI, is there one clear scroll owner, one content container, and one reusable repeated-item pattern?
 
 If many children carry unique offsets, the structure is probably still too fragile.
 
@@ -104,6 +105,7 @@ Ask:
 - Are buttons, tabs, and actionable rows placed where users expect them?
 - Are close buttons and footer actions clearly reachable?
 - Do overlays and dimmers cover the correct area?
+- If this is a scroll-heavy UI, do headers, filters, or footer actions stay outside the scrolling region when they are supposed to remain fixed?
 
 This check is especially important for popup and mobile layouts.
 

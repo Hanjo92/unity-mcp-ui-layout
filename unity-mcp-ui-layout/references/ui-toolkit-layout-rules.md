@@ -59,6 +59,8 @@ For flex-heavy screens such as settings, inventory side panels, dashboards, or e
 - define which container owns vertical stacking
 - use explicit min or max width rules where collapse would be harmful
 - keep scroll ownership on one deliberate container
+- keep one content container inside that scroll owner for repeated rows or cards
+- represent repeated rows as reusable `VisualElement` patterns or `UXML` templates instead of many hand-patched one-offs
 - avoid mixing too many competing `flex-grow` values without a clear hierarchy
 
 If a screen should survive narrower widths, decide that behavior intentionally instead of trusting default flex resolution.

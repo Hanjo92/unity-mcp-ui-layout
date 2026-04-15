@@ -38,6 +38,7 @@ Check these top to bottom.
 8. Text wrapping, overflow, and auto-size
 9. Sprite slicing and image preserve-aspect rules
 10. Safe area handling for edge-aligned elements
+11. If a scroll view is involved, whether `ScrollRect`, `Viewport`, `Content`, and repeated item ownership are separated clearly
 
 ## 3. UGUI Failure Patterns
 
@@ -56,6 +57,13 @@ Check these top to bottom.
 - Disable or reconfigure the layout group before applying manual child transforms.
 - Confirm the child should be hand-placed at all; repeated siblings usually should not be.
 - If the same child structure repeats, replace manual reconstruction with a reusable prefab or reusable layout block.
+
+### Scroll view structure feels wrong
+
+- Check that only one container owns scrolling.
+- Check that `Viewport` clips and `Content` places repeated children instead of doing both jobs at once.
+- Confirm repeated rows/cards/cells were extracted into one reusable item structure instead of rebuilt manually.
+- Keep fixed headers, filters, or footers outside the scrolling content when the design expects them to remain visible.
 
 ### Top-level composition feels unstable
 
@@ -128,6 +136,7 @@ After each iteration, ask:
 - Does the design survive one alternate aspect ratio?
 - Are the top-level regions grouped by anchor ownership rather than many leaf-level corrections?
 - Were repeated structures reused instead of rebuilt one by one?
+- If a scroll view exists, were repeated rows/cards/cells treated as reusable units under one content container?
 - Was any likely single-image region kept simple instead of over-modeled?
 - Did any placement depend on raw image pixels when an anchor or container rule should have been used?
 

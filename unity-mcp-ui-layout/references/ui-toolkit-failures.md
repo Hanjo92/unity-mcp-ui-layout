@@ -57,12 +57,14 @@ This document is symptom-first so it is easier to use during repair work.
 - multiple nested containers are trying to own overflow
 - screen structure does not define a clear scroll boundary
 - one region is expected to expand and scroll at the same time
+- the content container and repeated row structure were never separated cleanly
 
 ### Fix direction
 
 - choose one deliberate scroll owner
 - simplify nested overflow behavior
 - move overflow responsibility higher or lower until the ownership is obvious
+- keep one content container inside the scroll owner and normalize repeated rows into one reusable structure
 
 ## 4. Text Fixes Keep Becoming Font Tweaks
 
