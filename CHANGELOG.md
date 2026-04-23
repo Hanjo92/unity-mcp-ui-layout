@@ -4,6 +4,32 @@ This project follows a lightweight documentation-focused release flow.
 
 이 프로젝트는 문서 중심의 가벼운 릴리스 흐름을 따릅니다.
 
+## v0.4.1 - 2026-04-23
+
+### Added
+
+- Expanded the practical example catalog with beginner first-layout, current-vs-mockup, localized text, long-label, scroll-view, settings dialog, responsive split-pane, tabbed detail screen, mockup decomposition, mobile device profile verification, and repair asset-aware reuse prompts
+- Added mobile device profile guidance for checking a main target, taller phone, and wider mobile or tablet profile before approving mobile-first layouts
+- Added release and maintenance notes for issue-to-release flow, release-prep checks, and repository upkeep
+
+### Added / 추가
+
+- beginner first-layout, current-vs-mockup, localized text, long-label, scroll-view, settings dialog, responsive split-pane, tabbed detail screen, mockup decomposition, mobile device profile verification, repair asset-aware reuse 프롬프트로 실전 예시 카탈로그 확장
+- 모바일 우선 레이아웃을 승인하기 전에 main target, taller phone, wider mobile/tablet profile을 확인하는 mobile device profile 가이드 추가
+- issue부터 release까지의 흐름, release prep 체크, 저장소 유지보수에 대한 운영 문서 추가
+
+### Changed
+
+- Tightened skill onboarding, routing, completion gates, prompt patterns, layout checks, and review checks around the new example coverage
+- Updated platform and root repository documentation with bilingual navigation and a clearer explanation of how `SKILL.md`, `references/`, `examples/`, and `Platform/` fit together
+- Refreshed the backlog so shipped repository-polish and example-coverage work is no longer listed as open
+
+### Changed / 변경
+
+- 새 예시 커버리지에 맞춰 skill onboarding, routing, completion gate, prompt pattern, layout check, review check 문구 정리
+- `SKILL.md`, `references/`, `examples/`, `Platform/`의 관계가 더 잘 보이도록 platform 문서와 루트 저장소 문서의 한영 안내 보강
+- 이미 반영된 repository polish와 example coverage 작업이 열린 backlog처럼 보이지 않도록 backlog 정리
+
 ## v0.4.0 - 2026-04-02
 
 ### Added
