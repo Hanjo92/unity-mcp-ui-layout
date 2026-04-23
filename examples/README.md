@@ -13,6 +13,7 @@ Use these files when you want a copyable starting point instead of only referenc
 
 ## Included Examples
 
+- `first-layout-pass-example.md`
 - `hud-example.md`
 - `inventory-example.md`
 - `mockup-resolution-example.md`
@@ -37,6 +38,7 @@ Use these files when you want a copyable starting point instead of only referenc
 
 ## Pick by Stack
 
+- Start with `first-layout-pass-example.md` if you are new to the workflow or want one small structure-first practice task before choosing a domain-shaped example.
 - Start with `hud-example.md`, `inventory-example.md`, `popup-safe-area-example.md`, or `mobile-safe-area-mockup-example.md` when the target is clearly UGUI.
 - Start with `scroll-view-example.md` when the main problem is list/feed/catalog scrolling plus repeated item reuse.
 - Start with `ui-toolkit-example.md` when the target is clearly driven by `UIDocument`, `UXML`, and `USS`.
@@ -44,17 +46,18 @@ Use these files when you want a copyable starting point instead of only referenc
 
 ## Suggested Reading Order
 
-1. `hud-example.md` if you are starting with a composition-driven overlay
-2. `inventory-example.md` if your UI is slot- or list-based
-3. `mockup-resolution-example.md` if the mockup's native pixel resolution should drive planning
-4. `current-vs-mockup-example.md` if the screen already exists and should be compared against a reference image first
-5. `mobile-safe-area-mockup-example.md` if the mockup ignores notch or home-indicator constraints
-6. `popup-safe-area-example.md` if mobile safe area and modal structure matter
-7. `scroll-view-example.md` if the core challenge is scroll ownership plus reusable repeated rows or cards
-8. `repair-one-region-example.md` if the request should stay bounded to one named region
-9. `asset-naming-example.md` if the task also needs shared-versus-screen asset cleanup
-10. `localized-screen-example.md` if the screen must survive both short English and longer localized strings
-11. `long-labels-and-counters-example.md` if long labels, body text, and number growth compete for the same layout
-12. `shared-asset-safety-example.md` if a repair might touch shared prefabs or other shared UI assets
-13. `shared-asset-verification-example.md` if you need a concrete “check another usage first” prompt for shared assets
-14. `ui-toolkit-example.md` if the target screen is clearly driven by `UIDocument`, `UXML`, and `USS`
+1. `first-layout-pass-example.md` if you want the smallest structure-first practice task
+2. `hud-example.md` if you are starting with a composition-driven overlay
+3. `inventory-example.md` if your UI is slot- or list-based
+4. `mockup-resolution-example.md` if the mockup's native pixel resolution should drive planning
+5. `current-vs-mockup-example.md` if the screen already exists and should be compared against a reference image first
+6. `mobile-safe-area-mockup-example.md` if the mockup ignores notch or home-indicator constraints
+7. `popup-safe-area-example.md` if mobile safe area and modal structure matter
+8. `scroll-view-example.md` if the core challenge is scroll ownership plus reusable repeated rows or cards
+9. `repair-one-region-example.md` if the request should stay bounded to one named region
+10. `asset-naming-example.md` if the task also needs shared-versus-screen asset cleanup
+11. `localized-screen-example.md` if the screen must survive both short English and longer localized strings
+12. `long-labels-and-counters-example.md` if long labels, body text, and number growth compete for the same layout
+13. `shared-asset-safety-example.md` if a repair might touch shared prefabs or other shared UI assets
+14. `shared-asset-verification-example.md` if you need a concrete “check another usage first” prompt for shared assets
+15. `ui-toolkit-example.md` if the target screen is clearly driven by `UIDocument`, `UXML`, and `USS`
