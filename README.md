@@ -34,11 +34,15 @@ If you are using this repository for the first time, do not start by reading eve
 4. Decide whether this is layout-only work or asset-aware reuse work.
 5. Then open [`examples/README.md`](./examples/README.md) for a task-shaped entry point, or jump into [`unity-mcp-ui-layout/references/README.md`](./unity-mcp-ui-layout/references/README.md) if you already know the failure mode.
 
+For a first small exercise, start with [`examples/first-layout-pass-example.md`](./examples/first-layout-pass-example.md) before choosing a more domain-specific example.
+
 1. Codex 스킬을 직접 쓴다면 먼저 [`unity-mcp-ui-layout/SKILL.md`](./unity-mcp-ui-layout/SKILL.md)부터 엽니다.
 2. UI 스택을 먼저 고릅니다: `UGUI` 또는 `UI Toolkit`.
 3. 그다음 기존 화면 수정인지, 신규 화면 생성인지 작업 모드를 고릅니다.
 4. 이 작업이 layout-only인지, asset-aware reuse까지 필요한지 결정합니다.
 5. 그 후 작업형 진입점이 필요하면 [`examples/README.md`](./examples/README.md)를, 실패 유형을 이미 알고 있다면 [`unity-mcp-ui-layout/references/README.md`](./unity-mcp-ui-layout/references/README.md)를 엽니다.
+
+처음 해볼 작은 연습 과제가 필요하다면 더 구체적인 예시를 고르기 전에 [`examples/first-layout-pass-example.md`](./examples/first-layout-pass-example.md)부터 시작합니다.
 
 ## Quick Rules / 빠른 작업 기준
 
@@ -159,6 +163,7 @@ Platform/
 
 examples/
   README.md
+  first-layout-pass-example.md
   hud-example.md
   inventory-example.md
   popup-safe-area-example.md
@@ -168,6 +173,10 @@ CHANGELOG.md
 ```
 
 ## How The Pieces Fit / 구성 관계
+
+Use this section as the repo map: start with the skill, choose an example, then open references only for the specific failure mode or rule you need.
+
+이 섹션을 저장소 지도로 보면 됩니다. 먼저 스킬을 읽고, 예시를 고른 다음, 필요한 실패 유형이나 규칙이 있을 때만 레퍼런스를 엽니다.
 
 - `unity-mcp-ui-layout/SKILL.md` is the fast decision layer: choose the UI stack, decide repair versus build mode, work in vertical slices, and verify before finishing.
 - `unity-mcp-ui-layout/references/` holds the deeper rules for failure modes, UI types, asset decisions, and fallback guidance.
