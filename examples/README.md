@@ -17,7 +17,9 @@ Use these files when you want a copyable starting point instead of only referenc
 - `hud-example.md`
 - `inventory-example.md`
 - `mockup-resolution-example.md`
+- `mockup-decomposition-example.md`
 - `mobile-safe-area-mockup-example.md`
+- `mobile-device-profile-verification-example.md`
 - `current-vs-mockup-example.md`
 - `popup-safe-area-example.md`
 - `settings-dialog-example.md`
@@ -51,6 +53,8 @@ Use these files when you want a copyable starting point instead of only referenc
 ## Pick by Problem
 
 - Start with `first-layout-pass-example.md` when you need a small build-mode exercise before choosing a domain-shaped example.
+- Start with `mockup-resolution-example.md` when the mockup's own pixel resolution should drive planning.
+- Start with `mockup-decomposition-example.md` when the main question is what should stay baked, what should split, and what should become a reusable block before layout work begins.
 - Start with `current-vs-mockup-example.md` when the existing screen should be compared against a reference before repair.
 - Start with `repair-one-region-example.md` when the request must stay bounded to one named region.
 - Start with `repair-asset-aware-reuse-example.md` when the repair may touch reusable prefabs, variants, wrappers, shared sprites, materials, or text styles.
@@ -61,6 +65,7 @@ Use these files when you want a copyable starting point instead of only referenc
 - Start with `responsive-split-pane-example.md` when the screen has a left/right split, navigation rail plus detail panel, inspector view, or tablet-capable dashboard layout.
 - Start with `tabbed-detail-screen-example.md` when tabs, filters, or category buttons should stay fixed while selected content switches or scrolls.
 - Start with `mobile-safe-area-mockup-example.md` when a mobile mockup ignores notch or home-indicator constraints.
+- Start with `mobile-device-profile-verification-example.md` when a mobile-first screen needs explicit verification across a standard phone, a taller phone, and a wider mobile or tablet profile.
 
 ## Suggested Reading Order
 
@@ -68,18 +73,20 @@ Use these files when you want a copyable starting point instead of only referenc
 2. `hud-example.md` if you are starting with a composition-driven overlay
 3. `inventory-example.md` if your UI is slot- or list-based
 4. `mockup-resolution-example.md` if the mockup's native pixel resolution should drive planning
-5. `current-vs-mockup-example.md` if the screen already exists and should be compared against a reference image first
-6. `mobile-safe-area-mockup-example.md` if the mockup ignores notch or home-indicator constraints
-7. `popup-safe-area-example.md` if mobile safe area and modal structure matter
-8. `settings-dialog-example.md` if the screen is a dense options or preferences dialog
-9. `responsive-split-pane-example.md` if the screen uses a left/right split or tablet-capable dashboard layout
-10. `tabbed-detail-screen-example.md` if tabs, filters, or category buttons switch the visible content
-11. `scroll-view-example.md` if the core challenge is scroll ownership plus reusable repeated rows or cards
-12. `repair-one-region-example.md` if the request should stay bounded to one named region
-13. `repair-asset-aware-reuse-example.md` if a repair may need prefab reuse, variants, wrappers, or shared-asset impact checks
-14. `asset-naming-example.md` if the task also needs shared-versus-screen asset cleanup
-15. `localized-screen-example.md` if the screen must survive both short English and longer localized strings
-16. `long-labels-and-counters-example.md` if long labels, body text, and number growth compete for the same layout
-17. `shared-asset-safety-example.md` if a repair might touch shared prefabs or other shared UI assets
-18. `shared-asset-verification-example.md` if you need a concrete “check another usage first” prompt for shared assets
-19. `ui-toolkit-example.md` if the target screen is clearly driven by `UIDocument`, `UXML`, and `USS`
+5. `mockup-decomposition-example.md` if the main question is what should stay baked, split, or become reusable
+6. `current-vs-mockup-example.md` if the screen already exists and should be compared against a reference image first
+7. `mobile-safe-area-mockup-example.md` if the mockup ignores notch or home-indicator constraints
+8. `mobile-device-profile-verification-example.md` if a mobile-first screen needs named profile coverage before approval
+9. `popup-safe-area-example.md` if mobile safe area and modal structure matter
+10. `settings-dialog-example.md` if the screen is a dense options or preferences dialog
+11. `responsive-split-pane-example.md` if the screen uses a left/right split or tablet-capable dashboard layout
+12. `tabbed-detail-screen-example.md` if tabs, filters, or category buttons switch the visible content
+13. `scroll-view-example.md` if the core challenge is scroll ownership plus reusable repeated rows or cards
+14. `repair-one-region-example.md` if the request should stay bounded to one named region
+15. `repair-asset-aware-reuse-example.md` if a repair may need prefab reuse, variants, wrappers, or shared-asset impact checks
+16. `asset-naming-example.md` if the task also needs shared-versus-screen asset cleanup
+17. `localized-screen-example.md` if the screen must survive both short English and longer localized strings
+18. `long-labels-and-counters-example.md` if long labels, body text, and number growth compete for the same layout
+19. `shared-asset-safety-example.md` if a repair might touch shared prefabs or other shared UI assets
+20. `shared-asset-verification-example.md` if you need a concrete “check another usage first” prompt for shared assets
+21. `ui-toolkit-example.md` if the target screen is clearly driven by `UIDocument`, `UXML`, and `USS`
