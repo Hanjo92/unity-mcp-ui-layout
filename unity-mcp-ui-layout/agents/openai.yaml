@@ -1,4 +1,4 @@
 interface:
   display_name: "Unity MCP UI Layout"
-  short_description: "Resolution-aware Unity UI layout and repair through MCP for UGUI or UI Toolkit, with safe area, text, reuse, and screenshot verification in scope."
-  default_prompt: "Use $unity-mcp-ui-layout to repair or build Unity UI through staged, layout-focused edits. Choose UGUI or UI Toolkit first, decide repair versus build, keep structure stable across resolutions, and verify with screenshots. Reuse existing assets only when the task clearly requires asset-aware decisions."
+  short_description: "Resolution-aware Unity UI layout and repair through MCP for UGUI or UI Toolkit, with DESIGN.md/token intake, safe area, text, reuse, and screenshot verification in scope."
+  default_prompt: "Use $unity-mcp-ui-layout to repair or build Unity UI through staged, layout-focused edits. Choose UGUI or UI Toolkit first, decide repair versus build, read any DESIGN.md or design-token source before styling, keep structure stable across resolutions, and verify with screenshots. Reuse existing assets only when the task clearly requires asset-aware decisions."

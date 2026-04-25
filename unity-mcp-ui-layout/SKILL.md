@@ -1,6 +1,6 @@
 ---
 name: unity-mcp-ui-layout
-description: Use when Unity UI needs layout-focused repair or implementation through `unity-mcp`, especially for UGUI or UI Toolkit screens with cross-resolution drift, safe-area problems, text overflow, mockup translation, or shared prefab reuse decisions.
+description: Use when Unity UI needs layout-focused repair or implementation through `unity-mcp`, especially for UGUI or UI Toolkit screens with cross-resolution drift, safe-area problems, text overflow, mockup translation, DESIGN.md or design-token inputs, or shared prefab reuse decisions.
 ---
 
 # Unity MCP UI Layout
@@ -18,6 +18,7 @@ Use this skill for Unity UI work where layout stability matters more than raw pi
 - A UI Toolkit screen looks correct once but breaks after width, overflow, or text changes.
 - A scroll-heavy list, feed, catalog, or picker mockup needs one clear scroll owner plus reusable repeated items.
 - Safe area, localization, counters, or long labels are destabilizing the layout.
+- A `DESIGN.md`, `design_tokens.json`, Tailwind theme, or similar design-system source should guide Unity UI styling.
 - A repeated UI block should become reusable instead of being rebuilt manually.
 - A one-screen repair may touch shared prefabs, sprites, materials, or text styles.
 
@@ -30,7 +31,7 @@ Use this skill for Unity UI work where layout stability matters more than raw pi
 
 ## Quick Router
 
-Choose these three boundaries before editing anything:
+Choose these four boundaries before editing anything:
 
 ### 1. UI Stack
 
@@ -46,7 +47,15 @@ Choose these three boundaries before editing anything:
 
 For the full decision guide, read `references/ui-change-modes.md`.
 
-### 3. Asset Strategy
+### 3. Design Source
+
+- If the user provides `DESIGN.md`, design tokens, Tailwind theme values, or a design-system document, read it before styling.
+- Treat machine-readable tokens as the style contract and Markdown prose as intent for applying those values.
+- Use design-source guidance to preserve color, typography, spacing, shape, component states, and accessibility while still following layout stability rules.
+
+For the intake and Unity mapping rules, read `references/design-system-intake.md` and `references/design-token-to-unity.md`.
+
+### 4. Asset Strategy
 
 - Start in **layout-only mode** by default.
 - Switch to **asset-aware mode** only when existing prefab, sprite, font, material, or design-system reuse clearly matters.
@@ -56,6 +65,8 @@ For the full decision guide, read `references/ui-change-modes.md`.
 
 - This skill assumes Unity is available through `unity-mcp` or an equivalent MCP bridge.
 - It works best when you can inspect the current scene or UI document and verify with screenshots.
+- If a `DESIGN.md` or token source is present, style decisions should be traced back to that source where practical.
+- `@google/design.md` CLI checks are useful when available, but missing CLI tooling is a supported fallback.
 - Use asset-aware retrieval only when the environment supports it and the task actually needs reuse-sensitive decisions.
 - If asset retrieval is unavailable or low-confidence, continue with structure-first layout work, use placeholders or directly inspected assets, and keep uncertain visuals provisional.
 
@@ -63,6 +74,7 @@ For the full decision guide, read `references/ui-change-modes.md`.
 
 - The layout stays stable in a fresh screenshot at the main target and one additional aspect ratio.
 - Text still behaves correctly with longer strings, counters, or localization growth.
+- If a design-system source was provided, visible colors, typography, spacing, shape, and component states still follow it.
 - Shared assets were either left alone, localized through variants/wrappers, or explicitly verified before base edits.
 - Script-backed UI changes do not leave unresolved compile or console errors.
 
@@ -71,7 +83,8 @@ For the full decision guide, read `references/ui-change-modes.md`.
 ### 1. Clarify the Layout Contract
 
 - Identify the active scene or `UIDocument` before editing.
-- Choose the UI stack, change mode, and asset strategy explicitly.
+- Choose the UI stack, change mode, design source, and asset strategy explicitly.
+- If a design-system source exists, extract the tokens, prose intent, component states, and any do/don't guardrails before styling.
 - Inspect the root layout owner before touching children.
 - For UGUI, inspect `Canvas`, `CanvasScaler`, parent `RectTransform`, layout components, and safe-area handling.
 - For UI Toolkit, inspect `UIDocument`, linked `UXML`, linked `USS`, panel settings, and container ownership.
@@ -119,6 +132,8 @@ Do not call the task done until every applicable check below passes:
 - The layout was re-checked at one additional aspect ratio, or portrait plus landscape for mobile-first work.
 - Compile or console errors were cleared if script-backed UI changed.
 - Text behavior still works for longer or more realistic content.
+- Provided design-system tokens and prose were preserved, or deviations were explicitly justified.
+- Component text/background pairs were checked for readable contrast where the source defines both values.
 - Shared-asset edits were treated with explicit safety checks.
 - Low-confidence asset reuse stayed clearly provisional.
 
@@ -131,6 +146,11 @@ Do not call the task done until every applicable check below passes:
 - `references/review-checks.md`
 - `references/scroll-view-patterns.md`
 - `references/ui-change-modes.md`
+
+### Design Systems and Tokens
+
+- `references/design-system-intake.md`
+- `references/design-token-to-unity.md`
 
 ### Mockups, Resolution, and Safe Area
 
