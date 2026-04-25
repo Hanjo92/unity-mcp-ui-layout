@@ -4,6 +4,30 @@ This project follows a lightweight documentation-focused release flow.
 
 이 프로젝트는 문서 중심의 가벼운 릴리스 흐름을 따릅니다.
 
+## v0.5.0 - 2026-04-25
+
+### Added
+
+- Added `DESIGN.md` and design-token intake guidance for Unity UI tasks that need to preserve colors, typography, spacing, shapes, component states, and prose intent
+- Added token-to-Unity mapping guidance for UGUI, TextMeshPro, UI Toolkit, and USS
+- Added practical DESIGN.md build and repair examples
+
+### Added / 추가
+
+- 색상, 타이포그래피, 간격, 모양, 컴포넌트 상태, prose intent를 보존해야 하는 Unity UI 작업을 위한 `DESIGN.md` 및 design-token intake 가이드 추가
+- UGUI, TextMeshPro, UI Toolkit, USS로 design token을 옮기는 매핑 가이드 추가
+- DESIGN.md 기반 신규 화면 생성 및 기존 화면 repair 실전 예시 추가
+
+### Changed
+
+- Expanded `SKILL.md`, review checks, example navigation, root README, and platform adapters so design-system sources are read before visual styling
+- Kept the new design-source workflow aligned with layout-first verification, repair/build mode, shared-asset safety, text handling, and screenshot checks
+
+### Changed / 변경
+
+- design-system source를 시각 스타일링 전에 읽도록 `SKILL.md`, review check, example navigation, 루트 README, platform adapter 확장
+- 새 design-source 워크플로가 layout-first 검증, repair/build mode, shared-asset safety, text handling, screenshot check와 어긋나지 않도록 정리
+
 ## v0.4.1 - 2026-04-23
 
 ### Added
