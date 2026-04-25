@@ -19,6 +19,7 @@ Do this by prioritizing:
 - screenshot verification after each structural change
 - text layout decisions before emergency font shrinking
 - safe-area-aware reinterpretation of notch-agnostic mobile mockups
+- DESIGN.md or design-token sources before visual styling when provided
 - cautious handling of shared asset families
 
 ## Execution Rules
@@ -32,6 +33,7 @@ Do this by prioritizing:
 - If a region appears to be a single image resource, do not force it into fake sub-widgets unless runtime behavior needs them.
 - Treat text as a layout driver and decide wrapping, truncation, or container growth before shrinking fonts.
 - If a mobile mockup ignores notches or home indicators, preserve its composition inside the safe area instead of copying raw top and bottom edge pixels.
+- If the user provides `DESIGN.md`, design tokens, or a style guide, read that source before styling and preserve its color, typography, spacing, shape, component state, and prose intent where practical.
 - Before editing a shared prefab, sprite, material, or text style directly, decide whether the change should stay local through a variant, wrapper, or override.
 - If the layout is wrong, repair structure before styling.
 
@@ -79,6 +81,7 @@ When an image and target resolution are provided:
 - If scripts change, refresh, wait for compile, and inspect console errors before continuing.
 - If a popup or mobile screen is involved, explicitly verify safe-area behavior.
 - If shared assets were touched directly, verify that the change really belongs to the shared contract.
+- If a design-system source was provided, verify that visible styling still follows it or that deviations were justified.
 
 ## Output Behavior
 

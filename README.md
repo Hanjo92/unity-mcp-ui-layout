@@ -32,7 +32,8 @@ If you are using this repository for the first time, do not start by reading eve
 2. Choose the UI stack first: `UGUI` or `UI Toolkit`.
 3. Choose the change mode next: repair an existing screen or build a new one.
 4. Decide whether this is layout-only work or asset-aware reuse work.
-5. Then open [`examples/README.md`](./examples/README.md) for a task-shaped entry point, or jump into [`unity-mcp-ui-layout/references/README.md`](./unity-mcp-ui-layout/references/README.md) if you already know the failure mode.
+5. If the task includes `DESIGN.md`, design tokens, or a design-system source, read that source before styling.
+6. Then open [`examples/README.md`](./examples/README.md) for a task-shaped entry point, or jump into [`unity-mcp-ui-layout/references/README.md`](./unity-mcp-ui-layout/references/README.md) if you already know the failure mode.
 
 For a first small exercise, start with [`examples/first-layout-pass-example.md`](./examples/first-layout-pass-example.md) before choosing a more domain-specific example.
 
@@ -40,7 +41,8 @@ For a first small exercise, start with [`examples/first-layout-pass-example.md`]
 2. UI 스택을 먼저 고릅니다: `UGUI` 또는 `UI Toolkit`.
 3. 그다음 기존 화면 수정인지, 신규 화면 생성인지 작업 모드를 고릅니다.
 4. 이 작업이 layout-only인지, asset-aware reuse까지 필요한지 결정합니다.
-5. 그 후 작업형 진입점이 필요하면 [`examples/README.md`](./examples/README.md)를, 실패 유형을 이미 알고 있다면 [`unity-mcp-ui-layout/references/README.md`](./unity-mcp-ui-layout/references/README.md)를 엽니다.
+5. 작업에 `DESIGN.md`, design token, design-system source가 포함되어 있다면 스타일링 전에 그 소스를 먼저 읽습니다.
+6. 그 후 작업형 진입점이 필요하면 [`examples/README.md`](./examples/README.md)를, 실패 유형을 이미 알고 있다면 [`unity-mcp-ui-layout/references/README.md`](./unity-mcp-ui-layout/references/README.md)를 엽니다.
 
 처음 해볼 작은 연습 과제가 필요하다면 더 구체적인 예시를 고르기 전에 [`examples/first-layout-pass-example.md`](./examples/first-layout-pass-example.md)부터 시작합니다.
 
@@ -98,6 +100,8 @@ Platform-specific adapters live in:
 - mockup-native resolution rules when a design image exists
 - mockup decomposition rules for deciding what should stay baked, what should split, and what should become reusable blocks
 - repair mode vs greenfield build mode rules for existing-screen fixes versus new UI creation
+- DESIGN.md and design-token intake rules for preserving colors, typography, spacing, shapes, component states, and prose intent
+- Unity mapping rules for translating design-system tokens into UGUI, TextMeshPro, UI Toolkit, and USS
 - asset discovery priority rules for prefab, sprite, font, material, and placeholder reuse order
 - asset naming and folder rules so reusable assets stay discoverable and screen-owned assets stay scoped correctly
 - practical naming and folder examples for shared versus screen-owned assets and variant family organization
@@ -125,6 +129,8 @@ Platform-specific adapters live in:
 - 시안 이미지가 있을 때 시안의 원본 해상도를 기준 프레임으로 삼는 규칙
 - 시안 요소를 어디까지 분해하고 어디를 단일 자산이나 재사용 블록으로 유지할지에 대한 규칙
 - 기존 UI 수정 요청과 신규 UI 생성 요청을 구분하는 작업 모드 규칙
+- 색상, 타이포그래피, 간격, 모양, 컴포넌트 상태, prose intent를 보존하기 위한 DESIGN.md 및 design token intake 규칙
+- design-system token을 UGUI, TextMeshPro, UI Toolkit, USS로 옮기기 위한 Unity 매핑 규칙
 - 프리팹, 스프라이트, 폰트, 머티리얼, 플레이스홀더를 어떤 순서로 찾을지에 대한 자산 탐색 우선순위 규칙
 - 재사용 자산은 다시 찾기 쉽고 화면 전용 자산은 범위가 드러나도록 만드는 자산 네이밍/폴더 규칙
 - shared vs screen-owned 자산과 variant family 구성을 실제 트리로 보여주는 실전 예시

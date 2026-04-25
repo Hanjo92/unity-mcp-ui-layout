@@ -20,6 +20,7 @@ Treat the artifact as a structured layout plan, not just a visual guess. The art
 - Keep likely single-image regions intact unless interaction, animation, or adaptive behavior requires them to be split.
 - Treat text as a layout driver and decide wrapping, truncation, or container growth before shrinking fonts.
 - If a mobile mockup is notch-agnostic, preserve its composition inside the safe area instead of copying raw top and bottom edge pixels.
+- If the user provides `DESIGN.md`, design tokens, or a style guide, read that source before styling and preserve its color, typography, spacing, shape, component state, and prose intent where practical.
 - Before editing shared prefabs, sprites, materials, or TMP styles directly, decide whether the change should stay local through a variant, wrapper, or local override.
 
 ## What the Artifact Should Emphasize
@@ -30,6 +31,7 @@ Treat the artifact as a structured layout plan, not just a visual guess. The art
 - `CanvasScaler` or flex behavior
 - safe-area ownership when relevant
 - text role and overflow behavior when relevant
+- design-system token and prose intent when provided
 - what was changed in the current step
 - what should be verified next
 
@@ -68,5 +70,6 @@ For each iteration:
 - Explain layout intent in terms of regions, anchors, scaling, and parent ownership.
 - Be explicit about tradeoffs when a design seems too dependent on exact pixels.
 - When a popup or mobile layout is involved, call out safe-area ownership directly.
+- When a design-system source is provided, call out how styling traces back to it.
 - When a shared asset might be edited, call out the safety decision directly.
 - Prefer clear artifact sections such as `Plan`, `Current Change`, `Verification`, and `Next Step`.

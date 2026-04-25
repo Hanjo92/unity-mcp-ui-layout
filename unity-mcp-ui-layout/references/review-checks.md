@@ -131,7 +131,22 @@ Ask:
 
 This is where hand-placed designs usually reveal themselves.
 
-## 12. Scope Check
+## 12. Design System Check
+
+Use this check when the task included `DESIGN.md`, design tokens, a Tailwind theme, or another design-system source.
+
+Ask:
+
+- Did visible colors, typography, spacing, radius, and component states trace back to the design source or an existing project equivalent?
+- Were token values treated as the concrete style contract and prose treated as intent?
+- Are button, card, input, badge, and list states mapped through reusable styles instead of local one-off values?
+- Were known text/background pairs checked for readable contrast?
+- Did the work avoid introducing style drift outside the requested repair scope?
+- Were any deviations from the design source named and justified?
+
+If the answer is no, revisit the design-source mapping before calling the UI done.
+
+## 13. Scope Check
 
 Ask:
 
@@ -144,7 +159,7 @@ Ask:
 
 If the answer is no, narrow the change before shipping it.
 
-## 13. Final Go/No-Go Rule
+## 14. Final Go/No-Go Rule
 
 Do not call the UI complete unless:
 
@@ -153,3 +168,4 @@ Do not call the UI complete unless:
 3. no obvious clipping or overlap remains
 4. safe area ownership is correct where relevant
 5. the structure does not depend on arbitrary pixel corrections
+6. any provided design-system source is still respected where applicable

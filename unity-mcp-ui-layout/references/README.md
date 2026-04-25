@@ -27,6 +27,8 @@ Use it when `SKILL.md` points you here for deeper guidance.
 - `common-failures.md`
 - `review-checks.md`
 - `scroll-view-patterns.md`
+- `design-system-intake.md`
+- `design-token-to-unity.md`
 
 ## UGUI-Focused Guidance
 
