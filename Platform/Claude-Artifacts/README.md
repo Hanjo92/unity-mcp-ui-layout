@@ -36,12 +36,18 @@ This includes the newer guidance around:
 - safe-area-aware reinterpretation of notch-agnostic mobile mockups
 - shared asset edit safety for prefabs, sprites, materials, and TMP styles
 - mobile verification profiles and bounded repair comparisons
+- Stitch HTML/CSS and Figma node-tree exports as structured hierarchy sources for UGUI conversion
+- separate hierarchy source inputs from DESIGN.md/design-token style sources
+- out-of-scope direct Stitch/Figma API integration unless explicitly requested
 
 - 시안 원본 해상도 기준 계획
 - 구조 문제로서의 텍스트 레이아웃
 - 노치 없는 모바일 시안을 safe-area-aware 레이아웃으로 재해석하는 규칙
 - prefab, sprite, material, TMP style에 대한 공유 자산 수정 안전 규칙
 - 모바일 검증 프로필과 범위 제한 비교/수정 규칙
+- UGUI 변환 시 Stitch HTML/CSS export, Figma node-tree export를 구조화된 계층 소스로 사용
+- 계층 소스와 DESIGN.md/디자인 토큰 스타일 소스를 분리해서 해석
+- 명시적으로 요청되지 않으면 Stitch/Figma API 직접 연동은 범위에서 제외
 
 ## Example User Prompts / 예시 사용자 프롬프트
 

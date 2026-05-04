@@ -4,6 +4,16 @@ This project follows a lightweight documentation-focused release flow.
 
 이 프로젝트는 문서 중심의 가벼운 릴리스 흐름을 따릅니다.
 
+## Unreleased
+
+### Changed
+
+- Synchronized platform adapters with structured export hierarchy-source guidance for Stitch HTML/CSS and Figma node-tree inputs
+
+### Changed / 변경
+
+- Stitch HTML/CSS와 Figma node-tree 입력을 structured export hierarchy source로 다루도록 platform adapter 문서를 동기화
+
 ## v0.5.0 - 2026-04-25
 
 ### Added

@@ -15,12 +15,15 @@ Treat the artifact as a structured layout plan, not just a visual guess. The art
 - Build the interface in slices, not in one shot.
 - Use screenshots to verify every structural step.
 - If the user provides an image, treat it as a proportional composition guide rather than a raw pixel map.
+- For UGUI, treat Stitch HTML/CSS exports and Figma node-tree exports as structured hierarchy-source inputs when provided.
 - Group the top-level composition by anchor-owned regions before leaf-level tuning.
 - Turn repeated structures into reusable prefabs or reusable layout blocks when appropriate.
 - Keep likely single-image regions intact unless interaction, animation, or adaptive behavior requires them to be split.
 - Treat text as a layout driver and decide wrapping, truncation, or container growth before shrinking fonts.
 - If a mobile mockup is notch-agnostic, preserve its composition inside the safe area instead of copying raw top and bottom edge pixels.
 - If the user provides `DESIGN.md`, design tokens, or a style guide, read that source before styling and preserve its color, typography, spacing, shape, component state, and prose intent where practical.
+- Keep hierarchy-source inputs (Stitch/Figma exports) separate from style sources like `DESIGN.md` and token/style guides.
+- Do not attempt direct Stitch or Figma API integration unless explicitly requested.
 - Before editing shared prefabs, sprites, materials, or TMP styles directly, decide whether the change should stay local through a variant, wrapper, or local override.
 
 ## What the Artifact Should Emphasize
@@ -71,5 +74,6 @@ For each iteration:
 - Be explicit about tradeoffs when a design seems too dependent on exact pixels.
 - When a popup or mobile layout is involved, call out safe-area ownership directly.
 - When a design-system source is provided, call out how styling traces back to it.
+- When multiple source types are used, state whether each came from hierarchy export or style source.
 - When a shared asset might be edited, call out the safety decision directly.
 - Prefer clear artifact sections such as `Plan`, `Current Change`, `Verification`, and `Next Step`.
