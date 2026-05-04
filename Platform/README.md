@@ -27,6 +27,8 @@ Each adapter keeps the same core rules:
 - group the top-level composition by anchor-owned regions before leaf-level tuning
 - choose scaling rules before sizing children
 - reuse repeated structures through prefabs or reusable blocks where appropriate
+- treat Stitch HTML/CSS and Figma node-tree exports as hierarchy sources when provided
+- keep hierarchy sources separate from DESIGN.md or design-token style sources
 - keep likely single-image assets simple unless runtime behavior requires decomposition
 - verify with screenshots
 - treat popups and safe area carefully
@@ -36,6 +38,8 @@ Each adapter keeps the same core rules:
 - leaf-level 조정보다 먼저 top-level 구성을 anchor 기준 영역으로 나눕니다
 - 자식 크기를 만지기 전에 scaling 규칙을 먼저 정합니다
 - 반복 구조는 상황에 맞게 prefab 또는 reusable block으로 재사용합니다
+- Stitch HTML/CSS와 Figma node-tree export가 제공되면 hierarchy source로 다룹니다
+- hierarchy source와 DESIGN.md 또는 design token 기반 style source를 구분합니다
 - 단일 이미지 자산으로 보이는 영역은 런타임 동작상 분해가 필요할 때만 나눕니다
 - 스크린샷으로 검증합니다
 - popup과 safe area를 신중하게 다룹니다

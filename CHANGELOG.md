@@ -19,10 +19,12 @@ This project follows a lightweight documentation-focused release flow.
 ### Changed
 
 - Expanded `SKILL.md`, root README, reference navigation, examples navigation, design-system intake, and review checks so Figma node-tree exports are routed separately from style-token sources
+- Synchronized platform adapters with structured export hierarchy-source guidance for Stitch HTML/CSS and Figma node-tree inputs
 
 ### Changed / 변경
 
 - Figma node-tree export 입력이 style-token source와 분리되어 라우팅되도록 `SKILL.md`, 루트 README, references/examples 인덱스, design-system intake, review check를 확장
+- Stitch HTML/CSS와 Figma node-tree 입력을 structured export hierarchy source로 다루도록 platform adapter 문서를 동기화
 
 ## v0.5.0 - 2026-04-25
 
