@@ -21,6 +21,9 @@ Do this by prioritizing:
 - safe-area-aware reinterpretation of notch-agnostic mobile mockups
 - DESIGN.md or design-token sources before visual styling when provided
 - cautious handling of shared asset families
+- Stitch HTML/CSS exports and Figma node-tree exports as structured hierarchy sources for UGUI conversion
+- keep hierarchy sources separate from DESIGN.md/design-token styling sources
+- treat direct Stitch/Figma API integration as out of scope unless explicitly requested
 
 ## Execution Rules
 
@@ -31,6 +34,9 @@ Do this by prioritizing:
 - Group the top-level layout into anchor-owned regions before detailing child widgets.
 - If a structure repeats, build one reusable prefab or reusable layout block first.
 - If a region appears to be a single image resource, do not force it into fake sub-widgets unless runtime behavior needs them.
+- For UGUI conversion, prefer structured hierarchy sources only from Stitch HTML/CSS exports or Figma node-tree exports when available.
+- Keep those hierarchy sources separate from DESIGN.md/design-token instructions, which remain styling references.
+- Do not attempt direct Stitch/Figma API integration unless the user explicitly asks for it.
 - Treat text as a layout driver and decide wrapping, truncation, or container growth before shrinking fonts.
 - If a mobile mockup ignores notches or home indicators, preserve its composition inside the safe area instead of copying raw top and bottom edge pixels.
 - If the user provides `DESIGN.md`, design tokens, or a style guide, read that source before styling and preserve its color, typography, spacing, shape, component state, and prose intent where practical.

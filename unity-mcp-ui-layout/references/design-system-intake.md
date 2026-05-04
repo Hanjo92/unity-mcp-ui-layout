@@ -3,7 +3,7 @@
 Use this guide when the user provides a `DESIGN.md`, `design_tokens.json`, Tailwind theme, style guide, or similar design-system source with a Unity UI task.
 
 Pair it with `design-token-to-unity.md` when you need to map tokens into UGUI, TextMeshPro, UI Toolkit, or USS.
-Pair it with `stitch-html-to-ugui.md` when the task also includes a Stitch HTML/CSS export that should drive hierarchy conversion.
+Pair it with `figma-node-tree-to-ugui.md` or `stitch-html-to-ugui.md` when the task also includes a structured export that should drive hierarchy conversion.
 
 ## Goal
 
@@ -12,27 +12,27 @@ Use the design-system source as the styling contract while keeping this skill's 
 - Tokens provide exact values.
 - Prose explains intent, hierarchy, and judgment calls.
 - Mockups show composition, not permission to ignore tokens.
-- Stitch exports, when present, own hierarchy decisions more directly than this guide does.
+- Structured exports, when present, own hierarchy decisions more directly than this guide does.
 
 ## Intake Order
 
 1. Identify the source type: `DESIGN.md`, token JSON, Tailwind theme, Figma-exported values, or prose-only style guide.
-2. Decide whether a separate Stitch HTML/CSS export also exists.
-3. If a Stitch export exists, route hierarchy conversion to `stitch-html-to-ugui.md` first and keep this guide focused on style contract intake.
+2. Decide whether a separate structured export also exists, such as Stitch HTML/CSS or a Figma node/component tree.
+3. If a structured export exists, route hierarchy conversion to that guide first and keep this guide focused on style contract intake.
 4. Extract color, typography, spacing, rounded, component, and state values.
 5. Read prose sections for brand style, color usage, layout philosophy, elevation, shapes, components, and do/don't rules.
 6. Decide whether the task is build mode or repair mode before changing style.
 7. Map the design source into Unity using `design-token-to-unity.md`.
 8. Verify the result with screenshots and a style preservation pass.
 
-## When Stitch Exports Also Exist
+## When Structured Exports Also Exist
 
-If the task includes both a style source and a Stitch hierarchy source:
+If the task includes both a style source and a hierarchy source:
 
-- use the Stitch export to decide parent ownership, repeated units, scroll ownership, and overlay separation
+- use the structured export to decide parent ownership, repeated units, scroll ownership, and overlay separation
 - use tokens and prose to decide colors, typography, spacing rhythm, shape language, and state visuals
 - do not let token values replace missing layout ownership decisions
-- do not let noisy exported wrappers force one-node-per-widget recreation when the style source makes repeated intent clearer
+- do not let a noisy export force one-node-per-widget recreation when the style source makes repeated intent clearer
 
 ## DESIGN.md Specific Rules
 
@@ -84,7 +84,7 @@ When sources disagree:
 - A provided design source overrides ad hoc visual guesses.
 - Tokens override prose for exact values such as colors, font sizes, spacing, and radii.
 - Prose overrides the mockup when the mockup appears to be only illustrative.
-- A complete Stitch HTML/CSS export overrides the mockup for hierarchy.
+- A structured export overrides the mockup for hierarchy when the export is complete enough to trust.
 - Existing project UI conventions matter in repair mode; do not restyle unrelated regions just because a token file exists.
 
 ## Build Mode
@@ -111,7 +111,7 @@ When repairing an existing screen:
 Before calling the work done, ask:
 
 - Did every visible color, text role, corner radius, and repeated component style trace back to the design source or an existing project equivalent?
-- If a Stitch export also existed, did tokens/style guide the visuals without corrupting the structural ownership chosen from the export?
+- If a structured export also existed, did tokens/style guide the visuals without corrupting the structural ownership chosen from the export?
 - Did prose intent affect hierarchy, density, depth, and interaction feedback?
 - Were text/background pairs readable where both values were known?
 - Did repair work avoid broad style drift outside the requested scope?
