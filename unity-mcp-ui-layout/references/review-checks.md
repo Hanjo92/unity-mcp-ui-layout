@@ -143,10 +143,26 @@ Ask:
 - Were known text/background pairs checked for readable contrast?
 - Did the work avoid introducing style drift outside the requested repair scope?
 - Were any deviations from the design source named and justified?
+- If a Stitch export also existed, did the style source stay in the role of visual contract instead of replacing hierarchy ownership decisions?
 
 If the answer is no, revisit the design-source mapping before calling the UI done.
 
-## 13. Scope Check
+## 13. Stitch Export Check
+
+Use this check when the task included Stitch HTML/CSS, exported assets, or another hierarchy-bearing front-end artifact.
+
+Ask:
+
+- Was the export normalized into semantic parent containers instead of copied element-for-element?
+- Were repeated cards, rows, tabs, or list items promoted into one reusable unit where the export clearly repeated them?
+- Did flex, absolute positioning, or overflow signals become container ownership rules instead of many leaf-level offsets?
+- Were absolute or overlay-like children isolated deliberately instead of leaking into the main flow layout?
+- If a style source also existed, did the Stitch export still own hierarchy decisions?
+- Were missing assets, unsupported CSS features, pseudo-elements, or browser-only behavior surfaced as fallback notes instead of silently guessed?
+
+If the answer is no, revisit the Stitch-to-Unity mapping before calling the UI done.
+
+## 14. Scope Check
 
 Ask:
 
@@ -159,7 +175,7 @@ Ask:
 
 If the answer is no, narrow the change before shipping it.
 
-## 14. Final Go/No-Go Rule
+## 15. Final Go/No-Go Rule
 
 Do not call the UI complete unless:
 
@@ -169,3 +185,4 @@ Do not call the UI complete unless:
 4. safe area ownership is correct where relevant
 5. the structure does not depend on arbitrary pixel corrections
 6. any provided design-system source is still respected where applicable
+7. any provided Stitch export source was normalized into stable hierarchy instead of copied literally
