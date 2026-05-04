@@ -1,12 +1,12 @@
 # Unity MCP UI Layout for Claude Artifacts
 
-Use this as the base instruction when Claude is helping design, build, or repair Unity UI from mockups, screenshots, wireframes, or target resolutions.
+Use this as the base instruction when Claude is helping design, build, or repair Unity UI from mockups, screenshots, wireframes, target resolutions, or structured export artifacts.
 
 ## Artifact Goal
 
 Produce Unity UI that matches the intended composition while staying robust under real screen scaling.
 
-Treat the artifact as a structured layout plan, not just a visual guess. The artifact should help turn a reference image into stable Unity hierarchy, anchors, scaling behavior, and verification steps.
+Treat the artifact as a structured layout plan, not just a visual guess. The artifact should help turn reference images or exported hierarchy data into stable Unity hierarchy, anchors, scaling behavior, and verification steps.
 
 ## How to Work
 
@@ -15,12 +15,15 @@ Treat the artifact as a structured layout plan, not just a visual guess. The art
 - Build the interface in slices, not in one shot.
 - Use screenshots to verify every structural step.
 - If the user provides an image, treat it as a proportional composition guide rather than a raw pixel map.
+- If the user provides Stitch HTML/CSS, Figma node-tree JSON, or similar export artifacts, treat them as hierarchy sources for parent ownership and reusable-unit decisions.
+- Do not use direct Stitch or Figma API calls unless the user explicitly changes the task to API integration work.
 - Group the top-level composition by anchor-owned regions before leaf-level tuning.
 - Turn repeated structures into reusable prefabs or reusable layout blocks when appropriate.
 - Keep likely single-image regions intact unless interaction, animation, or adaptive behavior requires them to be split.
 - Treat text as a layout driver and decide wrapping, truncation, or container growth before shrinking fonts.
 - If a mobile mockup is notch-agnostic, preserve its composition inside the safe area instead of copying raw top and bottom edge pixels.
 - If the user provides `DESIGN.md`, design tokens, or a style guide, read that source before styling and preserve its color, typography, spacing, shape, component state, and prose intent where practical.
+- If a structured export and a design-system source are both present, keep hierarchy decisions tied to the export and styling decisions tied to the design source.
 - Before editing shared prefabs, sprites, materials, or TMP styles directly, decide whether the change should stay local through a variant, wrapper, or local override.
 
 ## What the Artifact Should Emphasize
@@ -31,6 +34,7 @@ Treat the artifact as a structured layout plan, not just a visual guess. The art
 - `CanvasScaler` or flex behavior
 - safe-area ownership when relevant
 - text role and overflow behavior when relevant
+- structured export hierarchy when relevant
 - design-system token and prose intent when provided
 - what was changed in the current step
 - what should be verified next
@@ -45,6 +49,9 @@ Treat the artifact as a structured layout plan, not just a visual guess. The art
 - Keep repeated UI patterns reusable instead of rebuilding them manually.
 - Keep popup `Dimmer` and `PopupRoot` as siblings under `ModalLayer`.
 - Apply safe-area handling to `PopupRoot`.
+- Convert Stitch sections or Figma frames into stable region containers before adding leaves.
+- Convert flex or auto-layout signals into parent-owned layout groups when practical.
+- Treat repeated exported cards, rows, tabs, or list items as prefab candidates.
 - When text is involved, explain whether the role should wrap, truncate, stay single-line, or grow its container.
 - Do not over-decompose likely single-image assets.
 

@@ -18,6 +18,7 @@ Use the root skill folder directly:
 - mockup decomposition rules
 - repair mode versus build mode rules
 - DESIGN.md and design-token intake rules
+- Stitch HTML/CSS and Figma node-tree export to UGUI hierarchy rules
 - asset discovery priority and asset naming/folder rules
 - text layout rules
 - notch-agnostic mockup to safe-area mapping
@@ -28,6 +29,7 @@ Use the root skill folder directly:
 - 시안 분해 기준
 - repair mode / build mode 규칙
 - DESIGN.md 및 design token intake 규칙
+- Stitch HTML/CSS 및 Figma node-tree export를 UGUI hierarchy로 옮기는 규칙
 - 자산 탐색 우선순위와 자산 네이밍/폴더 규칙
 - 텍스트 레이아웃 규칙
 - 노치 없는 시안을 safe area 레이아웃으로 재해석하는 규칙
@@ -52,15 +54,31 @@ cp -R ./unity-mcp-ui-layout ~/.codex/skills/
 
 ```text
 Use $unity-mcp-ui-layout to build or fix a Unity UI layout from a mockup, screenshot, or target resolution.
-If DESIGN.md or design tokens are provided, read them before styling.
+If Stitch HTML/CSS or Figma node-tree exports are provided, treat them as hierarchy sources.
+If DESIGN.md or design tokens are provided, read them as style sources before styling.
 ```
 
 ```text
 $unity-mcp-ui-layout를 사용해서 목업, 스크린샷, 목표 해상도를 기준으로 Unity UI 레이아웃을 만들거나 수정해줘.
-DESIGN.md나 design token이 제공되면 스타일링 전에 먼저 읽어줘.
+Stitch HTML/CSS나 Figma node-tree export가 제공되면 hierarchy source로 다뤄줘.
+DESIGN.md나 design token이 제공되면 style source로 스타일링 전에 먼저 읽어줘.
 ```
 
 ## Example User Prompts / 예시 사용자 프롬프트
+
+```text
+Use $unity-mcp-ui-layout to convert the attached Stitch HTML/CSS export into a UGUI screen.
+Do not use direct Stitch API calls.
+Treat the export as the hierarchy source: map sections, flex containers, repeated cards, scroll regions, and overlays into stable UGUI containers and reusable blocks.
+Use any DESIGN.md or token file only as the style source, then verify the result with screenshots.
+```
+
+```text
+Use $unity-mcp-ui-layout to convert the attached Figma node-tree JSON into a UGUI hierarchy.
+Do not use direct Figma API calls.
+Map frames, groups, components, instances, auto-layout, text nodes, and image nodes into parent-owned UGUI containers and reusable prefabs.
+Flag missing assets, unresolved variables, or unsupported node types before finalizing.
+```
 
 ```text
 Use $unity-mcp-ui-layout to build a 1920x1080 UGUI HUD from the attached layout image.

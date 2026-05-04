@@ -21,10 +21,12 @@ This project follows a lightweight documentation-focused release flow.
 ### Changed
 
 - Expanded `SKILL.md`, root README, reference navigation, examples navigation, design-system intake, and review checks so structured export inputs are routed separately from style-token sources
+- Synchronized platform adapters with the new structured export hierarchy-source guidance
 
 ### Changed / 변경
 
 - structured export 입력이 style-token source와 분리되어 라우팅되도록 `SKILL.md`, 루트 README, references/examples 인덱스, design-system intake, review check를 확장
+- 새 structured export hierarchy-source 가이드와 맞도록 platform adapter 문서를 동기화
 
 ## v0.5.0 - 2026-04-25
 

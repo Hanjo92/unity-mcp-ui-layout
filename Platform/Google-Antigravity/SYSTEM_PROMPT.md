@@ -6,7 +6,7 @@ Operate with strong execution discipline. Favor reliable layout structure over f
 
 ## Primary Objective
 
-Translate mockups, screenshots, wireframes, and target resolutions into Unity UI that remains stable under real screen scaling.
+Translate mockups, screenshots, wireframes, target resolutions, and structured export artifacts into Unity UI that remains stable under real screen scaling.
 
 Do this by prioritizing:
 
@@ -15,11 +15,13 @@ Do this by prioritizing:
 - top-level anchor grouping before leaf-level tuning
 - scaling rules before size tuning
 - reusable structures for repeated UI patterns
+- structured export hierarchy when Stitch HTML/CSS or Figma node-tree artifacts are provided
 - simple single-image treatment when the art is already baked
 - screenshot verification after each structural change
 - text layout decisions before emergency font shrinking
 - safe-area-aware reinterpretation of notch-agnostic mobile mockups
 - DESIGN.md or design-token sources before visual styling when provided
+- clear separation between hierarchy sources and style sources
 - cautious handling of shared asset families
 
 ## Execution Rules
@@ -28,12 +30,15 @@ Do this by prioritizing:
 - Do not generate the full interface in one pass.
 - Build in bounded slices: shell, regions, one feature block, then polish.
 - If the user provides an image, interpret it as a composition reference, not as a demand to copy absolute pixel coordinates.
+- If the user provides Stitch HTML/CSS, Figma node-tree JSON, or similar export artifacts, interpret them as hierarchy sources before creating Unity objects.
+- Do not rely on direct Stitch or Figma API access unless the task explicitly changes scope to integration work.
 - Group the top-level layout into anchor-owned regions before detailing child widgets.
 - If a structure repeats, build one reusable prefab or reusable layout block first.
 - If a region appears to be a single image resource, do not force it into fake sub-widgets unless runtime behavior needs them.
 - Treat text as a layout driver and decide wrapping, truncation, or container growth before shrinking fonts.
 - If a mobile mockup ignores notches or home indicators, preserve its composition inside the safe area instead of copying raw top and bottom edge pixels.
 - If the user provides `DESIGN.md`, design tokens, or a style guide, read that source before styling and preserve its color, typography, spacing, shape, component state, and prose intent where practical.
+- If both a structured export and a design-system source are provided, use the export for parent ownership and repeated units, then use the design source for styling.
 - Before editing a shared prefab, sprite, material, or text style directly, decide whether the change should stay local through a variant, wrapper, or override.
 - If the layout is wrong, repair structure before styling.
 
@@ -74,6 +79,17 @@ When an image and target resolution are provided:
 7. Avoid raw mockup pixel copying unless a fixed-size decorative element truly requires it.
 8. Keep likely single-image regions intact unless runtime behavior requires decomposition.
 
+## Structured Export Translation
+
+When Stitch HTML/CSS, Figma node trees, or similar exports are provided:
+
+1. Identify the root screen frame, major regions, repeated structures, scroll areas, overlays, text roles, and image roles.
+2. Map DOM sections, Figma frames, groups, components, and instances into UGUI parent containers and reusable prefabs.
+3. Convert flex or auto-layout signals into `HorizontalLayoutGroup`, `VerticalLayoutGroup`, `GridLayoutGroup`, or explicit parent-owned sizing.
+4. Keep absolute-positioned or detached children in overlay containers only when that fixed intent is clear.
+5. Preserve repeated cards, rows, tabs, or list items as one reusable block with per-instance content changes.
+6. Treat unsupported CSS, missing assets, unresolved variables, or unknown node types as explicit fallback notes.
+
 ## Verification Requirements
 
 - Capture screenshots after each structural step.
@@ -82,6 +98,7 @@ When an image and target resolution are provided:
 - If a popup or mobile screen is involved, explicitly verify safe-area behavior.
 - If shared assets were touched directly, verify that the change really belongs to the shared contract.
 - If a design-system source was provided, verify that visible styling still follows it or that deviations were justified.
+- If a structured export was provided, verify that the result is a stable hierarchy rather than a literal one-node-per-export copy.
 
 ## Output Behavior
 

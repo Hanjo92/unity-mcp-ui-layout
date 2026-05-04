@@ -32,18 +32,34 @@ This includes the newer guidance around:
 여기에는 최근 추가된 아래 가이드도 포함됩니다.
 
 - mockup-native resolution planning
+- Stitch HTML/CSS and Figma node-tree export conversion into UGUI hierarchy
 - text layout as a structural concern
 - safe-area-aware reinterpretation of notch-agnostic mobile mockups
 - shared asset edit safety for prefabs, sprites, materials, and TMP styles
 - mobile verification profiles and bounded repair comparisons
 
 - 시안 원본 해상도 기준 계획
+- Stitch HTML/CSS 및 Figma node-tree export를 UGUI hierarchy로 변환하는 규칙
 - 구조 문제로서의 텍스트 레이아웃
 - 노치 없는 모바일 시안을 safe-area-aware 레이아웃으로 재해석하는 규칙
 - prefab, sprite, material, TMP style에 대한 공유 자산 수정 안전 규칙
 - 모바일 검증 프로필과 범위 제한 비교/수정 규칙
 
 ## Example User Prompts / 예시 사용자 프롬프트
+
+```text
+Using the attached Stitch HTML/CSS export, help me build a stable UGUI screen.
+Please work in an artifact-style loop with sections for Plan, Current Change, Verification, and Next Step.
+Treat the export as the hierarchy source: sections, flex containers, repeated cards, scroll regions, and overlays should become parent-owned Unity containers or reusable blocks.
+Use DESIGN.md or tokens only as style sources, and do not use direct Stitch API calls.
+```
+
+```text
+Using the attached Figma node-tree export, help me build a stable UGUI hierarchy.
+Map frames, groups, components, instances, auto-layout, text nodes, and image nodes into Unity containers, prefabs, TMP roles, and Image roles.
+Flag missing assets, unresolved variables, and unsupported node types in the artifact before finalizing.
+Do not use direct Figma API calls.
+```
 
 ```text
 Using the attached mockup, help me build a 1920x1080 Unity HUD in UGUI.
