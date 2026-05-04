@@ -21,6 +21,7 @@ Use these files when you want a copyable starting point instead of only referenc
 - `mockup-decomposition-example.md`
 - `design-md-layout-example.md`
 - `design-md-repair-example.md`
+- `figma-node-tree-to-ugui-example.md`
 - `mobile-safe-area-mockup-example.md`
 - `mobile-device-profile-verification-example.md`
 - `current-vs-mockup-example.md`
@@ -60,6 +61,7 @@ Use these files when you want a copyable starting point instead of only referenc
 - Start with `mockup-decomposition-example.md` when the main question is what should stay baked, what should split, and what should become a reusable block before layout work begins.
 - Start with `design-md-layout-example.md` when a new screen should be built from a mockup plus `DESIGN.md` or design-token inputs.
 - Start with `design-md-repair-example.md` when an existing screen should be repaired against `DESIGN.md` without drifting from shared tokens.
+- Start with `figma-node-tree-to-ugui-example.md` when the hierarchy source is a Figma node/component-tree export that should become reusable UGUI blocks.
 - Start with `current-vs-mockup-example.md` when the existing screen should be compared against a reference before repair.
 - Start with `repair-one-region-example.md` when the request must stay bounded to one named region.
 - Start with `repair-asset-aware-reuse-example.md` when the repair may touch reusable prefabs, variants, wrappers, shared sprites, materials, or text styles.
@@ -81,19 +83,20 @@ Use these files when you want a copyable starting point instead of only referenc
 5. `mockup-decomposition-example.md` if the main question is what should stay baked, split, or become reusable
 6. `design-md-layout-example.md` if a new screen should follow `DESIGN.md` tokens and prose intent
 7. `design-md-repair-example.md` if an existing screen should be repaired while preserving `DESIGN.md`
-8. `current-vs-mockup-example.md` if the screen already exists and should be compared against a reference image first
-9. `mobile-safe-area-mockup-example.md` if the mockup ignores notch or home-indicator constraints
-10. `mobile-device-profile-verification-example.md` if a mobile-first screen needs named profile coverage before approval
-11. `popup-safe-area-example.md` if mobile safe area and modal structure matter
-12. `settings-dialog-example.md` if the screen is a dense options or preferences dialog
-13. `responsive-split-pane-example.md` if the screen uses a left/right split or tablet-capable dashboard layout
-14. `tabbed-detail-screen-example.md` if tabs, filters, or category buttons switch the visible content
-15. `scroll-view-example.md` if the core challenge is scroll ownership plus reusable repeated rows or cards
-16. `repair-one-region-example.md` if the request should stay bounded to one named region
-17. `repair-asset-aware-reuse-example.md` if a repair may need prefab reuse, variants, wrappers, or shared-asset impact checks
-18. `asset-naming-example.md` if the task also needs shared-versus-screen asset cleanup
-19. `localized-screen-example.md` if the screen must survive both short English and longer localized strings
-20. `long-labels-and-counters-example.md` if long labels, body text, and number growth compete for the same layout
-21. `shared-asset-safety-example.md` if a repair might touch shared prefabs or other shared UI assets
-22. `shared-asset-verification-example.md` if you need a concrete "check another usage first" prompt for shared assets
-23. `ui-toolkit-example.md` if the target screen is clearly driven by `UIDocument`, `UXML`, and `USS`
+8. `figma-node-tree-to-ugui-example.md` if a Figma node/component-tree export should drive reusable UGUI hierarchy decisions
+9. `current-vs-mockup-example.md` if the screen already exists and should be compared against a reference image first
+10. `mobile-safe-area-mockup-example.md` if the mockup ignores notch or home-indicator constraints
+11. `mobile-device-profile-verification-example.md` if a mobile-first screen needs named profile coverage before approval
+12. `popup-safe-area-example.md` if mobile safe area and modal structure matter
+13. `settings-dialog-example.md` if the screen is a dense options or preferences dialog
+14. `responsive-split-pane-example.md` if the screen uses a left/right split or tablet-capable dashboard layout
+15. `tabbed-detail-screen-example.md` if tabs, filters, or category buttons switch the visible content
+16. `scroll-view-example.md` if the core challenge is scroll ownership plus reusable repeated rows or cards
+17. `repair-one-region-example.md` if the request should stay bounded to one named region
+18. `repair-asset-aware-reuse-example.md` if a repair may need prefab reuse, variants, wrappers, or shared-asset impact checks
+19. `asset-naming-example.md` if the task also needs shared-versus-screen asset cleanup
+20. `localized-screen-example.md` if the screen must survive both short English and longer localized strings
+21. `long-labels-and-counters-example.md` if long labels, body text, and number growth compete for the same layout
+22. `shared-asset-safety-example.md` if a repair might touch shared prefabs or other shared UI assets
+23. `shared-asset-verification-example.md` if you need a concrete "check another usage first" prompt for shared assets
+24. `ui-toolkit-example.md` if the target screen is clearly driven by `UIDocument`, `UXML`, and `USS`

@@ -1,6 +1,6 @@
 ---
 name: unity-mcp-ui-layout
-description: Use when Unity UI needs layout-focused repair or implementation through `unity-mcp`, especially for UGUI or UI Toolkit screens with cross-resolution drift, safe-area problems, text overflow, mockup translation, DESIGN.md or design-token inputs, or shared prefab reuse decisions.
+description: Use when Unity UI needs layout-focused repair or implementation through `unity-mcp`, especially for UGUI or UI Toolkit screens with cross-resolution drift, safe-area problems, text overflow, mockup translation, Figma node-tree exports, DESIGN.md or design-token inputs, or shared prefab reuse decisions.
 ---
 
 # Unity MCP UI Layout
@@ -18,6 +18,7 @@ Use this skill for Unity UI work where layout stability matters more than raw pi
 - A UI Toolkit screen looks correct once but breaks after width, overflow, or text changes.
 - A scroll-heavy list, feed, catalog, or picker mockup needs one clear scroll owner plus reusable repeated items.
 - Safe area, localization, counters, or long labels are destabilizing the layout.
+- A Figma-exported node tree or component tree should become reusable UGUI containers and prefabs.
 - A `DESIGN.md`, `design_tokens.json`, Tailwind theme, or similar design-system source should guide Unity UI styling.
 - A repeated UI block should become reusable instead of being rebuilt manually.
 - A one-screen repair may touch shared prefabs, sprites, materials, or text styles.
@@ -49,11 +50,14 @@ For the full decision guide, read `references/ui-change-modes.md`.
 
 ### 3. Design Source
 
+- If the user provides Figma node-tree JSON, component-tree JSON, variables, styles, or similar exported Figma artifacts, treat the node tree as a hierarchy source before creating Unity objects.
 - If the user provides `DESIGN.md`, design tokens, Tailwind theme values, or a design-system document, read it before styling.
+- Use Figma node exports for ownership, grouping, repeated components, auto-layout intent, and layout behavior. Use design-system sources for colors, typography, spacing scales, shape language, and state styling.
 - Treat machine-readable tokens as the style contract and Markdown prose as intent for applying those values.
 - Use design-source guidance to preserve color, typography, spacing, shape, component states, and accessibility while still following layout stability rules.
 
 For the intake and Unity mapping rules, read `references/design-system-intake.md` and `references/design-token-to-unity.md`.
+For Figma node-tree hierarchy mapping, read `references/figma-node-tree-to-ugui.md`.
 
 ### 4. Asset Strategy
 
@@ -65,6 +69,7 @@ For the intake and Unity mapping rules, read `references/design-system-intake.md
 
 - This skill assumes Unity is available through `unity-mcp` or an equivalent MCP bridge.
 - It works best when you can inspect the current scene or UI document and verify with screenshots.
+- Exported Figma artifacts are valid first-class inputs even when direct Figma API access is unavailable.
 - If a `DESIGN.md` or token source is present, style decisions should be traced back to that source where practical.
 - `@google/design.md` CLI checks are useful when available, but missing CLI tooling is a supported fallback.
 - Use asset-aware retrieval only when the environment supports it and the task actually needs reuse-sensitive decisions.
@@ -74,6 +79,7 @@ For the intake and Unity mapping rules, read `references/design-system-intake.md
 
 - The layout stays stable in a fresh screenshot at the main target and one additional aspect ratio.
 - Text still behaves correctly with longer strings, counters, or localization growth.
+- If a Figma node-tree source was provided, repeated blocks and parent ownership still read clearly in the resulting Unity hierarchy.
 - If a design-system source was provided, visible colors, typography, spacing, shape, and component states still follow it.
 - Shared assets were either left alone, localized through variants/wrappers, or explicitly verified before base edits.
 - Script-backed UI changes do not leave unresolved compile or console errors.
@@ -84,6 +90,7 @@ For the intake and Unity mapping rules, read `references/design-system-intake.md
 
 - Identify the active scene or `UIDocument` before editing.
 - Choose the UI stack, change mode, design source, and asset strategy explicitly.
+- If a Figma node-tree source exists, normalize it into a semantic tree before copying any coordinates.
 - If a design-system source exists, extract the tokens, prose intent, component states, and any do/don't guardrails before styling.
 - Inspect the root layout owner before touching children.
 - For UGUI, inspect `Canvas`, `CanvasScaler`, parent `RectTransform`, layout components, and safe-area handling.
@@ -132,6 +139,7 @@ Do not call the task done until every applicable check below passes:
 - The layout was re-checked at one additional aspect ratio, or portrait plus landscape for mobile-first work.
 - Compile or console errors were cleared if script-backed UI changed.
 - Text behavior still works for longer or more realistic content.
+- Figma node-tree inputs were normalized into stable containers, repeated blocks, or overlays instead of remaining as noisy one-off copies.
 - Provided design-system tokens and prose were preserved, or deviations were explicitly justified.
 - Component text/background pairs were checked for readable contrast where the source defines both values.
 - Shared-asset edits were treated with explicit safety checks.
@@ -151,6 +159,10 @@ Do not call the task done until every applicable check below passes:
 
 - `references/design-system-intake.md`
 - `references/design-token-to-unity.md`
+
+### Structured Export Sources
+
+- `references/figma-node-tree-to-ugui.md`
 
 ### Mockups, Resolution, and Safe Area
 

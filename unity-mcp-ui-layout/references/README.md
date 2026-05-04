@@ -29,6 +29,7 @@ Use it when `SKILL.md` points you here for deeper guidance.
 - `scroll-view-patterns.md`
 - `design-system-intake.md`
 - `design-token-to-unity.md`
+- `figma-node-tree-to-ugui.md`
 
 ## UGUI-Focused Guidance
 

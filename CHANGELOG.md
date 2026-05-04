@@ -4,6 +4,26 @@ This project follows a lightweight documentation-focused release flow.
 
 이 프로젝트는 문서 중심의 가벼운 릴리스 흐름을 따릅니다.
 
+## Unreleased
+
+### Added
+
+- Added Figma node-tree to UGUI conversion guidance for mapping frames, groups, components, instances, and auto-layout into reusable Unity hierarchy
+- Added a practical Figma export example prompt for structure-first UGUI conversion
+
+### Added / 추가
+
+- frame, group, component, instance, auto-layout을 재사용 가능한 Unity 계층으로 옮기기 위한 Figma node-tree -> UGUI 변환 가이드 추가
+- structure-first UGUI 변환용 Figma export 실전 예시 프롬프트 추가
+
+### Changed
+
+- Expanded `SKILL.md`, root README, reference navigation, examples navigation, design-system intake, and review checks so Figma node-tree exports are routed separately from style-token sources
+
+### Changed / 변경
+
+- Figma node-tree export 입력이 style-token source와 분리되어 라우팅되도록 `SKILL.md`, 루트 README, references/examples 인덱스, design-system intake, review check를 확장
+
 ## v0.5.0 - 2026-04-25
 
 ### Added
