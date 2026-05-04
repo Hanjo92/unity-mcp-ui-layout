@@ -8,23 +8,25 @@ This project follows a lightweight documentation-focused release flow.
 
 ### Added
 
+- Added Stitch HTML/CSS to UGUI conversion guidance for treating exported front-end structure as a hierarchy source instead of a literal web-runtime copy
 - Added Figma node-tree to UGUI conversion guidance for mapping frames, groups, components, instances, and auto-layout into reusable Unity hierarchy
-- Added a practical Figma export example prompt for structure-first UGUI conversion
+- Added practical Stitch export and Figma export example prompts for structure-first UGUI conversion
 
 ### Added / 추가
 
+- exported front-end 구조를 웹 런타임 복사본이 아니라 hierarchy source로 다루기 위한 Stitch HTML/CSS -> UGUI 변환 가이드 추가
 - frame, group, component, instance, auto-layout을 재사용 가능한 Unity 계층으로 옮기기 위한 Figma node-tree -> UGUI 변환 가이드 추가
-- structure-first UGUI 변환용 Figma export 실전 예시 프롬프트 추가
+- structure-first UGUI 변환용 Stitch export 및 Figma export 실전 예시 프롬프트 추가
 
 ### Changed
 
-- Expanded `SKILL.md`, root README, reference navigation, examples navigation, design-system intake, and review checks so Figma node-tree exports are routed separately from style-token sources
-- Synchronized platform adapters with structured export hierarchy-source guidance for Stitch HTML/CSS and Figma node-tree inputs
+- Expanded `SKILL.md`, root README, reference navigation, examples navigation, design-system intake, and review checks so structured export inputs are routed separately from style-token sources
+- Synchronized platform adapters with the new structured export hierarchy-source guidance
 
 ### Changed / 변경
 
-- Figma node-tree export 입력이 style-token source와 분리되어 라우팅되도록 `SKILL.md`, 루트 README, references/examples 인덱스, design-system intake, review check를 확장
-- Stitch HTML/CSS와 Figma node-tree 입력을 structured export hierarchy source로 다루도록 platform adapter 문서를 동기화
+- structured export 입력이 style-token source와 분리되어 라우팅되도록 `SKILL.md`, 루트 README, references/examples 인덱스, design-system intake, review check를 확장
+- 새 structured export hierarchy-source 가이드와 맞도록 platform adapter 문서를 동기화
 
 ## v0.5.0 - 2026-04-25
 

@@ -143,24 +143,24 @@ Ask:
 - Were known text/background pairs checked for readable contrast?
 - Did the work avoid introducing style drift outside the requested repair scope?
 - Were any deviations from the design source named and justified?
-- If a Figma node tree also existed, did the style source stay in the role of visual contract instead of replacing hierarchy ownership decisions?
+- If a structured export also existed, did the style source stay in the role of visual contract instead of replacing hierarchy ownership decisions?
 
 If the answer is no, revisit the design-source mapping before calling the UI done.
 
-## 13. Figma Export Check
+## 13. Structured Export Check
 
-Use this check when the task included Figma node-tree JSON, component-tree exports, variable exports, or another hierarchy-bearing Figma artifact.
+Use this check when the task included Stitch HTML/CSS, Figma node-tree JSON, component-tree exports, or another hierarchy-bearing export artifact.
 
 Ask:
 
 - Was the export normalized into semantic parent containers instead of copied node-for-node?
 - Were repeated cards, rows, tabs, or list items promoted into one reusable unit where the export clearly repeated them?
-- Did auto-layout, constraints, or absolute-child signals become container ownership rules instead of many leaf-level offsets?
+- Did flex, auto-layout, or overflow signals become container ownership rules instead of many leaf-level offsets?
 - Were absolute or overlay-like children isolated deliberately instead of leaking into the main flow layout?
-- If a style source also existed, did the Figma export still own hierarchy decisions?
-- Were missing assets, unresolved variables, unsupported constraints, or unknown node types surfaced as fallback notes instead of silently guessed?
+- If a style source also existed, did the export still own hierarchy decisions?
+- Were missing assets, unsupported CSS features, or unresolved node types surfaced as fallback notes instead of silently guessed?
 
-If the answer is no, revisit the Figma-to-Unity mapping before calling the UI done.
+If the answer is no, revisit the export-to-Unity mapping before calling the UI done.
 
 ## 14. Scope Check
 
@@ -185,4 +185,4 @@ Do not call the UI complete unless:
 4. safe area ownership is correct where relevant
 5. the structure does not depend on arbitrary pixel corrections
 6. any provided design-system source is still respected where applicable
-7. any provided Figma node-tree source was normalized into stable hierarchy instead of copied literally
+7. any provided structured export source was normalized into stable hierarchy instead of copied literally
