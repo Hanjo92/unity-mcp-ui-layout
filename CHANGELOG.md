@@ -4,6 +4,28 @@ This project follows a lightweight documentation-focused release flow.
 
 이 프로젝트는 문서 중심의 가벼운 릴리스 흐름을 따릅니다.
 
+## Unreleased
+
+### Added
+
+- Added Stitch HTML/CSS to UGUI conversion guidance for treating exported front-end structure as a hierarchy source instead of a literal web-runtime copy
+- Added Figma node-tree to UGUI conversion guidance for mapping frames, groups, components, instances, and auto-layout into reusable Unity hierarchy
+- Added practical Stitch export and Figma export example prompts for structure-first UGUI conversion
+
+### Added / 추가
+
+- exported front-end 구조를 웹 런타임 복사본이 아니라 hierarchy source로 다루기 위한 Stitch HTML/CSS -> UGUI 변환 가이드 추가
+- frame, group, component, instance, auto-layout을 재사용 가능한 Unity 계층으로 옮기기 위한 Figma node-tree -> UGUI 변환 가이드 추가
+- structure-first UGUI 변환용 Stitch export 및 Figma export 실전 예시 프롬프트 추가
+
+### Changed
+
+- Expanded `SKILL.md`, root README, reference navigation, examples navigation, design-system intake, and review checks so structured export inputs are routed separately from style-token sources
+
+### Changed / 변경
+
+- structured export 입력이 style-token source와 분리되어 라우팅되도록 `SKILL.md`, 루트 README, references/examples 인덱스, design-system intake, review check를 확장
+
 ## v0.5.0 - 2026-04-25
 
 ### Added
