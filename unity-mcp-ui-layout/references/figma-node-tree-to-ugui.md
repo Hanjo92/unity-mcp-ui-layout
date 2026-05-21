@@ -75,18 +75,31 @@ If any item above is missing, use the fallback rules at the end and capture requ
 
 ### Auto Layout Nodes
 
+Treat Figma auto-layout as a UGUI layout-component signal first, not as a set of child coordinates.
+
 - `layoutMode = HORIZONTAL`
-  - prefer `HorizontalLayoutGroup`.
+  - default to `HorizontalLayoutGroup`.
   - preserve:
     - `itemSpacing` -> `spacing`,
     - `padding*` -> container padding,
     - align/justify intent -> child/alignment settings (best effort).
 - `layoutMode = VERTICAL`
-  - prefer `VerticalLayoutGroup` with equivalent spacing and padding.
+  - default to `VerticalLayoutGroup` with equivalent spacing and padding.
 - `counterAxisSizing` / `primaryAxisSizing` hints:
   - fixed size -> fixed child dimensions (`sizeDelta`/preferred size behavior),
   - auto size -> allow content-driven expansion where stable (`ContentSizeFitter` only when parent owns sizing, avoid deep nesting).
-- `layoutWrap = WRAP` exports: prefer manual row/column containers over nested auto-layout if wraps are visible and content is repetitive.
+- `layoutWrap = WRAP` exports: prefer `GridLayoutGroup` or owned row/column containers with layout groups when wraps are visible and content is repetitive.
+- Do not recreate auto-layout children with per-child `anchoredPosition` unless the group is genuinely irregular; name that exception when you do.
+
+### Repeated Sibling Layout
+
+Use a layout component even when the Figma export does not mark a node as auto-layout if siblings share regular structure or spacing.
+
+- Repeated horizontal rows, button groups, tabs, chips, stat blocks, icon stacks, and card internals -> `HorizontalLayoutGroup` or `VerticalLayoutGroup`.
+- Repeated grids, inventories, galleries, and tile lists -> `GridLayoutGroup`.
+- Per-child size differences -> parent `LayoutGroup` plus targeted `LayoutElement`, not manual offsets on every child.
+- Spacing and padding belong on the parent layout group before local child nudges.
+- Manual placement is acceptable for intentionally irregular compositions, overlays, decorative clusters, or one-off art regions; document the reason.
 
 ### Absolute Children
 
@@ -99,6 +112,21 @@ If any item above is missing, use the fallback rules at the end and capture requ
   - anchor-preserving offsets on the `RectTransform`,
   - local offsets only when parent is a fixed region.
 - Do not mix absolute offsets as the primary structure for whole screens.
+- If several absolute siblings have equal spacing, matching shape, or repeated roles, convert them into a layout-group-owned container instead of preserving absolute placement.
+
+### Anchor and Pivot Mapping
+
+Figma positions are usually measured from a top-left design-space origin. Do not convert that origin into a blanket top-left UGUI pivot.
+
+- Choose anchors from the node's visual relationship to its parent: left, right, top, bottom, center, stretch, or edge-attached.
+- Choose pivot from growth or motion intent:
+  - centered content and dialogs -> center pivot,
+  - bars -> top-center, bottom-center, left-center, or right-center pivot,
+  - corner-attached widgets -> matching corner pivot,
+  - overlays/badges -> pivot relative to the attached edge or corner.
+- Use Figma constraints as hints for anchor choice, not as permission to set every child to top-left.
+- Use `absoluteBoundingBox` values as measurement data for size and initial offsets only after parent ownership, anchors, and pivot are chosen.
+- If constraints are missing, infer anchors and pivot from semantic role and parent region before falling back to raw offsets.
 
 ### Text Nodes
 
@@ -177,7 +205,7 @@ Conflict rule:
   - convert to a container and preserve children structure,
   - log the type mismatch in notes for later cleanup.
 - Unknown/unsupported constraints
-  - map geometry to `RectTransform` with anchored offsets and document assumptions.
+  - map geometry to `RectTransform` with role-based anchors/pivot plus anchored offsets, then document assumptions.
 - Missing image asset
   - create placeholder object with descriptive name and move forward.
 - Too noisy or deep tree
@@ -199,6 +227,8 @@ When a block cannot be reliably mapped, switch to repair mode:
 - Are frames and groups used only when they own layout/responsibility?
 - Are components mapped to reusable prefabs, with instances driving repeated copies?
 - Are auto-layout nodes translated into layout groups instead of manual offsets?
+- Are regular repeated siblings owned by `HorizontalLayoutGroup`, `VerticalLayoutGroup`, or `GridLayoutGroup` unless an irregular manual-placement exception is named?
+- Are pivots selected from role, constraints, growth, or motion intent instead of inherited from Figma's top-left coordinate origin?
 - Are absolute children isolated so they do not destabilize flow layout?
 - Did we keep one-source visual regions (image/text role decisions) clean and reusable?
 - Are variables and explicit styles harmonized with clear fallback notes?

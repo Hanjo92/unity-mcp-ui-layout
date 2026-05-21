@@ -156,6 +156,8 @@ Ask:
 - Was the export normalized into semantic parent containers instead of copied node-for-node?
 - Were repeated cards, rows, tabs, or list items promoted into one reusable unit where the export clearly repeated them?
 - Did flex, auto-layout, or overflow signals become container ownership rules instead of many leaf-level offsets?
+- For UGUI, did regular repeated siblings use `HorizontalLayoutGroup`, `VerticalLayoutGroup`, `GridLayoutGroup`, and targeted `LayoutElement` overrides unless an irregular manual-placement exception was named?
+- Were anchors and pivots chosen from UI role, constraints, growth, or motion intent instead of defaulting to the export coordinate origin?
 - Were absolute or overlay-like children isolated deliberately instead of leaking into the main flow layout?
 - If a style source also existed, did the export still own hierarchy decisions?
 - Were missing assets, unsupported CSS features, or unresolved node types surfaced as fallback notes instead of silently guessed?

@@ -21,11 +21,15 @@ This project follows a lightweight documentation-focused release flow.
 ### Changed
 
 - Expanded `SKILL.md`, root README, reference navigation, examples navigation, design-system intake, and review checks so structured export inputs are routed separately from style-token sources
+- Clarified Figma export mapping so UGUI pivots are selected from UI role, constraints, growth, or motion intent rather than Figma's top-left coordinate origin
+- Strengthened Figma export guidance so auto-layout and regular repeated siblings default to UGUI layout components instead of per-child manual placement
 - Synchronized platform adapters with the new structured export hierarchy-source guidance
 
 ### Changed / 변경
 
 - structured export 입력이 style-token source와 분리되어 라우팅되도록 `SKILL.md`, 루트 README, references/examples 인덱스, design-system intake, review check를 확장
+- Figma export 변환 시 UGUI pivot을 Figma의 좌상단 좌표 원점이 아니라 UI 역할, constraints, growth, motion intent 기준으로 선택하도록 명확화
+- Figma export의 auto-layout 및 규칙적인 반복 sibling이 per-child 수동 배치 대신 UGUI layout component를 기본으로 쓰도록 가이드 강화
 - 새 structured export hierarchy-source 가이드와 맞도록 platform adapter 문서를 동기화
 
 ## v0.5.0 - 2026-04-25

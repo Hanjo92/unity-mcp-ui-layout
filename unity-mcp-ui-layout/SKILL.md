@@ -141,9 +141,11 @@ For structured export intake and hierarchy mapping, read `references/stitch-html
 Do not call the task done until every applicable check below passes:
 
 - A fresh whole-screen verification screenshot exists.
+- If a mockup, screenshot, or wireframe was provided, one final review pass was run against it after implementation changes.
 - The layout was re-checked at one additional aspect ratio, or portrait plus landscape for mobile-first work.
 - Compile or console errors were cleared if script-backed UI changed.
 - Text behavior still works for longer or more realistic content.
+- UGUI repeated siblings and regular auto-layout/flex groups use layout components, or the manual-placement exception is named.
 - Structured export inputs were normalized into stable containers, repeated blocks, or overlays instead of remaining as noisy one-off copies.
 - Provided design-system tokens and prose were preserved, or deviations were explicitly justified.
 - Component text/background pairs were checked for readable contrast where the source defines both values.

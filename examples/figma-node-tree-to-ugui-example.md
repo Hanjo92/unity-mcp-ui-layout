@@ -30,17 +30,21 @@ Do not use Figma API calls.
    - prefab candidates from COMPONENT nodes,
    - INSTANCE placements as prefab instances,
    - leaf text and image nodes as TMP/Image roles.
+   Choose anchors and pivots from each node's parent relationship, constraints, growth, and motion intent. Do not default every RectTransform pivot to top-left just because Figma coordinates are measured from a top-left origin.
 
 3) Convert AUTO-LAYOUT frames:
    - HORIZONTAL -> HorizontalLayoutGroup,
    - VERTICAL -> VerticalLayoutGroup,
+   - WRAP or grid-like repeated content -> GridLayoutGroup or owned row/column layout groups,
    - preserve spacing/padding/alignment intent,
+   - use LayoutElement for intentional per-child size differences,
+   - avoid per-child anchoredPosition when a parent layout group can own spacing and alignment,
    - keep mixed ABSOLUTE children in an overlay container when needed.
 
 4) Handle decomposition:
    - collapse obvious noisy wrappers (single-child visual-only groups, empty wrappers, decorative seams) but keep semantic ownership containers,
    - keep likely baked decorative regions whole as one image/block unless interaction, animation, dynamic text, or adaptation requires split,
-   - convert repeated structures to reusable prefabs or reusable layout blocks first, then instance them.
+   - convert repeated structures to reusable prefabs or reusable layout blocks first, then instance them under a layout-group-owned parent when spacing is regular.
 
 5) Text/image role pass:
    - assign TMP roles (title/body/label/caption) with explicit overflow/word-wrap choices,
@@ -55,6 +59,8 @@ Do not use Figma API calls.
 7) Before completion, run a concise self-check:
    - Are repeated blocks instances instead of manual duplicates?
    - Are parent containers structurally stable and not replaced by pixel nudges?
+   - Are auto-layout and regular repeated siblings owned by LayoutGroup components unless an exception is named?
+   - Are anchors and pivots role-driven instead of top-left defaults copied from Figma coordinates?
    - Are unresolved nodes/types documented with fallback decisions?
 
 If critical fields are missing from the export (children, constraints, component IDs, or asset refs), pause and request exactly what is missing before creating final structure.
