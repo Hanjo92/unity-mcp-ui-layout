@@ -36,16 +36,18 @@ Use this when the user provides a mockup or screenshot and wants a HUD built in 
 ### Typical sequence
 
 1. Inspect the existing scene and UI roots
-2. Create or identify the root canvas structure
-3. Build `SafeAreaRoot` and `HUDRoot`
-4. Add corner and center containers
-5. Add one HUD group at a time
-6. Capture screenshots after each slice
+2. Produce and review a layer-to-RectTransform tree plan before creating objects
+3. Create or identify the root canvas structure
+4. Build `SafeAreaRoot` and `HUDRoot`
+5. Add corner and center containers
+6. Add one HUD group at a time
+7. Capture screenshots after each slice
 
 ### Example prompt
 
 ```text
 Build a 1920x1080 UGUI HUD from the attached image.
+Before creating objects, produce a layer-to-RectTransform tree plan from the mockup.
 Create the root canvas structure first, then SafeAreaRoot and HUDRoot, then add corner containers before leaf widgets.
 Verify each structural step with screenshots.
 ```

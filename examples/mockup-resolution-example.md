@@ -15,6 +15,7 @@ This example shows how to work from a design image when the mockup's own pixel r
 Use $unity-mcp-ui-layout to build this UGUI HUD from the attached mockup.
 The mockup image is 1600x900 and the implementation target is 1920x1080.
 Use the mockup resolution as the composition measurement space and 1920x1080 as the implementation and verification space.
+Run a layer-to-tree pass in the mockup resolution before translating the result into a Unity Transform/RectTransform hierarchy.
 Group the top-level composition into anchor-owned regions first.
 Do not decompose decorative baked regions unless runtime behavior requires it.
 Turn repeated status widgets into one reusable prefab or reusable layout block.

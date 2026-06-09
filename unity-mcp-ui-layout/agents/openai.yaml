@@ -1,4 +1,4 @@
 interface:
   display_name: "Unity MCP UI Layout"
-  short_description: "Unity UI mockup-to-prefab layout via MCP."
-  default_prompt: "Use $unity-mcp-ui-layout to repair or build Unity UI through staged, layout-focused edits. Trigger it for attached UI mockups, mockup screenshots, uploaded design images, dropped design images, reference images, UI 시안, and requests to turn, convert, make, generate, or create Unity UI prefabs or 프리팹 from a design. Include Korean shorthand such as 시안 던져줄게, 시안 보고 만들어줘, and 프리팹 만들어줘. Choose UGUI or UI Toolkit first, decide repair versus build, read DESIGN.md or design tokens before styling, and verify with screenshots."
+  short_description: "Unity UI layer-to-Transform layout via MCP."
+  default_prompt: "Use $unity-mcp-ui-layout to repair or build Unity UI through staged, layout-focused edits. Trigger it for attached UI mockups, mockup screenshots, uploaded design images, dropped design images, reference images, UI 시안, 시안 던져줄게, and requests to turn, convert, make, generate, or create Unity UI prefabs or 프리팹 from a design. For designs, run a layer-to-Transform tree pass first: identify 레이어 구조, 트리 구조, parent-owned regions, reusable groups, runtime leaves, and decorative image layers before creating objects. Choose UGUI or UI Toolkit, read design tokens before styling, and verify with screenshots."

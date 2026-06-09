@@ -1,6 +1,6 @@
 ---
 name: unity-mcp-ui-layout
-description: "Use when Unity UI needs layout-focused repair or implementation through `unity-mcp`: attached UI mockup, mockup screenshot, uploaded/dropped design image, reference image, wireframe, or UI 시안 to turn or convert into runtime UGUI/UI Toolkit; create Unity UI prefabs/프리팹 생성, prefab variants, or reusable blocks; or fix cross-resolution drift, safe-area problems, text overflow, structured exports, design tokens, or shared prefab reuse."
+description: "Use when Unity UI needs layout-focused implementation or repair through `unity-mcp`: attached UI mockup, mockup screenshot, uploaded design image, dropped design image, reference image, wireframe, or UI 시안; analyze visual layers into a layer-to-Transform tree/레이어 트리 구조; turn or convert into UGUI/UI Toolkit; create Unity UI prefabs/프리팹 생성; or fix drift, safe area, text overflow, structured exports, tokens, or shared prefab reuse."
 ---
 
 # Unity MCP UI Layout
@@ -16,6 +16,7 @@ Use this skill for Unity UI work where layout stability matters more than raw pi
 - A mockup, screenshot, or wireframe needs to become runtime Unity UI.
 - An attached UI mockup, layout image, mockup screenshot, uploaded or dropped design/reference image, or UI 시안 should become UGUI, UI Toolkit, or Unity UI prefabs.
 - Natural wording such as "turn this reference image into UI", "convert this mockup to a prefab", "시안 던져줄게", or "프리팹 만들어줘" should trigger this skill.
+- A visual design needs a layer-to-Transform tree pass so the Unity Transform or RectTransform hierarchy is planned before object creation.
 - The user asks to create Unity UI prefabs, 프리팹, prefab variants, or reusable UI blocks from a provided design image.
 - An existing UGUI screen drifts across aspect ratios or target resolutions.
 - A UI Toolkit screen looks correct once but breaks after width, overflow, or text changes.
@@ -100,6 +101,8 @@ For structured export intake and hierarchy mapping, read `references/stitch-html
 - Choose the UI stack, change mode, design source, and asset strategy explicitly.
 - If a structured export source exists, normalize it into a semantic tree before copying any coordinates.
 - If a design-system source exists, extract the tokens, prose intent, component states, and any do/don't guardrails before styling.
+- If no structured hierarchy source exists and a mockup, screenshot, reference image, or UI 시안 exists, run a layer-to-Transform tree pass before creating objects and keep that tree as the layout contract.
+- If a structured export and a mockup/screenshot both exist, let the structured export own hierarchy and use the raster layer pass as composition validation.
 - Inspect the root layout owner before touching children.
 - For UGUI, inspect `Canvas`, `CanvasScaler`, parent `RectTransform`, layout components, and safe-area handling.
 - For UI Toolkit, inspect `UIDocument`, linked `UXML`, linked `USS`, panel settings, and container ownership.
@@ -145,6 +148,8 @@ Do not call the task done until every applicable check below passes:
 
 - A fresh whole-screen verification screenshot exists.
 - If a mockup, screenshot, or wireframe was provided, one final review pass was run against it after implementation changes.
+- If no structured hierarchy source existed and a mockup, screenshot, reference image, or UI 시안 drove the work, the final Unity Transform or RectTransform tree still matches the approved layer-to-tree pass.
+- If a structured export existed alongside a mockup/screenshot, hierarchy still follows the export and the raster image was used for composition validation.
 - The layout was re-checked at one additional aspect ratio, or portrait plus landscape for mobile-first work.
 - Compile or console errors were cleared if script-backed UI changed.
 - Text behavior still works for longer or more realistic content.

@@ -39,6 +39,8 @@ Convert exported structure into runtime-holdable UGUI containers first, then sty
 
 If required files are missing, request missing inputs instead of guessing hierarchy from partial CSS.
 
+If a structured export and screenshot both exist, use the export as the hierarchy source and the screenshot or mockup layer pass as composition validation. Do not let raster layer guesses override clear DOM structure, but use the image to catch missing overlays, baked art, or visual grouping that the export hides.
+
 ## Mapping DOM-Like Hierarchy to UGUI Containers
 
 Use this ownership-first mapping:
@@ -177,4 +179,3 @@ Only apply when target includes mobile displays that need cutout handling:
 - Are text and image roles explicit and stable at runtime?
 - Is safe area handled at one correct parent (where needed)?
 - Did we flag unsupported CSS or unclear intent instead of silently guessing?
-

@@ -43,6 +43,8 @@ If only one resolution works, the implementation is not done yet.
 Ask:
 
 - Does each region have a clear parent that owns layout?
+- Is there a clear layer stack from screen shell to regions, repeated groups, runtime leaves, and decorative image layers?
+- Does the Unity Transform tree or RectTransform tree match that layer stack instead of a flat set of visual fragments?
 - Does each repeated group have a clear layout owner?
 - Were repeated structures turned into reusable prefabs or reusable layout blocks where appropriate?
 - Are child offsets being used only for local adjustments rather than structural compensation?
@@ -50,6 +52,21 @@ Ask:
 - If this is a scroll-heavy UI, is there one clear scroll owner, one content container, and one reusable repeated-item pattern?
 
 If many children carry unique offsets, the structure is probably still too fragile.
+
+## 4A. Layer And Transform Tree Check
+
+Use this check when a mockup, screenshot, reference image, or UI 시안 drove the implementation.
+
+Ask:
+
+- Was a layer pass done before object creation?
+- Does every layer name its parent owner, runtime responsibility, and keep-whole or split reason?
+- Are major visual layers mapped to a parent-owned transform hierarchy rather than copied as unrelated siblings?
+- Are reusable groups represented by prefab roots or reusable layout block roots?
+- Are decorative image layers kept as single image nodes unless interaction, animation, dynamic content, or adaptive layout requires splitting?
+- 레이어 구조 and 트리 구조가 Unity `Transform`/`RectTransform` hierarchy에서 읽히는가?
+
+If the transform tree cannot be read without opening every leaf, return to decomposition before polishing visuals.
 
 ## 5. Asset Granularity Check
 

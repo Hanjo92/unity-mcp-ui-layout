@@ -49,20 +49,44 @@ When image-to-layout work intersects with asset reuse, keep the layout workflow 
 
 ## Translation Procedure
 
-### 1. Segment the image
+### 1. Run a layer pass
+
+Before creating Unity objects, describe the layer stack from broad to narrow:
+
+- screen/background layer
+- safe-area or modal ownership layer
+- major region layer such as header, body, footer, side rail, popup, or overlay
+- repeated group layer such as cards, slots, rows, tabs, badges, or button clusters
+- runtime leaf layer such as text, button hit targets, dynamic icons, counters, and stateful badges
+- decorative image layer that should stay as one sprite or image where runtime behavior does not need splitting
+
+The layer pass should produce a Unity Transform tree plan, not just a visual checklist. For UGUI, map it to a RectTransform tree such as `Canvas -> SafeAreaRoot -> ScreenRoot -> RegionRoot -> ReusableGroup -> RuntimeLeaf`. For UI Toolkit, map it to nested `VisualElement` containers with the same ownership boundaries.
+
+Tree plan schema:
+
+- node path: stable path from the screen root, such as `Canvas/HUDRoot/TopRightCluster/CurrencyChip`
+- role: shell, safe-area owner, region, scroll owner, overlay, reusable group, runtime leaf, or decorative image
+- parent owner: the parent that controls position, scaling, spacing, clipping, or safe area
+- Unity type: `Transform`, `RectTransform`, prefab root, layout group, `ScrollRect`, or UI Toolkit `VisualElement`
+- anchor/pivot intent: top-left, stretch, centered, fixed overlay, scroll content, or parent-flow child
+- layout owner: parent layout group, child `LayoutElement`, manual exception, flex container, or USS class
+- geometry ratios: approximate normalized bounds for parent-owned regions before child offsets
+- split/keep reason: runtime behavior, dynamic data, state, animation, reuse, baked art, or decoration
+
+### 2. Segment the image
 
 Break the layout into:
 
 - Root frame
 - Major regions
 - Repeated groups
-- Atomic widgets
+- Runtime leaves only after runtime responsibility is proven
 
 Do not jump directly from whole image to dozens of leaf nodes.
 Group the topmost composition by anchor-owned regions first so the largest blocks already belong to stable screen relationships.
 Split only when runtime behavior requires it, and keep likely decorative baked regions whole.
 
-### 2. Estimate normalized geometry
+### 3. Estimate normalized geometry
 
 For each major element, estimate:
 
@@ -74,7 +98,7 @@ For each major element, estimate:
 Treat these as planning values, not necessarily as final serialized numbers.
 When a mockup image exists, derive them from the mockup's own width and height before mapping them to the implementation frame.
 
-### 3. Pick anchor strategy by region
+### 4. Pick anchor strategy by region
 
 Use these defaults:
 
@@ -86,7 +110,7 @@ Use these defaults:
 
 Anchor according to the element's relationship to the screen, not according to whichever raw coordinates are easiest to enter.
 
-### 4. Build parent containers first
+### 5. Build parent containers first
 
 Create the parent zones before children:
 
@@ -97,7 +121,7 @@ Create the parent zones before children:
 Once the parent is right, many child values become smaller and more stable.
 If the same structure appears multiple times, make one reusable prefab or reusable block before placing all copies.
 
-### 5. Respect single-image regions
+### 6. Respect single-image regions
 
 If a visual area appears to be one baked image or sprite:
 
@@ -105,7 +129,7 @@ If a visual area appears to be one baked image or sprite:
 - Do not force decorative shapes into separate widgets just to trace the mockup more literally.
 - Only split the image when interaction, dynamic text, or adaptive layout requires it.
 
-### 6. Convert proportions into concrete values
+### 7. Convert proportions into concrete values
 
 For a given target resolution:
 
@@ -141,6 +165,7 @@ Prefer "anchored top-right with 4% inset" over "x=1798, y=54".
 Before calling the result correct, verify:
 
 - Does the composition match the image at the target resolution?
+- Did the layer pass produce a clear parent-owned transform hierarchy before object creation?
 - If the mockup had a native resolution, was that resolution captured and used correctly as the planning frame?
 - Are the top-level regions grouped by stable anchor ownership before child tuning?
 - Are anchors consistent with the element's visual role?

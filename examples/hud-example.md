@@ -11,6 +11,7 @@ The user provides a HUD mockup image and wants a `1920x1080` UGUI implementation
 ```text
 Use $unity-mcp-ui-layout to build a 1920x1080 UGUI HUD from the attached mockup.
 Treat the image as a composition reference, not a raw pixel map.
+Run a layer-to-tree pass before creating objects so the HUD visual layers become a clean Transform/RectTransform hierarchy.
 Group the top-level layout by anchor-owned regions first.
 Create the root canvas structure first, then SafeAreaRoot and HUDRoot, then add corner and center containers before leaf widgets.
 Turn repeated HUD structures into reusable prefabs or reusable layout blocks.
@@ -21,6 +22,7 @@ Verify each structural step with screenshots and re-check one alternate aspect r
 ```text
 $unity-mcp-ui-layout를 사용해서 첨부한 목업으로 1920x1080 UGUI HUD를 만들어줘.
 이미지는 raw pixel map이 아니라 composition reference로 취급해줘.
+오브젝트를 만들기 전에 layer-to-tree pass를 실행해서 HUD 시각 레이어가 깔끔한 Transform/RectTransform hierarchy가 되게 해줘.
 최상단 레이아웃은 먼저 anchor 기준 영역으로 그룹화해줘.
 먼저 root canvas 구조를 만들고, 그다음 SafeAreaRoot와 HUDRoot를 만든 뒤, leaf widget보다 corner와 center container를 먼저 추가해줘.
 반복되는 HUD 구조는 재사용 가능한 프리팹 또는 레이아웃 블록으로 만들어줘.
