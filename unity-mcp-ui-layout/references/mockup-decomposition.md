@@ -1,6 +1,6 @@
 # Mockup Decomposition Rules
 
-Use this guide when a mockup or design image exists and you need to decide which regions should stay as one asset, which should become reusable layout blocks, and which should be separated into interactive UI elements.
+Use this guide when a mockup, screenshot, design image, or UI 시안 exists and you need to decide which regions should stay as one asset, which should become reusable layout blocks or Unity UI prefabs, and which should be separated into interactive UI elements.
 
 ## Goal
 

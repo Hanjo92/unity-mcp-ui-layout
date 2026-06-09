@@ -1,6 +1,6 @@
 # Image to Layout Rules
 
-Use this guide when the user provides a layout image, mockup, wireframe, or screenshot together with a target resolution.
+Use this guide when the user provides, uploads, attaches, or drops a layout image, reference image, UI design, mockup screenshot, wireframe, UI 시안, or screenshot together with a target resolution or prefab creation request.
 
 Pair it with `mockup-resolution.md` when the mockup's own native pixel size should become the planning reference frame.
 Pair it with `mockup-decomposition.md` when you need a stricter rule for deciding what should stay as one asset versus what should become runtime-owned UI.

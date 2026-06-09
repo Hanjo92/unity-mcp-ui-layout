@@ -37,6 +37,8 @@ If you are using this repository for the first time, do not start by reading eve
 
 For a first small exercise, start with [`examples/first-layout-pass-example.md`](./examples/first-layout-pass-example.md) before choosing a more domain-specific example.
 
+Codex should also treat natural requests such as "build this Unity UI from the attached UI mockup" or "create Unity UI prefabs from this design screenshot" as matching this skill without naming the skill explicitly.
+
 1. Codex 스킬을 직접 쓴다면 먼저 [`unity-mcp-ui-layout/SKILL.md`](./unity-mcp-ui-layout/SKILL.md)부터 엽니다.
 2. UI 스택을 먼저 고릅니다: `UGUI` 또는 `UI Toolkit`.
 3. 그다음 기존 화면 수정인지, 신규 화면 생성인지 작업 모드를 고릅니다.
@@ -45,6 +47,8 @@ For a first small exercise, start with [`examples/first-layout-pass-example.md`]
 6. 그 후 작업형 진입점이 필요하면 [`examples/README.md`](./examples/README.md)를, 실패 유형을 이미 알고 있다면 [`unity-mcp-ui-layout/references/README.md`](./unity-mcp-ui-layout/references/README.md)를 엽니다.
 
 처음 해볼 작은 연습 과제가 필요하다면 더 구체적인 예시를 고르기 전에 [`examples/first-layout-pass-example.md`](./examples/first-layout-pass-example.md)부터 시작합니다.
+
+Codex는 "첨부한 UI 시안을 기준으로 Unity UI를 만들어줘" 또는 "이 시안으로 프리팹 생성해줘"처럼 스킬명을 명시하지 않는 자연어 요청도 이 스킬 대상으로 봐야 합니다.
 
 ## Quick Rules / 빠른 작업 기준
 
@@ -91,6 +95,7 @@ Platform-specific adapters live in:
 ## What This Helps With / 해결하려는 문제
 
 - image-to-layout translation
+- attached UI mockup or design screenshot to Unity UI prefab creation
 - UGUI anchors and `CanvasScaler`
 - HUD, inventory, popup, and mobile safe-area layout rules
 - prefab promotion rules for repeated UI structures
@@ -122,6 +127,7 @@ Platform-specific adapters live in:
 - safer `unity-mcp` prompting across different LLM products
 
 - 이미지 기반 레이아웃 해석
+- 첨부 UI 시안 또는 디자인 스크린샷을 Unity UI 프리팹 생성 작업으로 연결
 - UGUI 앵커와 `CanvasScaler` 설정
 - HUD, 인벤토리, 팝업, 모바일 safe area 레이아웃 규칙
 - 반복되는 UI 구조를 프리팹으로 승격하는 규칙
