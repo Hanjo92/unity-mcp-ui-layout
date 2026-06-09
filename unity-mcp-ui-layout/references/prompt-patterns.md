@@ -81,6 +81,16 @@ Use `manage_camera` for the screenshot capture.
 
 If no explicit target resolution is provided, use the mockup image's native resolution as the reference resolution instead of falling back immediately to `1920x1080`.
 
+## Pattern 6A: Mockup Screenshot To Prefab
+
+Use when the user uploads or drops a mockup screenshot, design image, reference image, or UI 시안 and asks to turn, convert, make, generate, or create a Unity UI prefab.
+
+```text
+Use the uploaded mockup screenshot as the composition reference.
+Before creating prefab assets, identify the target UI stack, the top-level anchor-owned regions, and the repeated structures that should become reusable prefabs or layout blocks.
+Create parent containers before leaf widgets, keep decorative baked regions whole unless runtime behavior requires splitting, and verify the prefab instance with a screenshot.
+```
+
 ## Pattern 7: Image-Based Layout Repair
 
 Use when the current UI should match an image more closely.

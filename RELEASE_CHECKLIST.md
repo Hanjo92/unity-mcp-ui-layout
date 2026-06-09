@@ -29,11 +29,13 @@ Use this checklist when preparing a tagged release for this repository.
 ## Validation / 검증
 
 - validate the repo skill
+- run trigger keyword checks when discoverability or skill activation wording changed
 - if you use the global skill for local testing, sync it once and validate again
 - quickly read the changed entry points as if you were a first-time user
 - make sure new examples still match the actual rules
 
 - 저장소 안의 정본 스킬을 검증합니다.
+- discoverability나 스킬 작동 트리거 문구가 바뀌었다면 trigger keyword check를 실행합니다.
 - 전역 스킬로도 테스트한다면 한 번 동기화한 뒤 다시 검증합니다.
 - 처음 보는 사용자라고 가정하고 바뀐 진입 문서를 빠르게 다시 읽습니다.
 - 새 examples가 실제 규칙과 어긋나지 않는지 확인합니다.
@@ -42,6 +44,7 @@ Use this checklist when preparing a tagged release for this repository.
 
 ```powershell
 python C:\Users\user\.codex\skills\.system\skill-creator\scripts\quick_validate.py D:\UnityUICreater\unity-mcp-ui-layout
+bash D:/UnityUICreater/tests/trigger_keywords.sh
 robocopy D:\UnityUICreater\unity-mcp-ui-layout C:\Users\user\.codex\skills\unity-mcp-ui-layout /MIR
 python C:\Users\user\.codex\skills\.system\skill-creator\scripts\quick_validate.py C:\Users\user\.codex\skills\unity-mcp-ui-layout
 ```

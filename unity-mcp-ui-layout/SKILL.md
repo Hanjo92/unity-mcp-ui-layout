@@ -1,6 +1,6 @@
 ---
 name: unity-mcp-ui-layout
-description: Use when Unity UI needs layout-focused repair or implementation through `unity-mcp`, especially for UGUI or UI Toolkit screens with cross-resolution drift, safe-area problems, text overflow, mockup translation, structured export inputs such as Stitch HTML/CSS or Figma node trees, DESIGN.md or design-token inputs, or shared prefab reuse decisions.
+description: "Use when Unity UI needs layout-focused repair or implementation through `unity-mcp`: attached UI mockup, mockup screenshot, uploaded/dropped design image, reference image, wireframe, or UI 시안 to turn or convert into runtime UGUI/UI Toolkit; create Unity UI prefabs/프리팹 생성, prefab variants, or reusable blocks; or fix cross-resolution drift, safe-area problems, text overflow, structured exports, design tokens, or shared prefab reuse."
 ---
 
 # Unity MCP UI Layout
@@ -14,6 +14,9 @@ Use this skill for Unity UI work where layout stability matters more than raw pi
 ## When to Use
 
 - A mockup, screenshot, or wireframe needs to become runtime Unity UI.
+- An attached UI mockup, layout image, mockup screenshot, uploaded or dropped design/reference image, or UI 시안 should become UGUI, UI Toolkit, or Unity UI prefabs.
+- Natural wording such as "turn this reference image into UI", "convert this mockup to a prefab", "시안 던져줄게", or "프리팹 만들어줘" should trigger this skill.
+- The user asks to create Unity UI prefabs, 프리팹, prefab variants, or reusable UI blocks from a provided design image.
 - An existing UGUI screen drifts across aspect ratios or target resolutions.
 - A UI Toolkit screen looks correct once but breaks after width, overflow, or text changes.
 - A scroll-heavy list, feed, catalog, or picker mockup needs one clear scroll owner plus reusable repeated items.

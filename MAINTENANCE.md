@@ -23,6 +23,7 @@ Global Codex skill path:
 ```powershell
 robocopy D:\UnityUICreater\unity-mcp-ui-layout C:\Users\user\.codex\skills\unity-mcp-ui-layout /MIR
 python C:\Users\user\.codex\skills\.system\skill-creator\scripts\quick_validate.py D:\UnityUICreater\unity-mcp-ui-layout
+bash D:/UnityUICreater/tests/trigger_keywords.sh
 python C:\Users\user\.codex\skills\.system\skill-creator\scripts\quick_validate.py C:\Users\user\.codex\skills\unity-mcp-ui-layout
 ```
 
@@ -60,11 +61,13 @@ flowchart TD
 ## Lightweight Validation Checklist / 가벼운 검증 체크
 
 - frontmatter is still valid and readable
+- trigger keyword checks still cover mockup/image-to-prefab request wording
 - new rules are linked from the right navigation points
 - examples reinforce the rules instead of contradicting them
 - no new file silently became the only source of important guidance
 
 - frontmatter가 여전히 정상 파싱되는지 확인합니다.
+- mockup/image-to-prefab 요청 표현을 trigger keyword check가 계속 커버하는지 확인합니다.
 - 새 규칙이 올바른 진입점에서 연결되는지 확인합니다.
 - examples가 규칙을 강화하는지, 모순되지 않는지 확인합니다.
 - 중요한 규칙이 새 파일 한 곳에만 숨어버리지 않았는지 확인합니다.
