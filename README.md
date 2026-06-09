@@ -53,11 +53,13 @@ Codex는 "첨부한 UI 시안을 기준으로 Unity UI를 만들어줘" 또는 "
 ## Quick Rules / 빠른 작업 기준
 
 - Group the top-level layout by anchor-owned regions before tuning leaf widgets.
+- When a mockup or UI 시안 exists, analyze visual layers -> clean Unity Transform/RectTransform tree before creating objects.
 - Turn repeated UI structures into reusable prefabs or reusable layout blocks.
 - Keep likely single-image regions intact unless interaction, animation, or adaptive behavior requires decomposition.
 - Verify structure with screenshots instead of chasing raw pixel alignment.
 
 - leaf widget를 만지기 전에 최상단 레이아웃을 먼저 anchor 기준 영역으로 그룹화합니다.
+- UI 시안이나 목업이 있으면 오브젝트 생성 전에 visual layers -> clean Unity Transform/RectTransform tree로 레이어/트리 구조를 먼저 분석합니다.
 - 반복되는 UI 구조는 재사용 가능한 프리팹 또는 레이아웃 블록으로 만듭니다.
 - 단일 이미지 리소스로 보이는 영역은 상호작용, 애니메이션, 적응형 동작이 필요할 때만 분해합니다.
 - raw pixel 정렬을 쫓기보다 스크린샷으로 구조를 검증합니다.
@@ -254,6 +256,7 @@ cp -R ./unity-mcp-ui-layout ~/.codex/skills/
 
 ```text
 Use $unity-mcp-ui-layout to build a 1920x1080 UGUI HUD from the attached layout image.
+Analyze the visual layers -> clean Unity Transform/RectTransform tree before creating objects.
 Group the top-level composition into anchor-owned regions, then translate it into parent containers and CanvasScaler rules.
 Turn repeated structures into reusable prefabs or reusable layout blocks.
 If a region looks like a single image resource, keep it as one image unless runtime behavior requires it to be split.
@@ -262,6 +265,7 @@ Verify the result with screenshots instead of relying on raw pixel placement.
 
 ```text
 $unity-mcp-ui-layout를 사용해서 첨부한 레이아웃 이미지를 기준으로 1920x1080 UGUI HUD를 만들어줘.
+오브젝트를 만들기 전에 visual layers -> clean Unity Transform/RectTransform tree로 레이어/트리 구조를 먼저 분석해줘.
 최상단 구성을 먼저 anchor 기준 영역으로 그룹화한 뒤 부모 컨테이너와 CanvasScaler 규칙으로 변환해줘.
 반복 구조는 재사용 가능한 프리팹 또는 레이아웃 블록으로 만들어줘.
 단일 이미지 리소스로 보이는 영역은 런타임 동작상 분리가 필요할 때만 나눠줘.

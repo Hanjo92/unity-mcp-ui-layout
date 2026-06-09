@@ -70,7 +70,7 @@ Use when the user provides a mockup or screenshot and target resolution.
 
 ```text
 Use the attached layout image as the composition reference and [WIDTHxHEIGHT] as the reference resolution.
-Before creating objects, identify the major UI regions, group the top-level composition by anchor ownership, and estimate each region's normalized position and size.
+Before creating objects, run a layer-to-Transform tree pass, identify the major UI regions, group the top-level composition by anchor ownership, and estimate each region's normalized position and size.
 Create the parent containers and anchors first.
 If the same structure repeats, make one reusable prefab or reusable layout block before placing all copies.
 If a region looks like a single image resource, keep it as one image unless runtime behavior requires it to be split.
@@ -87,7 +87,7 @@ Use when the user uploads or drops a mockup screenshot, design image, reference 
 
 ```text
 Use the uploaded mockup screenshot as the composition reference.
-Before creating prefab assets, identify the target UI stack, the top-level anchor-owned regions, and the repeated structures that should become reusable prefabs or layout blocks.
+Before creating prefab assets, produce a layer-to-RectTransform tree pass, identify the target UI stack, the top-level anchor-owned regions, and the repeated structures that should become reusable prefabs or layout blocks.
 Create parent containers before leaf widgets, keep decorative baked regions whole unless runtime behavior requires splitting, and verify the prefab instance with a screenshot.
 ```
 

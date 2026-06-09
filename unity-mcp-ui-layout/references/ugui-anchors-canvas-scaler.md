@@ -45,13 +45,16 @@ Do not leave the choice implicit. State why the match setting was chosen.
 
 ## 2. Container Hierarchy Rules
 
-Build UGUI in layers:
+Build UGUI in layers. This is the UGUI realization of the `image-to-layout.md` layer pass:
 
 1. `Canvas`
 2. Safe-area root if needed
-3. Major screen regions such as header, footer, left rail, right rail, content, modal root
-4. Local groups such as rows, columns, grids
-5. Leaf widgets
+3. Screen root or modal/overlay root
+4. Major screen regions such as header, footer, left rail, right rail, content, modal root
+5. Scroll owners and content roots where applicable
+6. Reusable prefab roots or repeated layout block roots
+7. Local groups such as rows, columns, grids
+8. Runtime leaves and decorative image leaves
 
 Prefer a stable parent container over repeatedly calculating child offsets against the full screen.
 

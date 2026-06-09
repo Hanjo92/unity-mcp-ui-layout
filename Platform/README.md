@@ -25,6 +25,7 @@ Each adapter keeps the same core rules:
 
 - prefer anchors and containers over raw pixels
 - group the top-level composition by anchor-owned regions before leaf-level tuning
+- analyze mockups as visual layers -> clean Unity Transform/RectTransform tree before object creation
 - choose scaling rules before sizing children
 - reuse repeated structures through prefabs or reusable blocks where appropriate
 - treat Stitch HTML/CSS and Figma node-tree exports as hierarchy sources when provided
@@ -36,6 +37,7 @@ Each adapter keeps the same core rules:
 
 - raw pixel보다 anchors와 containers를 우선합니다
 - leaf-level 조정보다 먼저 top-level 구성을 anchor 기준 영역으로 나눕니다
+- 목업이나 UI 시안은 오브젝트 생성 전에 visual layers -> clean Unity Transform/RectTransform tree로 레이어/트리 구조를 먼저 분석합니다
 - 자식 크기를 만지기 전에 scaling 규칙을 먼저 정합니다
 - 반복 구조는 상황에 맞게 prefab 또는 reusable block으로 재사용합니다
 - Stitch HTML/CSS와 Figma node-tree export가 제공되면 hierarchy source로 다룹니다
