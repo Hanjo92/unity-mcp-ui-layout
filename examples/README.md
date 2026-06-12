@@ -8,6 +8,7 @@ Use these files when you want a copyable starting point instead of only referenc
 
 - Group the top-level layout by anchor-owned regions before tuning leaf widgets.
 - When a mockup exists, run a layer-to-tree pass before object creation so the Unity Transform tree follows the visual layer structure.
+- When split runtime/repeated items need precise sizing, add an item rect plan after parent ownership and split/keep reason are clear.
 - Read provided `DESIGN.md` or design-token sources before styling.
 - Reuse repeated structures through prefabs or reusable layout blocks.
 - Keep likely single-image regions intact unless runtime behavior requires decomposition.
@@ -64,6 +65,7 @@ Use these files when you want a copyable starting point instead of only referenc
 - Start with `mockup-resolution-example.md` when the mockup's own pixel resolution should drive planning.
 - Start with `prefab-from-mockup-example.md` when an uploaded mockup screenshot, dropped design image, or UI 시안 should become Unity UI prefabs or reusable blocks.
 - Start with `mockup-decomposition-example.md` when the main question is what should stay baked, what should split, and what should become a reusable block before layout work begins.
+- Use `prefab-from-mockup-example.md`, `mockup-decomposition-example.md`, or `mockup-resolution-example.md` when split items need an item rect plan from source rect to Unity fit intent.
 - Use `mockup-decomposition-example.md` for 레이어/트리 구조 work when a UI 시안 should become a cleaner Unity Transform or RectTransform hierarchy.
 - Start with `design-md-layout-example.md` when a new screen should be built from a mockup plus `DESIGN.md` or design-token inputs.
 - Start with `design-md-repair-example.md` when an existing screen should be repaired against `DESIGN.md` without drifting from shared tokens.

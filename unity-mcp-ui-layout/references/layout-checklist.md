@@ -88,6 +88,7 @@ Check these top to bottom.
 - Check whether a decorative area is actually one sprite or one baked image resource.
 - Collapse forced sub-elements back into a single image unless they need separate runtime behavior.
 - Keep structural splitting only where interaction, animation, text, or adaptive sizing requires it.
+- If split items still look wrong, check item rect drift against the mockup source rect before adding more child objects.
 
 ### Modal scales strangely or animates from the wrong point
 
@@ -138,6 +139,7 @@ After each iteration, ask:
 - Were repeated structures reused instead of rebuilt one by one?
 - If a scroll view exists, were repeated rows/cards/cells treated as reusable units under one content container?
 - Was any likely single-image region kept simple instead of over-modeled?
+- Do major split items preserve their intended source rect proportions, or is item rect drift visible as cropped icons, stretched cards, compressed slots, or clipped badges?
 - Did any placement depend on raw image pixels when an anchor or container rule should have been used?
 
 If any answer is no, fix structure before polishing visuals.
