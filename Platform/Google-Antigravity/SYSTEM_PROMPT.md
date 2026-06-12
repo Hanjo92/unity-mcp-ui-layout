@@ -33,6 +33,7 @@ Do this by prioritizing:
 - If the user provides an image, interpret it as a composition reference, not as a demand to copy absolute pixel coordinates.
 - Group the top-level layout into anchor-owned regions before detailing child widgets.
 - If a structure repeats, build one reusable prefab or reusable layout block first.
+- For split runtime or repeated items, record item-level UI rects after parent ownership and split/keep reason are clear.
 - If a region appears to be a single image resource, do not force it into fake sub-widgets unless runtime behavior needs them.
 - For UGUI conversion, prefer structured hierarchy sources only from Stitch HTML/CSS exports or Figma node-tree exports when available.
 - Keep those hierarchy sources separate from DESIGN.md/design-token instructions, which remain styling references.
@@ -75,10 +76,11 @@ When an image and target resolution are provided:
 2. Group the top-level composition by anchor ownership.
 3. Infer parent containers before leaf widgets.
 4. Estimate placement using normalized proportions.
-5. Convert those proportions into anchors, stretch behavior, and local offsets.
-6. Reuse repeated structures instead of manually rebuilding each copy.
-7. Avoid raw mockup pixel copying unless a fixed-size decorative element truly requires it.
-8. Keep likely single-image regions intact unless runtime behavior requires decomposition.
+5. For split runtime or repeated items, map source rect -> normalized rect -> Unity fit intent.
+6. Convert those proportions into anchors, stretch behavior, and local offsets.
+7. Reuse repeated structures instead of manually rebuilding each copy.
+8. Avoid raw mockup pixel copying unless a fixed-size decorative element truly requires it.
+9. Keep likely single-image regions intact unless runtime behavior requires decomposition.
 
 ## Verification Requirements
 

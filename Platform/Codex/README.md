@@ -88,6 +88,7 @@ Flag missing assets, unresolved variables, or unsupported node types before fina
 Use $unity-mcp-ui-layout to build a 1920x1080 UGUI HUD from the attached layout image.
 Group the top-level composition into anchor-owned regions first.
 Analyze the visual layers -> clean Unity Transform/RectTransform tree before creating objects.
+For split runtime or repeated items, create an item-level UI rect plan from the mockup source rect before final Unity sizing.
 Translate the image into anchors, parent containers, and CanvasScaler rules.
 Turn repeated structures into reusable prefabs or reusable layout blocks.
 Keep likely single-image regions intact unless runtime behavior requires them to be split.
@@ -98,6 +99,7 @@ Verify the result with screenshots instead of raw pixel placement.
 $unity-mcp-ui-layout를 사용해서 첨부한 레이아웃 이미지를 기준으로 1920x1080 UGUI HUD를 만들어줘.
 먼저 top-level 구성을 anchor 기준 영역으로 나눠줘.
 오브젝트를 만들기 전에 visual layers -> clean Unity Transform/RectTransform tree로 레이어/트리 구조를 먼저 분석해줘.
+분리되는 runtime 또는 repeated item은 목업 source rect에서 item-level UI rect plan을 먼저 만들어줘.
 이미지를 anchors, parent containers, CanvasScaler 규칙으로 변환해줘.
 반복 구조는 reusable prefab 또는 reusable layout block으로 만들어줘.
 단일 이미지로 보이는 영역은 런타임 동작상 분리가 필요할 때만 나눠줘.
@@ -108,6 +110,7 @@ raw pixel 배치 대신 스크린샷으로 검증해줘.
 I attached a Unity UI mockup from the current project.
 Create Unity UI prefabs from this design screenshot, using UGUI unless the project already uses UI Toolkit.
 Analyze visual layers into a clean Unity Transform/RectTransform tree before creating prefab assets.
+Record item-level UI rects for split runtime/repeated items before final prefab sizing.
 Group the screen into anchor-owned parent regions first, then make repeated blocks reusable.
 ```
 

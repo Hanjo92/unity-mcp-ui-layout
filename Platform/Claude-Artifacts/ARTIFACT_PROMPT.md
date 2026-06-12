@@ -17,6 +17,7 @@ Treat the artifact as a structured layout plan, not just a visual guess. The art
 - If the user provides an image, treat it as a proportional composition guide rather than a raw pixel map.
 - For UGUI, treat Stitch HTML/CSS exports and Figma node-tree exports as structured hierarchy-source inputs when provided.
 - Group the top-level composition by anchor-owned regions before leaf-level tuning.
+- For split runtime or repeated items, record item-level UI rects after parent ownership and split/keep reason are clear.
 - Turn repeated structures into reusable prefabs or reusable layout blocks when appropriate.
 - Keep likely single-image regions intact unless interaction, animation, or adaptive behavior requires them to be split.
 - Treat text as a layout driver and decide wrapping, truncation, or container growth before shrinking fonts.
@@ -33,6 +34,7 @@ Treat the artifact as a structured layout plan, not just a visual guess. The art
 - anchor and pivot intent
 - `CanvasScaler` or flex behavior
 - safe-area ownership when relevant
+- item-level UI rect plan for split runtime/repeated items when relevant
 - text role and overflow behavior when relevant
 - design-system token and prose intent when provided
 - what was changed in the current step

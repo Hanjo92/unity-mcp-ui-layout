@@ -73,7 +73,29 @@ Tree plan schema:
 - geometry ratios: approximate normalized bounds for parent-owned regions before child offsets
 - split/keep reason: runtime behavior, dynamic data, state, animation, reuse, baked art, or decoration
 
-### 2. Segment the image
+### 2. Run an item rect mapping pass
+
+Use this pass only for runtime leaves, repeated item units, or static image items with an explicit reuse, import, or fit boundary after split/keep review. It is not permission to break decorative art into fake child objects.
+
+Layer/tree ownership and split/keep reason come before item-level rects. If the parent owner or runtime reason is unclear, keep the candidate inside the nearest existing layer and do not promote it into its own rect entry yet.
+
+For each mapped item, record:
+
+- item id: stable name such as `InventorySlot/ItemIcon`, `RewardCard/Icon`, or `Header/CloseButton`
+- node path: matching Transform, RectTransform, prefab root, or VisualElement path from the tree plan
+- source rect: `x`, `y`, `width`, and `height` in the mockup image coordinate space
+- normalized rect: source rect divided by the mockup width and height
+- parent-local rect: the item's rect relative to the parent owner when that parent is already identified
+- fit mode: stretch, fixed, preserve-aspect, sliced, layout-group child, or manual exception
+- anchor/pivot intent: how the Unity rect should attach or grow inside its parent
+- split/keep reason: runtime data, interaction, state, animation, adaptive layout, reuse, baked art, or decoration
+- asset/crop plan: existing sprite or prefab reuse, mockup-derived crop, 9-slice candidate, placeholder, or keep-whole image
+
+The source rect is measurement data, not the final authority. Convert it through normalized rects and parent-local ownership before setting Unity offsets or sizes.
+
+Do not create item rect entries for decorative sub-parts inside a region that should stay a single image. Record the outer image region instead and keep the internal shapes baked.
+
+### 3. Segment the image
 
 Break the layout into:
 
@@ -86,7 +108,7 @@ Do not jump directly from whole image to dozens of leaf nodes.
 Group the topmost composition by anchor-owned regions first so the largest blocks already belong to stable screen relationships.
 Split only when runtime behavior requires it, and keep likely decorative baked regions whole.
 
-### 3. Estimate normalized geometry
+### 4. Estimate normalized geometry
 
 For each major element, estimate:
 
@@ -97,8 +119,9 @@ For each major element, estimate:
 
 Treat these as planning values, not necessarily as final serialized numbers.
 When a mockup image exists, derive them from the mockup's own width and height before mapping them to the implementation frame.
+For item-level sizing, use the item rect mapping pass instead of guessing leaf sizes from full-screen offsets.
 
-### 4. Pick anchor strategy by region
+### 5. Pick anchor strategy by region
 
 Use these defaults:
 
@@ -110,7 +133,7 @@ Use these defaults:
 
 Anchor according to the element's relationship to the screen, not according to whichever raw coordinates are easiest to enter.
 
-### 5. Build parent containers first
+### 6. Build parent containers first
 
 Create the parent zones before children:
 
@@ -121,7 +144,7 @@ Create the parent zones before children:
 Once the parent is right, many child values become smaller and more stable.
 If the same structure appears multiple times, make one reusable prefab or reusable block before placing all copies.
 
-### 6. Respect single-image regions
+### 7. Respect single-image regions
 
 If a visual area appears to be one baked image or sprite:
 
@@ -129,7 +152,7 @@ If a visual area appears to be one baked image or sprite:
 - Do not force decorative shapes into separate widgets just to trace the mockup more literally.
 - Only split the image when interaction, dynamic text, or adaptive layout requires it.
 
-### 7. Convert proportions into concrete values
+### 8. Convert proportions into concrete values
 
 For a given target resolution:
 
@@ -166,6 +189,7 @@ Before calling the result correct, verify:
 
 - Does the composition match the image at the target resolution?
 - Did the layer pass produce a clear parent-owned transform hierarchy before object creation?
+- Did any split runtime or repeated item have an item-level UI rect plan with source rect, normalized rect, parent-local rect or fit mode, and asset/crop plan?
 - If the mockup had a native resolution, was that resolution captured and used correctly as the planning frame?
 - Are the top-level regions grouped by stable anchor ownership before child tuning?
 - Are anchors consistent with the element's visual role?

@@ -18,6 +18,7 @@ Before creating objects, inspect the mockup and write a layer-to-tree pass:
 - runtime-owned widgets that need interaction, dynamic text, state, animation, safe-area behavior, or adaptive layout
 - decorative or baked regions that should stay as one image or sprite region
 - a Transform tree plan, such as Canvas -> SafeAreaRoot -> ScreenRoot -> RegionRoot -> ReusableGroup -> RuntimeLeaf
+- an item rect plan for each split runtime or repeated item, including source rect, normalized rect, parent-local rect or fit mode, and asset/crop plan
 
 Decompose by runtime responsibility, not by visual outline alone.
 Keep decorative panels, ornaments, and baked art whole unless runtime behavior requires separation.
@@ -31,12 +32,14 @@ Verify that every split has a runtime reason and that no repeated block was rebu
 첨부한 UI 시안을 먼저 레이어/트리 구조로 분석해줘.
 시각 레이어를 background, safe-area owner, major regions, reusable groups, runtime leaves, decorative image layers로 나누고,
 각 레이어가 Unity RectTransform tree에서 어떤 부모/자식 관계가 되는지 제안한 뒤 오브젝트를 만들어줘.
+분리되는 runtime/repeated item마다 source rect와 normalized rect를 기록하고, Unity에서 어떤 parent-local rect 또는 fit mode로 맞출지도 같이 제안해줘.
 ```
 
 ## Why This Works
 
 - It makes asset granularity a deliberate decision before layout work starts.
 - It forces a Transform tree plan before object creation.
+- It makes split item sizing explicit through source rect and normalized rect evidence.
 - It prevents fake child objects that only mirror visual edges in the mockup.
 - It keeps interactive, stateful, and adaptive parts separate from baked art.
 - It promotes repeated structures into reusable blocks instead of one-off copies.
@@ -48,6 +51,7 @@ Verify that every split has a runtime reason and that no repeated block was rebu
 - Are repeated cards, rows, slots, button groups, or badge clusters represented by one reusable pattern?
 - Are top-level regions grouped before atomic widgets are tuned?
 - Does the layer-to-tree pass produce a readable parent-owned Unity Transform tree?
+- Does each split runtime/repeated item have an item rect plan with source rect, normalized rect, and asset/crop plan?
 - 레이어/트리 구조가 부모 소유권, 반복 그룹, 런타임 leaf를 구분하는가?
 - Would another engineer understand why each region exists at runtime?
 

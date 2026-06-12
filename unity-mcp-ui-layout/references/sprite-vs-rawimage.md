@@ -55,6 +55,20 @@ In asset-aware mode:
 
 If a screen already uses a consistent sprite workflow, treat a sudden `RawImage` choice as suspicious and re-check the source type.
 
+## Mockup-Derived Crop Rule
+
+Use a mockup-derived crop only when no reliable existing sprite, prefab, or screen-owned asset matches the item and the task still needs a visible placeholder or provisional extracted image.
+
+When using a mockup-derived crop:
+
+- record the source rect and normalized rect that produced it
+- keep the asset screen-owned or clearly provisional unless the user promotes it to shared UI art
+- preserve transparent padding only when it is part of the intended item bounds
+- prefer a 9-slice candidate for scalable panels or frames instead of stretching a flat crop
+- name the asset/crop plan so later replacement with a proper sprite is straightforward
+
+Do not crop decorative sub-parts out of a larger baked image only to mimic visible seams. Keep the larger image whole unless a runtime behavior, state, or reuse boundary requires the split.
+
 ## UGUI Rules
 
 - `Image` is the normal default for static UGUI visuals.
