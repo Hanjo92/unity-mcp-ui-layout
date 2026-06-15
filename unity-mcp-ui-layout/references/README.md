@@ -7,9 +7,9 @@ Use it when `SKILL.md` points you here for deeper guidance.
 ## Core Guidance
 
 - `layout-checklist.md`
-- `image-to-layout.md` - includes mockup-to-layer-to-tree workflow and the asset-RAG fallback contract for when `unity-resource-rag` is unavailable or low-confidence.
+- `image-to-layout.md` - includes mockup-to-layer-to-tree workflow, item rect mapping, and the asset-RAG fallback contract for when `unity-resource-rag` is unavailable or low-confidence.
 - `mcp-call-recipes.md`
-- `mockup-decomposition.md` - owns layer-to-tree decomposition, parent ownership, and split/keep decisions for raster mockups.
+- `mockup-decomposition.md` - owns layer-to-tree decomposition, parent ownership, split/keep decisions, and item rect contract for raster mockups.
 - `mockup-resolution.md`
 - `ui-change-modes.md`
 - `asset-discovery-priority.md`

@@ -33,6 +33,23 @@ If a proposed child cannot name its parent ownership or runtime reason, keep it 
 
 Draw order is not the same as parent hierarchy. A background may draw behind a region while living as the first child of that region; an overlay may draw above the screen while still belonging under a modal or overlay root. Preserve draw order through sibling order, canvas sorting, or z-order rules only after the parent-owned transform hierarchy is clear.
 
+## Item Rect Contract
+
+When a mockup region becomes a runtime or repeated item, record an item-level UI rect before creating or tuning the Unity object.
+
+Do not map an item rect until its parent ownership and runtime split reason are named. This keeps item rect planning subordinate to the layer-to-Transform tree instead of turning the mockup into a leaf-first crop list.
+
+For each runtime or repeated item, record:
+
+- item id and intended node path
+- source rect in the mockup image: `x`, `y`, `width`, and `height`
+- normalized rect relative to the mockup image size
+- parent-local rect or fit mode after parent ownership is known
+- split/keep reason tied to runtime behavior, dynamic data, state, animation, adaptive layout, reuse, baked art, or decoration
+- asset/crop plan: existing sprite or prefab reuse, mockup-derived crop, 9-slice candidate, placeholder, or keep-whole image
+
+Only apply this contract to items that deserve separate runtime or reuse ownership. Do not create rect entries for decorative sub-parts inside baked art just because their edges are visible. If a decorative region stays whole, record the outer region rect and keep internal shapes inside the same image or sprite.
+
 ## Core Rule
 
 Decompose by runtime responsibility, not by visual outline alone.
@@ -112,5 +129,6 @@ Do not start by tracing every visible edge in the mockup into a separate node.
 - Which repeated structures should become reusable prefabs or layout blocks?
 - Does the layer stack become a readable Unity Transform tree or RectTransform tree?
 - Are 레이어 구조 and 트리 구조 aligned with parent ownership rather than visual outline alone?
+- For each split runtime or repeated item, is there an item-level UI rect with source rect, normalized rect, parent-local rect or fit mode, and asset/crop plan?
 - Did we decompose based on behavior and layout needs, not just visual outlines?
 - Would another engineer understand why each region exists at runtime?

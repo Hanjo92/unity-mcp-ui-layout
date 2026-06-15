@@ -68,6 +68,22 @@ Ask:
 
 If the transform tree cannot be read without opening every leaf, return to decomposition before polishing visuals.
 
+## 4B. Item Rect And Size Match Check
+
+Use this check when a mockup, screenshot, reference image, or UI 시안 drove item placement, icon/card/slot/button sizing, or prefab creation.
+
+Ask:
+
+- Did each split runtime or repeated item record a source rect from the mockup image?
+- Was that source rect converted to a normalized rect before Unity offsets, preferred sizes, or layout values were chosen?
+- Is the implemented size controlled by the parent owner, layout group, anchor rule, or named fit mode rather than unrelated full-screen offsets?
+- Are major item widths, heights, and aspect ratios still visually close to the mockup after the target-resolution mapping?
+- Is any item rect drift visible in the final screenshot: cropped icon, stretched card, compressed slot, clipped badge, or oversized button?
+- Does every mockup-derived crop have an asset/crop plan, and did existing sprites or prefabs stay preferred when available?
+- Were decorative sub-parts left inside a single image unless runtime behavior required splitting?
+
+If item rect drift is visible, fix parent ownership or fit mode before pixel nudging leaf offsets.
+
 ## 5. Asset Granularity Check
 
 Ask:
@@ -76,6 +92,7 @@ Ask:
 - Was any decorative area split into fake widgets without a runtime need?
 - Do separate elements exist only where interaction, animation, text, or adaptive layout requires them?
 - Were repeated mockup regions promoted into reusable blocks where appropriate instead of being manually rebuilt?
+- If a region was split into item-level UI rects, does each split have a source rect, normalized rect, split reason, and asset/crop plan?
 - If asset-aware mode was active, did we follow a sensible discovery order instead of jumping straight to placeholders?
 
 If the UI was decomposed more than the runtime behavior needs, simplify it before shipping.

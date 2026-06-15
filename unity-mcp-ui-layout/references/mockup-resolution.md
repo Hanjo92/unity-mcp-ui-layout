@@ -45,11 +45,25 @@ When the mockup resolution is known:
 
 This keeps the UI aligned with the design intent instead of overfitting to one arbitrary set of absolute numbers.
 
+## Item-Level Rect Mapping
+
+When a mockup-driven task splits runtime leaves, repeated item units, icons, cards, slots, or buttons, keep item-level rects in the same two-space model:
+
+- source rect: `x`, `y`, `width`, and `height` measured in the mockup image coordinate space
+- normalized rect: source rect divided by the mockup width and height
+- target rect: the expected implementation-space bounds after applying the normalized rect to the target resolution or parent owner
+- parent-local rect: the same item measured relative to its parent region when parent ownership is already known
+
+Use item-level source rect values to preserve size relationships, then convert through normalized or parent-local ratios before setting Unity anchors, offsets, preferred sizes, or `LayoutElement` values.
+
+Do not mix source rect pixels and target rect pixels in the same calculation. If the target frame differs from the mockup frame, raw source pixels are evidence only, not final Unity values.
+
 ## Common Mistakes
 
 - ignoring the mockup resolution and silently planning everything around `1920x1080`
 - mixing mockup pixels and target pixels as if they were the same coordinate space
 - copying raw pixel coordinates from the mockup without normalizing first
+- using item-level source rect pixels as final target rect values after the implementation resolution changes
 - treating a mockup export size as meaningless even when it is the only explicit resolution evidence available
 
 ## Verification Questions
@@ -58,3 +72,4 @@ This keeps the UI aligned with the design intent instead of overfitting to one a
 - If no explicit target resolution was given, did we use the mockup resolution instead of an arbitrary default?
 - If both mockup and target resolutions exist, did we keep their roles separate?
 - Were geometry estimates normalized before turning them into anchors and offsets?
+- For item-level sizing, were source rect, normalized rect, target rect, and parent-local rect roles kept separate?
