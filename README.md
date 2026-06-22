@@ -54,6 +54,7 @@ Codex는 "첨부한 UI 시안을 기준으로 Unity UI를 만들어줘" 또는 "
 
 - Group the top-level layout by anchor-owned regions before tuning leaf widgets.
 - When a mockup or UI 시안 exists, analyze visual layers -> clean Unity Transform/RectTransform tree before creating objects.
+- If semi-automated raster item detection is used, keep candidates in a candidate item ledger until reviewed.
 - For split runtime/repeated items from a mockup, record item-level UI rects: source rect, normalized rect, Unity fit intent, and asset/crop plan.
 - Turn repeated UI structures into reusable prefabs or reusable layout blocks.
 - Keep likely single-image regions intact unless interaction, animation, or adaptive behavior requires decomposition.
@@ -61,6 +62,7 @@ Codex는 "첨부한 UI 시안을 기준으로 Unity UI를 만들어줘" 또는 "
 
 - leaf widget를 만지기 전에 최상단 레이아웃을 먼저 anchor 기준 영역으로 그룹화합니다.
 - UI 시안이나 목업이 있으면 오브젝트 생성 전에 visual layers -> clean Unity Transform/RectTransform tree로 레이어/트리 구조를 먼저 분석합니다.
+- 반자동 raster item detection을 쓴다면 검토 전 후보는 candidate item ledger에만 둡니다.
 - 목업에서 분리되는 runtime/repeated item은 source rect, normalized rect, Unity fit intent, asset/crop plan을 포함한 item-level UI rect를 기록합니다.
 - 반복되는 UI 구조는 재사용 가능한 프리팹 또는 레이아웃 블록으로 만듭니다.
 - 단일 이미지 리소스로 보이는 영역은 상호작용, 애니메이션, 적응형 동작이 필요할 때만 분해합니다.
@@ -259,6 +261,7 @@ cp -R ./unity-mcp-ui-layout ~/.codex/skills/
 ```text
 Use $unity-mcp-ui-layout to build a 1920x1080 UGUI HUD from the attached layout image.
 Analyze the visual layers -> clean Unity Transform/RectTransform tree before creating objects.
+If item detection is uncertain, keep candidates in a candidate item ledger with review decisions before promoting them.
 For split runtime or repeated items, record item-level UI rects from the mockup source rect before tuning Unity sizes.
 Group the top-level composition into anchor-owned regions, then translate it into parent containers and CanvasScaler rules.
 Turn repeated structures into reusable prefabs or reusable layout blocks.
@@ -269,6 +272,7 @@ Verify the result with screenshots instead of relying on raw pixel placement.
 ```text
 $unity-mcp-ui-layout를 사용해서 첨부한 레이아웃 이미지를 기준으로 1920x1080 UGUI HUD를 만들어줘.
 오브젝트를 만들기 전에 visual layers -> clean Unity Transform/RectTransform tree로 레이어/트리 구조를 먼저 분석해줘.
+item detection이 불확실하면 후보를 candidate item ledger에 두고 검토 결정 후 승격해줘.
 분리되는 runtime 또는 repeated item은 목업 source rect를 기준으로 item-level UI rect를 먼저 기록한 뒤 Unity 크기를 조정해줘.
 최상단 구성을 먼저 anchor 기준 영역으로 그룹화한 뒤 부모 컨테이너와 CanvasScaler 규칙으로 변환해줘.
 반복 구조는 재사용 가능한 프리팹 또는 레이아웃 블록으로 만들어줘.

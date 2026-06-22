@@ -71,6 +71,7 @@ Use when the user provides a mockup or screenshot and target resolution.
 ```text
 Use the attached layout image as the composition reference and [WIDTHxHEIGHT] as the reference resolution.
 Before creating objects, run a layer-to-Transform tree pass, identify the major UI regions, group the top-level composition by anchor ownership, and estimate each region's normalized position and size.
+If raster item analysis is useful, produce a candidate item ledger with confidence band, evidence, suggested role, crop padding, 9-slice candidate status, and accept/hold/reject review decision before item-level UI rect planning.
 For any split runtime or repeated item, produce an item-level UI rect plan with source rect, normalized rect, parent-local rect or fit mode, and asset/crop plan.
 Create the parent containers and anchors first.
 If the same structure repeats, make one reusable prefab or reusable layout block before placing all copies.
@@ -89,6 +90,7 @@ Use when the user uploads or drops a mockup screenshot, design image, reference 
 ```text
 Use the uploaded mockup screenshot as the composition reference.
 Before creating prefab assets, produce a layer-to-RectTransform tree pass, identify the target UI stack, the top-level anchor-owned regions, and the repeated structures that should become reusable prefabs or layout blocks.
+If using semi-automated item detection, produce a candidate item ledger first and only promote accepted candidates into item-level UI rect plans.
 For split runtime leaves and repeated prefab units, produce an item-level UI rect plan with source rect, normalized rect, parent-local rect or fit mode, and asset/crop plan.
 Create parent containers before leaf widgets, keep decorative baked regions whole unless runtime behavior requires splitting, and verify the prefab instance with a screenshot.
 ```
@@ -125,6 +127,7 @@ Use when a mockup exists and the agent might over-split decorative regions into 
 ```text
 Before creating objects, inspect the mockup and decide which regions should stay as one baked visual asset, which regions should become interactive UI elements, and which repeated regions should become reusable blocks.
 Decompose by runtime responsibility, not by visual outline alone.
+If a candidate item ledger is produced, review each candidate as accept/hold/reject before turning it into a split item.
 For each runtime or repeated item that is split out, record its item-level UI rect plan and explain why the split is needed.
 Keep decorative regions whole unless interaction, animation, dynamic text, or adaptive layout requires separation.
 Turn repeated structures into reusable prefabs or reusable layout blocks instead of rebuilding them manually.

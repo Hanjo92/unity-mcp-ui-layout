@@ -73,7 +73,29 @@ Tree plan schema:
 - geometry ratios: approximate normalized bounds for parent-owned regions before child offsets
 - split/keep reason: runtime behavior, dynamic data, state, animation, reuse, baked art, or decoration
 
-### 2. Run an item rect mapping pass
+### 2. Run a Candidate item ledger pass
+
+Use this pass when raster-only mockups need semi-automated item analysis, but treat the output as an advisory candidate set rather than final hierarchy or final crop data.
+
+If a structured export such as Figma node-tree JSON or Stitch HTML/CSS exists, do not use raster candidates to replace export hierarchy. Use the structured export for hierarchy and use the raster candidate ledger only to catch missing overlays, visible baked art, or composition mismatches.
+
+Candidate ledger schema:
+
+- candidate id: stable temporary id such as `candidate/InventorySlot/Icon01`
+- source bounds: estimated `x`, `y`, `width`, and `height` in the mockup image coordinate space
+- confidence band: `low`, `medium`, or `high`, based on visible evidence rather than a numeric guarantee
+- evidence: containment, repeated shape, shared baseline, icon/text cluster, contrast boundary, shadow/panel boundary, or user-supplied hint
+- suggested role: runtime leaf, repeated item unit, decorative image, panel/frame, icon, text-adjacent asset, or hold-for-review
+- parent hint: likely parent region or repeated group from the layer tree
+- crop padding: transparent or visual padding that appears part of the intended item bounds
+- 9-slice candidate: whether a scalable panel/frame should become sliced art rather than a flat stretched crop
+- review decision: `accept`, `hold`, or `reject`
+
+Only accepted candidates can become item-level UI rect entries. Held candidates remain notes for manual review, and rejected candidates must not create Unity objects, crops, or prefab children.
+
+Do not use low-confidence candidates to force a split. If the candidate cannot name a parent hint, split/keep reason, and evidence, keep it in the nearest existing visual layer.
+
+### 3. Run an item rect mapping pass
 
 Use this pass only for runtime leaves, repeated item units, or static image items with an explicit reuse, import, or fit boundary after split/keep review. It is not permission to break decorative art into fake child objects.
 
@@ -95,7 +117,7 @@ The source rect is measurement data, not the final authority. Convert it through
 
 Do not create item rect entries for decorative sub-parts inside a region that should stay a single image. Record the outer image region instead and keep the internal shapes baked.
 
-### 3. Segment the image
+### 4. Segment the image
 
 Break the layout into:
 
@@ -108,7 +130,7 @@ Do not jump directly from whole image to dozens of leaf nodes.
 Group the topmost composition by anchor-owned regions first so the largest blocks already belong to stable screen relationships.
 Split only when runtime behavior requires it, and keep likely decorative baked regions whole.
 
-### 4. Estimate normalized geometry
+### 5. Estimate normalized geometry
 
 For each major element, estimate:
 
@@ -121,7 +143,7 @@ Treat these as planning values, not necessarily as final serialized numbers.
 When a mockup image exists, derive them from the mockup's own width and height before mapping them to the implementation frame.
 For item-level sizing, use the item rect mapping pass instead of guessing leaf sizes from full-screen offsets.
 
-### 5. Pick anchor strategy by region
+### 6. Pick anchor strategy by region
 
 Use these defaults:
 
@@ -133,7 +155,7 @@ Use these defaults:
 
 Anchor according to the element's relationship to the screen, not according to whichever raw coordinates are easiest to enter.
 
-### 6. Build parent containers first
+### 7. Build parent containers first
 
 Create the parent zones before children:
 
@@ -144,7 +166,7 @@ Create the parent zones before children:
 Once the parent is right, many child values become smaller and more stable.
 If the same structure appears multiple times, make one reusable prefab or reusable block before placing all copies.
 
-### 7. Respect single-image regions
+### 8. Respect single-image regions
 
 If a visual area appears to be one baked image or sprite:
 
@@ -152,7 +174,7 @@ If a visual area appears to be one baked image or sprite:
 - Do not force decorative shapes into separate widgets just to trace the mockup more literally.
 - Only split the image when interaction, dynamic text, or adaptive layout requires it.
 
-### 8. Convert proportions into concrete values
+### 9. Convert proportions into concrete values
 
 For a given target resolution:
 
@@ -189,6 +211,7 @@ Before calling the result correct, verify:
 
 - Does the composition match the image at the target resolution?
 - Did the layer pass produce a clear parent-owned transform hierarchy before object creation?
+- If a candidate item ledger was used, were accepted candidates reviewed before item-level UI rects or crop plans were created?
 - Did any split runtime or repeated item have an item-level UI rect plan with source rect, normalized rect, parent-local rect or fit mode, and asset/crop plan?
 - If the mockup had a native resolution, was that resolution captured and used correctly as the planning frame?
 - Are the top-level regions grouped by stable anchor ownership before child tuning?

@@ -62,6 +62,7 @@ Use a mockup-derived crop only when no reliable existing sprite, prefab, or scre
 When using a mockup-derived crop:
 
 - record the source rect and normalized rect that produced it
+- record crop padding separately from the source rect when transparent or visual padding is part of the intended item bounds
 - keep the asset screen-owned or clearly provisional unless the user promotes it to shared UI art
 - preserve transparent padding only when it is part of the intended item bounds
 - prefer a 9-slice candidate for scalable panels or frames instead of stretching a flat crop

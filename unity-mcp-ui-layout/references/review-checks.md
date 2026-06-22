@@ -84,6 +84,22 @@ Ask:
 
 If item rect drift is visible, fix parent ownership or fit mode before pixel nudging leaf offsets.
 
+## 4C. Candidate Ledger Review Check
+
+Use this check when raster mockup analysis produced a candidate item ledger before item-level UI rect planning.
+
+Ask:
+
+- Did the ledger stay an advisory candidate set rather than a final manifest?
+- Does every candidate include confidence band, evidence, suggested role, crop padding, 9-slice candidate status, and review decision?
+- Did accepted candidates pass a human review gate before becoming item-level UI rects, Unity objects, prefab children, or mockup-derived crops?
+- Were held candidates left as notes instead of silently becoming objects?
+- Were rejected candidates prevented from creating Unity nodes or crop assets?
+- Was any candidate over-decomposition visible, such as decorative seams becoming fake children without runtime responsibility?
+- If a structured export also existed, did the export still own hierarchy while the raster candidate ledger stayed advisory?
+
+If candidate over-decomposition is present, reject or hold the candidate and return to layer ownership before item sizing.
+
 ## 5. Asset Granularity Check
 
 Ask:
