@@ -18,6 +18,7 @@ Before creating objects, inspect the mockup and write a layer-to-tree pass:
 - runtime-owned widgets that need interaction, dynamic text, state, animation, safe-area behavior, or adaptive layout
 - decorative or baked regions that should stay as one image or sprite region
 - a Transform tree plan, such as Canvas -> SafeAreaRoot -> ScreenRoot -> RegionRoot -> ReusableGroup -> RuntimeLeaf
+- a candidate item ledger for uncertain raster-detected items, with confidence band, evidence, and review decision
 - an item rect plan for each split runtime or repeated item, including source rect, normalized rect, parent-local rect or fit mode, and asset/crop plan
 
 Decompose by runtime responsibility, not by visual outline alone.
@@ -32,6 +33,7 @@ Verify that every split has a runtime reason and that no repeated block was rebu
 첨부한 UI 시안을 먼저 레이어/트리 구조로 분석해줘.
 시각 레이어를 background, safe-area owner, major regions, reusable groups, runtime leaves, decorative image layers로 나누고,
 각 레이어가 Unity RectTransform tree에서 어떤 부모/자식 관계가 되는지 제안한 뒤 오브젝트를 만들어줘.
+자동/반자동으로 감지한 item 후보는 candidate item ledger에 남기고 accept/hold/reject로 검토해줘.
 분리되는 runtime/repeated item마다 source rect와 normalized rect를 기록하고, Unity에서 어떤 parent-local rect 또는 fit mode로 맞출지도 같이 제안해줘.
 ```
 

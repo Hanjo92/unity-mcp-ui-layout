@@ -40,6 +40,7 @@ Convert exported structure into runtime-holdable UGUI containers first, then sty
 If required files are missing, request missing inputs instead of guessing hierarchy from partial CSS.
 
 If a structured export and screenshot both exist, use the export as the hierarchy source and the screenshot or mockup layer pass as composition validation. Do not let raster layer guesses override clear DOM structure, but use the image to catch missing overlays, baked art, or visual grouping that the export hides.
+The raster candidate ledger cannot override structured export hierarchy; use it only to flag visual gaps, missing overlays, baked art, or composition mismatches.
 
 ## Mapping DOM-Like Hierarchy to UGUI Containers
 

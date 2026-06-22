@@ -32,6 +32,7 @@ This includes the newer guidance around:
 여기에는 최근 추가된 아래 가이드도 포함됩니다.
 
 - mockup-native resolution planning
+- candidate item ledger guidance for semi-automated raster detections
 - item-level UI rect planning for split runtime/repeated mockup items
 - text layout as a structural concern
 - safe-area-aware reinterpretation of notch-agnostic mobile mockups
@@ -42,6 +43,7 @@ This includes the newer guidance around:
 - out-of-scope direct Stitch/Figma API integration unless explicitly requested
 
 - 시안 원본 해상도 기준 계획
+- 반자동 raster detection을 위한 candidate item ledger 지침
 - 분리되는 runtime/repeated mockup item의 item-level UI rect 계획
 - 구조 문제로서의 텍스트 레이아웃
 - 노치 없는 모바일 시안을 safe-area-aware 레이아웃으로 재해석하는 규칙

@@ -19,6 +19,7 @@ Convert exported Figma structure into a Unity hierarchy that is:
 
 Do not use this guide for tasks with only an image mockup and no structured node data.
 If a Figma export and screenshot both exist, use the export as the hierarchy source and the screenshot or mockup layer pass as composition validation.
+The raster candidate ledger cannot override structured export hierarchy; use it only to flag visual gaps, missing overlays, baked art, or composition mismatches.
 
 ## Intake Rules
 

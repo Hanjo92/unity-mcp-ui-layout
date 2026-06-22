@@ -37,18 +37,20 @@ Use this when the user provides a mockup or screenshot and wants a HUD built in 
 
 1. Inspect the existing scene and UI roots
 2. Produce and review a layer-to-RectTransform tree plan before creating objects
-3. Produce an item-level UI rect plan for split runtime leaves and repeated HUD units
-4. Create or identify the root canvas structure
-5. Build `SafeAreaRoot` and `HUDRoot`
-6. Add corner and center containers
-7. Add one HUD group at a time
-8. Capture screenshots after each slice
+3. If raster item detection is useful, produce a candidate item ledger and review accept/hold/reject decisions
+4. Produce an item-level UI rect plan for split runtime leaves and repeated HUD units
+5. Create or identify the root canvas structure
+6. Build `SafeAreaRoot` and `HUDRoot`
+7. Add corner and center containers
+8. Add one HUD group at a time
+9. Capture screenshots after each slice
 
 ### Example prompt
 
 ```text
 Build a 1920x1080 UGUI HUD from the attached image.
 Before creating objects, produce a layer-to-RectTransform tree plan from the mockup.
+If raster item detection is useful, keep candidates in a candidate item ledger until accept/hold/reject review is complete.
 For split runtime leaves and repeated HUD units, record an item-level UI rect plan with source rect, normalized rect, parent-local rect or fit mode, and asset/crop plan.
 Create the root canvas structure first, then SafeAreaRoot and HUDRoot, then add corner containers before leaf widgets.
 Verify each structural step with screenshots.

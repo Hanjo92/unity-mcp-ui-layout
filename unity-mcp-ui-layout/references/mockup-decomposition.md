@@ -39,6 +39,17 @@ When a mockup region becomes a runtime or repeated item, record an item-level UI
 
 Do not map an item rect until its parent ownership and runtime split reason are named. This keeps item rect planning subordinate to the layer-to-Transform tree instead of turning the mockup into a leaf-first crop list.
 
+If candidate extraction was used, treat the candidate ledger as not a final manifest. A candidate can be promoted only after parent ownership and split reason are reviewed.
+
+For each candidate, record:
+
+- `candidate_review_state`: `accept`, `hold`, or `reject`
+- confidence band: `low`, `medium`, or `high`
+- evidence: visible containment, repeated structure, shared baseline, text/icon cluster, shadow/panel boundary, or user hint
+- decision note: why the candidate should become an item rect, stay inside a larger image, or wait for manual review
+
+Use accept/hold/reject instead of silently deleting uncertain candidates. Accepted candidates may become item-level UI rect entries. Held candidates remain review notes. Rejected candidates should not create Unity objects or mockup-derived crops.
+
 For each runtime or repeated item, record:
 
 - item id and intended node path
