@@ -6,17 +6,31 @@ This project follows a lightweight documentation-focused release flow.
 
 ## Unreleased
 
+No changes yet.
+
+## v0.6.0 - 2026-06-26
+
 ### Added
 
+- Added stronger trigger coverage for attached UI mockups, design screenshots, reference images, UI 시안, and Unity UI prefab or 프리팹 생성 requests
+- Added layer-to-Transform tree guidance for raster mockups so visual layers are decomposed into cleaner Unity Transform/RectTransform hierarchy before object creation
+- Added item-level UI rect guidance for split runtime leaves, repeated cards, slots, rows, icons, and buttons, including source rect, normalized rect, Unity fit intent, and asset/crop plan
+- Added candidate item ledger guidance for semi-automated raster analysis, including confidence, evidence, review decision, and a human gate before object promotion
 - Added Stitch HTML/CSS to UGUI conversion guidance for treating exported front-end structure as a hierarchy source instead of a literal web-runtime copy
 - Added Figma node-tree to UGUI conversion guidance for mapping frames, groups, components, instances, and auto-layout into reusable Unity hierarchy
 - Added practical Stitch export and Figma export example prompts for structure-first UGUI conversion
+- Added focused keyword validation scripts for trigger wording, layer/tree decomposition, item rect contracts, and candidate ledger coverage
 
 ### Added / 추가
 
+- 첨부 UI 목업, 디자인 스크린샷, reference image, UI 시안, Unity UI prefab 또는 프리팹 생성 요청이 스킬 트리거로 잡히도록 문구 보강
+- raster mockup의 visual layer를 오브젝트 생성 전에 더 깨끗한 Unity Transform/RectTransform hierarchy로 분해하기 위한 layer-to-Transform tree 가이드 추가
+- 분리되는 runtime leaf, 반복 card, slot, row, icon, button을 위해 source rect, normalized rect, Unity fit intent, asset/crop plan을 포함한 item-level UI rect 가이드 추가
+- 반자동 raster 분석을 위해 confidence, evidence, review decision, human gate를 기록하는 candidate item ledger 가이드 추가
 - exported front-end 구조를 웹 런타임 복사본이 아니라 hierarchy source로 다루기 위한 Stitch HTML/CSS -> UGUI 변환 가이드 추가
 - frame, group, component, instance, auto-layout을 재사용 가능한 Unity 계층으로 옮기기 위한 Figma node-tree -> UGUI 변환 가이드 추가
 - structure-first UGUI 변환용 Stitch export 및 Figma export 실전 예시 프롬프트 추가
+- trigger wording, layer/tree decomposition, item rect contract, candidate ledger coverage를 확인하는 집중 keyword validation script 추가
 
 ### Changed
 
@@ -24,6 +38,8 @@ This project follows a lightweight documentation-focused release flow.
 - Clarified Figma export mapping so UGUI pivots are selected from UI role, constraints, growth, or motion intent rather than Figma's top-left coordinate origin
 - Strengthened Figma export guidance so auto-layout and regular repeated siblings default to UGUI layout components instead of per-child manual placement
 - Synchronized platform adapters with the new structured export hierarchy-source guidance
+- Refreshed the root README so the repository map, validation entry points, and current mockup-to-prefab workflow are easier to discover
+- Synchronized release and maintenance guidance with the trigger, layer-tree, item rect, and candidate ledger validation checks
 
 ### Changed / 변경
 
@@ -31,6 +47,8 @@ This project follows a lightweight documentation-focused release flow.
 - Figma export 변환 시 UGUI pivot을 Figma의 좌상단 좌표 원점이 아니라 UI 역할, constraints, growth, motion intent 기준으로 선택하도록 명확화
 - Figma export의 auto-layout 및 규칙적인 반복 sibling이 per-child 수동 배치 대신 UGUI layout component를 기본으로 쓰도록 가이드 강화
 - 새 structured export hierarchy-source 가이드와 맞도록 platform adapter 문서를 동기화
+- 저장소 구조, 검증 진입점, 현재 mockup-to-prefab workflow가 더 잘 보이도록 루트 README 갱신
+- trigger, layer-tree, item rect, candidate ledger validation check와 맞도록 release/maintenance 가이드 동기화
 
 ## v0.5.0 - 2026-04-25
 

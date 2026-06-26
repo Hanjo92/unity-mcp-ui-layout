@@ -1,8 +1,8 @@
 # Backlog
 
-This backlog tracks likely next improvements for the repository after `v0.4.1`.
+This backlog tracks likely next improvements for the repository after `v0.6.0`.
 
-이 backlog는 `v0.4.1` 이후, 다음에 다듬을 만한 항목을 정리합니다.
+이 backlog는 `v0.6.0` 이후, 다음에 다듬을 만한 항목을 정리합니다.
 
 ## High Priority / 높은 우선순위
 
