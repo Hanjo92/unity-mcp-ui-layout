@@ -4,9 +4,9 @@ Reusable Unity UI workflow rules for `unity-mcp`, packaged first as a Codex skil
 
 `unity-mcp`를 사용할 때 Unity UI를 더 안정적으로 만들기 위한 워크플로 규칙 모음입니다. 기본 형태는 Codex 스킬이며, 다른 LLM 플랫폼에서도 사용할 수 있도록 확장되어 있습니다.
 
-The repository is built around one core idea: when an LLM creates Unity UI from a mockup, screenshot, or target resolution, it should work from anchors, parent containers, scaling rules, and verification loops instead of raw pixel placement.
+The repository is built around one core idea: when an LLM creates Unity UI from a mockup, screenshot, structured export, or target resolution, it should work from anchors, parent containers, scaling rules, and verification loops instead of raw pixel placement.
 
-이 저장소의 핵심 아이디어는 하나입니다. LLM이 목업, 스크린샷, 목표 해상도를 바탕으로 Unity UI를 만들 때, 절대 픽셀값이 아니라 앵커, 부모 컨테이너, 스케일링 규칙, 검증 루프를 기준으로 작업해야 한다는 점입니다.
+이 저장소의 핵심 아이디어는 하나입니다. LLM이 목업, 스크린샷, structured export, 목표 해상도를 바탕으로 Unity UI를 만들 때, 절대 픽셀값이 아니라 앵커, 부모 컨테이너, 스케일링 규칙, 검증 루프를 기준으로 작업해야 한다는 점입니다.
 
 It also assumes three practical defaults: group the top-level composition by anchor-owned regions first, turn repeated structures into reusable prefabs or reusable layout blocks, and keep likely single-image resources intact unless runtime behavior requires them to be split.
 
@@ -102,6 +102,10 @@ Platform-specific adapters live in:
 
 - image-to-layout translation
 - attached UI mockup or design screenshot to Unity UI prefab creation
+- natural trigger coverage for uploaded mockups, reference images, UI 시안, and 프리팹 생성 requests
+- layer-to-Transform tree planning before Unity object creation
+- candidate item ledgers for semi-automated raster analysis before object promotion
+- item-level UI rect contracts for split runtime leaves, repeated rows, slots, cards, icons, and buttons
 - UGUI anchors and `CanvasScaler`
 - HUD, inventory, popup, and mobile safe-area layout rules
 - prefab promotion rules for repeated UI structures
@@ -185,13 +189,20 @@ Platform/
 
 examples/
   README.md
-  first-layout-pass-example.md
-  hud-example.md
-  inventory-example.md
-  popup-safe-area-example.md
+  *-example.md
 
+tests/
+  trigger_keywords.sh
+  layer_tree_keywords.sh
+  item_rect_keywords.sh
+  item_candidate_keywords.sh
+
+BACKLOG.md
 CONTRIBUTING.md
 CHANGELOG.md
+LICENSE
+MAINTENANCE.md
+RELEASE_CHECKLIST.md
 ```
 
 ## How The Pieces Fit / 구성 관계
@@ -205,12 +216,14 @@ Use this section as the repo map: start with the skill, choose an example, then 
 - `examples/` contains copyable task-shaped prompts that show how to apply the skill without rereading the whole reference set.
 - `Platform/` adapts the same core workflow to other LLM environments while keeping the Codex skill as the canonical source.
 - `unity-mcp-ui-layout/agents/` contains lightweight metadata used for agent discovery and default invocation text.
+- `tests/` contains keyword and metadata checks for trigger coverage, layer-tree guidance, item rect contracts, and candidate ledgers.
 
 - `unity-mcp-ui-layout/SKILL.md`는 빠른 의사결정 레이어입니다. UI 스택을 고르고, repair/build 모드를 정하고, vertical slice로 진행하고, 마무리 전 검증하는 흐름을 담습니다.
 - `unity-mcp-ui-layout/references/`는 실패 패턴, UI 유형, 자산 판단, fallback 규칙 같은 깊은 세부 지식을 담습니다.
 - `examples/`는 전체 레퍼런스를 다시 읽지 않아도 바로 적용할 수 있는 작업형 프롬프트 예시를 담습니다.
 - `Platform/`은 같은 코어 워크플로를 다른 LLM 환경에 맞게 옮긴 어댑터이며, 정본은 여전히 Codex 스킬입니다.
 - `unity-mcp-ui-layout/agents/`는 에이전트 검색과 기본 호출 문구에 쓰이는 가벼운 메타데이터를 담습니다.
+- `tests/`는 trigger coverage, layer-tree guidance, item rect contract, candidate ledger가 문서와 메타데이터에 남아 있는지 확인하는 keyword/metadata check를 담습니다.
 
 ## Release Notes / 릴리스 노트
 
@@ -221,6 +234,20 @@ Use this section as the repo map: start with the skill, choose an example, then 
 
 - [`RELEASE_CHECKLIST.md`](./RELEASE_CHECKLIST.md)
 - [`MAINTENANCE.md`](./MAINTENANCE.md)
+
+## Validation / 검증
+
+Run the focused checks when release prep or discoverability wording changes.
+
+릴리스 준비나 discoverability 문구를 바꾼 경우 아래 집중 검증을 실행합니다.
+
+```bash
+bash tests/trigger_keywords.sh
+bash tests/layer_tree_keywords.sh
+bash tests/item_rect_keywords.sh
+bash tests/item_candidate_keywords.sh
+python ~/.codex/skills/.system/skill-creator/scripts/quick_validate.py unity-mcp-ui-layout
+```
 
 ## Platform Notes / 플랫폼 설명
 
