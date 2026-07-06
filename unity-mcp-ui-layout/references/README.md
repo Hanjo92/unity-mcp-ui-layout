@@ -6,6 +6,7 @@ Use it when `SKILL.md` points you here for deeper guidance.
 
 ## Core Guidance
 
+- `agent-runbook.md` - gives the agent-facing operating sequence after the skill triggers, including mode notes and final response checklist.
 - `layout-checklist.md`
 - `layout-snapshot-contract.md` - defines the ideal Unity UI layout snapshot MCP contract and smaller-call fallback before existing UI edits.
 - `image-to-layout.md` - includes mockup-to-layer-to-tree workflow, candidate item ledger guidance, item rect mapping, and the asset-RAG fallback contract for when `unity-resource-rag` is unavailable or low-confidence.

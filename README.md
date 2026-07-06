@@ -33,7 +33,7 @@ If you are using this repository for the first time, do not start by reading eve
 3. Choose the change mode next: repair an existing screen or build a new one.
 4. Decide whether this is layout-only work or asset-aware reuse work.
 5. If the task includes Stitch HTML/CSS, Figma node-tree exports, `DESIGN.md`, design tokens, or another design source, identify whether it is a hierarchy source, a style source, or both before editing.
-6. Then open [`examples/README.md`](./examples/README.md) for a task-shaped entry point, or jump into [`unity-mcp-ui-layout/references/README.md`](./unity-mcp-ui-layout/references/README.md) if you already know the failure mode.
+6. Then open [`examples/README.md`](./examples/README.md) for a task-shaped entry point, [`unity-mcp-ui-layout/references/agent-runbook.md`](./unity-mcp-ui-layout/references/agent-runbook.md) for agent execution order, or jump into [`unity-mcp-ui-layout/references/README.md`](./unity-mcp-ui-layout/references/README.md) if you already know the failure mode.
 
 For a first small exercise, start with [`examples/first-layout-pass-example.md`](./examples/first-layout-pass-example.md) before choosing a more domain-specific example.
 
@@ -44,7 +44,7 @@ Codex should also treat natural requests such as "build this Unity UI from the a
 3. 그다음 기존 화면 수정인지, 신규 화면 생성인지 작업 모드를 고릅니다.
 4. 이 작업이 layout-only인지, asset-aware reuse까지 필요한지 결정합니다.
 5. 작업에 Stitch HTML/CSS, Figma node-tree export, `DESIGN.md`, design token, 또는 다른 design source가 포함되어 있다면 수정 전에 그것이 구조 소스인지, 스타일 소스인지, 둘 다인지 먼저 구분합니다.
-6. 그 후 작업형 진입점이 필요하면 [`examples/README.md`](./examples/README.md)를, 실패 유형을 이미 알고 있다면 [`unity-mcp-ui-layout/references/README.md`](./unity-mcp-ui-layout/references/README.md)를 엽니다.
+6. 그 후 작업형 진입점이 필요하면 [`examples/README.md`](./examples/README.md)를, 에이전트 실행 순서가 필요하면 [`unity-mcp-ui-layout/references/agent-runbook.md`](./unity-mcp-ui-layout/references/agent-runbook.md)를, 실패 유형을 이미 알고 있다면 [`unity-mcp-ui-layout/references/README.md`](./unity-mcp-ui-layout/references/README.md)를 엽니다.
 
 처음 해볼 작은 연습 과제가 필요하다면 더 구체적인 예시를 고르기 전에 [`examples/first-layout-pass-example.md`](./examples/first-layout-pass-example.md)부터 시작합니다.
 
@@ -195,6 +195,7 @@ templates/
   mockup-layout-plan.yaml
 
 tests/
+  agent_runbook_keywords.sh
   layout_snapshot_keywords.sh
   mockup_layout_plan_schema.sh
   trigger_keywords.sh
@@ -247,6 +248,7 @@ Run the focused checks when release prep or discoverability wording changes.
 릴리스 준비나 discoverability 문구를 바꾼 경우 아래 집중 검증을 실행합니다.
 
 ```bash
+bash tests/agent_runbook_keywords.sh
 bash tests/layout_snapshot_keywords.sh
 bash tests/mockup_layout_plan_schema.sh
 bash tests/trigger_keywords.sh

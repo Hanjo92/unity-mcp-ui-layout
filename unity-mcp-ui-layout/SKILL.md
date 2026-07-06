@@ -174,6 +174,7 @@ Do not call the task done until every applicable check below passes:
 
 ### First Stop
 
+- `references/agent-runbook.md`
 - `references/layout-checklist.md`
 - `references/layout-snapshot-contract.md`
 - `references/common-failures.md`
