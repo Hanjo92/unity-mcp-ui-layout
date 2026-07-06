@@ -10,11 +10,13 @@ This project follows a lightweight documentation-focused release flow.
 
 - Added a Unity UI layout snapshot contract for MCP intake before existing UI edits, including UGUI and UI Toolkit example payloads plus smaller-call fallback guidance
 - Added layout snapshot keyword validation for the snapshot contract, skill entry point, agent metadata, MCP recipes, review checks, and maintenance docs
+- Added a mockup layout plan template, filled prefab-from-mockup example, and schema validator for layer tree, candidate ledger, item rect, asset crop, and verification target planning
 
 ### Added / 추가
 
 - 기존 Unity UI 편집 전에 MCP intake로 사용할 Unity UI layout snapshot contract를 추가하고, UGUI/UI Toolkit 예시 payload와 smaller-call fallback 가이드를 포함
 - snapshot contract, skill entry point, agent metadata, MCP recipe, review check, maintenance docs를 확인하는 layout snapshot keyword validation 추가
+- layer tree, candidate ledger, item rect, asset crop, verification target planning을 위한 mockup layout plan template, prefab-from-mockup 예제, schema validator 추가
 
 ## v0.6.0 - 2026-06-26
 

@@ -83,6 +83,8 @@ Use `manage_camera` for the screenshot capture.
 
 If no explicit target resolution is provided, use the mockup image's native resolution as the reference resolution instead of falling back immediately to `1920x1080`.
 
+When the plan needs fixed sections or will be reused across agents, use `../../templates/mockup-layout-plan.yaml` for the layer tree, candidate item ledger, item rect plan, asset crop plan, and verification targets.
+
 ## Pattern 6A: Mockup Screenshot To Prefab
 
 Use when the user uploads or drops a mockup screenshot, design image, reference image, or UI 시안 and asks to turn, convert, make, generate, or create a Unity UI prefab.
@@ -94,6 +96,8 @@ If using semi-automated item detection, produce a candidate item ledger first an
 For split runtime leaves and repeated prefab units, produce an item-level UI rect plan with source rect, normalized rect, parent-local rect or fit mode, and asset/crop plan.
 Create parent containers before leaf widgets, keep decorative baked regions whole unless runtime behavior requires splitting, and verify the prefab instance with a screenshot.
 ```
+
+For a structured planning artifact, copy `../../templates/mockup-layout-plan.yaml` and keep accepted, held, and rejected candidates separated before object creation.
 
 ## Pattern 7: Image-Based Layout Repair
 
