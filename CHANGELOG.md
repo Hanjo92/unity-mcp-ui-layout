@@ -12,6 +12,7 @@ This project follows a lightweight documentation-focused release flow.
 - Added layout snapshot keyword validation for the snapshot contract, skill entry point, agent metadata, MCP recipes, review checks, and maintenance docs
 - Added a mockup layout plan template, filled prefab-from-mockup example, and schema validator for layer tree, candidate ledger, item rect, asset crop, and verification target planning
 - Added an agent execution runbook with trigger naming, task classification, build/repair/input-mode notes, and final response checklist
+- Added review gate and assumption guidance for hard blockers, soft assumptions, no-human-review fallback, candidate decision examples, and final reporting
 
 ### Added / 추가
 
@@ -19,6 +20,7 @@ This project follows a lightweight documentation-focused release flow.
 - snapshot contract, skill entry point, agent metadata, MCP recipe, review check, maintenance docs를 확인하는 layout snapshot keyword validation 추가
 - layer tree, candidate ledger, item rect, asset crop, verification target planning을 위한 mockup layout plan template, prefab-from-mockup 예제, schema validator 추가
 - trigger naming, task classification, build/repair/input-mode note, final response checklist를 포함한 agent execution runbook 추가
+- hard blocker, soft assumption, no-human-review fallback, candidate decision example, final reporting을 다루는 review gate 및 assumption 지침 추가
 
 ## v0.6.0 - 2026-06-26
 

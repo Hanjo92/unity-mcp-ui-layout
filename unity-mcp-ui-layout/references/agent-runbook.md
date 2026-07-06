@@ -8,11 +8,12 @@ Use this runbook after the skill triggers and before editing Unity UI. It is the
 2. **Classify the task.** Choose UI stack, change mode, design source, and asset strategy before editing.
 3. **Gather Unity state.** Capture a layout snapshot or equivalent smaller-call evidence: active UI root, UI stack, root layout owners, screenshot frame, and console state.
 4. **Plan hierarchy before objects.** For mockups, produce a layer-to-Transform or layer-to-RectTransform tree before creating or moving UI objects.
-5. **Review raster candidates.** If raster item analysis is used, produce candidate item ledger decisions before item rect planning.
-6. **Promote only accepted items.** Record item-level UI rects only for accepted runtime or repeated items. Held candidates remain notes. Rejected candidates must not create Unity objects, prefab children, or crops.
-7. **Build or repair in slices.** Work root shell, major regions, one reusable block or region, then polish. Verify after structural slices.
-8. **Verify before final response.** Use screenshot, alternate aspect ratio, text behavior, console state, and shared-asset checks where applicable.
-9. **Report evidence.** Tell the user what assumptions were made, what artifacts were produced, which screenshots or checks were used, and what residual risks remain.
+5. **Resolve gates and assumptions.** Use `review-gates-and-assumptions.md` to decide whether to ask the user or proceed with named assumptions.
+6. **Review raster candidates.** If raster item analysis is used, produce candidate item ledger decisions before item rect planning.
+7. **Promote only accepted items.** Record item-level UI rects only for accepted runtime or repeated items. Held candidates remain notes. Rejected candidates must not create Unity objects, prefab children, or crops.
+8. **Build or repair in slices.** Work root shell, major regions, one reusable block or region, then polish. Verify after structural slices.
+9. **Verify before final response.** Use screenshot, alternate aspect ratio, text behavior, console state, and shared-asset checks where applicable.
+10. **Report evidence.** Tell the user what assumptions were made, what artifacts were produced, which screenshots or checks were used, and what residual risks remain.
 
 ## Build Mode Notes
 
@@ -62,6 +63,7 @@ In the final response after using the skill, include:
 - produced planning artifacts: layer tree, candidate ledger, item rect plan, asset crop plan, or template path
 - implementation scope: regions, prefabs, variants, wrappers, or assets touched
 - verification evidence: screenshots, alternate aspect, text checks, console state, shared-asset checks
+- candidate decisions by accept, hold, and reject when a candidate ledger was used
 - assumptions and unresolved risks
 
 If a check could not be run, state that directly with the reason.
