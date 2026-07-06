@@ -3,6 +3,7 @@
 Use this guide when a mockup, screenshot, design image, or UI 시안 exists and you need to decide which regions should stay as one asset, which should become reusable layout blocks or Unity UI prefabs, and which should be separated into interactive UI elements.
 
 Use `../../templates/mockup-layout-plan.yaml` when the decomposition needs a concise machine-readable artifact for layer tree, candidate review, item rect, asset crop, and verification target decisions.
+Use `review-gates-and-assumptions.md` when deciding whether an ambiguity should pause for user confirmation or proceed with named assumptions.
 
 ## Goal
 
@@ -53,6 +54,8 @@ For each candidate, record:
 Use accept/hold/reject instead of silently deleting uncertain candidates. Accepted candidates may become item-level UI rect entries. Held candidates remain review notes. Rejected candidates should not create Unity objects or mockup-derived crops.
 
 The template policy is strict: accepted candidates may become item rect entries after parent ownership and split reason are reviewed, held candidates remain notes, and rejected candidates must not create Unity objects, prefab children, or crops.
+
+If no human review is available, accept only high-confidence candidates with a clear parent hint, split reason, and runtime or reuse evidence. Keep low-confidence or decorative candidates held, build parent structure first, and avoid creating crop assets from uncertain candidates.
 
 For each runtime or repeated item, record:
 

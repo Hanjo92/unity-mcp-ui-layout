@@ -4,6 +4,8 @@ Use this guide at the end of a `unity-mcp` UI task before calling the result com
 
 This is a final review pass, not a discovery checklist. The goal is to catch issues that often survive basic implementation.
 
+For ambiguity handling and candidate review policy, use `review-gates-and-assumptions.md`.
+
 ## 0. Layout Snapshot Intake Check
 
 Use this check when the task edited an existing Unity UI screen or built mockup-driven UI inside an existing scene.
@@ -116,6 +118,20 @@ Ask:
 - If a structured export also existed, did the export still own hierarchy while the raster candidate ledger stayed advisory?
 
 If candidate over-decomposition is present, reject or hold the candidate and return to layer ownership before item sizing.
+
+## 4D. Assumption And Review Gate Check
+
+Use this check when ambiguity was handled during mockup-driven UI work.
+
+Ask:
+
+- Were hard blockers confirmed before editing, such as unknown UI stack in a mixed-stack project, unclear target screen, destructive shared-base changes, ambiguous repair versus rebuild scope, or missing required runtime behavior?
+- Were soft ambiguities handled with named assumptions, such as mockup native resolution fallback, layout-only placeholder assets, non-destructive spacing choices, or content-length headroom?
+- If no human review was available, were low-confidence candidates held while parent structure was built first?
+- Were held and rejected candidates prevented from creating Unity objects, prefab children, or crop assets?
+- Did the final response summarize assumptions, candidate decisions, and remaining review risks?
+
+If assumptions or candidate decisions are missing from the final report, add them before calling the task complete.
 
 ## 5. Asset Granularity Check
 

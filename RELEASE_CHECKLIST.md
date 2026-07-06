@@ -32,6 +32,7 @@ Use this checklist when preparing a tagged release for this repository.
 - run agent runbook keyword checks when the agent operating sequence, mode notes, or final response checklist changed
 - run layout snapshot keyword checks when Unity UI intake, snapshot contracts, or smaller-call fallback wording changed
 - run mockup layout plan schema checks when the plan template, example, candidate promotion rules, or validator changed
+- run review gates keyword checks when hard blocker, soft assumption, no-human-review, or candidate decision reporting guidance changed
 - run trigger keyword checks when discoverability or skill activation wording changed
 - run layer/tree keyword checks when mockup decomposition or hierarchy guidance changed
 - run item rect keyword checks when mockup item sizing, source rect, or crop-plan guidance changed
@@ -44,6 +45,7 @@ Use this checklist when preparing a tagged release for this repository.
 - agent operating sequence, mode note, final response checklist가 바뀌었다면 agent runbook keyword check를 실행합니다.
 - Unity UI intake, snapshot contract, smaller-call fallback 문구가 바뀌었다면 layout snapshot keyword check를 실행합니다.
 - plan template, example, candidate promotion rule, validator가 바뀌었다면 mockup layout plan schema check를 실행합니다.
+- hard blocker, soft assumption, no-human-review, candidate decision reporting 지침이 바뀌었다면 review gates keyword check를 실행합니다.
 - discoverability나 스킬 작동 트리거 문구가 바뀌었다면 trigger keyword check를 실행합니다.
 - mockup decomposition이나 hierarchy 지침이 바뀌었다면 layer/tree keyword check를 실행합니다.
 - mockup item sizing, source rect, crop-plan 지침이 바뀌었다면 item rect keyword check를 실행합니다.
@@ -59,6 +61,7 @@ python C:\Users\user\.codex\skills\.system\skill-creator\scripts\quick_validate.
 bash D:/UnityUICreater/tests/agent_runbook_keywords.sh
 bash D:/UnityUICreater/tests/layout_snapshot_keywords.sh
 bash D:/UnityUICreater/tests/mockup_layout_plan_schema.sh
+bash D:/UnityUICreater/tests/review_gates_keywords.sh
 bash D:/UnityUICreater/tests/trigger_keywords.sh
 bash D:/UnityUICreater/tests/layer_tree_keywords.sh
 bash D:/UnityUICreater/tests/item_rect_keywords.sh

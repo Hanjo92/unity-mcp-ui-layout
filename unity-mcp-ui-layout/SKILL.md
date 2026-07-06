@@ -179,6 +179,7 @@ Do not call the task done until every applicable check below passes:
 - `references/layout-snapshot-contract.md`
 - `references/common-failures.md`
 - `references/review-checks.md`
+- `references/review-gates-and-assumptions.md`
 - `references/scroll-view-patterns.md`
 - `references/ui-change-modes.md`
 

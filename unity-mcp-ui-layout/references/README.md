@@ -29,6 +29,7 @@ Use it when `SKILL.md` points you here for deeper guidance.
 - `text-layout-rules.md`
 - `common-failures.md`
 - `review-checks.md`
+- `review-gates-and-assumptions.md` - explains hard blockers, soft assumptions, candidate review states, no-human-review fallback, and final reporting.
 - `scroll-view-patterns.md`
 - `design-system-intake.md`
 - `design-token-to-unity.md`
