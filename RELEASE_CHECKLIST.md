@@ -29,6 +29,7 @@ Use this checklist when preparing a tagged release for this repository.
 ## Validation / 검증
 
 - validate the repo skill
+- run agent runbook keyword checks when the agent operating sequence, mode notes, or final response checklist changed
 - run layout snapshot keyword checks when Unity UI intake, snapshot contracts, or smaller-call fallback wording changed
 - run mockup layout plan schema checks when the plan template, example, candidate promotion rules, or validator changed
 - run trigger keyword checks when discoverability or skill activation wording changed
@@ -40,6 +41,7 @@ Use this checklist when preparing a tagged release for this repository.
 - make sure new examples still match the actual rules
 
 - 저장소 안의 정본 스킬을 검증합니다.
+- agent operating sequence, mode note, final response checklist가 바뀌었다면 agent runbook keyword check를 실행합니다.
 - Unity UI intake, snapshot contract, smaller-call fallback 문구가 바뀌었다면 layout snapshot keyword check를 실행합니다.
 - plan template, example, candidate promotion rule, validator가 바뀌었다면 mockup layout plan schema check를 실행합니다.
 - discoverability나 스킬 작동 트리거 문구가 바뀌었다면 trigger keyword check를 실행합니다.
@@ -54,6 +56,7 @@ Use this checklist when preparing a tagged release for this repository.
 
 ```powershell
 python C:\Users\user\.codex\skills\.system\skill-creator\scripts\quick_validate.py D:\UnityUICreater\unity-mcp-ui-layout
+bash D:/UnityUICreater/tests/agent_runbook_keywords.sh
 bash D:/UnityUICreater/tests/layout_snapshot_keywords.sh
 bash D:/UnityUICreater/tests/mockup_layout_plan_schema.sh
 bash D:/UnityUICreater/tests/trigger_keywords.sh
