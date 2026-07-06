@@ -1,0 +1,144 @@
+schema_version: "mockup-layout-plan/v1"
+plan_id: "mockup-layout-plan/reward-card-prefab"
+layout_contract:
+  ui_stack: "UGUI"
+  mode: "build"
+  mockup_source: "attached reward-card mockup"
+  reference_resolution: "1920x1080"
+  target_resolution: "1920x1080"
+  root_owner: "Canvas/SafeAreaRoot/RewardPopupRoot"
+  structure_rule: "parent ownership before leaf sizing"
+  candidate_policy:
+    accepted: "may become item rect entries after parent ownership and split reason are reviewed"
+    held: "remain review notes and must not create Unity objects, prefab children, or crops"
+    rejected: "must not create Unity objects, prefab children, or crops"
+layer_tree:
+  - node_path: "Canvas/SafeAreaRoot/RewardPopupRoot"
+    role: "region"
+    parent_owner: "Canvas/SafeAreaRoot"
+    unity_type: "RectTransform"
+    anchor_pivot_intent: "centered"
+    layout_owner: "manual modal bounds"
+    geometry_ratios:
+      x: 0.275
+      y: 0.16
+      width: 0.45
+      height: 0.68
+    split_keep_reason: "modal owns reward composition"
+  - node_path: "Canvas/SafeAreaRoot/RewardPopupRoot/RewardCard"
+    role: "reusable group"
+    parent_owner: "Canvas/SafeAreaRoot/RewardPopupRoot"
+    unity_type: "prefab root"
+    anchor_pivot_intent: "centered"
+    layout_owner: "VerticalLayoutGroup"
+    geometry_ratios:
+      x: 0.335
+      y: 0.25
+      width: 0.33
+      height: 0.44
+    split_keep_reason: "reward card repeats across reward screens"
+  - node_path: "Canvas/SafeAreaRoot/RewardPopupRoot/RewardCard/Icon"
+    role: "runtime leaf"
+    parent_owner: "Canvas/SafeAreaRoot/RewardPopupRoot/RewardCard"
+    unity_type: "RectTransform"
+    anchor_pivot_intent: "centered"
+    layout_owner: "LayoutElement"
+    geometry_ratios:
+      x: 0.455
+      y: 0.34
+      width: 0.09
+      height: 0.16
+    split_keep_reason: "dynamic reward icon"
+candidate_item_ledger:
+  - candidate_id: "candidate/RewardCard/Icon"
+    source_bounds:
+      x: 874
+      y: 367
+      width: 172
+      height: 172
+    confidence_band: "high"
+    evidence:
+      - "centered icon cluster"
+      - "strong contrast boundary"
+      - "dynamic reward content"
+    suggested_role: "icon"
+    parent_hint: "Canvas/SafeAreaRoot/RewardPopupRoot/RewardCard"
+    crop_padding: "12px glow should stay outside icon sprite"
+    nine_slice_candidate: false
+    review_decision: "accept"
+    decision_note: "dynamic reward icon needs runtime sprite swap"
+  - candidate_id: "candidate/RewardCard/OuterGlow"
+    source_bounds:
+      x: 620
+      y: 245
+      width: 680
+      height: 560
+    confidence_band: "medium"
+    evidence:
+      - "soft panel shadow"
+      - "decorative frame"
+    suggested_role: "hold-for-review"
+    parent_hint: "Canvas/SafeAreaRoot/RewardPopupRoot/RewardCard"
+    crop_padding: "unknown"
+    nine_slice_candidate: false
+    review_decision: "hold"
+    decision_note: "may be baked into card background; do not promote without art review"
+  - candidate_id: "candidate/RewardCard/InnerHighlightLine"
+    source_bounds:
+      x: 674
+      y: 308
+      width: 572
+      height: 3
+    confidence_band: "medium"
+    evidence:
+      - "decorative separator"
+    suggested_role: "decorative image"
+    parent_hint: "Canvas/SafeAreaRoot/RewardPopupRoot/RewardCard"
+    crop_padding: "none"
+    nine_slice_candidate: false
+    review_decision: "reject"
+    decision_note: "decorative sub-part stays inside card background art"
+item_rect_plan:
+  - item_id: "RewardCard/Icon"
+    candidate_id: "candidate/RewardCard/Icon"
+    node_path: "Canvas/SafeAreaRoot/RewardPopupRoot/RewardCard/Icon"
+    source_rect:
+      x: 874
+      y: 367
+      width: 172
+      height: 172
+    normalized_rect:
+      x: 0.4552
+      y: 0.3398
+      width: 0.0896
+      height: 0.1593
+    parent_local_rect:
+      x: 0
+      y: -24
+      width: 172
+      height: 172
+    fit_mode: "preserve-aspect"
+    anchor_pivot_intent: "centered"
+    split_keep_reason: "dynamic reward icon"
+    asset_crop_plan_id: "crop/RewardCard/Icon"
+asset_crop_plan:
+  - asset_crop_plan_id: "crop/RewardCard/Icon"
+    item_id: "RewardCard/Icon"
+    candidate_id: "candidate/RewardCard/Icon"
+    plan: "reuse reward icon sprite if found; otherwise import mockup-derived icon crop as provisional"
+    source: "existing sprite preferred"
+    nine_slice: false
+    creates_unity_object: true
+verification_targets:
+  - target: "prefab instance screenshot"
+    resolution: "1920x1080"
+    checks:
+      - "RewardCard prefab root owns icon placement"
+      - "RewardCard/Icon uses preserve-aspect fit"
+      - "held glow did not create a prefab child"
+      - "rejected highlight line did not create a crop"
+  - target: "alternate aspect screenshot"
+    resolution: "1600x900"
+    checks:
+      - "RewardPopupRoot remains centered"
+      - "RewardCard spacing is owned by VerticalLayoutGroup"

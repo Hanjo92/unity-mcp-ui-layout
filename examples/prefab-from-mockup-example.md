@@ -19,6 +19,7 @@ Inspect whether the project uses UGUI or UI Toolkit before creating objects.
 Run a layer-to-tree pass so the visual layers become a clean Transform/RectTransform hierarchy before prefab creation.
 If semi-automated item detection is helpful, create a candidate item ledger with confidence band, evidence, crop padding, and review decision before item rect planning.
 For split runtime leaves and repeated prefab units, create an item rect plan with source rect, normalized rect, parent-local rect or fit mode, and asset/crop plan.
+Use the mockup layout plan template if you need a fixed artifact: templates/mockup-layout-plan.yaml.
 Group the top-level screen into anchor-owned parent regions first.
 Turn repeated cards, slots, buttons, or rows into reusable prefabs or reusable layout blocks.
 Keep decorative baked regions as single image assets unless runtime behavior requires splitting.
@@ -32,6 +33,7 @@ Verify the created prefab instance with a screenshot.
 프리팹을 만들기 전에 layer-to-tree pass를 실행해서 시각 레이어가 깔끔한 Transform/RectTransform hierarchy가 되게 해줘.
 반자동 item detection을 쓴다면 confidence band, evidence, crop padding, review decision이 포함된 candidate item ledger를 먼저 만들고 검토해줘.
 분리되는 runtime leaf와 반복 프리팹 단위는 source rect, normalized rect, parent-local rect 또는 fit mode, asset/crop plan이 포함된 item rect plan을 먼저 만들어줘.
+고정된 산출물이 필요하면 templates/mockup-layout-plan.yaml 형식으로 정리해줘.
 화면을 anchor 기준 부모 영역으로 나눈 다음, 반복되는 카드/슬롯/버튼/행은 재사용 가능한 프리팹이나 레이아웃 블록으로 만들어줘.
 장식용으로 구워진 영역은 런타임 동작상 분리가 필요할 때만 나눠줘.
 생성한 프리팹 인스턴스를 스크린샷으로 검증해줘.
@@ -49,9 +51,12 @@ Verify the created prefab instance with a screenshot.
 - It routes prefab creation through the same structure-first layout rules as screen creation.
 - It prevents over-decomposition by checking runtime responsibility before splitting assets.
 - It makes reusable prefab extraction explicit when the design repeats.
+- It can produce a fixed mockup layout plan artifact so candidate review decisions stay separate from item rects and crop plans.
 
 ## Suggested References
 
+- [mockup-layout-plan.yaml](../templates/mockup-layout-plan.yaml)
+- [mockup-layout-plan-prefab-example.yaml](./mockup-layout-plan-prefab-example.yaml)
 - [image-to-layout.md](../unity-mcp-ui-layout/references/image-to-layout.md)
 - [mockup-decomposition.md](../unity-mcp-ui-layout/references/mockup-decomposition.md)
 - [prefab-reuse.md](../unity-mcp-ui-layout/references/prefab-reuse.md)

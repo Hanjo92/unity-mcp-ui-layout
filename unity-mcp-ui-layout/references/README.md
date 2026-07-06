@@ -9,6 +9,7 @@ Use it when `SKILL.md` points you here for deeper guidance.
 - `layout-checklist.md`
 - `layout-snapshot-contract.md` - defines the ideal Unity UI layout snapshot MCP contract and smaller-call fallback before existing UI edits.
 - `image-to-layout.md` - includes mockup-to-layer-to-tree workflow, candidate item ledger guidance, item rect mapping, and the asset-RAG fallback contract for when `unity-resource-rag` is unavailable or low-confidence.
+- `../../templates/mockup-layout-plan.yaml` - provides a concise machine-readable artifact shape for layer tree, candidate ledger, item rect, asset crop, and verification target planning.
 - `mcp-call-recipes.md`
 - `mockup-decomposition.md` - owns layer-to-tree decomposition, parent ownership, split/keep decisions, and item rect contract for raster mockups.
 - `mockup-resolution.md`

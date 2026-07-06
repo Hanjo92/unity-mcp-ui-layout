@@ -4,6 +4,7 @@ Use this guide when the user provides, uploads, attaches, or drops a layout imag
 
 Pair it with `mockup-resolution.md` when the mockup's own native pixel size should become the planning reference frame.
 Pair it with `mockup-decomposition.md` when you need a stricter rule for deciding what should stay as one asset versus what should become runtime-owned UI.
+Use `../../templates/mockup-layout-plan.yaml` when the agent needs a concise machine-readable plan for the layer tree, candidate item ledger, item rect plan, asset crop plan, and verification targets.
 
 ## Goal
 
@@ -94,6 +95,8 @@ Candidate ledger schema:
 Only accepted candidates can become item-level UI rect entries. Held candidates remain notes for manual review, and rejected candidates must not create Unity objects, crops, or prefab children.
 
 Do not use low-confidence candidates to force a split. If the candidate cannot name a parent hint, split/keep reason, and evidence, keep it in the nearest existing visual layer.
+
+For fixed-column planning output, copy `../../templates/mockup-layout-plan.yaml` and validate it with `../../tests/mockup_layout_plan_schema.sh`.
 
 ### 3. Run an item rect mapping pass
 
