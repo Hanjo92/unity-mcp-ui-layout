@@ -29,6 +29,7 @@ Use this checklist when preparing a tagged release for this repository.
 ## Validation / 검증
 
 - validate the repo skill
+- run layout snapshot keyword checks when Unity UI intake, snapshot contracts, or smaller-call fallback wording changed
 - run trigger keyword checks when discoverability or skill activation wording changed
 - run layer/tree keyword checks when mockup decomposition or hierarchy guidance changed
 - run item rect keyword checks when mockup item sizing, source rect, or crop-plan guidance changed
@@ -38,6 +39,7 @@ Use this checklist when preparing a tagged release for this repository.
 - make sure new examples still match the actual rules
 
 - 저장소 안의 정본 스킬을 검증합니다.
+- Unity UI intake, snapshot contract, smaller-call fallback 문구가 바뀌었다면 layout snapshot keyword check를 실행합니다.
 - discoverability나 스킬 작동 트리거 문구가 바뀌었다면 trigger keyword check를 실행합니다.
 - mockup decomposition이나 hierarchy 지침이 바뀌었다면 layer/tree keyword check를 실행합니다.
 - mockup item sizing, source rect, crop-plan 지침이 바뀌었다면 item rect keyword check를 실행합니다.
@@ -50,6 +52,7 @@ Use this checklist when preparing a tagged release for this repository.
 
 ```powershell
 python C:\Users\user\.codex\skills\.system\skill-creator\scripts\quick_validate.py D:\UnityUICreater\unity-mcp-ui-layout
+bash D:/UnityUICreater/tests/layout_snapshot_keywords.sh
 bash D:/UnityUICreater/tests/trigger_keywords.sh
 bash D:/UnityUICreater/tests/layer_tree_keywords.sh
 bash D:/UnityUICreater/tests/item_rect_keywords.sh

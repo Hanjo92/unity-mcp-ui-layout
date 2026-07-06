@@ -4,6 +4,39 @@ Use this guide when you need concrete `unity-mcp` call order instead of only hig
 
 These recipes are intentionally practical. Start from discovery, make one bounded change, then verify.
 
+## 0. Capture a Layout Snapshot Before Editing
+
+Use this when Unity Editor access is available and the task will edit an existing UI screen, repair a layout, or build a mockup-driven prefab inside a scene.
+
+The ideal output follows `layout-snapshot-contract.md`: active scene, active UI root, UI stack, Canvas or UIDocument settings, parent-owned hierarchy, layout controllers, text behavior, asset references, screenshot metadata, and console state.
+
+### Typical sequence
+
+1. Request a unified layout snapshot if the MCP bridge exposes one
+2. If no unified snapshot exists, gather equivalent fields through smaller calls
+3. Record active UI root, stack, root layout owners, screenshot path, resolution, and console state before editing
+4. Resolve blocking gaps such as unknown stack, unknown active root, compile errors, or missing screenshot
+5. Continue into build or repair mode only after the intake artifact is clear
+
+### Example prompt
+
+```text
+Capture a Unity UI layout snapshot before editing.
+Record the active scene, active UI root, UI stack, Canvas or UIDocument settings, parent-owned hierarchy, layout controllers, text behavior, asset references, screenshot path with resolution, and console state.
+If there is no unified snapshot tool, gather the same fields through smaller MCP calls and list any unknown fields explicitly.
+Do not modify UI objects yet.
+```
+
+### Common calls
+
+- unified layout snapshot tool when available
+- `editor_state` resource
+- `find_gameobjects`
+- `manage_components`
+- `manage_ui`
+- `manage_camera` with screenshot capture
+- `read_console`
+
 ## 1. Inspect an Existing UI Before Editing
 
 Use this when the scene already contains UI and you need to understand what is there before changing it.
@@ -14,6 +47,8 @@ Use this when the scene already contains UI and you need to understand what is t
 2. Find UI roots and relevant objects
 3. Capture a screenshot
 4. Decide whether the issue is structural or visual
+
+Prefer the layout snapshot contract above when the environment can provide it. If not, this recipe is the smaller-call fallback.
 
 ### Example prompt
 

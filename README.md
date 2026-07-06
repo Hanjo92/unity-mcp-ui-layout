@@ -192,6 +192,7 @@ examples/
   *-example.md
 
 tests/
+  layout_snapshot_keywords.sh
   trigger_keywords.sh
   layer_tree_keywords.sh
   item_rect_keywords.sh
@@ -242,6 +243,7 @@ Run the focused checks when release prep or discoverability wording changes.
 릴리스 준비나 discoverability 문구를 바꾼 경우 아래 집중 검증을 실행합니다.
 
 ```bash
+bash tests/layout_snapshot_keywords.sh
 bash tests/trigger_keywords.sh
 bash tests/layer_tree_keywords.sh
 bash tests/item_rect_keywords.sh
