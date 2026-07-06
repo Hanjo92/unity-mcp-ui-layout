@@ -23,6 +23,7 @@ Global Codex skill path:
 ```powershell
 robocopy D:\UnityUICreater\unity-mcp-ui-layout C:\Users\user\.codex\skills\unity-mcp-ui-layout /MIR
 python C:\Users\user\.codex\skills\.system\skill-creator\scripts\quick_validate.py D:\UnityUICreater\unity-mcp-ui-layout
+bash D:/UnityUICreater/tests/layout_snapshot_keywords.sh
 bash D:/UnityUICreater/tests/trigger_keywords.sh
 bash D:/UnityUICreater/tests/layer_tree_keywords.sh
 bash D:/UnityUICreater/tests/item_rect_keywords.sh
@@ -64,6 +65,7 @@ flowchart TD
 ## Lightweight Validation Checklist / 가벼운 검증 체크
 
 - frontmatter is still valid and readable
+- layout snapshot keyword checks still cover active root, UI stack, screenshot frame, fallback calls, and console state wording
 - trigger keyword checks still cover mockup/image-to-prefab request wording
 - layer/tree keyword checks still cover mockup-to-Transform hierarchy wording
 - item rect keyword checks still cover mockup item sizing and crop-plan wording
@@ -73,6 +75,7 @@ flowchart TD
 - no new file silently became the only source of important guidance
 
 - frontmatter가 여전히 정상 파싱되는지 확인합니다.
+- layout snapshot keyword check가 active root, UI stack, screenshot frame, fallback call, console state 문구를 계속 커버하는지 확인합니다.
 - mockup/image-to-prefab 요청 표현을 trigger keyword check가 계속 커버하는지 확인합니다.
 - mockup-to-Transform hierarchy 표현을 layer/tree keyword check가 계속 커버하는지 확인합니다.
 - mockup item sizing과 crop-plan 표현을 item rect keyword check가 계속 커버하는지 확인합니다.

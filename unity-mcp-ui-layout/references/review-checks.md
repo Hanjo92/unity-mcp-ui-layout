@@ -4,6 +4,23 @@ Use this guide at the end of a `unity-mcp` UI task before calling the result com
 
 This is a final review pass, not a discovery checklist. The goal is to catch issues that often survive basic implementation.
 
+## 0. Layout Snapshot Intake Check
+
+Use this check when the task edited an existing Unity UI screen or built mockup-driven UI inside an existing scene.
+
+For the full expected intake shape, use `layout-snapshot-contract.md`.
+
+Ask:
+
+- Was a layout snapshot captured before structural edits, or were equivalent smaller MCP calls used?
+- Did the intake identify active scene, active UI root, UI stack, Canvas or UIDocument settings, root layout owners, screenshot resolution, screenshot path, and console state?
+- Were anchors, pivots, bounds, layout groups, masks, scroll owners, prefab links, and key text overflow/wrap settings inspected for the target region?
+- Were referenced sprites, materials, TMP styles, prefabs, and shared asset markers inspected when asset-aware mode was active?
+- Were unknown fields recorded explicitly instead of guessed or silently skipped?
+- If the unified snapshot tool was unavailable, did the fallback still gather enough evidence to choose stack, change mode, parent ownership, and verification target?
+
+If the active root, UI stack, parent ownership, screenshot frame, or console state is unknown, resolve that gap before claiming the UI work is complete.
+
 ## 1. Composition Check
 
 Ask:
