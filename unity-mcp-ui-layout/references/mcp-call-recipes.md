@@ -8,13 +8,13 @@ These recipes are intentionally practical. Start from discovery, make one bounde
 
 Use this when Unity Editor access is available and the task will edit an existing UI screen, repair a layout, or build a mockup-driven prefab inside a scene.
 
-The ideal output follows `layout-snapshot-contract.md`: active scene, active UI root, UI stack, Canvas or UIDocument settings, parent-owned hierarchy, layout controllers, text behavior, asset references, screenshot metadata, and console state.
+The intake must follow the canonical `layout-snapshot-contract.md`, including `target_surface`, Unity version evidence (`unity_version_evidence`), `selection.selected_object`, and `selection.active_ui_root`. The canonical contract defines the complete field set and explicit `unknown` or fallback values for fields that cannot be inspected.
 
 ### Typical sequence
 
 1. Request a unified layout snapshot if the MCP bridge exposes one
 2. If no unified snapshot exists, gather equivalent fields through smaller calls
-3. Record active UI root, stack, root layout owners, screenshot path, resolution, and console state before editing
+3. Record `target_surface`, Unity version evidence, `selection.selected_object`, `selection.active_ui_root`, stack, root layout owners, screenshot path, resolution, and console state before editing
 4. Resolve blocking gaps such as unknown stack, unknown active root, compile errors, or missing screenshot
 5. Continue into build or repair mode only after the intake artifact is clear
 
@@ -22,7 +22,7 @@ The ideal output follows `layout-snapshot-contract.md`: active scene, active UI 
 
 ```text
 Capture a Unity UI layout snapshot before editing.
-Record the active scene, active UI root, UI stack, Canvas or UIDocument settings, parent-owned hierarchy, layout controllers, text behavior, asset references, screenshot path with resolution, and console state.
+Record `target_surface`, Unity version evidence as `unity_version_evidence`, `selection.selected_object`, and `selection.active_ui_root` first, then follow the complete `layout-snapshot-contract.md` field set for the active scene, UI stack, Canvas or UIDocument settings, parent-owned hierarchy, layout controllers, text behavior, asset references, screenshot path with resolution, and console state.
 If there is no unified snapshot tool, gather the same fields through smaller MCP calls and list any unknown fields explicitly.
 Do not modify UI objects yet.
 ```
@@ -212,16 +212,19 @@ Use this when the project uses `UIDocument`, `UXML`, and `USS`.
 
 ### Typical sequence
 
-1. Identify the active `UIDocument`
-2. Find related `UXML` and `USS`
-3. Adjust parent containers first
-4. Reduce inline style overrides when container rules should own layout
-5. Verify with a screenshot
+1. Start with `ui-stack-selection.md`.
+2. In a mixed-stack project, establish decisive ownership evidence before using UXML/USS assets: a selected UIDocument, a resolved visual-tree root, or an editor UI Toolkit owner.
+3. Identify the active `UIDocument` from that decisive owner evidence.
+4. Find related `UXML` and `USS` only after the owner is resolved.
+5. Adjust parent containers first.
+6. Reduce inline style overrides when container rules should own layout.
+7. Verify with a screenshot.
 
 ### Example prompt
 
 ```text
-Inspect the current UI Toolkit screen and find the active UIDocument, UXML, and USS files.
+Start with ui-stack-selection.md. In a mixed-stack project, establish decisive ownership evidence from the selected UIDocument, resolved visual-tree root, or editor UI Toolkit owner before using UXML/USS assets.
+Inspect the current UI Toolkit screen and find the active UIDocument, UXML, and USS files only after that owner is decisive.
 Fix the layout by adjusting parent containers and style ownership before changing local overrides.
 Then verify with a screenshot.
 ```

@@ -11,10 +11,12 @@ For ambiguity handling and candidate review policy, use `review-gates-and-assump
 Use this check when the task edited an existing Unity UI screen or built mockup-driven UI inside an existing scene.
 
 For the full expected intake shape, use `layout-snapshot-contract.md`.
+The intake must include `target_surface`, Unity version evidence as `unity_version_evidence`, `selection.selected_object`, and `selection.active_ui_root`; defer to the canonical contract for all remaining fields and explicit unknown or fallback values.
 
 Ask:
 
 - Was a layout snapshot captured before structural edits, or were equivalent smaller MCP calls used?
+- Did the intake record `target_surface`, Unity version evidence, `selection.selected_object`, and `selection.active_ui_root` before stack-specific review?
 - Did the intake identify active scene, active UI root, UI stack, Canvas or UIDocument settings, root layout owners, screenshot resolution, screenshot path, and console state?
 - Were anchors, pivots, bounds, layout groups, masks, scroll owners, prefab links, and key text overflow/wrap settings inspected for the target region?
 - Were referenced sprites, materials, TMP styles, prefabs, and shared asset markers inspected when asset-aware mode was active?
