@@ -114,8 +114,16 @@ A GameObject prefab variant remains relevant only when the runtime host itself h
 
 ## Verification Questions
 
-- Is the base prefab still the correct conceptual parent for this variant?
-- Could this have been direct reuse with data changes only?
-- Are the overrides limited and easy to explain?
-- Does the variant keep screen-level placement outside the asset?
-- If the base changes later, will this variant still inherit in a predictable way?
+### UGUI Verification
+
+- Is the base prefab still the correct conceptual parent for this prefab variant?
+- Does the prefab variant preserve expected inheritance from the base prefab?
+- Are overrides limited, and does screen-level placement remain outside the variant asset?
+
+### UI Toolkit Verification
+
+- Is the base UXML template still the right reusable contract?
+- Could direct composition or a wrapper UXML express the difference without copying the template?
+- Are scoped USS and state classes sufficient and easy to explain?
+- Does structural divergence justify a distinct template instead of variant-like overrides?
+- If a GameObject host exists, is its optional host lifecycle explicit and actually reusable?

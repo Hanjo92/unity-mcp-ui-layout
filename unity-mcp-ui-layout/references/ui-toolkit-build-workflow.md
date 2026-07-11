@@ -23,21 +23,23 @@ Resolve containers, repeated units, scroll ownership, responsive intent, and tex
 
 ### Runtime
 
-Use `manage_ui` to `create` or `update` the approved UXML and USS. Prefer updating existing owned assets when the intake identifies them.
+Use `manage_ui(action="create")` or `manage_ui(action="update")` for the approved UXML and USS. Prefer updating existing owned assets when the intake identifies them.
 
-1. Create the screen UXML and its USS, or update the existing pair.
-2. For every repeated unit, default to a reusable UXML template backed by a `VisualTreeAsset`, with repeatable appearance expressed as USS classes.
-3. Reuse a compatible `PanelSettings` asset. Otherwise call `create_panel_settings` with values justified by the target and project conventions.
-4. Inspect the selected scene and find an existing `UIDocument` host before creating any host object. Reuse it when ownership and lifecycle match the plan.
-5. If the runtime screen needs a host and none exists, use `manage_gameobject` to create a host GameObject.
-6. After the host exists, call `attach_ui_document` with the approved UXML and `PanelSettings`.
-7. Call `get_visual_tree` after attachment or while inspecting an existing owner, then compare the resolved hierarchy with the approved layout tree.
+1. Create the screen UXML and USS with `manage_ui(action="create")`, or update the existing pair with `manage_ui(action="update")`.
+2. Require an existing valid `<ui:Style src="...">` reference or call `manage_ui(action="link_stylesheet", path="<screen>.uxml", stylesheet="<styles>.uss")`.
+3. Verify the stylesheet link resolves before any visual check.
+4. For every repeated unit, default to a reusable UXML template backed by a `VisualTreeAsset`, with repeatable appearance expressed as USS classes.
+5. Inspect the selected scene and find an existing `UIDocument` host before creating any host object. Reuse it when ownership and lifecycle match the plan.
+6. If the runtime screen needs a host and none exists, use `manage_gameobject` to create a host GameObject.
+7. Reuse a compatible `PanelSettings` asset. Otherwise call `manage_ui(action="create_panel_settings")` with values justified by the target and project conventions.
+8. After the host exists, call `manage_ui(action="attach_ui_document")` with the approved UXML and `PanelSettings`.
+9. Call `manage_ui(action="get_visual_tree")` after attachment or while inspecting an existing owner, then compare the resolved hierarchy with the approved layout tree.
 
 Creating a host GameObject in a scene is not creating a prefab asset. In mockup language, "prefab" usually means reusable intent; satisfy that intent with a reusable UXML template and USS classes. Create a host prefab only when the user explicitly requires host reuse or the host has scene lifecycle responsibilities.
 
 ### Editor UI
 
-For `target_surface: editor`, create or update UXML and USS plus the actual Editor UI owner: an `EditorWindow` with `CreateGUI`, a custom inspector, or a property drawer. Verify the owner loads or clones the intended `VisualTreeAsset`. Do not assume or attach a runtime `UIDocument`, and do not create runtime `PanelSettings` unless the selected editor implementation explicitly needs them.
+For `target_surface: editor`, create or update UXML and USS plus the actual Editor UI owner: an `EditorWindow` with `CreateGUI`, a custom inspector, or a property drawer. Apply the same stylesheet-link requirement and verify it before visual checks. Verify the owner loads or clones the intended `VisualTreeAsset`. Do not assume or attach a runtime `UIDocument`, and do not create runtime `PanelSettings` unless the selected editor implementation explicitly needs them.
 
 ## 4. Add Behavior Only When Needed
 
@@ -53,7 +55,7 @@ Run a complete evidence loop:
 
 1. Trigger asset import and script compile.
 2. Check the console for import, UXML, USS, and C# errors or warnings.
-3. Inspect the visual tree and relevant text/state output.
+3. Inspect the visual tree with `manage_ui(action="get_visual_tree")` and verify the stylesheet link before reviewing relevant text/state output.
 4. Capture a main screenshot at the approved target size.
 5. Capture an alternate screenshot at the approved narrower, wider, or otherwise meaningful size.
 6. Check hierarchy, text, state, and interaction behavior at both targets, including repeated template instances, binding results, callbacks, focus, and navigation when applicable.

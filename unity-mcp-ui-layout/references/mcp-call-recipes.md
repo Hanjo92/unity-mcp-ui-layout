@@ -245,22 +245,26 @@ Use this compact recipe for an explicit or project-inferred UI Toolkit build. Th
 
 1. Apply `ui-stack-selection.md` and capture intake evidence.
 2. Produce and approve the neutral `mockup-layout-plan/v2` plan.
-3. Use `manage_ui` to create or update the approved UXML and USS.
-4. For runtime UI, inspect for an existing `UIDocument` host. Use `manage_gameobject` to create a new host only when runtime needs one and no compatible lifecycle owner exists.
-5. Reuse compatible panel settings or call `create_panel_settings`.
-6. Call `attach_ui_document` with the approved assets.
-7. Call `get_visual_tree` and compare the resolved tree with the approved plan.
-8. Add an optional behavior owner only when bindings, callbacks, state classes, focus, or navigation require one.
-9. After script tools return, wait for import and compilation; inspect editor state and the console. Do not call `refresh_unity` redundantly.
-10. Capture the main screenshot and alternate screenshot, exercise applicable interactions, and report every tool limitation plus fallback evidence.
+3. Call `manage_ui(action="create")` for new UXML/USS assets or `manage_ui(action="update")` for existing owned assets.
+4. Confirm an existing valid `<ui:Style src="...">` reference or call `manage_ui(action="link_stylesheet", path="<screen>.uxml", stylesheet="<styles>.uss")`.
+5. Verify the stylesheet link resolves before host attachment or visual checks.
+6. For runtime UI, inspect for an existing `UIDocument` host. Use `manage_gameobject` to create a new host only when runtime needs one and no compatible lifecycle owner exists.
+7. Reuse compatible panel settings or call `manage_ui(action="create_panel_settings")`.
+8. Call `manage_ui(action="attach_ui_document")` with the approved assets.
+9. Call `manage_ui(action="get_visual_tree")` and compare the resolved tree with the approved plan.
+10. Add an optional behavior owner only when bindings, callbacks, state classes, focus, or navigation require one.
+11. After script tools return, wait for import and compilation; inspect editor state and the console. Do not call `refresh_unity` redundantly.
+12. Capture the main and alternate screenshots, exercise applicable interactions, and report every tool limitation plus fallback evidence.
 
 ### Common calls
 
-- `manage_ui` (`create`, `update`)
+- `manage_ui(action="create")`
+- `manage_ui(action="update")`
+- `manage_ui(action="link_stylesheet", path="<screen>.uxml", stylesheet="<styles>.uss")`
 - `manage_gameobject`
-- `create_panel_settings`
-- `attach_ui_document`
-- `get_visual_tree`
+- `manage_ui(action="create_panel_settings")`
+- `manage_ui(action="attach_ui_document")`
+- `manage_ui(action="get_visual_tree")`
 - `manage_script`
 - editor state and `read_console`
 - screenshot and interaction tools

@@ -203,6 +203,11 @@ assets:
   prefabs:
     - path: "Assets/UI/Prefabs/HUD/CurrencyCluster.prefab"
       shared: true
+  reusable_uxml_templates: []
+  stylesheets: []
+  panel_settings: []
+  theme_or_style_assets: []
+  behavior_owners: []
 console:
   compile_state: "clean"
   errors: []

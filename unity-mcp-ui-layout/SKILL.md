@@ -173,7 +173,7 @@ Do not call the task done until every applicable check below passes:
 - Component text/background pairs were checked for readable contrast where the source defines both values.
 - Shared-asset edits were treated with explicit safety checks.
 - Low-confidence asset reuse stayed clearly provisional.
-- For applicable UI Toolkit builds, asset import and console evidence are clean, the resolved visual tree matches the plan, bindings, callbacks, and state classes were exercised, focus and navigation were checked, host lifecycle ownership is explicit, and any tool limitations are reported with fallback evidence.
+- For every UI Toolkit build, asset import and console evidence are clean and the resolved visual tree matches the plan. For each category in bindings, callbacks, state classes, focus, and navigation, record exercised evidence or `not_applicable` with a reason when `behavior_plan: []` or the build is structure-only. Host lifecycle ownership is explicit, and any tool limitations are reported with fallback evidence.
 
 ## Use the References
 

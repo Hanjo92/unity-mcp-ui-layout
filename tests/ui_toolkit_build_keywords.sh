@@ -20,7 +20,6 @@ build_doc="$(cat "$build_doc_path")"
 example_doc="$(cat "$example_path")"
 skill_body="$(cat "$ROOT_DIR/unity-mcp-ui-layout/SKILL.md")"
 mcp_recipes="$(cat "$ROOT_DIR/unity-mcp-ui-layout/references/mcp-call-recipes.md")"
-mcp_build_recipe="$(awk '/^## Build UI Toolkit From a Mockup$/{capture=1; next} capture && /^## /{exit} capture' <<<"$mcp_recipes")"
 prompt_patterns="$(cat "$ROOT_DIR/unity-mcp-ui-layout/references/prompt-patterns.md")"
 existing_prefab_reuse="$(cat "$ROOT_DIR/unity-mcp-ui-layout/references/existing-prefab-reuse.md")"
 prefab_reuse="$(cat "$ROOT_DIR/unity-mcp-ui-layout/references/prefab-reuse.md")"
@@ -30,6 +29,31 @@ snapshot_contract="$(cat "$ROOT_DIR/unity-mcp-ui-layout/references/layout-snapsh
 review_checks="$(cat "$ROOT_DIR/unity-mcp-ui-layout/references/review-checks.md")"
 layout_rules="$(cat "$ROOT_DIR/unity-mcp-ui-layout/references/ui-toolkit-layout-rules.md")"
 failure_guide="$(cat "$ROOT_DIR/unity-mcp-ui-layout/references/ui-toolkit-failures.md")"
+
+recipe_heading="## Build UI Toolkit From a Mockup"
+recipe_heading_count="$(grep -Fxc "$recipe_heading" <<<"$mcp_recipes" || true)"
+if [[ "$recipe_heading_count" -ne 1 ]]; then
+  printf 'Expected exactly one MCP recipe section, found %s: %s\n' "$recipe_heading_count" "$recipe_heading" >&2
+  exit 1
+fi
+mcp_build_recipe="$(awk -v heading="$recipe_heading" '$0 == heading { capture=1 } capture && $0 != heading && /^## / { exit } capture { print }' <<<"$mcp_recipes")"
+if [[ -z "$mcp_build_recipe" ]]; then
+  printf 'Failed to extract MCP recipe section: %s\n' "$recipe_heading" >&2
+  exit 1
+fi
+
+ugui_snapshot="$(awk '/^## UGUI Example Snapshot$/{capture=1} capture && $0 != "## UGUI Example Snapshot" && /^## /{exit} capture{print}' <<<"$snapshot_contract")"
+if [[ -z "$ugui_snapshot" ]]; then
+  printf 'Failed to extract UGUI snapshot example section\n' >&2
+  exit 1
+fi
+
+ugui_variant_verification="$(awk '/^### UGUI Verification$/{capture=1} capture && $0 != "### UGUI Verification" && /^### /{exit} capture{print}' <<<"$prefab_variants")"
+ui_toolkit_variant_verification="$(awk '/^### UI Toolkit Verification$/{capture=1} capture && $0 != "### UI Toolkit Verification" && /^### /{exit} capture{print}' <<<"$prefab_variants")"
+if [[ -z "$ugui_variant_verification" || -z "$ui_toolkit_variant_verification" ]]; then
+  printf 'Missing stack-specific prefab variant verification sections\n' >&2
+  exit 1
+fi
 
 assert_contains() {
   local haystack="$1"
@@ -71,13 +95,14 @@ assert_precedes() {
 }
 
 build_keywords=(
-  "manage_ui"
-  "create"
-  "update"
-  "create_panel_settings"
+  'manage_ui(action="create")'
+  'manage_ui(action="update")'
+  '<ui:Style src="...">'
+  'manage_ui(action="link_stylesheet", path="<screen>.uxml", stylesheet="<styles>.uss")'
+  'manage_ui(action="create_panel_settings")'
   "manage_gameobject"
-  "attach_ui_document"
-  "get_visual_tree"
+  'manage_ui(action="attach_ui_document")'
+  'manage_ui(action="get_visual_tree")'
   "UXML"
   "USS"
   "VisualTreeAsset"
@@ -133,19 +158,20 @@ recipe_keywords=(
   "## Build UI Toolkit From a Mockup"
   "ui-stack-selection.md"
   "mockup-layout-plan/v2"
-  "manage_ui"
-  "create"
-  "update"
+  'manage_ui(action="create")'
+  'manage_ui(action="update")'
+  '<ui:Style src="...">'
+  'manage_ui(action="link_stylesheet", path="<screen>.uxml", stylesheet="<styles>.uss")'
+  "verify the stylesheet link"
   'existing `UIDocument` host'
   "manage_gameobject"
-  "create_panel_settings"
-  "attach_ui_document"
-  "get_visual_tree"
+  'manage_ui(action="create_panel_settings")'
+  'manage_ui(action="attach_ui_document")'
+  'manage_ui(action="get_visual_tree")'
   "optional behavior"
-  "import"
-  "console"
-  "main screenshot"
-  "alternate screenshot"
+  "wait for import and compilation"
+  "inspect editor state and the console"
+  "main and alternate screenshots"
   "tool limitation"
   "ui-toolkit-build-workflow.md"
 )
@@ -171,6 +197,8 @@ reuse_keywords=(
 )
 
 variant_keywords=(
+  "UGUI Verification"
+  "UI Toolkit Verification"
   "base UXML template"
   "shared USS"
   "wrapper UXML"
@@ -222,7 +250,7 @@ layout_failure_keywords=(
 )
 
 for keyword in "${recipe_keywords[@]}"; do
-  assert_contains "$mcp_recipes" "$keyword" "MCP recipes"
+  assert_contains "$mcp_build_recipe" "$keyword" "UI Toolkit MCP recipe section"
 done
 
 for keyword in "${prompt_keywords[@]}"; do
@@ -245,6 +273,18 @@ for keyword in "${snapshot_keywords[@]}"; do
   assert_contains "$snapshot_contract" "$keyword" "layout snapshot"
 done
 
+for keyword in reusable_uxml_templates stylesheets panel_settings theme_or_style_assets behavior_owners; do
+  assert_contains "$ugui_snapshot" "$keyword" "UGUI snapshot example"
+done
+
+for keyword in "base prefab" "prefab variant" inheritance placement; do
+  assert_contains "$ugui_variant_verification" "$keyword" "UGUI variant verification"
+done
+
+for keyword in "base UXML template" composition "wrapper UXML" "scoped USS" "state classes" divergence "host lifecycle"; do
+  assert_contains "$ui_toolkit_variant_verification" "$keyword" "UI Toolkit variant verification"
+done
+
 for keyword in "${completion_keywords[@]}"; do
   assert_contains "$review_checks" "$keyword" "review checks"
   assert_contains "$skill_body" "$keyword" "skill completion gate"
@@ -263,17 +303,27 @@ assert_not_contains "$skill_body" "refresh_unity" "skill script verification"
 assert_not_contains "$prompt_patterns" "refresh_unity" "script-backed prompt pattern"
 assert_not_contains "$existing_prefab_reuse" "refresh_unity" "existing prefab reuse"
 
+assert_contains "$skill_body" "behavior_plan: []" "skill completion applicability"
+assert_contains "$skill_body" "not_applicable" "skill completion applicability"
+assert_contains "$skill_body" "reason" "skill completion applicability"
+
 assert_precedes "$mcp_build_recipe" "ui-stack-selection.md" "mockup-layout-plan/v2" "UI Toolkit MCP recipe"
-assert_precedes "$mcp_build_recipe" "mockup-layout-plan/v2" "manage_ui" "UI Toolkit MCP recipe"
-assert_precedes "$mcp_build_recipe" 'existing `UIDocument` host' "create_panel_settings" "UI Toolkit MCP recipe"
-assert_precedes "$mcp_build_recipe" "create_panel_settings" "attach_ui_document" "UI Toolkit MCP recipe"
-assert_precedes "$mcp_build_recipe" "attach_ui_document" "get_visual_tree" "UI Toolkit MCP recipe"
-assert_precedes "$mcp_build_recipe" "get_visual_tree" "optional behavior" "UI Toolkit MCP recipe"
+assert_precedes "$mcp_build_recipe" "mockup-layout-plan/v2" 'manage_ui(action="create")' "UI Toolkit MCP recipe"
+assert_precedes "$mcp_build_recipe" 'manage_ui(action="update")' 'manage_ui(action="link_stylesheet"' "UI Toolkit MCP recipe"
+assert_precedes "$mcp_build_recipe" 'manage_ui(action="link_stylesheet"' "verify the stylesheet link" "UI Toolkit MCP recipe"
+assert_precedes "$mcp_build_recipe" "verify the stylesheet link" 'existing `UIDocument` host' "UI Toolkit MCP recipe"
+assert_precedes "$mcp_build_recipe" 'existing `UIDocument` host' 'manage_ui(action="create_panel_settings")' "UI Toolkit MCP recipe"
+assert_precedes "$mcp_build_recipe" 'manage_ui(action="create_panel_settings")' 'manage_ui(action="attach_ui_document")' "UI Toolkit MCP recipe"
+assert_precedes "$mcp_build_recipe" 'manage_ui(action="attach_ui_document")' 'manage_ui(action="get_visual_tree")' "UI Toolkit MCP recipe"
+assert_precedes "$mcp_build_recipe" 'manage_ui(action="get_visual_tree")' "optional behavior" "UI Toolkit MCP recipe"
 assert_precedes "$mcp_build_recipe" "optional behavior" "wait for import and compilation" "UI Toolkit MCP recipe"
-assert_precedes "$mcp_build_recipe" "wait for import and compilation" "main screenshot" "UI Toolkit MCP recipe"
+assert_precedes "$mcp_build_recipe" "wait for import and compilation" "main and alternate screenshots" "UI Toolkit MCP recipe"
 
 assert_precedes "$build_doc" 'find an existing `UIDocument` host' "manage_gameobject" "runtime host lifecycle"
-assert_precedes "$build_doc" "manage_gameobject" "attach_ui_document" "runtime host lifecycle"
+assert_precedes "$build_doc" "manage_gameobject" 'manage_ui(action="attach_ui_document")' "runtime host lifecycle"
+assert_precedes "$build_doc" 'manage_ui(action="update")' 'manage_ui(action="link_stylesheet"' "canonical stylesheet linking"
+assert_precedes "$build_doc" 'manage_ui(action="link_stylesheet"' "Verify the stylesheet link" "canonical stylesheet linking"
+assert_precedes "$build_doc" "Verify the stylesheet link" 'manage_ui(action="get_visual_tree")' "canonical stylesheet linking"
 assert_contains "$build_doc" "host GameObject" "runtime host lifecycle"
 assert_contains "$build_doc" "prefab asset" "runtime host lifecycle"
 
