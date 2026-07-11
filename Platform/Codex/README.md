@@ -140,7 +140,7 @@ Establish parent-region ownership first, then realize repeated blocks with the s
 ```
 
 ```text
-목업 스크린샷을 보고 Unity UI를 재사용 가능한 구조로 만들어줘.
+목업 스크린샷 보고 Unity UI 프리팹 만들어줘.
 현재 프로젝트에 맞춰 UI 스택을 확인하고, 반복되는 부분은 UGUI면 reusable prefab, UI Toolkit이면 UXML/VisualTreeAsset template과 USS class로 구성해줘.
 ```
 
