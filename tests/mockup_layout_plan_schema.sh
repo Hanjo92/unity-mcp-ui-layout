@@ -204,6 +204,7 @@ paths.each do |path|
       prefab_source
       canvas_root
       reference_resolution
+      unity_type
     ])
     unless forbidden.empty?
       fail_with(path, "UI Toolkit plan contains forbidden UGUI-only keys: #{forbidden.uniq.join(', ')}")
@@ -361,103 +362,115 @@ RUBY
 if [[ "$RUN_NEGATIVE_CASES" == true ]]; then
   temp_dir="$(mktemp -d)"
   trap 'rm -rf "$temp_dir"' EXIT
+  manifest="$temp_dir/cases.tsv"
 
-  ruby -ryaml -e '
-    data = YAML.load_file(ARGV[0])
+  ruby -ryaml - "$ROOT_DIR/templates/mockup-layout-plan.yaml" \
+    "$ROOT_DIR/examples/mockup-layout-plan-ui-toolkit-example.yaml" "$temp_dir" >"$manifest" <<'RUBY'
+template_path, toolkit_path, temp_dir = ARGV
+
+cases = [
+  ["unknown-item-candidate", template_path, "item_rect_plan references undeclared candidates", lambda { |data|
     data["item_rect_plan"][0]["candidate_id"] = "candidate/Undeclared/Item"
-    File.write(ARGV[1], YAML.dump(data))
-  ' "$ROOT_DIR/templates/mockup-layout-plan.yaml" "$temp_dir/unknown-item.yaml"
-  if bash "$0" "$temp_dir/unknown-item.yaml" >"$temp_dir/unknown-item.out" 2>&1; then
-    printf 'Validator accepted undeclared item candidate\n' >&2
-    exit 1
-  fi
-  grep -Fq "item_rect_plan references undeclared candidates: candidate/Undeclared/Item" "$temp_dir/unknown-item.out"
-
-  ruby -ryaml -e '
-    data = YAML.load_file(ARGV[0])
+  }],
+  ["unknown-asset-candidate", template_path, "asset_plan references undeclared candidates", lambda { |data|
     data["asset_plan"][0]["candidate_id"] = "candidate/Undeclared/Asset"
-    File.write(ARGV[1], YAML.dump(data))
-  ' "$ROOT_DIR/templates/mockup-layout-plan.yaml" "$temp_dir/unknown-asset.yaml"
-  if bash "$0" "$temp_dir/unknown-asset.yaml" >"$temp_dir/unknown-asset.out" 2>&1; then
-    printf 'Validator accepted undeclared asset candidate\n' >&2
-    exit 1
-  fi
-  grep -Fq "asset_plan references undeclared candidates: candidate/Undeclared/Asset" "$temp_dir/unknown-asset.out"
-
-  ruby -ryaml -e '
-    data = YAML.load_file(ARGV[0])
+  }],
+  ["duplicate-node-path", template_path, "duplicate node_path", lambda { |data|
     data["layout_tree"] << data["layout_tree"].last.dup
-    File.write(ARGV[1], YAML.dump(data))
-  ' "$ROOT_DIR/templates/mockup-layout-plan.yaml" "$temp_dir/duplicate-node.yaml"
-  if bash "$0" "$temp_dir/duplicate-node.yaml" >"$temp_dir/duplicate-node.out" 2>&1; then
-    printf 'Validator accepted duplicate node_path\n' >&2
-    exit 1
-  fi
-  grep -Fq "duplicate node_path" "$temp_dir/duplicate-node.out"
-
-  ruby -ryaml -e '
-    data = YAML.load_file(ARGV[0])
+  }],
+  ["duplicate-candidate-id", template_path, "duplicate candidate_id", lambda { |data|
+    data["candidate_item_ledger"] << data["candidate_item_ledger"].first.dup
+  }],
+  ["duplicate-item-id", template_path, "duplicate item_id", lambda { |data|
+    data["item_rect_plan"] << data["item_rect_plan"].first.dup
+  }],
+  ["duplicate-asset-plan-id", template_path, "duplicate asset_plan_id", lambda { |data|
+    data["asset_plan"] << data["asset_plan"].first.dup
+  }],
+  ["duplicate-behavior-id", template_path, "duplicate behavior_id", lambda { |data|
+    data["behavior_plan"] << data["behavior_plan"].first.dup
+  }],
+  ["unknown-candidate-parent", template_path, "parent_hint is not declared in layout_tree", lambda { |data|
+    data["candidate_item_ledger"][0]["parent_hint"] = "Canvas/Undeclared"
+  }],
+  ["incorrect-root-owner", template_path, "root_owner must identify exactly one layout_tree node", lambda { |data|
+    data["layout_contract"]["root_owner"] = "Canvas/Undeclared"
+  }],
+  ["malformed-parent", template_path, "parent_owner must equal immediate parent path", lambda { |data|
     data["layout_tree"][1]["parent_owner"] = data["layout_tree"][2]["node_path"]
-    File.write(ARGV[1], YAML.dump(data))
-  ' "$ROOT_DIR/templates/mockup-layout-plan.yaml" "$temp_dir/malformed-parent.yaml"
-  if bash "$0" "$temp_dir/malformed-parent.yaml" >"$temp_dir/malformed-parent.out" 2>&1; then
-    printf 'Validator accepted malformed parent graph\n' >&2
-    exit 1
-  fi
-  grep -Fq "parent_owner must equal immediate parent path" "$temp_dir/malformed-parent.out"
-
-  ruby -ryaml -e '
-    data = YAML.load_file(ARGV[0])
+  }],
+  ["orphan-asset", template_path, "asset_plan entry must match exactly one item_rect_plan", lambda { |data|
     orphan = data["asset_plan"].first.dup
     orphan["asset_plan_id"] = "asset/Orphan"
     orphan["item_id"] = "Orphan/Item"
     data["asset_plan"] << orphan
-    File.write(ARGV[1], YAML.dump(data))
-  ' "$ROOT_DIR/templates/mockup-layout-plan.yaml" "$temp_dir/orphan-asset.yaml"
-  if bash "$0" "$temp_dir/orphan-asset.yaml" >"$temp_dir/orphan-asset.out" 2>&1; then
-    printf 'Validator accepted orphan asset\n' >&2
-    exit 1
-  fi
-  grep -Fq "asset_plan entry must match exactly one item_rect_plan" "$temp_dir/orphan-asset.out"
-
-  ruby -ryaml -e '
-    data = YAML.load_file(ARGV[0])
-    data["stack_realization"]["ugui"] = {
-      "canvas_root" => "Canvas",
-      "reference_resolution" => "1920x1080"
-    }
+  }],
+  ["missing-behavior-id", template_path, "behavior_plan entry missing keys: behavior_id", lambda { |data|
+    data["behavior_plan"][0].delete("behavior_id")
+  }],
+  ["missing-behavior-owner", template_path, "behavior_plan entry missing keys: owner", lambda { |data|
+    data["behavior_plan"][0].delete("owner")
+  }],
+  ["missing-behavior-intent", template_path, "behavior_plan entry missing keys: intent", lambda { |data|
+    data["behavior_plan"][0].delete("intent")
+  }],
+  ["toolkit-anchor-pivot", toolkit_path, "forbidden UGUI-only keys: anchor_pivot_intent", lambda { |data|
+    data["layout_tree"][0]["anchor_pivot_intent"] = "stretch"
+  }],
+  ["toolkit-creates-object", toolkit_path, "forbidden UGUI-only keys: creates_unity_object", lambda { |data|
+    data["asset_plan"][0]["creates_unity_object"] = true
+  }],
+  ["toolkit-prefab-source", toolkit_path, "forbidden UGUI-only keys: prefab_source", lambda { |data|
+    data["asset_plan"][0]["prefab_source"] = "Assets/UI/Invalid.prefab"
+  }],
+  ["toolkit-canvas-root", toolkit_path, "forbidden UGUI-only keys: canvas_root", lambda { |data|
     data["behavior_plan"][0]["canvas_root"] = "Canvas"
-    File.write(ARGV[1], YAML.dump(data))
-  ' "$ROOT_DIR/examples/mockup-layout-plan-ui-toolkit-example.yaml" "$temp_dir/ui-toolkit-ugui.yaml"
-  if bash "$0" "$temp_dir/ui-toolkit-ugui.yaml" >"$temp_dir/ui-toolkit-ugui.out" 2>&1; then
-    printf 'Validator accepted UGUI branch in UI Toolkit plan\n' >&2
-    exit 1
-  fi
-  grep -Fq "UI Toolkit plan must not define stack_realization.ugui" "$temp_dir/ui-toolkit-ugui.out"
-
-  ruby -ryaml -e '
-    data = YAML.load_file(ARGV[0])
-    data["behavior_plan"][0]["canvas_root"] = "Canvas"
-    File.write(ARGV[1], YAML.dump(data))
-  ' "$ROOT_DIR/examples/mockup-layout-plan-ui-toolkit-example.yaml" "$temp_dir/ui-toolkit-canvas-root.yaml"
-  if bash "$0" "$temp_dir/ui-toolkit-canvas-root.yaml" >"$temp_dir/ui-toolkit-canvas-root.out" 2>&1; then
-    printf 'Validator accepted canvas_root in UI Toolkit plan\n' >&2
-    exit 1
-  fi
-  grep -Fq "UI Toolkit plan contains forbidden UGUI-only keys: canvas_root" "$temp_dir/ui-toolkit-canvas-root.out"
-
-  ruby -ryaml -e '
-    data = YAML.load_file(ARGV[0])
+  }],
+  ["toolkit-reference-resolution", toolkit_path, "forbidden UGUI-only keys: reference_resolution", lambda { |data|
+    data["behavior_plan"][0]["reference_resolution"] = "1920x1080"
+  }],
+  ["toolkit-unity-type", toolkit_path, "forbidden UGUI-only keys: unity_type", lambda { |data|
+    data["layout_tree"][0]["unity_type"] = "VisualElement"
+  }],
+  ["toolkit-opposite-branch", toolkit_path, "must not define stack_realization.ugui", lambda { |data|
+    data["stack_realization"]["ugui"] = {"canvas_root" => "Canvas", "reference_resolution" => "1920x1080"}
+  }],
+  ["ugui-opposite-branch", template_path, "must not define stack_realization.ui_toolkit", lambda { |data|
     data["stack_realization"]["ui_toolkit"] = {
       "root_uxml" => "Assets/UI/Invalid.uxml",
       "stylesheets" => ["Assets/UI/Invalid.uss"],
       "behavior_owner" => "InvalidController"
     }
-    File.write(ARGV[1], YAML.dump(data))
-  ' "$ROOT_DIR/templates/mockup-layout-plan.yaml" "$temp_dir/ugui-ui-toolkit.yaml"
-  if bash "$0" "$temp_dir/ugui-ui-toolkit.yaml" >"$temp_dir/ugui-ui-toolkit.out" 2>&1; then
-    printf 'Validator accepted UI Toolkit branch in UGUI plan\n' >&2
-    exit 1
-  fi
-  grep -Fq "UGUI plan must not define stack_realization.ui_toolkit" "$temp_dir/ugui-ui-toolkit.out"
+  }]
+]
+
+cases.each do |name, source, expected, mutate|
+  data = YAML.load_file(source)
+  mutate.call(data)
+  output_path = File.join(temp_dir, "#{name}.yaml")
+  File.write(output_path, YAML.dump(data))
+  puts [name, output_path, expected].join("\t")
+end
+RUBY
+
+  assert_rejected() {
+    local case_name="$1"
+    local fixture_path="$2"
+    local expected="$3"
+    local output_path="$temp_dir/$case_name.out"
+
+    if bash "$0" "$fixture_path" >"$output_path" 2>&1; then
+      printf 'Validator accepted invalid case: %s\n' "$case_name" >&2
+      return 1
+    fi
+    if ! grep -Fq "$expected" "$output_path"; then
+      printf 'Validator rejected %s for an unexpected reason:\n' "$case_name" >&2
+      cat "$output_path" >&2
+      return 1
+    fi
+  }
+
+  while IFS=$'\t' read -r case_name fixture_path expected; do
+    assert_rejected "$case_name" "$fixture_path" "$expected"
+  done <"$manifest"
 fi
