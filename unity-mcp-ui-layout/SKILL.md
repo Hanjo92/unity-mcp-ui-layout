@@ -1,6 +1,6 @@
 ---
 name: unity-mcp-ui-layout
-description: "Use when Unity UI needs layout-focused implementation or repair through `unity-mcp`: attached UI mockup, mockup screenshot, uploaded design image, dropped design image, reference image, wireframe, or UI 시안; analyze visual layers into a layer-to-Transform tree/레이어 트리 구조; create candidate item ledgers; map item-level UI rects; turn or convert into UGUI/UI Toolkit; create Unity UI prefabs/프리팹 생성; or fix drift, safe area, text overflow, structured exports, tokens, or shared prefab reuse."
+description: "Use when Unity UI needs layout-focused implementation or repair through `unity-mcp`: attached UI mockup, mockup screenshot, uploaded design image, dropped design image, reference image, wireframe, or UI 시안; analyze visual layers with a layer-to-layout-tree pass/레이어 트리 구조; create candidate item ledgers; map item-level UI rects; turn or convert into UGUI/UI Toolkit; create Unity UI prefabs/프리팹 생성; or fix drift, safe area, text overflow, structured exports, tokens, or shared prefab reuse."
 ---
 
 # Unity MCP UI Layout
@@ -16,7 +16,7 @@ Use this skill for Unity UI work where layout stability matters more than raw pi
 - A mockup, screenshot, or wireframe needs to become runtime Unity UI.
 - An attached UI mockup, layout image, mockup screenshot, uploaded or dropped design/reference image, or UI 시안 should become UGUI, UI Toolkit, or Unity UI prefabs.
 - Natural wording such as "turn this reference image into UI", "convert this mockup to a prefab", "시안 던져줄게", or "프리팹 만들어줘" should trigger this skill.
-- A visual design needs a layer-to-Transform tree pass so the Unity Transform or RectTransform hierarchy is planned before object creation.
+- A visual design needs a layer-to-layout-tree pass so the neutral layout tree is approved before stack-specific object creation.
 - A raster mockup needs a candidate item ledger before item-level UI rects are promoted into Unity objects or crop plans.
 - A provided mockup needs item-level UI rect planning for runtime leaves, repeated cards, slots, rows, icons, or buttons that were intentionally split from the visual design.
 - The user asks to create Unity UI prefabs, 프리팹, prefab variants, or reusable UI blocks from a provided design image.
@@ -108,7 +108,7 @@ For structured export intake and hierarchy mapping, read `references/stitch-html
 - Choose the UI stack, change mode, design source, and asset strategy explicitly.
 - If a structured export source exists, normalize it into a semantic tree before copying any coordinates.
 - If a design-system source exists, extract the tokens, prose intent, component states, and any do/don't guardrails before styling.
-- If no structured hierarchy source exists and a mockup, screenshot, reference image, or UI 시안 exists, run a layer-to-Transform tree pass before creating objects and keep that tree as the layout contract.
+- If no structured hierarchy source exists and a mockup, screenshot, reference image, or UI 시안 exists, run a layer-to-layout-tree pass before creating objects and keep that neutral layout tree as the layout contract.
 - If a structured export and a mockup/screenshot both exist, let the structured export own hierarchy and use the raster layer pass as composition validation.
 - If raster item analysis is useful, produce a candidate item ledger as an advisory candidate set with confidence band, evidence, and human review before promoting anything into item-level UI rects.
 - For any runtime leaf or repeated item intentionally split from a mockup, record an item-level UI rect: source rect in the mockup, normalized rect, parent-local rect or Unity fit intent, split/keep reason, and asset/crop plan.
@@ -159,7 +159,7 @@ Do not call the task done until every applicable check below passes:
 - A fresh whole-screen verification screenshot exists.
 - For existing Unity UI edits, a layout snapshot or equivalent smaller-call intake identified target surface, Unity version evidence, selected object (`selection.selected_object`), active UI root (`selection.active_ui_root`), UI stack, layout ownership, screenshot frame, and console state before structural changes.
 - If a mockup, screenshot, or wireframe was provided, one final review pass was run against it after implementation changes.
-- If no structured hierarchy source existed and a mockup, screenshot, reference image, or UI 시안 drove the work, the final Unity Transform or RectTransform tree still matches the approved layer-to-tree pass.
+- If no structured hierarchy source existed and a mockup, screenshot, reference image, or UI 시안 drove the work, the final stack-specific realization still matches the approved layout tree: UGUI through its `Transform`/`RectTransform`, anchors, layout components, and prefab roots; UI Toolkit through its visual tree, UXML templates or `VisualTreeAsset`, flex/style owners, and optional behavior owner.
 - If a structured export existed alongside a mockup/screenshot, hierarchy still follows the export and the raster image was used for composition validation.
 - If a candidate item ledger was used, accepted candidates passed a human review gate before item-level UI rect planning.
 - If item-level UI rect planning was needed, key split items have source rect, normalized rect, parent-local or fit intent, and asset/crop plan recorded before final visual tuning.

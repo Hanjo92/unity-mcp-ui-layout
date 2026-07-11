@@ -282,7 +282,7 @@ Fallback output can be shorter than the full schema, but it must still name the 
 
 - Use the snapshot to choose UI stack, change mode, design source, and asset strategy before editing.
 - Use snapshot hierarchy as current-state evidence, not as the final intended hierarchy.
-- For mockup-driven work, still produce a layer-to-Transform tree plan before creating objects.
+- For mockup-driven work, still produce a neutral layer-to-layout-tree plan before creating objects, then verify the final UGUI `Transform`/`RectTransform` hierarchy or UI Toolkit visual tree against it.
 - For raster item analysis, keep candidate item ledger decisions separate from snapshot data.
 - For item-level UI rect planning, map accepted runtime or repeated items to the planned hierarchy, not directly to snapshot leaf offsets.
 - If snapshot gaps include unknown stack, unknown active root, compile errors, or missing screenshot, resolve those gaps before structural edits unless the user explicitly requested offline planning only.

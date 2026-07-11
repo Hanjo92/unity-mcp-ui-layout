@@ -61,18 +61,23 @@ Before creating Unity objects, describe the layer stack from broad to narrow:
 - runtime leaf layer such as text, button hit targets, dynamic icons, counters, and stateful badges
 - decorative image layer that should stay as one sprite or image where runtime behavior does not need splitting
 
-The layer pass should produce a Unity Transform tree plan, not just a visual checklist. For UGUI, map it to a RectTransform tree such as `Canvas -> SafeAreaRoot -> ScreenRoot -> RegionRoot -> ReusableGroup -> RuntimeLeaf`. For UI Toolkit, map it to nested `VisualElement` containers with the same ownership boundaries.
+The layer pass should produce a neutral layout tree, not just a visual checklist. Approve that layer-to-layout-tree pass before creating stack-specific objects.
+
+Realize the approved tree explicitly for the chosen stack:
+
+- **UGUI realization:** map nodes to a Transform/RectTransform hierarchy such as `Canvas -> SafeAreaRoot -> ScreenRoot -> RegionRoot -> ReusableGroup -> RuntimeLeaf`, then assign anchors, layout components, and prefab roots.
+- **UI Toolkit realization:** map nodes to the visual tree, use UXML templates or `VisualTreeAsset` for reusable structure, assign flex/style owners through containers and USS classes, and name an optional behavior owner only where runtime behavior needs one.
 
 Tree plan schema:
 
-- node path: stable path from the screen root, such as `Canvas/HUDRoot/TopRightCluster/CurrencyChip`
+- `node_path`: stable path from the screen root, such as `ScreenRoot/HUDRoot/TopRightCluster/CurrencyChip`
 - role: shell, safe-area owner, region, scroll owner, overlay, reusable group, runtime leaf, or decorative image
-- parent owner: the parent that controls position, scaling, spacing, clipping, or safe area
-- Unity type: `Transform`, `RectTransform`, prefab root, layout group, `ScrollRect`, or UI Toolkit `VisualElement`
-- anchor/pivot intent: top-left, stretch, centered, fixed overlay, scroll content, or parent-flow child
-- layout owner: parent layout group, child `LayoutElement`, manual exception, flex container, or USS class
+- `parent_owner`: the parent that controls position, scaling, spacing, clipping, or safe area
+- `node_kind`: structural container, reusable unit, runtime leaf, or decorative image
+- `placement_intent`: edge-owned, stretch, centered, fixed overlay, scroll content, or parent-flow child
+- `layout_owner`: the parent or named controller that owns layout; stack-specific components or USS classes belong in `stack_realization`
 - geometry ratios: approximate normalized bounds for parent-owned regions before child offsets
-- split/keep reason: runtime behavior, dynamic data, state, animation, reuse, baked art, or decoration
+- `split_keep_reason`: split/keep rationale such as runtime behavior, dynamic data, state, animation, reuse, baked art, or decoration
 
 ### 2. Run a Candidate item ledger pass
 
@@ -96,7 +101,7 @@ Only accepted candidates can become item-level UI rect entries. Held candidates 
 
 Do not use low-confidence candidates to force a split. If the candidate cannot name a parent hint, split/keep reason, and evidence, keep it in the nearest existing visual layer.
 
-For fixed-column planning output, copy `../../templates/mockup-layout-plan.yaml` and validate it with `../../tests/mockup_layout_plan_schema.sh`.
+For fixed-column planning output, copy the v2 template at `../../templates/mockup-layout-plan.yaml` and validate it with `../../tests/mockup_layout_plan_schema.sh`. Start with `layout_tree`, select the matching branch in `stack_realization`, connect accepted items to `asset_plan`, and record only known ownership in `behavior_plan`.
 
 ### 3. Run an item rect mapping pass
 
@@ -107,14 +112,16 @@ Layer/tree ownership and split/keep reason come before item-level rects. If the 
 For each mapped item, record:
 
 - item id: stable name such as `InventorySlot/ItemIcon`, `RewardCard/Icon`, or `Header/CloseButton`
-- node path: matching Transform, RectTransform, prefab root, or VisualElement path from the tree plan
+- node path: matching neutral path from `layout_tree`
 - source rect: `x`, `y`, `width`, and `height` in the mockup image coordinate space
 - normalized rect: source rect divided by the mockup width and height
 - parent-local rect: the item's rect relative to the parent owner when that parent is already identified
 - fit mode: stretch, fixed, preserve-aspect, sliced, layout-group child, or manual exception
-- anchor/pivot intent: how the Unity rect should attach or grow inside its parent
+- `placement_intent`: how the item should attach, flow, or grow inside its parent
 - split/keep reason: runtime data, interaction, state, animation, adaptive layout, reuse, baked art, or decoration
-- asset/crop plan: existing sprite or prefab reuse, mockup-derived crop, 9-slice candidate, placeholder, or keep-whole image
+- `asset_plan_id`: reference to the matching `asset_plan` entry for existing asset reuse, mockup-derived crop, 9-slice candidate, placeholder, or keep-whole image
+
+Each `asset_plan` entry records `creates_runtime_node` so asset generation cannot silently imply a new layout node. Use `behavior_plan` separately for known behavior ownership; do not infer behavior from visual decomposition alone.
 
 The source rect is measurement data, not the final authority. Convert it through normalized rects and parent-local ownership before setting Unity offsets or sizes.
 
@@ -213,7 +220,8 @@ Prefer "anchored top-right with 4% inset" over "x=1798, y=54".
 Before calling the result correct, verify:
 
 - Does the composition match the image at the target resolution?
-- Did the layer pass produce a clear parent-owned transform hierarchy before object creation?
+- Did the layer pass produce a clear parent-owned neutral layout tree before object creation?
+- Does the final UGUI or UI Toolkit realization match that approved tree and its chosen `stack_realization` branch?
 - If a candidate item ledger was used, were accepted candidates reviewed before item-level UI rects or crop plans were created?
 - Did any split runtime or repeated item have an item-level UI rect plan with source rect, normalized rect, parent-local rect or fit mode, and asset/crop plan?
 - If the mockup had a native resolution, was that resolution captured and used correctly as the planning frame?
