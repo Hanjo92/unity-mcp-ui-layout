@@ -50,8 +50,9 @@ fail_with(path, "issue must be 76") unless data.fetch("issue") == 76
 
 execution = data.fetch("execution")
 require_hash(path, execution, "execution")
-fail_with(path, "execution.mode must be manual-forward-test-evidence") unless execution.fetch("mode") == "manual-forward-test-evidence"
-fail_with(path, "execution.llm_invocation must be false") unless execution.fetch("llm_invocation") == false
+fail_with(path, "execution.mode must be clean-context-llm-forward-test") unless execution.fetch("mode") == "clean-context-llm-forward-test"
+fail_with(path, "execution.llm_invocation must be true") unless execution.fetch("llm_invocation") == true
+fail_with(path, "execution.automated_by_shell must be false") unless execution.fetch("automated_by_shell") == false
 fail_with(path, "execution.status must be pass") unless execution.fetch("status") == "pass"
 require_date(path, execution.fetch("recorded_on"), "execution.recorded_on")
 require_string(path, execution.fetch("evidence_basis"), "execution.evidence_basis")
@@ -69,7 +70,7 @@ fail_with(path, "scenario IDs must be exactly #{expected_ids.inspect}") unless a
 common_forbidden = "automatic UGUI realization"
 scenario_contracts = {
   "explicit-ui-toolkit-mockup-prefab-like-rows" => {
-    prompt_markers: ["repeated rows should be prefab-like"],
+    prompt_markers: ["Unity UI Toolkit UI를 만들어줘", "프리팹처럼 구성"],
     must_include: [
       "UI Toolkit selected",
       "mockup-layout-plan/v2",
@@ -83,7 +84,7 @@ scenario_contracts = {
     must_not_include: ["Canvas/RectTransform/prefab as the default realization"]
   },
   "mixed-project-selected-settings-owner" => {
-    prompt_markers: ["selected SettingsUIDocument", "SettingsScreen.uxml/Settings.uss", "no explicit stack"],
+    prompt_markers: ["SettingsUIDocument", "SettingsScreen.uxml", "Settings.uss", "UI 스택은 따로 지정하지"],
     must_include: [
       "UI Toolkit from selected target/ownership",
       "SettingsUIDocument",
@@ -95,7 +96,7 @@ scenario_contracts = {
     must_not_include: ["UGUI fallback without conflicting project evidence"]
   },
   "unity-2022-runtime-inventory" => {
-    prompt_markers: ["Unity 2022 LTS runtime UI Toolkit inventory", "unknown UIDocument"],
+    prompt_markers: ["Unity 2022 LTS 런타임 인벤토리", "UIDocument가 있는지 모르겠어"],
     must_include: [
       "version evidence",
       "existing host search/reuse or create runtime host",
