@@ -33,6 +33,7 @@ bash D:/UnityUICreater/tests/item_rect_keywords.sh
 bash D:/UnityUICreater/tests/item_candidate_keywords.sh
 bash D:/UnityUICreater/tests/ui_toolkit_docs_keywords.sh
 bash D:/UnityUICreater/tests/ui_toolkit_build_keywords.sh
+bash D:/UnityUICreater/tests/ui_toolkit_forward_contract.sh
 python -c "import yaml; [yaml.safe_load(open(path, encoding='utf-8')) for path in ['D:/UnityUICreater/templates/mockup-layout-plan.yaml', 'D:/UnityUICreater/examples/mockup-layout-plan-prefab-example.yaml', 'D:/UnityUICreater/examples/mockup-layout-plan-ui-toolkit-example.yaml']]"
 Get-ChildItem D:\UnityUICreater\tests\*.sh | ForEach-Object { bash -n $_.FullName }
 git diff --check
@@ -85,6 +86,7 @@ flowchart TD
 - examples reinforce the rules instead of contradicting them
 - no new file silently became the only source of important guidance
 - UI Toolkit public/discovery changes pass `tests/ui_toolkit_docs_keywords.sh` and keep stack selection before realization
+- the three clean-context UI Toolkit forward scenarios remain recorded and passing through `tests/ui_toolkit_forward_contract.sh`
 - the public UI Toolkit artifact path stays linked through `ui-stack-selection.md`, `ui-toolkit-build-workflow.md`, and `ui-toolkit-from-mockup-example.md`
 - the neutral `mockup-layout-plan/v2` template and both canonical YAML examples remain linked and parseable
 - UI Toolkit build, reusable UXML/USS, runtime-host qualification, screenshot, and console verification guidance remains synchronized

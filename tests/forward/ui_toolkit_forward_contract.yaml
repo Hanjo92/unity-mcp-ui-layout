@@ -1,0 +1,94 @@
+schema_version: "ui-toolkit-forward-contract/v1"
+issue: 76
+execution:
+  mode: "manual-forward-test-evidence"
+  llm_invocation: false
+  evidence_basis: "Three clean-context forward scenarios were executed manually and passed; this fixture records the durable contract and observed outcomes."
+  recorded_on: "2026-07-11"
+  status: "pass"
+scenarios:
+  - id: "explicit-ui-toolkit-mockup-prefab-like-rows"
+    prompt: >-
+      Build the attached settings mockup. The repeated rows should be prefab-like.
+      Select the correct UI stack from this explicit UI Toolkit request, produce a
+      mockup-layout-plan/v2, use a UXML/VisualTreeAsset template and USS, create a
+      runtime host only if runtime lifecycle needs it, and verify with screenshots,
+      console state, and the visual tree.
+    executed_on: "2026-07-11"
+    expected:
+      must_include:
+        - "UI Toolkit selected"
+        - "mockup-layout-plan/v2"
+        - "UXML/VisualTreeAsset template"
+        - "USS"
+        - "host only if runtime lifecycle needs it"
+        - "screenshots"
+        - "console"
+        - "visual tree"
+      must_not_include:
+        - "automatic UGUI realization"
+        - "Canvas/RectTransform/prefab as the default realization"
+    observed_outcome_summary: >-
+      The forward response selected UI Toolkit, produced mockup-layout-plan/v2,
+      proposed a UXML/VisualTreeAsset template and USS, qualified host creation by
+      runtime lifecycle need, and requested screenshots, console, and visual-tree
+      verification.
+    evidence_note: "Manual clean-context forward evidence; this fixture does not invoke an LLM."
+    pass_status: "pass"
+
+  - id: "mixed-project-selected-settings-owner"
+    prompt: >-
+      Repair the mixed Canvas/UI Toolkit project around the selected SettingsUIDocument
+      and its SettingsScreen.uxml/Settings.uss. There is no explicit stack in this
+      request. Select UI Toolkit from the selected target/ownership, work repair-first,
+      and do not use a UGUI fallback.
+    executed_on: "2026-07-11"
+    expected:
+      must_include:
+        - "UI Toolkit from selected target/ownership"
+        - "SettingsUIDocument"
+        - "SettingsScreen.uxml"
+        - "Settings.uss"
+        - "repair-first"
+        - "no UGUI fallback"
+      must_not_include:
+        - "automatic UGUI realization"
+        - "UGUI fallback without conflicting project evidence"
+    observed_outcome_summary: >-
+      The forward response selected UI Toolkit from the selected SettingsUIDocument
+      and existing SettingsScreen.uxml/Settings.uss ownership, used repair-first
+      guidance, and did not fall back to UGUI.
+    evidence_note: "Manual clean-context forward evidence; this fixture does not invoke an LLM."
+    pass_status: "pass"
+
+  - id: "unity-2022-runtime-inventory"
+    prompt: >-
+      Implement the Unity 2022 LTS runtime UI Toolkit inventory. It has repeated items,
+      selection, data refresh, callbacks, keyboard/gamepad focus, and an unknown
+      UIDocument. Capture Unity version evidence, search for and reuse an existing host
+      or create a runtime host, verify behavior/focus/navigation, and do not assume
+      Unity 6 binding APIs.
+    executed_on: "2026-07-11"
+    expected:
+      must_include:
+        - "version evidence"
+        - "existing host search/reuse or create runtime host"
+        - "repeated items"
+        - "selection"
+        - "data refresh"
+        - "callbacks"
+        - "keyboard/gamepad focus"
+        - "behavior/focus/navigation"
+        - "no Unity 6 binding assumption"
+      must_not_include:
+        - "automatic UGUI realization"
+        - "Unity 6 binding APIs as an assumed baseline"
+        - "UGUI fallback without runtime evidence"
+    observed_outcome_summary: >-
+      The forward response requested Unity version evidence, searched for or reused an
+      existing runtime host before creating one, covered repeated-item behavior,
+      selection, refresh, callbacks, keyboard/gamepad focus, unknown UIDocument
+      handling, and behavior/focus/navigation verification without assuming Unity 6
+      binding APIs.
+    evidence_note: "Manual clean-context forward evidence; this fixture does not invoke an LLM."
+    pass_status: "pass"

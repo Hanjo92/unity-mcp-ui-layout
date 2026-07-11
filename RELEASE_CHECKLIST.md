@@ -39,6 +39,7 @@ Use this checklist when preparing a tagged release for this repository.
 - run item candidate keyword checks when candidate ledger, confidence, or human review gate guidance changed
 - run `tests/ui_toolkit_docs_keywords.sh` when stack selection, public/discovery routing, platform prompts, or UI Toolkit completion guidance changed
 - run `tests/ui_toolkit_build_keywords.sh` when UI Toolkit build/reuse/verification guidance changed
+- run `tests/ui_toolkit_forward_contract.sh` when reviewing the three clean-context UI Toolkit forward scenarios or their durable evidence contract
 - run YAML parsing when `templates/mockup-layout-plan.yaml` or either canonical plan example changed
 - run `bash -n` across shell tests and `git diff --check` for every documentation-only release candidate
 - if you use the global skill for local testing, sync it once and validate again
@@ -76,6 +77,7 @@ bash D:/UnityUICreater/tests/item_rect_keywords.sh
 bash D:/UnityUICreater/tests/item_candidate_keywords.sh
 bash D:/UnityUICreater/tests/ui_toolkit_docs_keywords.sh
 bash D:/UnityUICreater/tests/ui_toolkit_build_keywords.sh
+bash D:/UnityUICreater/tests/ui_toolkit_forward_contract.sh
 python -c "import yaml; [yaml.safe_load(open(path, encoding='utf-8')) for path in ['D:/UnityUICreater/templates/mockup-layout-plan.yaml', 'D:/UnityUICreater/examples/mockup-layout-plan-prefab-example.yaml', 'D:/UnityUICreater/examples/mockup-layout-plan-ui-toolkit-example.yaml']]"
 Get-ChildItem D:\UnityUICreater\tests\*.sh | ForEach-Object { bash -n $_.FullName }
 git diff --check
