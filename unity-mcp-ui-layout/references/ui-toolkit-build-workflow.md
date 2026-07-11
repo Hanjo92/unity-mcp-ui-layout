@@ -21,25 +21,40 @@ Resolve containers, repeated units, scroll ownership, responsive intent, and tex
 
 ## 3. Build the Selected Surface
 
+Create new owned assets with `manage_ui(action="create", path="Assets/UI/Inventory.uxml", contents="<ui:UXML ...>...</ui:UXML>")`; use the corresponding `.uss` path and contents for the stylesheet. When intake identifies existing owned assets, use `manage_ui(action="update", path="Assets/UI/Inventory.uxml", contents="<ui:UXML ...>...</ui:UXML>")` and update the USS separately as appropriate.
+
+For every repeated unit, default to a reusable UXML template backed by a `VisualTreeAsset`, with repeatable appearance expressed as USS classes.
+
+### Stylesheet Linking
+
+Unity-valid canonical syntax is bare `<Style src="..." />`. Require an existing valid reference or add that bare element manually.
+
+1. Inspect the available `manage_ui` capabilities before considering `link_stylesheet`.
+2. Only when that action is advertised and its output can be inspected, call `manage_ui(action="link_stylesheet", path="Assets/UI/Inventory.uxml", stylesheet="Assets/UI/Inventory.uss")`.
+3. Read the resulting UXML immediately and verify the stylesheet reference.
+4. If the action emits `<ui:Style>`, `<ui:Style>` is invalid and must not be accepted as a successful stylesheet link.
+5. Replace invalid output with `manage_ui(action="update", path="Assets/UI/Inventory.uxml", contents="<ui:UXML ...><Style src=&quot;Inventory.uss&quot; />...</ui:UXML>")`.
+6. After the manual update, read the UXML again and confirm the bare style element is present.
+7. Then trigger import for the changed assets.
+8. Finally, read the console for UXML or USS errors.
+
+Do not invoke `link_stylesheet` blindly. Verify the stylesheet link before owner attachment or visual checks.
+
 ### Runtime
 
-Use `manage_ui(action="create")` or `manage_ui(action="update")` for the approved UXML and USS. Prefer updating existing owned assets when the intake identifies them.
-
-1. Create the screen UXML and USS with `manage_ui(action="create")`, or update the existing pair with `manage_ui(action="update")`.
-2. Require an existing valid `<Style src="..." />` reference or call `manage_ui(action="link_stylesheet", path="<screen>.uxml", stylesheet="<styles>.uss")`.
-3. Verify the stylesheet link resolves before any visual check.
-4. For every repeated unit, default to a reusable UXML template backed by a `VisualTreeAsset`, with repeatable appearance expressed as USS classes.
-5. Inspect the selected scene and find an existing `UIDocument` host before creating any host object. Reuse it when ownership and lifecycle match the plan.
-6. If the runtime screen needs a host and none exists, use `manage_gameobject` to create a host GameObject.
-7. Reuse a compatible `PanelSettings` asset. Otherwise call `manage_ui(action="create_panel_settings")` with values justified by the target and project conventions.
-8. After the host exists, call `manage_ui(action="attach_ui_document")` with the approved UXML and `PanelSettings`.
-9. Call `manage_ui(action="get_visual_tree")` after attachment or while inspecting an existing owner, then compare the resolved hierarchy with the approved layout tree.
+1. Inspect the selected scene and find an existing `UIDocument` host before creating any host object. Reuse it when ownership and lifecycle match the plan.
+2. If the runtime screen needs a host and none exists, use `manage_gameobject` to create a host GameObject.
+3. Reuse a compatible `PanelSettings` asset. Otherwise call `manage_ui(action="create_panel_settings", path="Assets/UI/RuntimePanelSettings.asset")` with settings justified by the target and project conventions.
+4. Attach the approved source to that `UIDocument` host with `manage_ui(action="attach_ui_document", target="InventoryUI", source_asset="Assets/UI/Inventory.uxml", panel_settings="Assets/UI/RuntimePanelSettings.asset")`.
+5. Inspect the attached host with `manage_ui(action="get_visual_tree", target="InventoryUI", max_depth=8)`, then compare the resolved hierarchy with the approved layout tree.
 
 Creating a host GameObject in a scene is not creating a prefab asset. In mockup language, "prefab" usually means reusable intent; satisfy that intent with a reusable UXML template and USS classes. Create a host prefab only when the user explicitly requires host reuse or the host has scene lifecycle responsibilities.
 
 ### Editor UI
 
-For `target_surface: editor`, create or update UXML and USS plus the actual Editor UI owner: an `EditorWindow` with `CreateGUI`, a custom inspector, or a property drawer. Apply the same stylesheet-link requirement and verify it before visual checks. Verify the owner loads or clones the intended `VisualTreeAsset`. Do not assume or attach a runtime `UIDocument`, and do not create runtime `PanelSettings` unless the selected editor implementation explicitly needs them.
+1. For `target_surface: editor`, create or update UXML and USS plus the actual Editor UI owner: an `EditorWindow` with `CreateGUI`, a custom inspector, or a property drawer.
+2. Verify the owner can load or clone the intended `VisualTreeAsset`, adds the clone to its root visual element, and resolves the canonical stylesheet reference.
+3. Verify the loaded or cloned hierarchy through the owner and retain that evidence. Editor completion does not assume a runtime host lifecycle.
 
 ## 4. Add Behavior Only When Needed
 
@@ -55,10 +70,11 @@ Run a complete evidence loop:
 
 1. Trigger asset import and script compile.
 2. Check the console for import, UXML, USS, and C# errors or warnings.
-3. Inspect the visual tree with `manage_ui(action="get_visual_tree")` and verify the stylesheet link before reviewing relevant text/state output.
-4. Capture a main screenshot at the approved target size.
-5. Capture an alternate screenshot at the approved narrower, wider, or otherwise meaningful size.
-6. Check hierarchy, text, state, and interaction behavior at both targets, including repeated template instances, binding results, callbacks, focus, and navigation when applicable.
+3. For runtime UI, retain the resolved tree from `manage_ui(action="get_visual_tree", target="InventoryUI", max_depth=8)` on the attached `UIDocument` host and verify the stylesheet link before reviewing relevant text/state output.
+4. For Editor UI, verify the Editor owner loads or clones the intended `VisualTreeAsset`; inspect the resulting owner hierarchy and stylesheet without assuming runtime `UIDocument` or `PanelSettings` setup.
+5. Capture a main screenshot at the approved target size.
+6. Capture an alternate screenshot at the approved narrower, wider, or otherwise meaningful size.
+7. Check hierarchy, text, state, and interaction behavior at both targets, including repeated template instances, binding results, callbacks, focus, and navigation when applicable.
 
 Do not accept a screenshot alone when behavior or state is part of the plan. Preserve the main and alternate evidence in the completion report.
 

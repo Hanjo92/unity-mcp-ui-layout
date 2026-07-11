@@ -42,6 +42,33 @@ if [[ -z "$mcp_build_recipe" ]]; then
   exit 1
 fi
 
+extract_h3_section() {
+  local content="$1"
+  local heading="$2"
+  local scope="$3"
+  local section
+
+  section="$(awk -v heading="$heading" '$0 == heading { capture=1 } capture && $0 != heading && /^(##|###) / { exit } capture { print }' <<<"$content")"
+  if [[ -z "$section" ]]; then
+    printf 'Failed to extract exact section in %s: %s\n' "$scope" "$heading" >&2
+    return 1
+  fi
+
+  printf '%s\n' "$section"
+}
+
+recipe_stylesheet="$(extract_h3_section "$mcp_build_recipe" "### Stylesheet Linking" "UI Toolkit MCP recipe")"
+recipe_runtime="$(extract_h3_section "$mcp_build_recipe" "### Runtime" "UI Toolkit MCP recipe")"
+recipe_editor="$(extract_h3_section "$mcp_build_recipe" "### Editor UI" "UI Toolkit MCP recipe")"
+workflow_surface="$(awk '/^## 3\. Build the Selected Surface$/{capture=1} capture && $0 != "## 3. Build the Selected Surface" && /^## /{exit} capture{print}' <<<"$build_doc")"
+if [[ -z "$workflow_surface" ]]; then
+  printf 'Failed to extract exact build workflow section: ## 3. Build the Selected Surface\n' >&2
+  exit 1
+fi
+workflow_stylesheet="$(extract_h3_section "$workflow_surface" "### Stylesheet Linking" "build workflow selected surface")"
+workflow_runtime="$(extract_h3_section "$workflow_surface" "### Runtime" "build workflow selected surface")"
+workflow_editor="$(extract_h3_section "$workflow_surface" "### Editor UI" "build workflow selected surface")"
+
 ugui_snapshot="$(awk '/^## UGUI Example Snapshot$/{capture=1} capture && $0 != "## UGUI Example Snapshot" && /^## /{exit} capture{print}' <<<"$snapshot_contract")"
 if [[ -z "$ugui_snapshot" ]]; then
   printf 'Failed to extract UGUI snapshot example section\n' >&2
@@ -77,6 +104,20 @@ assert_not_contains() {
   fi
 }
 
+assert_line_contains_all() {
+  local haystack="$1"
+  local anchor="$2"
+  local required="$3"
+  local scope="$4"
+  local matching_lines
+
+  matching_lines="$(grep -Fi "$anchor" <<<"$haystack" || true)"
+  if [[ -z "$matching_lines" ]] || ! grep -Fqi "$required" <<<"$matching_lines"; then
+    printf 'Expected same-line UI Toolkit guidance in %s: %s with %s\n' "$scope" "$anchor" "$required" >&2
+    return 1
+  fi
+}
+
 assert_precedes() {
   local haystack="$1"
   local first="$2"
@@ -85,8 +126,8 @@ assert_precedes() {
   local first_line
   local second_line
 
-  first_line="$(grep -Fni "$first" <<<"$haystack" | head -n 1 | cut -d: -f1)"
-  second_line="$(grep -Fni "$second" <<<"$haystack" | head -n 1 | cut -d: -f1)"
+  first_line="$(grep -Fni "$first" <<<"$haystack" | head -n 1 | cut -d: -f1 || true)"
+  second_line="$(grep -Fni "$second" <<<"$haystack" | head -n 1 | cut -d: -f1 || true)"
 
   if [[ -z "$first_line" || -z "$second_line" || "$first_line" -ge "$second_line" ]]; then
     printf 'Expected UI Toolkit build precedence in %s: %s before %s\n' "$scope" "$first" "$second" >&2
@@ -95,14 +136,13 @@ assert_precedes() {
 }
 
 build_keywords=(
-  'manage_ui(action="create")'
-  'manage_ui(action="update")'
+  'manage_ui(action="create", path="Assets/UI/Inventory.uxml", contents='
+  'manage_ui(action="update", path="Assets/UI/Inventory.uxml", contents='
   '<Style src="..." />'
-  'manage_ui(action="link_stylesheet", path="<screen>.uxml", stylesheet="<styles>.uss")'
-  'manage_ui(action="create_panel_settings")'
+  'manage_ui(action="create_panel_settings", path="Assets/UI/RuntimePanelSettings.asset")'
   "manage_gameobject"
-  'manage_ui(action="attach_ui_document")'
-  'manage_ui(action="get_visual_tree")'
+  'manage_ui(action="attach_ui_document", target="InventoryUI", source_asset="Assets/UI/Inventory.uxml", panel_settings="Assets/UI/RuntimePanelSettings.asset")'
+  'manage_ui(action="get_visual_tree", target="InventoryUI", max_depth=8)'
   "UXML"
   "USS"
   "VisualTreeAsset"
@@ -148,11 +188,6 @@ for keyword in "${build_keywords[@]}"; do
   assert_contains "$build_doc" "$keyword" "build workflow"
 done
 
-if grep -Fq '<ui:Style' <<<"$build_doc"; then
-  printf 'Deprecated ui:Style namespace must not appear in %s\n' "$build_doc_path" >&2
-  exit 1
-fi
-
 assert_contains "$skill_body" 'Record host lifecycle ownership for runtime UI, or `not_applicable` with the Editor owner and reason for Editor UI.' "skill Editor host applicability"
 
 for keyword in "${example_keywords[@]}"; do
@@ -165,16 +200,15 @@ recipe_keywords=(
   "## Build UI Toolkit From a Mockup"
   "ui-stack-selection.md"
   "mockup-layout-plan/v2"
-  'manage_ui(action="create")'
-  'manage_ui(action="update")'
+  'manage_ui(action="create", path="Assets/UI/Inventory.uxml", contents='
+  'manage_ui(action="update", path="Assets/UI/Inventory.uxml", contents='
   '<Style src="..." />'
-  'manage_ui(action="link_stylesheet", path="<screen>.uxml", stylesheet="<styles>.uss")'
   "verify the stylesheet link"
   'existing `UIDocument` host'
   "manage_gameobject"
-  'manage_ui(action="create_panel_settings")'
-  'manage_ui(action="attach_ui_document")'
-  'manage_ui(action="get_visual_tree")'
+  'manage_ui(action="create_panel_settings", path="Assets/UI/RuntimePanelSettings.asset")'
+  'manage_ui(action="attach_ui_document", target="InventoryUI", source_asset="Assets/UI/Inventory.uxml", panel_settings="Assets/UI/RuntimePanelSettings.asset")'
+  'manage_ui(action="get_visual_tree", target="InventoryUI", max_depth=8)'
   "optional behavior"
   "wait for import and compilation"
   "inspect editor state and the console"
@@ -260,8 +294,6 @@ for keyword in "${recipe_keywords[@]}"; do
   assert_contains "$mcp_build_recipe" "$keyword" "UI Toolkit MCP recipe section"
 done
 
-assert_not_contains "$mcp_build_recipe" '<ui:Style' "UI Toolkit MCP recipe"
-
 for keyword in "${prompt_keywords[@]}"; do
   assert_contains "$prompt_patterns" "$keyword" "prompt patterns"
 done
@@ -318,23 +350,72 @@ assert_contains "$skill_body" "behavior_plan: []" "skill completion applicabilit
 assert_contains "$skill_body" "not_applicable" "skill completion applicability"
 assert_contains "$skill_body" "reason" "skill completion applicability"
 
+for scoped_stylesheet in "recipe_stylesheet:$recipe_stylesheet" "workflow_stylesheet:$workflow_stylesheet"; do
+  scope="${scoped_stylesheet%%:*}"
+  content="${scoped_stylesheet#*:}"
+  assert_contains "$content" 'canonical syntax is bare `<Style src="..." />`' "$scope"
+  assert_contains "$content" 'Inspect the available `manage_ui` capabilities' "$scope"
+  assert_contains "$content" 'manage_ui(action="link_stylesheet", path="Assets/UI/Inventory.uxml", stylesheet="Assets/UI/Inventory.uss")' "$scope"
+  assert_contains "$content" 'Read the resulting UXML immediately' "$scope"
+  assert_contains "$content" '`<ui:Style>` is invalid' "$scope"
+  assert_contains "$content" 'manage_ui(action="update", path="Assets/UI/Inventory.uxml", contents=' "$scope"
+  assert_contains "$content" 'read the UXML again' "$scope"
+  assert_contains "$content" 'trigger import' "$scope"
+  assert_contains "$content" 'read the console' "$scope"
+  assert_not_contains "$content" '`<ui:Style>` is valid' "$scope"
+  assert_line_contains_all "$content" 'manage_ui(action="link_stylesheet"' 'Only when' "$scope capability gate"
+  assert_line_contains_all "$content" 'If the action emits `<ui:Style>`' '`<ui:Style>` is invalid' "$scope invalid output rejection"
+  assert_precedes "$content" 'Inspect the available `manage_ui` capabilities' 'manage_ui(action="link_stylesheet"' "$scope capability gate"
+  assert_precedes "$content" 'Read the resulting UXML immediately' '`<ui:Style>` is invalid' "$scope output check"
+  assert_precedes "$content" 'manage_ui(action="update", path="Assets/UI/Inventory.uxml", contents=' 'read the UXML again' "$scope manual fallback"
+  assert_precedes "$content" 'read the UXML again' 'trigger import' "$scope manual fallback"
+  assert_precedes "$content" 'trigger import' 'read the console' "$scope manual fallback"
+done
+
+assert_not_contains "$mcp_build_recipe" 'or call `manage_ui(action="link_stylesheet"' "UI Toolkit MCP recipe unconditional stylesheet guidance"
+assert_not_contains "$workflow_surface" 'or call `manage_ui(action="link_stylesheet"' "build workflow unconditional stylesheet guidance"
+
+for scoped_runtime in "recipe_runtime:$recipe_runtime" "workflow_runtime:$workflow_runtime"; do
+  scope="${scoped_runtime%%:*}"
+  content="${scoped_runtime#*:}"
+  assert_contains "$content" 'existing `UIDocument` host' "$scope"
+  assert_contains "$content" 'manage_ui(action="create_panel_settings", path="Assets/UI/RuntimePanelSettings.asset")' "$scope"
+  assert_contains "$content" 'manage_ui(action="attach_ui_document", target="InventoryUI", source_asset="Assets/UI/Inventory.uxml", panel_settings="Assets/UI/RuntimePanelSettings.asset")' "$scope"
+  assert_contains "$content" 'manage_ui(action="get_visual_tree", target="InventoryUI", max_depth=8)' "$scope"
+  assert_precedes "$content" 'existing `UIDocument` host' 'manage_ui(action="create_panel_settings"' "$scope"
+  assert_precedes "$content" 'manage_ui(action="create_panel_settings"' 'manage_ui(action="attach_ui_document"' "$scope"
+  assert_precedes "$content" 'manage_ui(action="attach_ui_document"' 'manage_ui(action="get_visual_tree"' "$scope"
+done
+
+for scoped_editor in "recipe_editor:$recipe_editor" "workflow_editor:$workflow_editor"; do
+  scope="${scoped_editor%%:*}"
+  content="${scoped_editor#*:}"
+  assert_contains "$content" '`EditorWindow` with `CreateGUI`' "$scope"
+  assert_contains "$content" 'custom inspector' "$scope"
+  assert_contains "$content" '`VisualTreeAsset`' "$scope"
+  assert_contains "$content" 'load or clone' "$scope"
+  assert_not_contains "$content" 'manage_ui(action="create_panel_settings"' "$scope runtime exclusion"
+  assert_not_contains "$content" 'manage_ui(action="attach_ui_document"' "$scope runtime exclusion"
+  assert_not_contains "$content" 'manage_ui(action="get_visual_tree"' "$scope runtime exclusion"
+done
+
 assert_precedes "$mcp_build_recipe" "ui-stack-selection.md" "mockup-layout-plan/v2" "UI Toolkit MCP recipe"
-assert_precedes "$mcp_build_recipe" "mockup-layout-plan/v2" 'manage_ui(action="create")' "UI Toolkit MCP recipe"
-assert_precedes "$mcp_build_recipe" 'manage_ui(action="update")' 'manage_ui(action="link_stylesheet"' "UI Toolkit MCP recipe"
-assert_precedes "$mcp_build_recipe" 'manage_ui(action="link_stylesheet"' "verify the stylesheet link" "UI Toolkit MCP recipe"
-assert_precedes "$mcp_build_recipe" "verify the stylesheet link" 'existing `UIDocument` host' "UI Toolkit MCP recipe"
-assert_precedes "$mcp_build_recipe" 'existing `UIDocument` host' 'manage_ui(action="create_panel_settings")' "UI Toolkit MCP recipe"
-assert_precedes "$mcp_build_recipe" 'manage_ui(action="create_panel_settings")' 'manage_ui(action="attach_ui_document")' "UI Toolkit MCP recipe"
-assert_precedes "$mcp_build_recipe" 'manage_ui(action="attach_ui_document")' 'manage_ui(action="get_visual_tree")' "UI Toolkit MCP recipe"
-assert_precedes "$mcp_build_recipe" 'manage_ui(action="get_visual_tree")' "optional behavior" "UI Toolkit MCP recipe"
+assert_precedes "$mcp_build_recipe" "mockup-layout-plan/v2" 'manage_ui(action="create",' "UI Toolkit MCP recipe"
+assert_precedes "$mcp_build_recipe" 'manage_ui(action="update"' "### Stylesheet Linking" "UI Toolkit MCP recipe"
+assert_precedes "$mcp_build_recipe" "### Stylesheet Linking" "### Runtime" "UI Toolkit MCP recipe"
+assert_precedes "$mcp_build_recipe" "### Runtime" "### Editor UI" "UI Toolkit MCP recipe"
+assert_precedes "$mcp_build_recipe" 'existing `UIDocument` host' 'manage_ui(action="create_panel_settings",' "UI Toolkit MCP recipe"
+assert_precedes "$mcp_build_recipe" 'manage_ui(action="create_panel_settings",' 'manage_ui(action="attach_ui_document",' "UI Toolkit MCP recipe"
+assert_precedes "$mcp_build_recipe" 'manage_ui(action="attach_ui_document",' 'manage_ui(action="get_visual_tree",' "UI Toolkit MCP recipe"
+assert_precedes "$mcp_build_recipe" 'manage_ui(action="get_visual_tree",' "optional behavior" "UI Toolkit MCP recipe"
 assert_precedes "$mcp_build_recipe" "optional behavior" "wait for import and compilation" "UI Toolkit MCP recipe"
 assert_precedes "$mcp_build_recipe" "wait for import and compilation" "main and alternate screenshots" "UI Toolkit MCP recipe"
 
 assert_precedes "$build_doc" 'find an existing `UIDocument` host' "manage_gameobject" "runtime host lifecycle"
-assert_precedes "$build_doc" "manage_gameobject" 'manage_ui(action="attach_ui_document")' "runtime host lifecycle"
-assert_precedes "$build_doc" 'manage_ui(action="update")' 'manage_ui(action="link_stylesheet"' "canonical stylesheet linking"
-assert_precedes "$build_doc" 'manage_ui(action="link_stylesheet"' "Verify the stylesheet link" "canonical stylesheet linking"
-assert_precedes "$build_doc" "Verify the stylesheet link" 'manage_ui(action="get_visual_tree")' "canonical stylesheet linking"
+assert_precedes "$build_doc" "manage_gameobject" 'manage_ui(action="attach_ui_document",' "runtime host lifecycle"
+assert_precedes "$workflow_surface" 'manage_ui(action="update"' "### Stylesheet Linking" "canonical stylesheet linking"
+assert_precedes "$workflow_surface" "### Stylesheet Linking" "### Runtime" "selected surface ordering"
+assert_precedes "$workflow_surface" "### Runtime" "### Editor UI" "selected surface ordering"
 assert_contains "$build_doc" "host GameObject" "runtime host lifecycle"
 assert_contains "$build_doc" "prefab asset" "runtime host lifecycle"
 

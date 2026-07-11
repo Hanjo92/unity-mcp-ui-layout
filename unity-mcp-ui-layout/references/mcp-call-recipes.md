@@ -245,26 +245,53 @@ Use this compact recipe for an explicit or project-inferred UI Toolkit build. Th
 
 1. Apply `ui-stack-selection.md` and capture intake evidence.
 2. Produce and approve the neutral `mockup-layout-plan/v2` plan.
-3. Call `manage_ui(action="create")` for new UXML/USS assets or `manage_ui(action="update")` for existing owned assets.
-4. Confirm an existing valid `<Style src="..." />` reference or call `manage_ui(action="link_stylesheet", path="<screen>.uxml", stylesheet="<styles>.uss")`.
-5. Verify the stylesheet link resolves before host attachment or visual checks.
-6. For runtime UI, inspect for an existing `UIDocument` host. Use `manage_gameobject` to create a new host only when runtime needs one and no compatible lifecycle owner exists.
-7. Reuse compatible panel settings or call `manage_ui(action="create_panel_settings")`.
-8. Call `manage_ui(action="attach_ui_document")` with the approved assets.
-9. Call `manage_ui(action="get_visual_tree")` and compare the resolved tree with the approved plan.
-10. Add an optional behavior owner only when bindings, callbacks, state classes, focus, or navigation require one.
-11. After script tools return, wait for import and compilation; inspect editor state and the console. Do not call `refresh_unity` redundantly.
-12. Capture the main and alternate screenshots, exercise applicable interactions, and report every tool limitation plus fallback evidence.
+3. Create new owned assets with `manage_ui(action="create", path="Assets/UI/Inventory.uxml", contents="<ui:UXML ...>...</ui:UXML>")`; use the corresponding `.uss` path and contents for the stylesheet.
+4. For an existing owned asset, use `manage_ui(action="update", path="Assets/UI/Inventory.uxml", contents="<ui:UXML ...>...</ui:UXML>")` and update its USS separately as appropriate.
+
+### Stylesheet Linking
+
+Unity-valid canonical syntax is bare `<Style src="..." />`. Verify an existing reference before adding another one.
+
+1. Inspect the available `manage_ui` capabilities before considering `link_stylesheet`.
+2. Only when that action is advertised and its output can be inspected, call `manage_ui(action="link_stylesheet", path="Assets/UI/Inventory.uxml", stylesheet="Assets/UI/Inventory.uss")`.
+3. Read the resulting UXML immediately and verify the stylesheet reference.
+4. If the action emits `<ui:Style>`, `<ui:Style>` is invalid and must not be accepted.
+5. Replace the bad output manually with `manage_ui(action="update", path="Assets/UI/Inventory.uxml", contents="<ui:UXML ...><Style src=&quot;Inventory.uss&quot; />...</ui:UXML>")`.
+6. After the manual update, read the UXML again and confirm the bare style element is present.
+7. Then trigger import for the changed assets.
+8. Finally, read the console for UXML or USS errors before continuing.
+
+Do not invoke `link_stylesheet` blindly. Verify the stylesheet link before owner attachment or visual checks.
+
+### Runtime
+
+1. Inspect the scene for an existing `UIDocument` host and reuse it when lifecycle ownership matches. Use `manage_gameobject` to create a host only when runtime needs one and no compatible owner exists.
+2. Reuse compatible panel settings or call `manage_ui(action="create_panel_settings", path="Assets/UI/RuntimePanelSettings.asset")`.
+3. Attach the approved source to that `UIDocument` host with `manage_ui(action="attach_ui_document", target="InventoryUI", source_asset="Assets/UI/Inventory.uxml", panel_settings="Assets/UI/RuntimePanelSettings.asset")`.
+4. Inspect the attached host with `manage_ui(action="get_visual_tree", target="InventoryUI", max_depth=8)` and compare the resolved tree with the approved plan.
+
+### Editor UI
+
+1. Create or update the actual Editor owner: an `EditorWindow` with `CreateGUI`, a custom inspector, or a property drawer.
+2. Verify that owner can load or clone the intended `VisualTreeAsset`, and that the clone is added to the owner's root visual element.
+3. Verify the loaded or cloned tree and stylesheet through the Editor owner. Do not assume a runtime host lifecycle for an Editor surface.
+
+### Shared verification
+
+1. Add an optional behavior owner only when bindings, callbacks, state classes, focus, or navigation require one.
+2. After script tools return, wait for import and compilation; inspect editor state and the console. Do not call `refresh_unity` redundantly.
+3. For runtime, retain the resolved host visual-tree evidence. For Editor UI, retain owner load or clone evidence for the `VisualTreeAsset`.
+4. Capture the main and alternate screenshots, exercise applicable interactions, and report every tool limitation plus fallback evidence.
 
 ### Common calls
 
 - `manage_ui(action="create")`
 - `manage_ui(action="update")`
-- `manage_ui(action="link_stylesheet", path="<screen>.uxml", stylesheet="<styles>.uss")`
+- capability inspection, asset readback, and conditional `manage_ui(action="link_stylesheet", ...)`
 - `manage_gameobject`
-- `manage_ui(action="create_panel_settings")`
-- `manage_ui(action="attach_ui_document")`
-- `manage_ui(action="get_visual_tree")`
+- runtime-only `manage_ui(action="create_panel_settings", path=...)`
+- runtime-only `manage_ui(action="attach_ui_document", target=..., source_asset=..., panel_settings=...)`
+- runtime-only `manage_ui(action="get_visual_tree", target=..., max_depth=...)`
 - `manage_script`
 - editor state and `read_console`
 - screenshot and interaction tools
