@@ -10,7 +10,7 @@ Use this runbook after the skill triggers and before editing Unity UI. It is the
 4. **Plan hierarchy before objects.** For mockups, produce and approve a layer-to-layout-tree pass before creating or moving stack-specific UI objects.
 5. **Resolve gates and assumptions.** Use `review-gates-and-assumptions.md` to decide whether to ask the user or proceed with named assumptions.
 6. **Review raster candidates.** If raster item analysis is used, produce candidate item ledger decisions before item rect planning.
-7. **Promote only accepted items.** Record item-level UI rects only for accepted runtime or repeated items. Held candidates remain notes. Rejected candidates must not create Unity objects, prefab children, or crops.
+7. **Promote only accepted items.** Record item-level UI rects only for accepted runtime or repeated items. Held candidates remain notes. Rejected candidates must not create runtime nodes, reusable-template children, or crops.
 8. **Build or repair in slices.** Work root shell, major regions, one reusable block or region, then polish. Verify after structural slices.
 9. **Verify before final response.** Use screenshot, alternate aspect ratio, text behavior, console state, and shared-asset checks where applicable.
 10. **Report evidence.** Tell the user what assumptions were made, what artifacts were produced, which screenshots or checks were used, and what residual risks remain.
@@ -41,7 +41,7 @@ Use this runbook after the skill triggers and before editing Unity UI. It is the
 ## Raster-Only Mockup Input Notes
 
 - Use the mockup native resolution when no explicit target resolution exists.
-- Run the layer-to-tree pass before object creation.
+- Run the layer-to-layout-tree pass before object creation.
 - Verify that the final UGUI `Transform`/`RectTransform` hierarchy or UI Toolkit visual tree realizes the approved neutral plan.
 - Keep candidate item ledger output advisory until review decisions are recorded.
 - Use item rects for accepted runtime leaves or repeated items only.
@@ -63,7 +63,7 @@ In the final response after using the skill, include:
 - design source split: structured export, raster mockup, design tokens, or none
 - layout snapshot or fallback intake status
 - produced planning artifacts: layout tree, stack realization, candidate ledger, item rect plan, asset plan, behavior plan, or template path
-- implementation scope: regions, prefabs, variants, wrappers, or assets touched
+- implementation scope: regions, reusable templates, variants, wrappers, or assets touched
 - verification evidence: screenshots, alternate aspect, text checks, console state, shared-asset checks
 - candidate decisions by accept, hold, and reject when a candidate ledger was used
 - assumptions and unresolved risks

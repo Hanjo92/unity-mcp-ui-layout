@@ -1,6 +1,6 @@
 # Mockup Decomposition Rules
 
-Use this guide when a mockup, screenshot, design image, or UI 시안 exists and you need to decide which regions should stay as one asset, which should become reusable layout blocks or Unity UI prefabs, and which should be separated into interactive UI elements.
+Use this guide when a mockup, screenshot, design image, or UI 시안 exists and you need to decide which regions should stay as one asset, which should become stack-appropriate reusable layout units, and which should be separated into interactive UI elements.
 
 Use `../../templates/mockup-layout-plan.yaml` when the decomposition needs a concise machine-readable v2 plan with `layout_contract, stack_realization, layout_tree, candidate_item_ledger, item_rect_plan, asset_plan, behavior_plan, verification_targets`.
 Use `review-gates-and-assumptions.md` when deciding whether an ambiguity should pause for user confirmation or proceed with named assumptions.
@@ -43,7 +43,7 @@ Realize the approved hierarchy according to the chosen stack:
 
 ## Item Rect Contract
 
-When a mockup region becomes a runtime or repeated item, record an item-level UI rect before creating or tuning the Unity object.
+When a mockup region becomes a runtime or repeated item, record an item-level UI rect before creating or tuning the runtime node.
 
 Do not map an item rect until its parent ownership and runtime split reason are named. This keeps item rect planning subordinate to the layout tree instead of turning the mockup into a leaf-first crop list.
 
@@ -51,14 +51,14 @@ If candidate extraction was used, treat the candidate ledger as not a final mani
 
 For each candidate, record:
 
-- `candidate_review_state`: `accept`, `hold`, or `reject`
+- `review_decision`: `accept`, `hold`, or `reject`
 - confidence band: `low`, `medium`, or `high`
 - evidence: visible containment, repeated structure, shared baseline, text/icon cluster, shadow/panel boundary, or user hint
 - decision note: why the candidate should become an item rect, stay inside a larger image, or wait for manual review
 
-Use accept/hold/reject instead of silently deleting uncertain candidates. Accepted candidates may become item-level UI rect entries. Held candidates remain review notes. Rejected candidates should not create Unity objects or mockup-derived crops.
+Use accept/hold/reject instead of silently deleting uncertain candidates. Accepted candidates may become item-level UI rect entries. Held candidates remain review notes. Rejected candidates should not create runtime nodes or mockup-derived crops.
 
-The template policy is strict: accepted candidates may become item rect entries after parent ownership and split reason are reviewed, held candidates remain notes, and rejected candidates must not create Unity objects, prefab children, or crops.
+The template policy is strict: accepted candidates may become item rect entries after parent ownership and split reason are reviewed, held candidates remain notes, and rejected candidates must not create runtime nodes, reusable-template children, or crops.
 
 Use the v2 template at `../../templates/mockup-layout-plan.yaml`: define the neutral hierarchy in `layout_tree`, select the chosen stack in `stack_realization`, connect accepted item rects to `asset_plan`, and record known ownership only in `behavior_plan`.
 
@@ -82,7 +82,7 @@ Decompose by runtime responsibility, not by visual outline alone.
 
 - keep decorative or baked regions whole when they do not need separate behavior
 - split elements that need interaction, dynamic text, animation, state changes, or adaptive layout
-- promote repeated structures into reusable blocks or prefabs instead of rebuilding them by hand
+- promote repeated structures into UGUI prefabs or UI Toolkit UXML/`VisualTreeAsset` templates with USS classes instead of rebuilding them by hand
 
 ## Decomposition Flow
 
@@ -125,7 +125,7 @@ flowchart TD
 
 Prefer this order:
 
-1. screen-level anchor-owned regions
+1. screen-level parent-owned regions
 2. parent-owned layout hierarchy
 3. reusable repeated blocks
 4. unique interactive elements
@@ -135,7 +135,7 @@ Do not start by tracing every visible edge in the mockup into a separate node.
 
 ## Warning Signs Of Over-Decomposition
 
-- Many empty `Image` objects exist only to mimic visual seams.
+- Many empty visual nodes exist only to mimic visual seams.
 - Decorative borders or background ornaments are split into many children without runtime purpose.
 - A single card frame becomes a deep tree of static fragments.
 - The hierarchy grows faster than the actual interactive responsibilities.

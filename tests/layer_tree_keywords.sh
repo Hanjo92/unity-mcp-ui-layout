@@ -8,6 +8,7 @@ skill_body="$(cat "$ROOT_DIR/unity-mcp-ui-layout/SKILL.md")"
 image_doc="$(cat "$ROOT_DIR/unity-mcp-ui-layout/references/image-to-layout.md")"
 mockup_doc="$(cat "$ROOT_DIR/unity-mcp-ui-layout/references/mockup-decomposition.md")"
 review_doc="$(cat "$ROOT_DIR/unity-mcp-ui-layout/references/review-checks.md")"
+runbook_doc="$(cat "$ROOT_DIR/unity-mcp-ui-layout/references/agent-runbook.md")"
 prompt_doc="$(cat "$ROOT_DIR/unity-mcp-ui-layout/references/prompt-patterns.md")"
 mcp_doc="$(cat "$ROOT_DIR/unity-mcp-ui-layout/references/mcp-call-recipes.md")"
 ugui_doc="$(cat "$ROOT_DIR/unity-mcp-ui-layout/references/ugui-anchors-canvas-scaler.md")"
@@ -24,6 +25,17 @@ assert_contains() {
 
   if ! grep -Fqi "$needle" <<<"$haystack"; then
     printf 'Missing layer/tree phrase in %s: %s\n' "$scope" "$needle" >&2
+    return 1
+  fi
+}
+
+assert_not_contains() {
+  local haystack="$1"
+  local needle="$2"
+  local scope="$3"
+
+  if grep -Fqi "$needle" <<<"$haystack"; then
+    printf 'Stale layer/tree phrase in %s: %s\n' "$scope" "$needle" >&2
     return 1
   fi
 }
@@ -50,19 +62,30 @@ assert_contains "$image_doc" "Tree plan schema" "image-to-layout"
 assert_contains "$image_doc" "node_kind" "image-to-layout"
 assert_contains "$image_doc" "placement_intent" "image-to-layout"
 assert_contains "$image_doc" "layout_owner" "image-to-layout"
-assert_contains "$image_doc" "geometry ratios" "image-to-layout"
+assert_contains "$image_doc" "geometry_ratios" "image-to-layout"
 assert_contains "$image_doc" "split/keep" "image-to-layout"
 assert_contains "$image_doc" "asset_plan_id" "image-to-layout"
 assert_contains "$image_doc" "creates_runtime_node" "image-to-layout"
 
-v2_template_sections="layout_contract, stack_realization, layout_tree, candidate_item_ledger, item_rect_plan, asset_plan, behavior_plan, verification_targets"
-assert_contains "$image_doc" "$v2_template_sections" "image-to-layout direct v2 template description"
-assert_contains "$mockup_doc" "$v2_template_sections" "mockup-decomposition direct v2 template description"
-
-for section in layout_tree stack_realization asset_plan behavior_plan; do
+for section in layout_contract stack_realization layout_tree candidate_item_ledger item_rect_plan asset_plan behavior_plan verification_targets; do
   assert_contains "$image_doc" "$section" "image-to-layout v2 template sections"
   assert_contains "$mockup_doc" "$section" "mockup-decomposition v2 template sections"
 done
+
+for field in node_path role parent_owner node_kind layout_owner placement_intent geometry_ratios split_keep_reason; do
+  assert_contains "$image_doc" "$field" "image-to-layout v2 layout tree fields"
+done
+
+assert_contains "$image_doc" "review_decision" "image-to-layout v2 candidate field"
+assert_contains "$mockup_doc" "review_decision" "mockup-decomposition v2 candidate field"
+assert_contains "$image_doc" "Stack-specific placement strategy" "image-to-layout placement procedure"
+assert_contains "$image_doc" "UGUI placement" "image-to-layout UGUI placement branch"
+assert_contains "$image_doc" "UI Toolkit placement" "image-to-layout UI Toolkit placement branch"
+assert_contains "$runbook_doc" "layer-to-layout-tree pass" "agent-runbook standard phrase"
+
+assert_not_contains "$image_doc" "Group the topmost composition by anchor-owned regions first" "image-to-layout shared procedure"
+assert_not_contains "$mockup_doc" "screen-level anchor-owned regions" "mockup-decomposition shared procedure"
+assert_not_contains "$mockup_doc" "candidate_review_state" "mockup-decomposition v2 candidate field"
 
 assert_contains "$mockup_doc" "layer stack" "mockup-decomposition"
 assert_contains "$mockup_doc" "parent-owned layout hierarchy" "mockup-decomposition"

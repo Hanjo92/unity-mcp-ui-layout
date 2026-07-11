@@ -8,7 +8,7 @@ Use `../../templates/mockup-layout-plan.yaml` when the agent needs a concise mac
 
 ## Goal
 
-Translate a visual reference into Unity UI that is stable at the target resolution or mockup reference resolution and anchored by screen relationships, not by arbitrary absolute pixels.
+Translate a visual reference into Unity UI that is stable at the target resolution or mockup reference resolution and governed by parent relationships, not by arbitrary absolute pixels.
 
 ## Input Rules
 
@@ -38,7 +38,7 @@ If both the mockup resolution and an explicit target resolution exist, keep both
 When image-to-layout work intersects with asset reuse, keep the layout workflow moving even if asset retrieval is incomplete.
 
 - If `unity-resource-rag` is unavailable, continue with image-to-layout translation using the existing layout rules.
-- Preserve structure-first execution: build regions, anchors, and parent containers before spending time on final art selection.
+- Preserve structure-first execution: build regions, placement ownership, and parent containers before spending time on final art selection.
 - Use placeholder visuals or existing manually discovered assets when retrieval support is missing.
 - Explicitly say that asset-aware retrieval was skipped when `unity-resource-rag` is unavailable.
 - If `unity-resource-rag` is available but retrieval confidence is low, do not force an asset match just to claim reuse.
@@ -76,7 +76,7 @@ Tree plan schema:
 - `node_kind`: structural container, reusable unit, runtime leaf, or decorative image
 - `placement_intent`: edge-owned, stretch, centered, fixed overlay, scroll content, or parent-flow child
 - `layout_owner`: the parent or named controller that owns layout; stack-specific components or USS classes belong in `stack_realization`
-- geometry ratios: approximate normalized bounds for parent-owned regions before child offsets
+- `geometry_ratios`: approximate normalized bounds for parent-owned regions before child offsets
 - `split_keep_reason`: split/keep rationale such as runtime behavior, dynamic data, state, animation, reuse, baked art, or decoration
 
 ### 2. Run a Candidate item ledger pass
@@ -95,9 +95,9 @@ Candidate ledger schema:
 - parent hint: likely parent region or repeated group from the layer tree
 - crop padding: transparent or visual padding that appears part of the intended item bounds
 - 9-slice candidate: whether a scalable panel/frame should become sliced art rather than a flat stretched crop
-- review decision: `accept`, `hold`, or `reject`
+- `review_decision`: `accept`, `hold`, or `reject`
 
-Only accepted candidates can become item-level UI rect entries. Held candidates remain notes for manual review, and rejected candidates must not create Unity objects, crops, or prefab children.
+Only accepted candidates can become item-level UI rect entries. Held candidates remain notes for manual review, and rejected candidates must not create runtime nodes, crops, or reusable-template children.
 
 Do not use low-confidence candidates to force a split. If the candidate cannot name a parent hint, split/keep reason, and evidence, keep it in the nearest existing visual layer.
 
@@ -123,7 +123,7 @@ For each mapped item, record:
 
 Each `asset_plan` entry records `creates_runtime_node` so asset generation cannot silently imply a new layout node. Use `behavior_plan` separately for known behavior ownership; do not infer behavior from visual decomposition alone.
 
-The source rect is measurement data, not the final authority. Convert it through normalized rects and parent-local ownership before setting Unity offsets or sizes.
+The source rect is measurement data, not the final authority. Convert it through normalized rects and parent-local ownership before setting stack-specific local placement values or sizes.
 
 Do not create item rect entries for decorative sub-parts inside a region that should stay a single image. Record the outer image region instead and keep the internal shapes baked.
 
@@ -137,7 +137,7 @@ Break the layout into:
 - Runtime leaves only after runtime responsibility is proven
 
 Do not jump directly from whole image to dozens of leaf nodes.
-Group the topmost composition by anchor-owned regions first so the largest blocks already belong to stable screen relationships.
+Group the topmost composition by parent-owned regions first so the largest blocks already belong to stable screen relationships.
 Split only when runtime behavior requires it, and keep likely decorative baked regions whole.
 
 ### 5. Estimate normalized geometry
@@ -153,17 +153,14 @@ Treat these as planning values, not necessarily as final serialized numbers.
 When a mockup image exists, derive them from the mockup's own width and height before mapping them to the implementation frame.
 For item-level sizing, use the item rect mapping pass instead of guessing leaf sizes from full-screen offsets.
 
-### 6. Pick anchor strategy by region
+### 6. Pick stack-specific placement strategy
 
-Use these defaults:
+Choose placement from the approved `placement_intent` and selected stack:
 
-- Top bar or top-left HUD: top anchors
-- Bottom HUD or action bar: bottom anchors
-- Side panel: left or right stretch against its screen edge
-- Center dialog: centered anchors with stable width/height constraints
-- Full content body: stretch anchors inside a bounded parent
+- **UGUI placement:** realize edge ownership, stretch, and centering with anchors, pivots, and parent-local offsets.
+- **UI Toolkit placement:** realize parent flow with flex and percentage sizing; reserve absolute positioning for deliberate overlay intent.
 
-Anchor according to the element's relationship to the screen, not according to whichever raw coordinates are easiest to enter.
+Placement must express the element's relationship to its parent, not whichever raw coordinates are easiest to enter.
 
 ### 7. Build parent containers first
 
@@ -174,7 +171,7 @@ Create the parent zones before children:
 - Nested rows, columns, or grids
 
 Once the parent is right, many child values become smaller and more stable.
-If the same structure appears multiple times, make one reusable prefab or reusable block before placing all copies.
+If the same structure appears multiple times, make one UGUI prefab or one UI Toolkit UXML/`VisualTreeAsset` template with a USS class before placing all copies.
 
 ### 8. Respect single-image regions
 
@@ -188,11 +185,11 @@ If a visual area appears to be one baked image or sprite:
 
 For a given target resolution:
 
-- Use ratios to decide anchor placement and stretch behavior.
-- Use offsets for local spacing from the anchor frame.
-- Use width/height values only after parent and anchor decisions are made.
+- Use ratios to refine the approved geometry inside the parent owner.
+- Use stack-appropriate local values for spacing within that parent.
+- Use width/height values only after parent ownership and `placement_intent` are decided.
 
-Prefer "anchored top-right with 4% inset" over "x=1798, y=54".
+Prefer "top-right placement intent with 4% parent inset" over "x=1798, y=54". Apply anchors only in the UGUI realization.
 
 ## UGUI Rules
 
@@ -225,9 +222,9 @@ Before calling the result correct, verify:
 - If a candidate item ledger was used, were accepted candidates reviewed before item-level UI rects or crop plans were created?
 - Did any split runtime or repeated item have an item-level UI rect plan with source rect, normalized rect, parent-local rect or fit mode, and asset/crop plan?
 - If the mockup had a native resolution, was that resolution captured and used correctly as the planning frame?
-- Are the top-level regions grouped by stable anchor ownership before child tuning?
-- Are anchors consistent with the element's visual role?
-- Were repeated structures converted into reusable prefabs or layout blocks where appropriate?
+- Are the top-level regions grouped by stable parent ownership before child tuning?
+- Does placement match the chosen stack: UGUI anchors/pivots or UI Toolkit flex, percentage, and deliberate absolute overlays?
+- Were repeated structures converted into UGUI prefabs or UI Toolkit UXML/`VisualTreeAsset` templates with USS classes where appropriate?
 - If the resolution changes a little, does the UI still preserve intent?
 - Was any likely single-image region over-decomposed into fake widgets without a runtime need?
 - Are any values suspiciously pixel-specific where a ratio or container rule should exist?
