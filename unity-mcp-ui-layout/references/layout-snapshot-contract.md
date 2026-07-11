@@ -102,6 +102,8 @@ gaps:
   - string
 ```
 
+`selection.selected_object` and `selection.active_ui_root` are the canonical intake names used by `ui-stack-selection.md` and `agent-runbook.md`. Do not introduce parallel selected-target or selected-root fields.
+
 ## UGUI Example Snapshot
 
 ```yaml

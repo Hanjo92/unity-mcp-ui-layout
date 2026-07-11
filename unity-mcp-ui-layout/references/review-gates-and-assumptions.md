@@ -7,7 +7,7 @@ Use this guide when mockup-driven UI work has ambiguity. The goal is to avoid tw
 - Ask the user before editing when the ambiguity can change the target screen, UI stack, shared asset contract, or destructive scope.
 - Continue with named assumptions when the ambiguity is local, reversible, and does not create shared assets or crops from uncertain candidates.
 - Record every assumption and review decision in the final response.
-- Apply `ui-stack-selection.md` before any prefab or Canvas default. An explicit UI Toolkit request or UI Toolkit-owned selected target is decisive; installed-package presence alone is not decisive.
+- Apply `ui-stack-selection.md` before any prefab or Canvas default. An explicit UI Toolkit request, selected `UIDocument`, resolved visual-tree root, or editor UI Toolkit owner is decisive; `UXML`, `USS`, and `PanelSettings` corroborate only when referenced by that owner. Installed-package presence alone is not decisive.
 
 ## Hard Blockers: Ask Before Editing
 

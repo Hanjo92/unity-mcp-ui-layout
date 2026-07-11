@@ -44,9 +44,10 @@ Choose these four boundaries before editing anything:
 ### 1. UI Stack
 
 - Apply `references/ui-stack-selection.md` before using prefab or Canvas defaults.
-- An **explicit user instruction** for UI Toolkit, or a UI Toolkit-owned selected target, routes to UI Toolkit before UGUI defaults.
+- An **explicit user instruction** for UI Toolkit, a selected `UIDocument`, a resolved visual-tree root, or an editor UI Toolkit owner routes to UI Toolkit before UGUI defaults.
+- Treat `UXML`, `USS`, and `PanelSettings` as corroborating only when referenced by that owner; their mere asset presence is not decisive.
 - Use **UGUI** when the selected target uses `Canvas`, `RectTransform`, `CanvasScaler`, `LayoutGroup`, `Image`, or `TextMeshProUGUI`.
-- Use **UI Toolkit** when the selected target uses `UIDocument`, `UXML`, `USS`, `VisualElement`, or `PanelSettings`.
+- Use **UI Toolkit** when the selected target has decisive UI Toolkit ownership evidence.
 - Do not mix both stacks in one change unless the user explicitly asks for a bridge or migration.
 
 ### 2. Change Mode
@@ -82,7 +83,7 @@ For structured export intake and hierarchy mapping, read `references/stitch-html
 
 - This skill assumes Unity is available through `unity-mcp` or an equivalent MCP bridge.
 - It works best when you can inspect the current scene or UI document and verify with screenshots.
-- When editing existing Unity UI, capture a layout snapshot or equivalent smaller-call evidence before structural edits: active UI root, UI stack, root layout owners, screenshot frame, and console state.
+- When editing existing Unity UI, capture a layout snapshot or equivalent smaller-call evidence before structural edits: target surface, Unity version evidence, selected object (`selection.selected_object`), active UI root (`selection.active_ui_root`), UI stack, root layout owners, screenshot frame, and console state.
 - Structured export artifacts are valid first-class inputs even when direct Figma or Stitch API access is unavailable.
 - If a `DESIGN.md` or token source is present, style decisions should be traced back to that source where practical.
 - `@google/design.md` CLI checks are useful when available, but missing CLI tooling is a supported fallback.
@@ -156,7 +157,7 @@ For structured export intake and hierarchy mapping, read `references/stitch-html
 Do not call the task done until every applicable check below passes:
 
 - A fresh whole-screen verification screenshot exists.
-- For existing Unity UI edits, a layout snapshot or equivalent smaller-call intake identified the active UI root, UI stack, layout ownership, screenshot frame, and console state before structural changes.
+- For existing Unity UI edits, a layout snapshot or equivalent smaller-call intake identified target surface, Unity version evidence, selected object (`selection.selected_object`), active UI root (`selection.active_ui_root`), UI stack, layout ownership, screenshot frame, and console state before structural changes.
 - If a mockup, screenshot, or wireframe was provided, one final review pass was run against it after implementation changes.
 - If no structured hierarchy source existed and a mockup, screenshot, reference image, or UI 시안 drove the work, the final Unity Transform or RectTransform tree still matches the approved layer-to-tree pass.
 - If a structured export existed alongside a mockup/screenshot, hierarchy still follows the export and the raster image was used for composition validation.
