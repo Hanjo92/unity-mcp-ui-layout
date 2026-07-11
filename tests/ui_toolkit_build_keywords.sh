@@ -22,6 +22,7 @@ skill_body="$(cat "$ROOT_DIR/unity-mcp-ui-layout/SKILL.md")"
 mcp_recipes="$(cat "$ROOT_DIR/unity-mcp-ui-layout/references/mcp-call-recipes.md")"
 mcp_build_recipe="$(awk '/^## Build UI Toolkit From a Mockup$/{capture=1; next} capture && /^## /{exit} capture' <<<"$mcp_recipes")"
 prompt_patterns="$(cat "$ROOT_DIR/unity-mcp-ui-layout/references/prompt-patterns.md")"
+existing_prefab_reuse="$(cat "$ROOT_DIR/unity-mcp-ui-layout/references/existing-prefab-reuse.md")"
 prefab_reuse="$(cat "$ROOT_DIR/unity-mcp-ui-layout/references/prefab-reuse.md")"
 prefab_variants="$(cat "$ROOT_DIR/unity-mcp-ui-layout/references/prefab-variants.md")"
 shared_safety="$(cat "$ROOT_DIR/unity-mcp-ui-layout/references/shared-asset-edit-safety.md")"
@@ -37,6 +38,17 @@ assert_contains() {
 
   if ! grep -Fqi "$needle" <<<"$haystack"; then
     printf 'Missing UI Toolkit build phrase in %s: %s\n' "$scope" "$needle" >&2
+    return 1
+  fi
+}
+
+assert_not_contains() {
+  local haystack="$1"
+  local needle="$2"
+  local scope="$3"
+
+  if grep -Fqi "$needle" <<<"$haystack"; then
+    printf 'Stale UI Toolkit build phrase in %s: %s\n' "$scope" "$needle" >&2
     return 1
   fi
 }
@@ -181,6 +193,7 @@ snapshot_keywords=(
   "reusable UXML templates"
   "stylesheets"
   "PanelSettings"
+  "theme_or_style_assets"
   "behavior owners"
   "behavior scripts"
   "asset-aware mode"
@@ -241,6 +254,14 @@ for keyword in "${layout_failure_keywords[@]}"; do
   assert_contains "$layout_rules" "$keyword" "UI Toolkit layout rules"
   assert_contains "$failure_guide" "$keyword" "UI Toolkit failures"
 done
+
+automatic_import_phrase="script tools trigger automatic import and compilation"
+assert_contains "$skill_body" "$automatic_import_phrase" "skill script verification"
+assert_contains "$prompt_patterns" "$automatic_import_phrase" "script-backed prompt pattern"
+assert_contains "$existing_prefab_reuse" "$automatic_import_phrase" "existing prefab reuse"
+assert_not_contains "$skill_body" "refresh_unity" "skill script verification"
+assert_not_contains "$prompt_patterns" "refresh_unity" "script-backed prompt pattern"
+assert_not_contains "$existing_prefab_reuse" "refresh_unity" "existing prefab reuse"
 
 assert_precedes "$mcp_build_recipe" "ui-stack-selection.md" "mockup-layout-plan/v2" "UI Toolkit MCP recipe"
 assert_precedes "$mcp_build_recipe" "mockup-layout-plan/v2" "manage_ui" "UI Toolkit MCP recipe"

@@ -83,7 +83,7 @@ Use a bounded sequence:
 3. Compare the best candidate against the requested role: direct reuse, variant, wrapper, or new base.
 4. Use `manage_prefabs` for prefab creation or modification.
 5. Use `manage_gameobject` and `manage_components` only for scene placement or small candidate normalization.
-6. If behavior components are involved, update them with `manage_script`, then run `refresh_unity` and inspect `read_console`.
+6. If behavior components are involved, update them with `manage_script`. Script tools trigger automatic import and compilation; wait for editor state to settle and inspect `read_console`.
 7. Verify the target screen and one shared usage path with `manage_camera` when direct reuse or base edits were chosen.
 
 ## UGUI Rules

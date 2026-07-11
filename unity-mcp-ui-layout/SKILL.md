@@ -147,7 +147,7 @@ For structured export intake and hierarchy mapping, read `references/stitch-html
 
 - Capture fresh screenshots after structural changes.
 - Verify at the main target plus at least one additional aspect ratio.
-- If scripts changed, refresh Unity and confirm there are no unresolved compile or console errors.
+- If scripts changed, remember that script tools trigger automatic import and compilation; wait for editor state to settle and inspect the console for unresolved errors.
 - If text drives layout, re-check longer labels, counters, or localized strings before calling the task done.
 - Use the completion gate below as the final stop condition.
 

@@ -292,7 +292,7 @@ Use when script changes are necessary.
 
 ```text
 Make the required script or component changes for this UI feature.
-After editing scripts, run `refresh_unity`, wait for compilation, and use `read_console` for errors before continuing with more UI work.
+Script tools trigger automatic import and compilation; wait for editor state to settle and use `read_console` for errors before continuing with more UI work.
 Then use `manage_camera` to capture a screenshot and confirm the UI still matches the intended layout.
 ```
 
