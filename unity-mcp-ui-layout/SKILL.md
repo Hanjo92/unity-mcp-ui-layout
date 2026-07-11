@@ -7,7 +7,7 @@ description: "Use when Unity UI needs layout-focused implementation or repair th
 
 ## Overview
 
-Use this skill for Unity UI work where layout stability matters more than raw pixel imitation. The core idea is to translate visual intent into anchors, containers, scaling rules, text behavior, and verification loops that survive resolution changes.
+Use this skill for Unity UI work where layout stability matters more than raw pixel imitation. The core idea is to translate visual intent into stack-appropriate layout rules, containers, scaling rules, text behavior, and verification loops that survive resolution changes; anchors are a UGUI mechanism, not a universal rule.
 
 **Bias:** Prefer stable structure, scoped changes, and explicit verification over one-shot mockup mimicry. For trivial one-widget nudges, use judgment rather than forcing the full workflow mechanically.
 
@@ -135,7 +135,7 @@ For structured export intake and hierarchy mapping, read `references/stitch-html
 ### 3. Reuse Carefully and Locally
 
 - Start in layout-only mode and only switch into asset-aware mode when reuse clearly matters.
-- Promote repeated structures into reusable prefabs or reusable layout blocks when repetition is real.
+- Promote repeated structures into the stack's reusable unit when repetition is real: UGUI prefabs for UGUI, or UXML/`VisualTreeAsset` templates plus USS classes for UI Toolkit.
 - For scroll-heavy UIs, keep the scroll shell structural and treat repeated rows/cards/cells as the reusable unit.
 - Prefer scoped variants, wrappers, or screen-owned overrides over direct shared-base edits for one-screen requests.
 - Reserve `RawImage` for texture-driven content such as `RenderTexture`, video, or runtime-generated textures.
@@ -173,6 +173,7 @@ Do not call the task done until every applicable check below passes:
 - Component text/background pairs were checked for readable contrast where the source defines both values.
 - Shared-asset edits were treated with explicit safety checks.
 - Low-confidence asset reuse stayed clearly provisional.
+- For applicable UI Toolkit builds, asset import and console evidence are clean, the resolved visual tree matches the plan, bindings, callbacks, and state classes were exercised, focus and navigation were checked, host lifecycle ownership is explicit, and any tool limitations are reported with fallback evidence.
 
 ## Use the References
 

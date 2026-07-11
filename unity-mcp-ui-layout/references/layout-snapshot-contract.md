@@ -94,6 +94,16 @@ assets:
   prefabs:
     - path: string
       shared: boolean
+  reusable_uxml_templates:
+    - string
+  stylesheets:
+    - string
+  panel_settings:
+    - string
+  behavior_owners:
+    - path: string
+      behavior_scripts:
+        - string
 console:
   compile_state: clean | errors | unknown
   errors:
@@ -256,6 +266,17 @@ assets:
   materials: []
   tmp_styles: []
   prefabs: []
+  reusable_uxml_templates:
+    - "Assets/UI/Common/SettingsRow.uxml"
+  stylesheets:
+    - "Assets/UI/Settings/SettingsScreen.uss"
+    - "Assets/UI/Common/SettingsControls.uss"
+  panel_settings:
+    - "Assets/UI/PanelSettings.asset"
+  behavior_owners:
+    - path: "SettingsUIDocument"
+      behavior_scripts:
+        - "Assets/UI/Settings/SettingsScreenController.cs"
 console:
   compile_state: "clean"
   errors: []
@@ -272,7 +293,7 @@ If a unified layout snapshot tool is unavailable, gather equivalent evidence thr
 3. Inspect `Canvas`, `CanvasScaler`, `UIDocument`, `PanelSettings`, safe-area owners, and root layout containers.
 4. Inspect the parent chain and children for the target region, including anchors, pivots, bounds, layout groups, masks, scroll owners, and prefab links.
 5. Inspect key text nodes for component type, sample value, wrapping, overflow, and style ownership.
-6. Inspect referenced sprites, materials, TMP styles, prefabs, and likely shared asset families when asset-aware mode is active.
+6. Inspect referenced sprites, materials, TMP styles, prefabs, reusable UXML templates, stylesheets, `PanelSettings`, behavior owners, behavior scripts, and likely shared asset families when asset-aware mode is active.
 7. Capture a screenshot and record resolution, aspect ratio, and screenshot path.
 8. Read console or compile status before continuing with script-backed UI changes.
 

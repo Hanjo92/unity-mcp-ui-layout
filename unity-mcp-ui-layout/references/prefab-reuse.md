@@ -57,7 +57,7 @@ Use a bounded sequence:
 2. Normalize one candidate with `manage_gameobject` and `manage_components`.
 3. Create or update the reusable asset with `manage_prefabs`.
 4. Replace repeated copies with prefab instances instead of rebuilding them manually.
-5. If the prefab depends on scripts or binding components, update them through `manage_script`, then run `refresh_unity` and inspect `read_console`.
+5. If the prefab depends on scripts or binding components, update them through `manage_script`, wait for automatic import and compilation, then inspect editor state and `read_console`; do not call `refresh_unity` redundantly.
 6. Verify the base instance and at least one variant with `manage_camera`.
 
 ## UGUI Rules
@@ -71,12 +71,13 @@ Use a bounded sequence:
 
 ## UI Toolkit Equivalent
 
-UI Toolkit does not use GameObject prefabs in the same way. Treat reusable repeated structures as template-equivalent blocks:
+UI Toolkit does not use GameObject prefabs in the same way. Treat the user's word "prefab" as reusable intent. The default reusable unit is a `UXML template`/`VisualTreeAsset` plus `USS classes`:
 
 - Reuse one `UXML` structure or a clearly class-driven `VisualElement` block.
 - Move repeated spacing, sizing, and alignment into `USS` classes.
 - Keep screen-level placement in outer containers, not in each repeated child block.
 - Avoid copying the same inline style cluster to many elements when a reusable class or template should own it.
+- Create a GameObject host prefab only for explicit host reuse or when scene lifecycle responsibilities make the host itself reusable.
 
 ## Common Anti-Patterns
 

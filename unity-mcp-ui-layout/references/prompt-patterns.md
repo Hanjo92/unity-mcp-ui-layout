@@ -192,6 +192,17 @@ Decide whether important text regions should wrap, truncate, remain single-line,
 Verify the result at a narrower width so the fix is not overfit to one screen size.
 ```
 
+## Pattern 23A: UI Toolkit Mockup Build
+
+Use when UI Toolkit is explicit or project-inferred from decisive ownership evidence.
+
+```text
+Route this mockup build through ui-stack-selection.md and references/ui-toolkit-build-workflow.md.
+Approve the neutral mockup-layout-plan/v2 plan before creating or updating UXML and USS, then verify the resolved visual tree, import and console state, main and alternate screenshots, and applicable behavior.
+Treat the user's word "prefab" as reusable intent: default to a UXML/VisualTreeAsset template plus USS classes, and create a host prefab only for explicit host reuse or scene lifecycle ownership.
+Report tool limitations and fallback evidence.
+```
+
 ## Pattern 24: Verify Another Known Usage Before Shared Base Edit
 
 Use when a requested fix might touch a shared prefab, sprite, material, or TMP style directly.

@@ -83,7 +83,7 @@ Use a bounded sequence:
 2. Confirm that the difference is variant-worthy rather than direct reuse or a new base.
 3. Create or update the prefab variant with `manage_prefabs`.
 4. Keep scene placement changes in `manage_gameobject`, not in the variant asset unless the variant root itself needs local layout changes.
-5. If variant-specific behavior depends on scripts or component settings, update them with `manage_script`, then run `refresh_unity` and inspect `read_console`.
+5. If variant-specific behavior depends on scripts or component settings, update them with `manage_script`, wait for automatic import and compilation, then inspect editor state and `read_console`; do not call `refresh_unity` redundantly.
 6. Verify the variant in the target screen and verify that the base prefab family still behaves coherently with `manage_camera`.
 
 ## UGUI Rules
@@ -95,11 +95,14 @@ Use a bounded sequence:
 
 ## UI Toolkit Equivalent
 
-For UI Toolkit, use the same logic for reusable template families:
+Do not translate a UGUI prefab variant directly into UI Toolkit. Start with a base UXML template and shared USS, then express scoped differences through:
 
-- keep one base `UXML` structure
-- apply variant-like differences through scoped classes, optional elements, or wrapper containers
-- avoid copying the base into many almost-identical template files unless inheritance is no longer meaningful
+- template composition or a wrapper UXML
+- scoped USS classes and state classes
+- optional elements controlled by a behavior owner
+- a distinct template when structure diverges enough that the base contract no longer fits
+
+A GameObject prefab variant remains relevant only when the runtime host itself has an explicit reusable lifecycle.
 
 ## Common Anti-Patterns
 

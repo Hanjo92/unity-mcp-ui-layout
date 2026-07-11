@@ -122,9 +122,27 @@ This document is symptom-first so it is easier to use during repair work.
 
 ### Fix direction
 
-- extract a clearer reusable container or class pattern
+- extract a reusable UXML template/`VisualTreeAsset` with stable element names and clearer USS classes
 - normalize spacing, text role, and alignment rules
 - reduce per-instance exceptions
+
+## 6A. Structure Renders but Behavior Is Missing
+
+### Typical symptoms
+
+- a binding never updates, a callback never fires, or a state class never appears
+- focus starts on the wrong element or keyboard/controller navigation stalls
+
+### Likely causes
+
+- template element names or class hooks no longer match the behavior owner
+- callback registration, binding ownership, state class transitions, focus, or navigation were not verified after import
+
+### Fix direction
+
+- inspect the resolved visual tree and console before changing layout
+- restore stable template hooks, then exercise each applicable binding, callback, state class, focus path, and navigation path
+- keep behavior ownership in the optional script instead of encoding state through one-off layout patches
 
 ## 7. Quick Recovery Strategy
 

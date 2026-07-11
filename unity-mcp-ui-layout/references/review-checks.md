@@ -267,6 +267,14 @@ If the answer is no, narrow the change before shipping it.
 
 ## 15. Final Go/No-Go Rule
 
+For an applicable UI Toolkit build, also require:
+
+- clean UXML/USS import and console evidence, plus a resolved visual tree that matches the approved plan
+- exercised bindings, callbacks, and state classes when behavior exists
+- checked focus and navigation for keyboard/controller flows when applicable
+- explicit runtime host lifecycle ownership, including why a host or host prefab exists
+- disclosed tool limitations and the fallback evidence used for any unavailable inspection or interaction
+
 Do not call the UI complete unless:
 
 1. the composition is correct

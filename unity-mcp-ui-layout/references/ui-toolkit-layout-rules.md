@@ -90,6 +90,8 @@ Use classes for repeatable intent:
 
 Avoid solving repeated problems with many inline overrides.
 
+For repeated structure, pair those USS classes with a reusable UXML template/`VisualTreeAsset`. Keep the template's stable element names and class hooks compatible with any binding, callback, state class, focus, or navigation owner.
+
 ## 7. Narrow-Width Stability
 
 UI Toolkit screens often look correct at one width and then collapse.

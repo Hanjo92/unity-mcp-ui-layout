@@ -186,8 +186,8 @@ Use this when the UI depends on scripts, custom components, or compiled behavior
 ### Typical sequence
 
 1. Edit or create the required script
-2. Refresh Unity
-3. Read console output
+2. Wait for Unity's automatic import and compilation to settle
+3. Read editor state and console output
 4. Continue UI changes only if compile is clean
 5. Capture a verification screenshot
 
@@ -195,14 +195,14 @@ Use this when the UI depends on scripts, custom components, or compiled behavior
 
 ```text
 Make the required script changes for this UI feature first.
-After editing scripts, run refresh, wait for compile, inspect console errors, then continue with the UI layout work.
+After editing scripts, wait for automatic import and compilation, inspect editor state and console errors, then continue with the UI layout work. Do not call refresh_unity redundantly after script tools.
 Capture a screenshot after the UI is updated.
 ```
 
 ### Common calls
 
 - `manage_script`
-- `refresh_unity`
+- editor state / compilation status
 - `read_console`
 - `manage_camera`
 
@@ -236,6 +236,34 @@ Then verify with a screenshot.
 - `manage_script`
 - `manage_camera`
 - `read_console`
+
+## Build UI Toolkit From a Mockup
+
+Use this compact recipe for an explicit or project-inferred UI Toolkit build. The canonical details and fallback rules live in `ui-toolkit-build-workflow.md`; do not duplicate them here.
+
+### Typical sequence
+
+1. Apply `ui-stack-selection.md` and capture intake evidence.
+2. Produce and approve the neutral `mockup-layout-plan/v2` plan.
+3. Use `manage_ui` to create or update the approved UXML and USS.
+4. For runtime UI, inspect for an existing `UIDocument` host. Use `manage_gameobject` to create a new host only when runtime needs one and no compatible lifecycle owner exists.
+5. Reuse compatible panel settings or call `create_panel_settings`.
+6. Call `attach_ui_document` with the approved assets.
+7. Call `get_visual_tree` and compare the resolved tree with the approved plan.
+8. Add an optional behavior owner only when bindings, callbacks, state classes, focus, or navigation require one.
+9. After script tools return, wait for import and compilation; inspect editor state and the console. Do not call `refresh_unity` redundantly.
+10. Capture the main screenshot and alternate screenshot, exercise applicable interactions, and report every tool limitation plus fallback evidence.
+
+### Common calls
+
+- `manage_ui` (`create`, `update`)
+- `manage_gameobject`
+- `create_panel_settings`
+- `attach_ui_document`
+- `get_visual_tree`
+- `manage_script`
+- editor state and `read_console`
+- screenshot and interaction tools
 
 ## 8. Promote a Repeated UI Block to a Prefab
 
