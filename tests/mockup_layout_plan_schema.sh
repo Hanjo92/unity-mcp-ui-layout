@@ -114,6 +114,8 @@ REQUIRED_ASSET_KEYS = %w[
   creates_runtime_node
 ].freeze
 
+REQUIRED_BEHAVIOR_KEYS = %w[behavior_id owner intent].freeze
+
 REQUIRED_RECT_KEYS = %w[x y width height].freeze
 
 def fail_with(path, message)
@@ -137,6 +139,11 @@ end
 def require_rect(path, rect, label)
   require_hash(path, rect, label)
   require_keys(path, rect, REQUIRED_RECT_KEYS, label)
+end
+
+def require_unique(path, values, label)
+  duplicates = values.group_by(&:itself).select { |_value, occurrences| occurrences.length > 1 }.keys
+  fail_with(path, "duplicate #{label}: #{duplicates.join(', ')}") unless duplicates.empty?
 end
 
 def recursively_find_keys(value, forbidden_keys, found = [])
@@ -178,14 +185,26 @@ paths.each do |path|
 
   case ui_stack
   when "UGUI"
+    if stack_realization.key?("ui_toolkit")
+      fail_with(path, "UGUI plan must not define stack_realization.ui_toolkit")
+    end
     require_keys(path, realization, REQUIRED_UGUI_REALIZATION_KEYS, "stack_realization.ugui")
   when "UI Toolkit"
+    if stack_realization.key?("ugui")
+      fail_with(path, "UI Toolkit plan must not define stack_realization.ugui")
+    end
     require_keys(path, realization, REQUIRED_UI_TOOLKIT_REALIZATION_KEYS, "stack_realization.ui_toolkit")
     require_array(path, realization.fetch("stylesheets"), "stack_realization.ui_toolkit stylesheets")
     unless stack_realization.fetch("reusable_asset_type") == "uxml-template"
       fail_with(path, "stack_realization reusable_asset_type must be uxml-template for UI Toolkit")
     end
-    forbidden = recursively_find_keys(data, %w[anchor_pivot_intent creates_unity_object prefab_source])
+    forbidden = recursively_find_keys(data, %w[
+      anchor_pivot_intent
+      creates_unity_object
+      prefab_source
+      canvas_root
+      reference_resolution
+    ])
     unless forbidden.empty?
       fail_with(path, "UI Toolkit plan contains forbidden UGUI-only keys: #{forbidden.uniq.join(', ')}")
     end
@@ -213,15 +232,29 @@ paths.each do |path|
     require_rect(path, node.fetch("geometry_ratios"), "geometry_ratios")
     node.fetch("node_path")
   end
+  require_unique(path, layout_paths, "node_path")
 
-  layout_tree.drop(1).each do |node|
+  root_owner = contract.fetch("root_owner")
+  root_matches = layout_tree.count { |node| node.fetch("node_path") == root_owner }
+  unless root_matches == 1
+    fail_with(path, "layout_contract.root_owner must identify exactly one layout_tree node: #{root_owner}")
+  end
+
+  layout_tree.each do |node|
+    next if node.fetch("node_path") == root_owner
+
     parent_owner = node.fetch("parent_owner")
     unless layout_paths.include?(parent_owner)
       fail_with(path, "layout node #{node.fetch('node_path')} parent_owner is not declared in layout_tree: #{parent_owner}")
     end
+    immediate_parent = node.fetch("node_path").split("/")[0...-1].join("/")
+    unless parent_owner == immediate_parent
+      fail_with(path, "layout node #{node.fetch('node_path')} parent_owner must equal immediate parent path: #{immediate_parent}")
+    end
   end
 
   decisions = {}
+  candidate_ids = []
   candidates.each do |candidate|
     require_hash(path, candidate, "candidate entry")
     require_keys(path, candidate, REQUIRED_CANDIDATE_KEYS, "candidate entry")
@@ -232,9 +265,16 @@ paths.each do |path|
     end
     evidence = candidate.fetch("evidence")
     require_array(path, evidence, "candidate evidence")
-    decisions[candidate.fetch("candidate_id")] = decision
+    candidate_id = candidate.fetch("candidate_id")
+    candidate_ids << candidate_id
+    decisions[candidate_id] = decision
+    unless layout_paths.include?(candidate.fetch("parent_hint"))
+      fail_with(path, "candidate #{candidate_id} parent_hint is not declared in layout_tree: #{candidate.fetch('parent_hint')}")
+    end
   end
+  require_unique(path, candidate_ids, "candidate_id")
 
+  item_ids = []
   item_rect_candidate_ids = item_rects.map do |item|
     require_hash(path, item, "item_rect_plan entry")
     require_keys(path, item, REQUIRED_ITEM_RECT_KEYS, "item_rect_plan entry")
@@ -244,14 +284,26 @@ paths.each do |path|
     unless layout_paths.include?(item.fetch("node_path"))
       fail_with(path, "item #{item.fetch('item_id')} node_path is not present in layout_tree")
     end
+    item_ids << item.fetch("item_id")
     item.fetch("candidate_id")
   end
+  require_unique(path, item_ids, "item_id")
 
+  asset_plan_ids = []
   asset_candidate_ids = asset_plans.map do |asset|
     require_hash(path, asset, "asset_plan entry")
     require_keys(path, asset, REQUIRED_ASSET_KEYS, "asset_plan entry")
+    asset_plan_ids << asset.fetch("asset_plan_id")
     asset.fetch("candidate_id")
   end
+  require_unique(path, asset_plan_ids, "asset_plan_id")
+
+  behavior_ids = behavior_plan.map do |behavior|
+    require_hash(path, behavior, "behavior_plan entry")
+    require_keys(path, behavior, REQUIRED_BEHAVIOR_KEYS, "behavior_plan entry")
+    behavior.fetch("behavior_id")
+  end
+  require_unique(path, behavior_ids, "behavior_id")
 
   accepted = decisions.select { |_id, decision| decision == "accept" }.keys
   held = decisions.select { |_id, decision| decision == "hold" }.keys
@@ -284,6 +336,17 @@ paths.each do |path|
     end
     unless asset.fetch("item_id") == item.fetch("item_id") && asset.fetch("candidate_id") == item.fetch("candidate_id")
       fail_with(path, "item #{item.fetch('item_id')} asset reference does not preserve item and candidate ownership")
+    end
+  end
+
+  asset_plans.each do |asset|
+    matching_items = item_rects.select do |item|
+      item.fetch("item_id") == asset.fetch("item_id") &&
+        item.fetch("candidate_id") == asset.fetch("candidate_id") &&
+        item.fetch("asset_plan_id") == asset.fetch("asset_plan_id")
+    end
+    unless matching_items.length == 1
+      fail_with(path, "asset_plan entry must match exactly one item_rect_plan: #{asset.fetch('asset_plan_id')}")
     end
   end
 
@@ -320,4 +383,81 @@ if [[ "$RUN_NEGATIVE_CASES" == true ]]; then
     exit 1
   fi
   grep -Fq "asset_plan references undeclared candidates: candidate/Undeclared/Asset" "$temp_dir/unknown-asset.out"
+
+  ruby -ryaml -e '
+    data = YAML.load_file(ARGV[0])
+    data["layout_tree"] << data["layout_tree"].last.dup
+    File.write(ARGV[1], YAML.dump(data))
+  ' "$ROOT_DIR/templates/mockup-layout-plan.yaml" "$temp_dir/duplicate-node.yaml"
+  if bash "$0" "$temp_dir/duplicate-node.yaml" >"$temp_dir/duplicate-node.out" 2>&1; then
+    printf 'Validator accepted duplicate node_path\n' >&2
+    exit 1
+  fi
+  grep -Fq "duplicate node_path" "$temp_dir/duplicate-node.out"
+
+  ruby -ryaml -e '
+    data = YAML.load_file(ARGV[0])
+    data["layout_tree"][1]["parent_owner"] = data["layout_tree"][2]["node_path"]
+    File.write(ARGV[1], YAML.dump(data))
+  ' "$ROOT_DIR/templates/mockup-layout-plan.yaml" "$temp_dir/malformed-parent.yaml"
+  if bash "$0" "$temp_dir/malformed-parent.yaml" >"$temp_dir/malformed-parent.out" 2>&1; then
+    printf 'Validator accepted malformed parent graph\n' >&2
+    exit 1
+  fi
+  grep -Fq "parent_owner must equal immediate parent path" "$temp_dir/malformed-parent.out"
+
+  ruby -ryaml -e '
+    data = YAML.load_file(ARGV[0])
+    orphan = data["asset_plan"].first.dup
+    orphan["asset_plan_id"] = "asset/Orphan"
+    orphan["item_id"] = "Orphan/Item"
+    data["asset_plan"] << orphan
+    File.write(ARGV[1], YAML.dump(data))
+  ' "$ROOT_DIR/templates/mockup-layout-plan.yaml" "$temp_dir/orphan-asset.yaml"
+  if bash "$0" "$temp_dir/orphan-asset.yaml" >"$temp_dir/orphan-asset.out" 2>&1; then
+    printf 'Validator accepted orphan asset\n' >&2
+    exit 1
+  fi
+  grep -Fq "asset_plan entry must match exactly one item_rect_plan" "$temp_dir/orphan-asset.out"
+
+  ruby -ryaml -e '
+    data = YAML.load_file(ARGV[0])
+    data["stack_realization"]["ugui"] = {
+      "canvas_root" => "Canvas",
+      "reference_resolution" => "1920x1080"
+    }
+    data["behavior_plan"][0]["canvas_root"] = "Canvas"
+    File.write(ARGV[1], YAML.dump(data))
+  ' "$ROOT_DIR/examples/mockup-layout-plan-ui-toolkit-example.yaml" "$temp_dir/ui-toolkit-ugui.yaml"
+  if bash "$0" "$temp_dir/ui-toolkit-ugui.yaml" >"$temp_dir/ui-toolkit-ugui.out" 2>&1; then
+    printf 'Validator accepted UGUI branch in UI Toolkit plan\n' >&2
+    exit 1
+  fi
+  grep -Fq "UI Toolkit plan must not define stack_realization.ugui" "$temp_dir/ui-toolkit-ugui.out"
+
+  ruby -ryaml -e '
+    data = YAML.load_file(ARGV[0])
+    data["behavior_plan"][0]["canvas_root"] = "Canvas"
+    File.write(ARGV[1], YAML.dump(data))
+  ' "$ROOT_DIR/examples/mockup-layout-plan-ui-toolkit-example.yaml" "$temp_dir/ui-toolkit-canvas-root.yaml"
+  if bash "$0" "$temp_dir/ui-toolkit-canvas-root.yaml" >"$temp_dir/ui-toolkit-canvas-root.out" 2>&1; then
+    printf 'Validator accepted canvas_root in UI Toolkit plan\n' >&2
+    exit 1
+  fi
+  grep -Fq "UI Toolkit plan contains forbidden UGUI-only keys: canvas_root" "$temp_dir/ui-toolkit-canvas-root.out"
+
+  ruby -ryaml -e '
+    data = YAML.load_file(ARGV[0])
+    data["stack_realization"]["ui_toolkit"] = {
+      "root_uxml" => "Assets/UI/Invalid.uxml",
+      "stylesheets" => ["Assets/UI/Invalid.uss"],
+      "behavior_owner" => "InvalidController"
+    }
+    File.write(ARGV[1], YAML.dump(data))
+  ' "$ROOT_DIR/templates/mockup-layout-plan.yaml" "$temp_dir/ugui-ui-toolkit.yaml"
+  if bash "$0" "$temp_dir/ugui-ui-toolkit.yaml" >"$temp_dir/ugui-ui-toolkit.out" 2>&1; then
+    printf 'Validator accepted UI Toolkit branch in UGUI plan\n' >&2
+    exit 1
+  fi
+  grep -Fq "UGUI plan must not define stack_realization.ui_toolkit" "$temp_dir/ugui-ui-toolkit.out"
 fi
