@@ -103,6 +103,16 @@ Before opening a PR:
 - avoid adding duplicate guidance in multiple places unless it improves discoverability
 - if the change affects release prep or maintenance flow, check `RELEASE_CHECKLIST.md` and `MAINTENANCE.md`
 
+## UI Toolkit Documentation Changes / UI Toolkit 문서 변경
+
+When a change makes mockup-to-UI Toolkit work discoverable, keep stack selection before realization, the neutral `mockup-layout-plan/v2` template, both canonical examples (`mockup-layout-plan-prefab-example.yaml` and `mockup-layout-plan-ui-toolkit-example.yaml`), and the public `ui-toolkit-from-mockup-example.md` walkthrough linked from the entry points. Preserve the distinction between UGUI realization (`Transform`/`RectTransform` and prefab intent) and UI Toolkit realization (visual tree, UXML, USS, and `VisualTreeAsset` template intent).
+
+Run `tests/ui_toolkit_docs_keywords.sh`, `tests/ui_toolkit_build_keywords.sh`, and `tests/mockup_layout_plan_schema.sh` when stack selection, public routing, UI Toolkit build/reuse/verification guidance, or v2 plan artifacts change. Also run YAML parsing, `bash -n` for shell tests, and `git diff --check` before opening a PR.
+
+목업에서 UI Toolkit으로 가는 문서 진입점을 바꿀 때는 realization 전에 stack selection을 두고, 중립 `mockup-layout-plan/v2` template, 두 정본 예시(`mockup-layout-plan-prefab-example.yaml`, `mockup-layout-plan-ui-toolkit-example.yaml`), 공개 `ui-toolkit-from-mockup-example.md` walkthrough 링크를 유지합니다. UGUI realization(`Transform`/`RectTransform`과 prefab 의도)과 UI Toolkit realization(visual tree, UXML, USS, `VisualTreeAsset` template 의도)을 구분합니다.
+
+stack selection, public routing, UI Toolkit build/reuse/verification guidance, v2 plan artifact가 바뀌면 `tests/ui_toolkit_docs_keywords.sh`, `tests/ui_toolkit_build_keywords.sh`, `tests/mockup_layout_plan_schema.sh`를 실행합니다. PR 전에 YAML parsing, shell test `bash -n`, `git diff --check`도 실행합니다.
+
 ## PR Guidance
 
 Good PRs for this repo usually:

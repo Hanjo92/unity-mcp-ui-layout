@@ -45,6 +45,25 @@ Do this by prioritizing:
 - Before editing a shared prefab, sprite, material, or text style directly, decide whether the change should stay local through a variant, wrapper, or override.
 - If the layout is wrong, repair structure before styling.
 
+## Mockup Stack Routing
+
+- Choose the UI stack before realization: `UGUI` or `UI Toolkit`.
+- Create and approve a neutral layer-to-layout tree in the `mockup-layout-plan/v2` artifact before creating stack-specific assets.
+- UGUI realization maps the neutral tree to `Transform`/`RectTransform` ownership and reusable prefab intent.
+- UI Toolkit realization maps the neutral tree to a visual tree, UXML, USS, and `VisualTreeAsset` template intent.
+- Add a host GameObject/UIDocument only when a runtime host is needed; reusable UI intent does not require a host prefab by default.
+- Use `ui-stack-selection.md`, `ui-toolkit-build-workflow.md`, and `ui-toolkit-from-mockup-example.md` as the public discovery path.
+- Do not finalize until stack selection, neutral-plan approval, implementation reuse, import/compile state, screenshot comparison, and console result are recorded.
+
+## 목업 스택 라우팅
+
+- realization 전에 `UGUI` 또는 `UI Toolkit` UI stack을 고릅니다.
+- stack-specific asset을 만들기 전에 `mockup-layout-plan/v2` 중립 `layer-to-layout tree`를 만들고 승인합니다.
+- UGUI realization은 중립 트리를 `Transform`/`RectTransform` 소유 구조와 재사용 가능한 prefab 의도로 옮깁니다.
+- UI Toolkit realization은 중립 트리를 visual tree, UXML, USS, `VisualTreeAsset` template 의도로 옮깁니다.
+- runtime host가 필요할 때만 host GameObject/UIDocument를 추가하며, 재사용 UI 의도만으로 host prefab을 만들지 않습니다.
+- stack selection, neutral plan 승인, reuse, import/compile 상태, screenshot 비교, console 결과를 기록하기 전에는 완료하지 않습니다.
+
 ## Stack Detection
 
 - Use UGUI rules when the project uses `Canvas`, `RectTransform`, `CanvasScaler`, layout groups, or TMP UI.

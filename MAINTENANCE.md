@@ -31,6 +31,10 @@ bash D:/UnityUICreater/tests/trigger_keywords.sh
 bash D:/UnityUICreater/tests/layer_tree_keywords.sh
 bash D:/UnityUICreater/tests/item_rect_keywords.sh
 bash D:/UnityUICreater/tests/item_candidate_keywords.sh
+bash D:/UnityUICreater/tests/ui_toolkit_docs_keywords.sh
+python -c "import yaml; [yaml.safe_load(open(path, encoding='utf-8')) for path in ['D:/UnityUICreater/templates/mockup-layout-plan.yaml', 'D:/UnityUICreater/examples/mockup-layout-plan-prefab-example.yaml', 'D:/UnityUICreater/examples/mockup-layout-plan-ui-toolkit-example.yaml']]"
+for test in tests/*.sh; do bash -n "$test"; done
+git diff --check
 python C:\Users\user\.codex\skills\.system\skill-creator\scripts\quick_validate.py C:\Users\user\.codex\skills\unity-mcp-ui-layout
 ```
 
@@ -79,6 +83,11 @@ flowchart TD
 - new rules are linked from the right navigation points
 - examples reinforce the rules instead of contradicting them
 - no new file silently became the only source of important guidance
+- UI Toolkit public/discovery changes pass `tests/ui_toolkit_docs_keywords.sh` and keep stack selection before realization
+- the public UI Toolkit artifact path stays linked through `ui-stack-selection.md`, `ui-toolkit-build-workflow.md`, and `ui-toolkit-from-mockup-example.md`
+- the neutral `mockup-layout-plan/v2` template and both canonical YAML examples remain linked and parseable
+- UI Toolkit build, reusable UXML/USS, runtime-host qualification, screenshot, and console verification guidance remains synchronized
+- run YAML parsing, `bash -n`, and `git diff --check` when these public documents change
 
 - frontmatter가 여전히 정상 파싱되는지 확인합니다.
 - agent runbook keyword check가 trigger naming, task classification, Unity-state intake, input-mode note, final response checklist를 계속 커버하는지 확인합니다.
@@ -92,3 +101,7 @@ flowchart TD
 - 새 규칙이 올바른 진입점에서 연결되는지 확인합니다.
 - examples가 규칙을 강화하는지, 모순되지 않는지 확인합니다.
 - 중요한 규칙이 새 파일 한 곳에만 숨어버리지 않았는지 확인합니다.
+- UI Toolkit public/discovery 변경이 `tests/ui_toolkit_docs_keywords.sh`를 통과하고 realization 전에 stack selection을 유지하는지 확인합니다.
+- 중립 `mockup-layout-plan/v2` template과 두 정본 YAML 예시가 계속 링크되고 파싱되는지 확인합니다.
+- UI Toolkit build, 재사용 가능한 UXML/USS, runtime-host qualification, screenshot, console 검증 지침이 동기화되어 있는지 확인합니다.
+- 공개 문서가 바뀌면 YAML parsing, `bash -n`, `git diff --check`를 실행합니다.

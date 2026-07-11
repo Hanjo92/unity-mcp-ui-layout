@@ -29,22 +29,24 @@ If you are using this repository for the first time, do not start by reading eve
 처음 이 저장소를 쓰는 경우, 모든 파일을 처음부터 끝까지 읽는 방식으로 시작하지 않는 편이 좋습니다.
 
 1. Open [`unity-mcp-ui-layout/SKILL.md`](./unity-mcp-ui-layout/SKILL.md) first if you are using the Codex skill directly.
-2. Choose the UI stack first: `UGUI` or `UI Toolkit`.
-3. Choose the change mode next: repair an existing screen or build a new one.
-4. Decide whether this is layout-only work or asset-aware reuse work.
-5. If the task includes Stitch HTML/CSS, Figma node-tree exports, `DESIGN.md`, design tokens, or another design source, identify whether it is a hierarchy source, a style source, or both before editing.
-6. Then open [`examples/README.md`](./examples/README.md) for a task-shaped entry point, [`unity-mcp-ui-layout/references/agent-runbook.md`](./unity-mcp-ui-layout/references/agent-runbook.md) for agent execution order, or jump into [`unity-mcp-ui-layout/references/README.md`](./unity-mcp-ui-layout/references/README.md) if you already know the failure mode.
+2. Choose the UI stack first, before realization: `UGUI` or `UI Toolkit`.
+3. Create and approve a neutral layer-to-layout tree before stack-specific realization.
+4. Choose the change mode next: repair an existing screen or build a new one.
+5. Decide whether this is layout-only work or asset-aware reuse work.
+6. If the task includes Stitch HTML/CSS, Figma node-tree exports, `DESIGN.md`, design tokens, or another design source, identify whether it is a hierarchy source, a style source, or both before editing.
+7. Then open [`examples/README.md`](./examples/README.md) for a task-shaped entry point, [`unity-mcp-ui-layout/references/agent-runbook.md`](./unity-mcp-ui-layout/references/agent-runbook.md) for agent execution order, or jump into [`unity-mcp-ui-layout/references/README.md`](./unity-mcp-ui-layout/references/README.md) if you already know the failure mode.
 
 For a first small exercise, start with [`examples/first-layout-pass-example.md`](./examples/first-layout-pass-example.md) before choosing a more domain-specific example.
 
 Codex should also treat natural requests such as "build this Unity UI from the attached UI mockup" or "create Unity UI prefabs from this design screenshot" as matching this skill without naming the skill explicitly.
 
 1. Codex 스킬을 직접 쓴다면 먼저 [`unity-mcp-ui-layout/SKILL.md`](./unity-mcp-ui-layout/SKILL.md)부터 엽니다.
-2. UI 스택을 먼저 고릅니다: `UGUI` 또는 `UI Toolkit`.
-3. 그다음 기존 화면 수정인지, 신규 화면 생성인지 작업 모드를 고릅니다.
-4. 이 작업이 layout-only인지, asset-aware reuse까지 필요한지 결정합니다.
-5. 작업에 Stitch HTML/CSS, Figma node-tree export, `DESIGN.md`, design token, 또는 다른 design source가 포함되어 있다면 수정 전에 그것이 구조 소스인지, 스타일 소스인지, 둘 다인지 먼저 구분합니다.
-6. 그 후 작업형 진입점이 필요하면 [`examples/README.md`](./examples/README.md)를, 에이전트 실행 순서가 필요하면 [`unity-mcp-ui-layout/references/agent-runbook.md`](./unity-mcp-ui-layout/references/agent-runbook.md)를, 실패 유형을 이미 알고 있다면 [`unity-mcp-ui-layout/references/README.md`](./unity-mcp-ui-layout/references/README.md)를 엽니다.
+2. UI 스택을 구현 전에 먼저 고릅니다: `UGUI` 또는 `UI Toolkit`.
+3. 스택별 realization 전에 중립 `layer-to-layout tree`를 만들고 승인합니다.
+4. 그다음 기존 화면 수정인지, 신규 화면 생성인지 작업 모드를 고릅니다.
+5. 이 작업이 layout-only인지, asset-aware reuse까지 필요한지 결정합니다.
+6. 작업에 Stitch HTML/CSS, Figma node-tree export, `DESIGN.md`, design token, 또는 다른 design source가 포함되어 있다면 수정 전에 그것이 구조 소스인지, 스타일 소스인지, 둘 다인지 먼저 구분합니다.
+7. 그 후 작업형 진입점이 필요하면 [`examples/README.md`](./examples/README.md)를, 에이전트 실행 순서가 필요하면 [`unity-mcp-ui-layout/references/agent-runbook.md`](./unity-mcp-ui-layout/references/agent-runbook.md)를, 실패 유형을 이미 알고 있다면 [`unity-mcp-ui-layout/references/README.md`](./unity-mcp-ui-layout/references/README.md)를 엽니다.
 
 처음 해볼 작은 연습 과제가 필요하다면 더 구체적인 예시를 고르기 전에 [`examples/first-layout-pass-example.md`](./examples/first-layout-pass-example.md)부터 시작합니다.
 
@@ -53,7 +55,10 @@ Codex는 "첨부한 UI 시안을 기준으로 Unity UI를 만들어줘" 또는 "
 ## Quick Rules / 빠른 작업 기준
 
 - Group the top-level layout by anchor-owned regions before tuning leaf widgets.
-- When a mockup or UI 시안 exists, analyze visual layers -> clean Unity Transform/RectTransform tree before creating objects.
+- When a mockup or UI 시안 exists, create a neutral layer-to-layout tree before creating objects.
+- UGUI realization maps that tree to `Transform/RectTransform` ownership and reusable prefab intent.
+- UI Toolkit realization maps that tree to a visual tree, UXML, USS, and `VisualTreeAsset` template intent.
+- Add a host GameObject/UIDocument only when runtime host is needed; reusable UI intent does not require a host prefab by default.
 - If semi-automated raster item detection is used, keep candidates in a candidate item ledger until reviewed.
 - For split runtime/repeated items from a mockup, record item-level UI rects: source rect, normalized rect, Unity fit intent, and asset/crop plan.
 - Turn repeated UI structures into reusable prefabs or reusable layout blocks.
@@ -61,12 +66,21 @@ Codex는 "첨부한 UI 시안을 기준으로 Unity UI를 만들어줘" 또는 "
 - Verify structure with screenshots instead of chasing raw pixel alignment.
 
 - leaf widget를 만지기 전에 최상단 레이아웃을 먼저 anchor 기준 영역으로 그룹화합니다.
-- UI 시안이나 목업이 있으면 오브젝트 생성 전에 visual layers -> clean Unity Transform/RectTransform tree로 레이어/트리 구조를 먼저 분석합니다.
+- UI 시안이나 목업이 있으면 오브젝트 생성 전에 중립 `layer-to-layout tree`를 먼저 만들고 승인합니다.
+- UGUI realization은 이 트리를 `Transform/RectTransform` 소유 구조와 재사용 가능한 prefab 의도로 옮깁니다.
+- UI Toolkit realization은 이 트리를 visual tree, UXML, USS, `VisualTreeAsset` template 의도로 옮깁니다.
+- runtime host가 필요할 때만 host GameObject/UIDocument를 추가하며, 재사용 가능한 UI 의도만으로 host prefab을 만들지 않습니다.
 - 반자동 raster item detection을 쓴다면 검토 전 후보는 candidate item ledger에만 둡니다.
 - 목업에서 분리되는 runtime/repeated item은 source rect, normalized rect, Unity fit intent, asset/crop plan을 포함한 item-level UI rect를 기록합니다.
 - 반복되는 UI 구조는 재사용 가능한 프리팹 또는 레이아웃 블록으로 만듭니다.
 - 단일 이미지 리소스로 보이는 영역은 상호작용, 애니메이션, 적응형 동작이 필요할 때만 분해합니다.
 - raw pixel 정렬을 쫓기보다 스크린샷으로 구조를 검증합니다.
+
+## Mockup-To-UI Toolkit / 목업에서 UI Toolkit으로
+
+For a mockup-driven UI Toolkit screen, follow this public path in order: select the stack in [`ui-stack-selection.md`](./unity-mcp-ui-layout/references/ui-stack-selection.md), approve the neutral `mockup-layout-plan/v2` artifact from [`templates/mockup-layout-plan.yaml`](./templates/mockup-layout-plan.yaml), then realize it with [`ui-toolkit-build-workflow.md`](./unity-mcp-ui-layout/references/ui-toolkit-build-workflow.md). The canonical machine-readable examples are [`mockup-layout-plan-prefab-example.yaml`](./examples/mockup-layout-plan-prefab-example.yaml) and [`mockup-layout-plan-ui-toolkit-example.yaml`](./examples/mockup-layout-plan-ui-toolkit-example.yaml); the canonical walkthrough is [`ui-toolkit-from-mockup-example.md`](./examples/ui-toolkit-from-mockup-example.md).
+
+목업 기반 UI Toolkit 화면은 [`ui-stack-selection.md`](./unity-mcp-ui-layout/references/ui-stack-selection.md)에서 스택을 먼저 선택하고, [`templates/mockup-layout-plan.yaml`](./templates/mockup-layout-plan.yaml)의 중립 `mockup-layout-plan/v2` 산출물을 승인한 다음, [`ui-toolkit-build-workflow.md`](./unity-mcp-ui-layout/references/ui-toolkit-build-workflow.md)로 realization합니다. 정본 machine-readable 예시는 [`mockup-layout-plan-prefab-example.yaml`](./examples/mockup-layout-plan-prefab-example.yaml)과 [`mockup-layout-plan-ui-toolkit-example.yaml`](./examples/mockup-layout-plan-ui-toolkit-example.yaml)이며, 정본 walkthrough는 [`ui-toolkit-from-mockup-example.md`](./examples/ui-toolkit-from-mockup-example.md)입니다.
 
 ## Quick Success Signal / 빠른 완료 신호
 
@@ -101,14 +115,14 @@ Platform-specific adapters live in:
 ## What This Helps With / 해결하려는 문제
 
 - image-to-layout translation
-- attached UI mockup or design screenshot to Unity UI prefab creation
+- attached UI mockup or design screenshot to Unity UI realization
 - natural trigger coverage for uploaded mockups, reference images, UI 시안, and 프리팹 생성 requests
-- layer-to-Transform tree planning before Unity object creation
+- neutral layer-to-layout tree planning before stack-specific realization
 - candidate item ledgers for semi-automated raster analysis before object promotion
 - item-level UI rect contracts for split runtime leaves, repeated rows, slots, cards, icons, and buttons
 - UGUI anchors and `CanvasScaler`
 - HUD, inventory, popup, and mobile safe-area layout rules
-- prefab promotion rules for repeated UI structures
+- UGUI prefab promotion and UI Toolkit template reuse rules for repeated UI structures
 - reuse/variant/new-base decision rules for existing prefabs
 - prefab variant rules for controlled divergence from a shared base
 - sprite/image vs `RawImage` rules for static versus texture-driven UI assets
@@ -137,15 +151,15 @@ Platform-specific adapters live in:
 - safer `unity-mcp` prompting across different LLM products
 
 - 이미지 기반 레이아웃 해석
-- 첨부 UI 시안 또는 디자인 스크린샷을 Unity UI 프리팹 생성 작업으로 연결
+- 첨부 UI 시안 또는 디자인 스크린샷을 Unity UI realization 작업으로 연결
 - UGUI 앵커와 `CanvasScaler` 설정
 - HUD, 인벤토리, 팝업, 모바일 safe area 레이아웃 규칙
-- 반복되는 UI 구조를 프리팹으로 승격하는 규칙
+- 반복되는 UI 구조를 UGUI prefab 또는 UI Toolkit template으로 재사용하는 규칙
 - 기존 프리팹을 재사용/Variant/신규 생성 중 무엇으로 갈지 판단하는 규칙
 - 공용 base에서 안전하게 분기하는 Prefab Variant 규칙
 - 정적 UI 자산에서 sprite/image와 `RawImage`를 어떻게 구분할지에 대한 규칙
 - 시안 이미지가 있을 때 시안의 원본 해상도를 기준 프레임으로 삼는 규칙
-- 시안 요소를 어디까지 분해하고 어디를 단일 자산이나 재사용 블록으로 유지할지에 대한 규칙
+- 시안 요소를 어디까지 분해하고 어디를 단일 자산, UGUI prefab, UI Toolkit template, 재사용 블록으로 유지할지에 대한 규칙
 - 기존 UI 수정 요청과 신규 UI 생성 요청을 구분하는 작업 모드 규칙
 - Stitch HTML/CSS export를 안정적인 UGUI 컨테이너 구조로 바꾸기 위한 가이드
 - Figma node-tree export의 frame, component, auto-layout을 재사용 가능한 UGUI 계층으로 바꾸기 위한 가이드
@@ -203,6 +217,7 @@ tests/
   layer_tree_keywords.sh
   item_rect_keywords.sh
   item_candidate_keywords.sh
+  ui_toolkit_docs_keywords.sh
 
 BACKLOG.md
 CONTRIBUTING.md
@@ -223,14 +238,16 @@ Use this section as the repo map: start with the skill, choose an example, then 
 - `examples/` contains copyable task-shaped prompts that show how to apply the skill without rereading the whole reference set.
 - `Platform/` adapts the same core workflow to other LLM environments while keeping the Codex skill as the canonical source.
 - `unity-mcp-ui-layout/agents/` contains lightweight metadata used for agent discovery and default invocation text.
-- `tests/` contains keyword and metadata checks for trigger coverage, layer-tree guidance, item rect contracts, and candidate ledgers.
+- `tests/` contains keyword and metadata checks for trigger coverage, layer-tree guidance, item rect contracts, candidate ledgers, and UI Toolkit public discovery.
+- `tests/ui_toolkit_docs_keywords.sh` checks public UI Toolkit discovery, stack routing, neutral-plan links, platform prompt sync, and release-document triggers.
 
 - `unity-mcp-ui-layout/SKILL.md`는 빠른 의사결정 레이어입니다. UI 스택을 고르고, repair/build 모드를 정하고, vertical slice로 진행하고, 마무리 전 검증하는 흐름을 담습니다.
 - `unity-mcp-ui-layout/references/`는 실패 패턴, UI 유형, 자산 판단, fallback 규칙 같은 깊은 세부 지식을 담습니다.
 - `examples/`는 전체 레퍼런스를 다시 읽지 않아도 바로 적용할 수 있는 작업형 프롬프트 예시를 담습니다.
 - `Platform/`은 같은 코어 워크플로를 다른 LLM 환경에 맞게 옮긴 어댑터이며, 정본은 여전히 Codex 스킬입니다.
 - `unity-mcp-ui-layout/agents/`는 에이전트 검색과 기본 호출 문구에 쓰이는 가벼운 메타데이터를 담습니다.
-- `tests/`는 trigger coverage, layer-tree guidance, item rect contract, candidate ledger가 문서와 메타데이터에 남아 있는지 확인하는 keyword/metadata check를 담습니다.
+- `tests/`는 trigger coverage, layer-tree guidance, item rect contract, candidate ledger, UI Toolkit public discovery가 문서와 메타데이터에 남아 있는지 확인하는 keyword/metadata check를 담습니다.
+- `tests/ui_toolkit_docs_keywords.sh`는 공개 UI Toolkit discoverability, stack routing, 중립 계획 링크, platform prompt 동기화, release 문서 trigger를 확인합니다.
 
 ## Release Notes / 릴리스 노트
 
@@ -257,6 +274,7 @@ bash tests/trigger_keywords.sh
 bash tests/layer_tree_keywords.sh
 bash tests/item_rect_keywords.sh
 bash tests/item_candidate_keywords.sh
+bash tests/ui_toolkit_docs_keywords.sh
 python ~/.codex/skills/.system/skill-creator/scripts/quick_validate.py unity-mcp-ui-layout
 ```
 
