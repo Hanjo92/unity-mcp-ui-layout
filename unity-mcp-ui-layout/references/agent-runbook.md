@@ -5,8 +5,8 @@ Use this runbook after the skill triggers and before editing Unity UI. It is the
 ## Operating Sequence
 
 1. **Name the trigger.** Say why this skill applies: mockup-to-UI, UI 시안, prefab creation, layout repair, structured export, design tokens, safe area, text overflow, or shared prefab reuse.
-2. **Classify the task.** Choose UI stack, change mode, design source, and asset strategy before editing.
-3. **Gather Unity state.** Capture a layout snapshot or equivalent smaller-call evidence: active UI root, UI stack, root layout owners, screenshot frame, and console state.
+2. **Classify the task.** Apply `ui-stack-selection.md` before prefab or Canvas defaults. Explicit UI Toolkit requests and UI Toolkit-owned selected targets route to UI Toolkit; then choose change mode, design source, and asset strategy.
+3. **Gather Unity state.** Capture a layout snapshot or equivalent smaller-call evidence: target surface, Unity version evidence, active UI root, UI stack, root layout owners, screenshot frame, and console state.
 4. **Plan hierarchy before objects.** For mockups, produce a layer-to-Transform or layer-to-RectTransform tree before creating or moving UI objects.
 5. **Resolve gates and assumptions.** Use `review-gates-and-assumptions.md` to decide whether to ask the user or proceed with named assumptions.
 6. **Review raster candidates.** If raster item analysis is used, produce candidate item ledger decisions before item rect planning.

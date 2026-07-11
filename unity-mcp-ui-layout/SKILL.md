@@ -43,8 +43,10 @@ Choose these four boundaries before editing anything:
 
 ### 1. UI Stack
 
-- Use **UGUI** when the target uses `Canvas`, `RectTransform`, `CanvasScaler`, `LayoutGroup`, `Image`, or `TextMeshProUGUI`.
-- Use **UI Toolkit** when the target uses `UIDocument`, `UXML`, `USS`, `VisualElement`, or `PanelSettings`.
+- Apply `references/ui-stack-selection.md` before using prefab or Canvas defaults.
+- An **explicit user instruction** for UI Toolkit, or a UI Toolkit-owned selected target, routes to UI Toolkit before UGUI defaults.
+- Use **UGUI** when the selected target uses `Canvas`, `RectTransform`, `CanvasScaler`, `LayoutGroup`, `Image`, or `TextMeshProUGUI`.
+- Use **UI Toolkit** when the selected target uses `UIDocument`, `UXML`, `USS`, `VisualElement`, or `PanelSettings`.
 - Do not mix both stacks in one change unless the user explicitly asks for a bridge or migration.
 
 ### 2. Change Mode
@@ -180,6 +182,7 @@ Do not call the task done until every applicable check below passes:
 - `references/common-failures.md`
 - `references/review-checks.md`
 - `references/review-gates-and-assumptions.md`
+- `references/ui-stack-selection.md`
 - `references/scroll-view-patterns.md`
 - `references/ui-change-modes.md`
 

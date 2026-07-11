@@ -27,6 +27,9 @@ A complete snapshot should include these fields. If a field cannot be inspected,
 ```yaml
 snapshot_id: string
 captured_at: string
+target_surface: runtime | editor
+unity_version: string | unknown
+unity_version_evidence: string
 scene:
   name: string
   path: string
@@ -104,6 +107,9 @@ gaps:
 ```yaml
 snapshot_id: "layout-snapshot/HUDScene/2026-07-06T10:00:00Z"
 captured_at: "2026-07-06T10:00:00Z"
+target_surface: "runtime"
+unity_version: "2022.3.35f1"
+unity_version_evidence: "ProjectSettings/ProjectVersion.txt"
 scene:
   name: "HUDScene"
   path: "Assets/Scenes/HUDScene.unity"
@@ -194,6 +200,9 @@ gaps: []
 ```yaml
 snapshot_id: "layout-snapshot/SettingsScene/2026-07-06T10:05:00Z"
 captured_at: "2026-07-06T10:05:00Z"
+target_surface: "runtime"
+unity_version: "2022.3.35f1"
+unity_version_evidence: "ProjectSettings/ProjectVersion.txt"
 scene:
   name: "SettingsScene"
   path: "Assets/Scenes/SettingsScene.unity"
@@ -256,7 +265,7 @@ gaps:
 
 If a unified layout snapshot tool is unavailable, gather equivalent evidence through smaller calls before editing:
 
-1. Read editor state for scene, selection, play mode, and compile state.
+1. Read editor state for Unity version, target surface, scene, selection, play mode, and compile state.
 2. Find UI roots and classify UGUI, UI Toolkit, mixed, or unknown.
 3. Inspect `Canvas`, `CanvasScaler`, `UIDocument`, `PanelSettings`, safe-area owners, and root layout containers.
 4. Inspect the parent chain and children for the target region, including anchors, pivots, bounds, layout groups, masks, scroll owners, and prefab links.
@@ -265,7 +274,7 @@ If a unified layout snapshot tool is unavailable, gather equivalent evidence thr
 7. Capture a screenshot and record resolution, aspect ratio, and screenshot path.
 8. Read console or compile status before continuing with script-backed UI changes.
 
-Fallback output can be shorter than the full schema, but it must still name the UI stack, active UI root, screenshot frame, parent ownership, layout controllers, and console state or explain why those fields could not be gathered.
+Fallback output can be shorter than the full schema, but it must still name the target surface, Unity version evidence, UI stack, active UI root, screenshot frame, parent ownership, layout controllers, and console state or explain why those fields could not be gathered.
 
 ## How Agents Should Use The Snapshot
 

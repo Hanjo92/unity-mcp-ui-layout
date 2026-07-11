@@ -7,12 +7,13 @@ Use this guide when mockup-driven UI work has ambiguity. The goal is to avoid tw
 - Ask the user before editing when the ambiguity can change the target screen, UI stack, shared asset contract, or destructive scope.
 - Continue with named assumptions when the ambiguity is local, reversible, and does not create shared assets or crops from uncertain candidates.
 - Record every assumption and review decision in the final response.
+- Apply `ui-stack-selection.md` before any prefab or Canvas default. An explicit UI Toolkit request or UI Toolkit-owned selected target is decisive; installed-package presence alone is not decisive.
 
 ## Hard Blockers: Ask Before Editing
 
 Pause for confirmation when any of these are true:
 
-- **Unknown UI stack in a mixed-stack project.** Example: both `Canvas` and `UIDocument` are active, and the user did not identify the target stack.
+- **Unknown UI stack in a mixed-stack project.** Example: both `Canvas` and `UIDocument` are active, the selected target has no established owner, and the user did not identify the target stack.
 - **Unclear target screen or prefab root.** Example: multiple inventory screens are open and the request only says "fix this UI."
 - **Destructive shared-base change.** Example: the repair would directly edit a common prefab, sprite, material, or TMP style used by other screens.
 - **Ambiguous repair versus rebuild scope.** Example: a bounded alignment fix appears to require replacing the parent layout system.
