@@ -6,18 +6,17 @@ Use these files when you want a copyable starting point instead of only referenc
 
 ## Quick Rules
 
-- Group the top-level layout by anchor-owned regions before tuning leaf widgets.
+- Establish top-level region ownership and container relationships before tuning leaf widgets.
 - When a mockup exists, create a neutral layer-to-layout tree before stack-specific realization.
-- UGUI realization maps that tree to `Transform/RectTransform` ownership and reusable prefab intent.
-- UI Toolkit realization maps that tree to a visual tree, UXML, USS, and VisualTreeAsset template intent.
-- Add a host GameObject/UIDocument only when runtime host is needed; reusable UI intent does not require a host prefab by default.
+- Realize that tree with the selected stack's native hierarchy, styling, and reuse mechanisms.
+- Add a screen host only when the selected runtime path requires one; reusable UI intent alone does not require a host object.
 - If semi-automated raster item detection is used, keep candidates in a candidate item ledger until review decisions are made.
 - When split runtime/repeated items need precise sizing, add an item rect plan after parent ownership and split/keep reason are clear.
 - Read provided `DESIGN.md` or design-token sources before styling.
-- Reuse repeated structures through prefabs or reusable layout blocks.
+- Reuse repeated structures through the selected stack's reusable mechanism.
 - Keep likely single-image regions intact unless runtime behavior requires decomposition.
 - Verify structure with screenshots instead of chasing raw pixel alignment.
-- Treat attached UI mockup, design screenshot, reference image, and UI 시안 requests to turn/convert/make/generate Unity UI prefabs or 프리팹 생성 as this workflow even without naming the skill explicitly.
+- Treat attached UI mockup, design screenshot, reference image, and UI 시안 requests to create Unity UI as this workflow even without naming the skill explicitly.
 
 ## Included Examples
 
@@ -58,7 +57,7 @@ realization 전에 [`ui-stack-selection.md`](../unity-mcp-ui-layout/references/u
 
 1. Pick the example closest to your task.
 2. Copy the prompt and adapt the target resolution, UI stack, and requested scope.
-3. Keep the top-level layout grouped by anchor-owned regions, reuse repeated structures, and avoid over-splitting likely single-image assets.
+3. Keep top-level region ownership explicit in the neutral layer-to-layout tree, use the selected stack's reuse mechanism, and avoid over-splitting likely single-image assets.
 4. Use the linked reference documents when you need deeper rules or troubleshooting.
 
 ## Pick by Stack

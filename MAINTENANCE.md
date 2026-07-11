@@ -32,8 +32,9 @@ bash D:/UnityUICreater/tests/layer_tree_keywords.sh
 bash D:/UnityUICreater/tests/item_rect_keywords.sh
 bash D:/UnityUICreater/tests/item_candidate_keywords.sh
 bash D:/UnityUICreater/tests/ui_toolkit_docs_keywords.sh
+bash D:/UnityUICreater/tests/ui_toolkit_build_keywords.sh
 python -c "import yaml; [yaml.safe_load(open(path, encoding='utf-8')) for path in ['D:/UnityUICreater/templates/mockup-layout-plan.yaml', 'D:/UnityUICreater/examples/mockup-layout-plan-prefab-example.yaml', 'D:/UnityUICreater/examples/mockup-layout-plan-ui-toolkit-example.yaml']]"
-for test in tests/*.sh; do bash -n "$test"; done
+Get-ChildItem D:\UnityUICreater\tests\*.sh | ForEach-Object { bash -n $_.FullName }
 git diff --check
 python C:\Users\user\.codex\skills\.system\skill-creator\scripts\quick_validate.py C:\Users\user\.codex\skills\unity-mcp-ui-layout
 ```

@@ -9,7 +9,7 @@ assert_contains() {
   local scope="$3"
 
   if ! grep -Fq "$needle" <<<"$haystack"; then
-    printf 'Missing UI Toolkit discovery phrase in %s: %s\n' "$scope" "$needle" >&2
+    printf 'Missing UI Toolkit documentation phrase in %s: %s\n' "$scope" "$needle" >&2
     return 1
   fi
 }
@@ -19,8 +19,8 @@ assert_not_contains() {
   local needle="$2"
   local scope="$3"
 
-  if grep -Fq "$needle" <<<"$haystack"; then
-    printf 'Stale universal UGUI-only phrase in %s: %s\n' "$scope" "$needle" >&2
+  if grep -Fqi "$needle" <<<"$haystack"; then
+    printf 'Stale universal UGUI default in %s: %s\n' "$scope" "$needle" >&2
     return 1
   fi
 }
@@ -37,9 +37,36 @@ assert_precedes() {
   second_line="$(grep -Fn "$second" <<<"$haystack" | head -n 1 | cut -d: -f1)"
 
   if [[ -z "$first_line" || -z "$second_line" || "$first_line" -ge "$second_line" ]]; then
-    printf 'Expected UI Toolkit discovery precedence in %s: %s before %s\n' "$scope" "$first" "$second" >&2
+    printf 'Expected documentation precedence in %s: %s before %s\n' "$scope" "$first" "$second" >&2
     return 1
   fi
+}
+
+assert_link() {
+  local path="$1"
+  local target="$2"
+  local scope="$3"
+
+  assert_contains "$(cat "$path")" "]($target)" "$scope"
+  if [[ ! -e "$(dirname "$path")/${target%%#*}" ]]; then
+    printf 'Broken Markdown link target in %s: %s\n' "$scope" "$target" >&2
+    return 1
+  fi
+}
+
+assert_local_links_resolve() {
+  local path="$1"
+  local target
+
+  while IFS= read -r target; do
+    case "$target" in
+      ""|\#*|http://*|https://*|mailto:*) continue ;;
+    esac
+    if [[ ! -e "$(dirname "$path")/${target%%#*}" ]]; then
+      printf 'Broken local Markdown link in %s: %s\n' "${path#"$ROOT_DIR/"}" "$target" >&2
+      return 1
+    fi
+  done < <(grep -oE '\]\([^)]*\)' "$path" | sed -e 's/^](//' -e 's/)$//')
 }
 
 section() {
@@ -49,104 +76,140 @@ section() {
   awk -v heading="$heading" '$0 == heading { capture=1; print; next } capture && /^## / { exit } capture { print }' "$path"
 }
 
-root_readme="$(cat "$ROOT_DIR/README.md")"
-root_start="$(section "$ROOT_DIR/README.md" '## Start Here / 시작점')"
-root_rules="$(section "$ROOT_DIR/README.md" '## Quick Rules / 빠른 작업 기준')"
-platform_readme="$(cat "$ROOT_DIR/Platform/README.md")"
-platform_intent="$(section "$ROOT_DIR/Platform/README.md" '## Intent / 목적')"
-examples_readme="$(cat "$ROOT_DIR/examples/README.md")"
-examples_rules="$(section "$ROOT_DIR/examples/README.md" '## Quick Rules')"
-references_readme="$(cat "$ROOT_DIR/unity-mcp-ui-layout/references/README.md")"
-codex_readme="$(cat "$ROOT_DIR/Platform/Codex/README.md")"
-google_prompt="$(cat "$ROOT_DIR/Platform/Google-Antigravity/SYSTEM_PROMPT.md")"
-claude_prompt="$(cat "$ROOT_DIR/Platform/Claude-Artifacts/ARTIFACT_PROMPT.md")"
-contributing="$(cat "$ROOT_DIR/CONTRIBUTING.md")"
-maintenance="$(cat "$ROOT_DIR/MAINTENANCE.md")"
-release_checklist="$(cat "$ROOT_DIR/RELEASE_CHECKLIST.md")"
-unreleased="$(awk '/^## Unreleased$/{capture=1; next} capture && /^## /{exit} capture{print}' "$ROOT_DIR/CHANGELOG.md")"
+subsection() {
+  local path="$1"
+  local heading="$2"
 
-for doc in "$root_readme" "$platform_readme" "$examples_readme" "$references_readme"; do
-  assert_contains "$doc" "ui-stack-selection.md" "public navigation"
-  assert_contains "$doc" "ui-toolkit-build-workflow.md" "public navigation"
-  assert_contains "$doc" "ui-toolkit-from-mockup-example.md" "public navigation"
-  assert_contains "$doc" "mockup-layout-plan.yaml" "public navigation"
-  assert_contains "$doc" "mockup-layout-plan-prefab-example.yaml" "public navigation"
-  assert_contains "$doc" "mockup-layout-plan-ui-toolkit-example.yaml" "public navigation"
+  awk -v heading="$heading" '$0 == heading { capture=1; print; next } capture && /^### / { exit } capture && /^## / { exit } capture { print }' "$path"
+}
+
+preamble() {
+  awk '/^## / { exit } { print }' "$1"
+}
+
+root_readme="$ROOT_DIR/README.md"
+platform_readme="$ROOT_DIR/Platform/README.md"
+examples_readme="$ROOT_DIR/examples/README.md"
+references_readme="$ROOT_DIR/unity-mcp-ui-layout/references/README.md"
+codex_readme="$ROOT_DIR/Platform/Codex/README.md"
+google_prompt="$ROOT_DIR/Platform/Google-Antigravity/SYSTEM_PROMPT.md"
+claude_prompt="$ROOT_DIR/Platform/Claude-Artifacts/ARTIFACT_PROMPT.md"
+
+for doc in "$root_readme" "$platform_readme" "$examples_readme" "$references_readme" "$codex_readme" "$google_prompt" "$claude_prompt"; do
+  assert_local_links_resolve "$doc"
 done
 
+assert_link "$root_readme" "./unity-mcp-ui-layout/references/ui-stack-selection.md" "root UI stack navigation"
+assert_link "$root_readme" "./unity-mcp-ui-layout/references/ui-toolkit-build-workflow.md" "root UI Toolkit navigation"
+assert_link "$root_readme" "./examples/ui-toolkit-from-mockup-example.md" "root UI Toolkit example navigation"
+assert_link "$platform_readme" "../unity-mcp-ui-layout/references/ui-stack-selection.md" "platform UI stack navigation"
+assert_link "$platform_readme" "../unity-mcp-ui-layout/references/ui-toolkit-build-workflow.md" "platform UI Toolkit navigation"
+assert_link "$platform_readme" "../examples/ui-toolkit-from-mockup-example.md" "platform UI Toolkit example navigation"
+assert_link "$examples_readme" "../unity-mcp-ui-layout/references/ui-stack-selection.md" "examples UI stack navigation"
+assert_link "$examples_readme" "../unity-mcp-ui-layout/references/ui-toolkit-build-workflow.md" "examples UI Toolkit navigation"
+assert_link "$examples_readme" "./ui-toolkit-from-mockup-example.md" "examples UI Toolkit walkthrough navigation"
+
+root_start="$(section "$root_readme" '## Start Here / 시작점')"
 assert_precedes "$root_start" "Choose the UI stack first" "neutral layer-to-layout tree" "root start guide"
-assert_contains "$root_rules" "neutral layer-to-layout tree" "root quick rules"
-assert_contains "$platform_intent" "neutral layer-to-layout tree" "platform intent"
-assert_contains "$examples_rules" "neutral layer-to-layout tree" "examples quick rules"
 
-for doc_name in "root mockup workflow" "platform intent" "examples quick rules"; do
-  case "$doc_name" in
-    "root mockup workflow") doc="$root_rules" ;;
-    "platform intent") doc="$platform_intent" ;;
-    "examples quick rules") doc="$examples_rules" ;;
-  esac
-  assert_contains "$doc" "UGUI realization" "$doc_name"
-  assert_contains "$doc" "Transform/RectTransform" "$doc_name"
-  assert_contains "$doc" "prefab" "$doc_name"
-  assert_contains "$doc" "UI Toolkit realization" "$doc_name"
-  assert_contains "$doc" "visual tree" "$doc_name"
-  assert_contains "$doc" "UXML" "$doc_name"
-  assert_contains "$doc" "USS" "$doc_name"
-  assert_contains "$doc" "VisualTreeAsset" "$doc_name"
+assert_contains "$(preamble "$root_readme")" "neutral layer-to-layout tree" "root introduction"
+assert_contains "$(section "$root_readme" '## Quick Rules / 빠른 작업 기준')" "neutral layer-to-layout tree" "root quick rules"
+assert_contains "$(section "$platform_readme" '## Intent / 목적')" "neutral layer-to-layout tree" "platform intent"
+assert_contains "$(section "$examples_readme" '## Quick Rules')" "neutral layer-to-layout tree" "examples quick rules"
+assert_contains "$(section "$examples_readme" '## How to Use')" "neutral layer-to-layout tree" "examples usage rules"
+
+for scoped_doc in \
+  "$(preamble "$root_readme")|root introduction" \
+  "$(section "$root_readme" '## Quick Rules / 빠른 작업 기준')|root quick rules" \
+  "$(section "$root_readme" '## Notes / 참고')|root notes" \
+  "$(section "$platform_readme" '## Intent / 목적')|platform intent" \
+  "$(section "$examples_readme" '## Quick Rules')|examples quick rules" \
+  "$(section "$examples_readme" '## How to Use')|examples usage rules" \
+  "$(subsection "$root_readme" '### Google Antigravity')|root generic Google example"; do
+  scope="${scoped_doc##*|}"
+  content="${scoped_doc%|*}"
+  assert_not_contains "$content" "anchor" "$scope"
+  assert_not_contains "$content" "RectTransform" "$scope"
+  assert_not_contains "$content" "prefab" "$scope"
 done
 
-assert_contains "$root_rules" "host GameObject/UIDocument only when runtime host is needed" "root quick rules"
-assert_contains "$platform_intent" "host GameObject/UIDocument only when runtime host is needed" "platform intent"
-assert_contains "$examples_rules" "host GameObject/UIDocument only when runtime host is needed" "examples quick rules"
+selection_precedence="Selection precedence: explicit user instruction > selected/named target > existing screen ownership > project conventions/assets > clarify when mixed."
+for prompt_spec in \
+  "$codex_readme|Codex" \
+  "$google_prompt|Google Antigravity" \
+  "$claude_prompt|Claude Artifacts"; do
+  prompt_path="${prompt_spec%%|*}"
+  prompt_name="${prompt_spec##*|}"
+  prompt="$(cat "$prompt_path")"
 
-assert_not_contains "$root_rules" "visual layers -> clean Unity Transform/RectTransform tree" "root quick rules"
-assert_not_contains "$platform_intent" "visual layers -> clean Unity Transform/RectTransform tree" "platform intent"
-assert_not_contains "$examples_rules" "visual layers -> clean Unity Transform/RectTransform tree" "examples quick rules"
-
-for prompt_name in "Codex" "Google Antigravity" "Claude Artifacts"; do
-  case "$prompt_name" in
-    "Codex") prompt="$codex_readme" ;;
-    "Google Antigravity") prompt="$google_prompt" ;;
-    "Claude Artifacts") prompt="$claude_prompt" ;;
-  esac
-  assert_contains "$prompt" "Choose the UI stack before realization" "$prompt_name prompt"
+  assert_contains "$prompt" "$selection_precedence" "$prompt_name prompt"
+  assert_contains "$prompt" "target_surface" "$prompt_name prompt"
+  assert_contains "$prompt" "runtime" "$prompt_name prompt"
+  assert_contains "$prompt" "editor" "$prompt_name prompt"
+  assert_contains "$prompt" "Unity version" "$prompt_name prompt"
+  assert_contains "$prompt" "version-sensitive" "$prompt_name prompt"
   assert_contains "$prompt" "neutral layer-to-layout tree" "$prompt_name prompt"
   assert_contains "$prompt" "UGUI realization" "$prompt_name prompt"
   assert_contains "$prompt" "UI Toolkit realization" "$prompt_name prompt"
-  assert_contains "$prompt" "mockup-layout-plan/v2" "$prompt_name prompt"
+  assert_contains "$prompt" "UXML" "$prompt_name prompt"
+  assert_contains "$prompt" "USS" "$prompt_name prompt"
+  assert_contains "$prompt" "VisualTreeAsset" "$prompt_name prompt"
+  assert_contains "$prompt" "only when a runtime host is needed" "$prompt_name prompt"
   assert_contains "$prompt" "Do not finalize until" "$prompt_name prompt"
   assert_contains "$prompt" "screenshot" "$prompt_name prompt"
   assert_contains "$prompt" "console" "$prompt_name prompt"
+  assert_precedes "$prompt" "$selection_precedence" "UGUI realization" "$prompt_name routing"
+  assert_precedes "$prompt" "$selection_precedence" "UI Toolkit realization" "$prompt_name routing"
+  assert_link "$prompt_path" "../../unity-mcp-ui-layout/references/ui-stack-selection.md" "$prompt_name stack-selection link"
+  assert_link "$prompt_path" "../../templates/mockup-layout-plan.yaml" "$prompt_name neutral-plan link"
+  assert_link "$prompt_path" "../../unity-mcp-ui-layout/references/ui-toolkit-build-workflow.md" "$prompt_name UI Toolkit workflow link"
+  assert_link "$prompt_path" "../../examples/ui-toolkit-from-mockup-example.md" "$prompt_name UI Toolkit example link"
 done
 
-assert_contains "$contributing" "tests/ui_toolkit_docs_keywords.sh" "contributing validation"
-assert_contains "$contributing" "mockup-layout-plan-ui-toolkit-example.yaml" "contributing artifacts"
-assert_contains "$contributing" "stack selection" "contributing validation trigger"
-assert_contains "$maintenance" "tests/ui_toolkit_docs_keywords.sh" "maintenance validation"
-assert_contains "$maintenance" "ui-toolkit-build-workflow.md" "maintenance artifacts"
+google_common="$(section "$google_prompt" '## Execution Rules')$(section "$google_prompt" '## Image-to-Layout Translation')$(section "$google_prompt" '## Output Behavior')"
+claude_common="$(section "$claude_prompt" '## How to Work')$(section "$claude_prompt" '## What the Artifact Should Emphasize')$(section "$claude_prompt" '## Recommended Artifact Flow')$(section "$claude_prompt" '## Writing Style')"
+for scoped_doc in "$google_common|Google common operations" "$claude_common|Claude common operations"; do
+  scope="${scoped_doc##*|}"
+  content="${scoped_doc%|*}"
+  assert_not_contains "$content" "anchor" "$scope"
+  assert_not_contains "$content" "RectTransform" "$scope"
+  assert_not_contains "$content" "prefab" "$scope"
+done
+
+assert_not_contains "$(cat "$codex_readme")" "using UGUI unless the project already uses UI Toolkit" "Codex prompt"
+assert_not_contains "$(cat "$google_prompt")" "Group the top-level layout into anchor-owned regions" "Google prompt"
+assert_not_contains "$(cat "$claude_prompt")" "Group the top-level composition by anchor-owned regions" "Claude prompt"
+
+maintenance="$(cat "$ROOT_DIR/MAINTENANCE.md")"
+release_checklist="$(cat "$ROOT_DIR/RELEASE_CHECKLIST.md")"
+for doc_spec in "$maintenance|maintenance" "$release_checklist|release validation"; do
+  content="${doc_spec%|*}"
+  scope="${doc_spec##*|}"
+  assert_contains "$content" "tests/ui_toolkit_docs_keywords.sh" "$scope"
+  assert_contains "$content" "tests/ui_toolkit_build_keywords.sh" "$scope"
+  assert_contains "$content" "Get-ChildItem" "$scope"
+  assert_contains "$content" "ForEach-Object" "$scope"
+  assert_not_contains "$content" 'for test in tests/*.sh' "$scope"
+done
+
 assert_contains "$maintenance" "YAML parsing" "maintenance validation"
-assert_contains "$release_checklist" "tests/ui_toolkit_docs_keywords.sh" "release validation"
 assert_contains "$release_checklist" "quick_validate.py" "release validation"
 assert_contains "$release_checklist" "YAML parsing" "release validation"
 assert_contains "$release_checklist" "bash -n" "release validation"
 assert_contains "$release_checklist" "git diff --check" "release validation"
 
+unreleased="$(awk '/^## Unreleased$/{capture=1; next} capture && /^## /{exit} capture{print}' "$ROOT_DIR/CHANGELOG.md")"
 for phrase in \
   "stack selection before realization" \
   "neutral mockup layout plan v2" \
   "UI Toolkit build and reusable UXML" \
   "UI Toolkit verification" \
-  "UI Toolkit docs keyword test"; do
-  assert_contains "$unreleased" "$phrase" "English Unreleased changelog"
-done
-
-for phrase in \
+  "UI Toolkit docs keyword test" \
   "realization 전에 stack selection" \
   "중립 mockup layout plan v2" \
   "UI Toolkit build와 재사용 가능한 UXML" \
-  "UI Toolkit 검증" \
-  "UI Toolkit docs keyword test"; do
-  assert_contains "$unreleased" "$phrase" "Korean Unreleased changelog"
+  "UI Toolkit 검증"; do
+  assert_contains "$unreleased" "$phrase" "Unreleased changelog"
 done
 
 printf 'UI Toolkit public/discovery documentation checks passed.\n'
