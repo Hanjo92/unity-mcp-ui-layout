@@ -167,7 +167,7 @@ recipe_keywords=(
   "mockup-layout-plan/v2"
   'manage_ui(action="create")'
   'manage_ui(action="update")'
-  '<ui:Style src="...">'
+  '<Style src="..." />'
   'manage_ui(action="link_stylesheet", path="<screen>.uxml", stylesheet="<styles>.uss")'
   "verify the stylesheet link"
   'existing `UIDocument` host'
@@ -260,6 +260,8 @@ for keyword in "${recipe_keywords[@]}"; do
   assert_contains "$mcp_build_recipe" "$keyword" "UI Toolkit MCP recipe section"
 done
 
+assert_not_contains "$mcp_build_recipe" '<ui:Style' "UI Toolkit MCP recipe"
+
 for keyword in "${prompt_keywords[@]}"; do
   assert_contains "$prompt_patterns" "$keyword" "prompt patterns"
 done
@@ -291,6 +293,8 @@ done
 for keyword in "base UXML template" composition "wrapper UXML" "scoped USS" "state classes" divergence "host lifecycle"; do
   assert_contains "$ui_toolkit_variant_verification" "$keyword" "UI Toolkit variant verification"
 done
+
+assert_contains "$review_checks" 'for Editor UI, record `not_applicable` with the Editor owner and reason instead' "review checks Editor host applicability"
 
 for keyword in "${completion_keywords[@]}"; do
   assert_contains "$review_checks" "$keyword" "review checks"

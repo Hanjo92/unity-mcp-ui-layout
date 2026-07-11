@@ -246,7 +246,7 @@ Use this compact recipe for an explicit or project-inferred UI Toolkit build. Th
 1. Apply `ui-stack-selection.md` and capture intake evidence.
 2. Produce and approve the neutral `mockup-layout-plan/v2` plan.
 3. Call `manage_ui(action="create")` for new UXML/USS assets or `manage_ui(action="update")` for existing owned assets.
-4. Confirm an existing valid `<ui:Style src="...">` reference or call `manage_ui(action="link_stylesheet", path="<screen>.uxml", stylesheet="<styles>.uss")`.
+4. Confirm an existing valid `<Style src="..." />` reference or call `manage_ui(action="link_stylesheet", path="<screen>.uxml", stylesheet="<styles>.uss")`.
 5. Verify the stylesheet link resolves before host attachment or visual checks.
 6. For runtime UI, inspect for an existing `UIDocument` host. Use `manage_gameobject` to create a new host only when runtime needs one and no compatible lifecycle owner exists.
 7. Reuse compatible panel settings or call `manage_ui(action="create_panel_settings")`.
