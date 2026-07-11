@@ -177,6 +177,11 @@ for scoped_doc in "$google_common|Google common operations" "$claude_common|Clau
 done
 
 assert_not_contains "$(cat "$codex_readme")" "using UGUI unless the project already uses UI Toolkit" "Codex prompt"
+codex_examples="$(section "$codex_readme" '## Example User Prompts / 예시 사용자 프롬프트')"
+assert_not_contains "$codex_examples" "반복되는 부분은 하나의 재사용 가능한 프리팹으로 뽑아줘" "Codex generic mockup examples"
+assert_not_contains "$codex_examples" "부모 영역, 앵커, 반복 프리팹 단위부터 잡아줘" "Codex generic mockup examples"
+assert_contains "$codex_examples" "UGUI면 reusable prefab, UI Toolkit이면 UXML/VisualTreeAsset template과 USS class" "Codex stack-native reuse example"
+assert_contains "$codex_examples" "중립 layer-to-layout tree" "Codex neutral mockup example"
 assert_not_contains "$(cat "$google_prompt")" "Group the top-level layout into anchor-owned regions" "Google prompt"
 assert_not_contains "$(cat "$claude_prompt")" "Group the top-level composition by anchor-owned regions" "Claude prompt"
 

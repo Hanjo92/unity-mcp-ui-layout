@@ -140,13 +140,13 @@ Establish parent-region ownership first, then realize repeated blocks with the s
 ```
 
 ```text
-목업 스크린샷 보고 Unity UI 프리팹 만들어줘.
-현재 프로젝트에 맞춰 기존 UI 스택을 확인하고, 반복되는 부분은 하나의 재사용 가능한 프리팹으로 뽑아줘.
+목업 스크린샷을 보고 Unity UI를 재사용 가능한 구조로 만들어줘.
+현재 프로젝트에 맞춰 UI 스택을 확인하고, 반복되는 부분은 UGUI면 reusable prefab, UI Toolkit이면 UXML/VisualTreeAsset template과 USS class로 구성해줘.
 ```
 
 ```text
-시안 던져줄게. 이 reference image를 보고 Unity UI 프리팹 만들어줘.
-스크린샷을 그대로 픽셀 복사하지 말고 부모 영역, 앵커, 반복 프리팹 단위부터 잡아줘.
+시안 던져줄게. 이 reference image를 보고 Unity UI로 만들어줘.
+스크린샷을 그대로 픽셀 복사하지 말고 중립 layer-to-layout tree에서 부모 영역과 반복 단위를 정한 뒤 선택한 stack의 재사용 수단으로 realization해줘.
 ```
 
 ```text
