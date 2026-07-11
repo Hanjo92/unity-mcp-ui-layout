@@ -97,7 +97,7 @@ assert_precedes() {
 build_keywords=(
   'manage_ui(action="create")'
   'manage_ui(action="update")'
-  '<ui:Style src="...">'
+  '<Style src="..." />'
   'manage_ui(action="link_stylesheet", path="<screen>.uxml", stylesheet="<styles>.uss")'
   'manage_ui(action="create_panel_settings")'
   "manage_gameobject"
@@ -147,6 +147,13 @@ example_keywords=(
 for keyword in "${build_keywords[@]}"; do
   assert_contains "$build_doc" "$keyword" "build workflow"
 done
+
+if grep -Fq '<ui:Style' <<<"$build_doc"; then
+  printf 'Deprecated ui:Style namespace must not appear in %s\n' "$build_doc_path" >&2
+  exit 1
+fi
+
+assert_contains "$skill_body" 'Record host lifecycle ownership for runtime UI, or `not_applicable` with the Editor owner and reason for Editor UI.' "skill Editor host applicability"
 
 for keyword in "${example_keywords[@]}"; do
   assert_contains "$example_doc" "$keyword" "mockup example"

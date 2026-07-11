@@ -26,7 +26,7 @@ Resolve containers, repeated units, scroll ownership, responsive intent, and tex
 Use `manage_ui(action="create")` or `manage_ui(action="update")` for the approved UXML and USS. Prefer updating existing owned assets when the intake identifies them.
 
 1. Create the screen UXML and USS with `manage_ui(action="create")`, or update the existing pair with `manage_ui(action="update")`.
-2. Require an existing valid `<ui:Style src="...">` reference or call `manage_ui(action="link_stylesheet", path="<screen>.uxml", stylesheet="<styles>.uss")`.
+2. Require an existing valid `<Style src="..." />` reference or call `manage_ui(action="link_stylesheet", path="<screen>.uxml", stylesheet="<styles>.uss")`.
 3. Verify the stylesheet link resolves before any visual check.
 4. For every repeated unit, default to a reusable UXML template backed by a `VisualTreeAsset`, with repeatable appearance expressed as USS classes.
 5. Inspect the selected scene and find an existing `UIDocument` host before creating any host object. Reuse it when ownership and lifecycle match the plan.
