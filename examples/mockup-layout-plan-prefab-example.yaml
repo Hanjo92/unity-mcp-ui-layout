@@ -11,7 +11,7 @@ layout_contract:
     held: "remain review notes and must not create runtime nodes or assets"
     rejected: "must not create runtime nodes or assets"
 stack_realization:
-  target_surface: "prefab instance"
+  target_surface: "runtime"
   reusable_asset_type: "prefab"
   ugui:
     canvas_root: "Canvas/SafeAreaRoot"

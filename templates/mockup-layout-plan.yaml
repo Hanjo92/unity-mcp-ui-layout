@@ -1,43 +1,51 @@
+# Template mode uses explicit placeholders until the target UI stack is selected.
+# Replace the placeholders and keep only the matching realization stub in a concrete plan.
 schema_version: "mockup-layout-plan/v2"
 layout_contract:
-  ui_stack: "UGUI"
+  ui_stack: "<UGUI|UI Toolkit>"
   mode: "build"
-  mockup_source: "attached mockup image"
-  target_resolution: "1920x1080"
-  root_owner: "Canvas/SafeAreaRoot/ScreenRoot"
+  mockup_source: "<mockup source>"
+  target_resolution: "<width>x<height>"
+  root_owner: "Root"
   structure_rule: "parent ownership before leaf sizing"
   candidate_policy:
     accepted: "must have item_rect_plan and referenced asset_plan entries"
     held: "remain review notes and must not create runtime nodes or assets"
     rejected: "must not create runtime nodes or assets"
 stack_realization:
-  target_surface: "screen"
-  reusable_asset_type: "prefab"
+  target_surface: "<runtime|editor>"
+  reusable_asset_type: "<prefab|uxml-template>"
+  # UGUI realization stub: remove when ui_stack is UI Toolkit.
   ugui:
-    canvas_root: "Canvas/SafeAreaRoot"
-    reference_resolution: "1920x1080"
+    canvas_root: "<Canvas root path>"
+    reference_resolution: "<width>x<height>"
+  # UI Toolkit realization stub: remove when ui_stack is UGUI.
+  ui_toolkit:
+    root_uxml: "<Assets/path/to/root.uxml>"
+    stylesheets: ["<Assets/path/to/styles.uss>"]
+    behavior_owner: "<controller or editor window>"
 layout_tree:
-  - node_path: "Canvas/SafeAreaRoot/ScreenRoot"
+  - node_path: "Root"
     role: "shell"
-    parent_owner: "Canvas/SafeAreaRoot"
+    parent_owner: "<stack root>"
     node_kind: "container"
-    layout_owner: "manual shell bounds"
-    placement_intent: "stretch to safe area"
+    layout_owner: "stack-specific root layout owner"
+    placement_intent: "fill target surface"
     geometry_ratios: {x: 0.0, y: 0.0, width: 1.0, height: 1.0}
     split_keep_reason: "root layout container"
-  - node_path: "Canvas/SafeAreaRoot/ScreenRoot/RepeatedGroup"
+  - node_path: "Root/RepeatedGroup"
     role: "reusable group"
-    parent_owner: "Canvas/SafeAreaRoot/ScreenRoot"
-    node_kind: "prefab root"
-    layout_owner: "layout group"
-    placement_intent: "flow within screen root"
+    parent_owner: "Root"
+    node_kind: "container"
+    layout_owner: "stack-specific flow owner"
+    placement_intent: "flow within root"
     geometry_ratios: {x: 0.1, y: 0.2, width: 0.8, height: 0.3}
     split_keep_reason: "group owns repeated runtime items"
-  - node_path: "Canvas/SafeAreaRoot/ScreenRoot/RepeatedGroup/Item"
+  - node_path: "Root/RepeatedGroup/Item"
     role: "runtime leaf"
-    parent_owner: "Canvas/SafeAreaRoot/ScreenRoot/RepeatedGroup"
+    parent_owner: "Root/RepeatedGroup"
     node_kind: "visual"
-    layout_owner: "LayoutElement"
+    layout_owner: "parent flow"
     placement_intent: "parent-flow child"
     geometry_ratios: {x: 0.1, y: 0.2, width: 0.1667, height: 0.1667}
     split_keep_reason: "repeated runtime data"
@@ -47,7 +55,7 @@ candidate_item_ledger:
     confidence_band: "high"
     evidence: ["repeated shape", "shared baseline"]
     suggested_role: "repeated item unit"
-    parent_hint: "Canvas/SafeAreaRoot/ScreenRoot/RepeatedGroup"
+    parent_hint: "Root/RepeatedGroup"
     crop_padding: "8px visual shadow"
     nine_slice_candidate: false
     review_decision: "accept"
@@ -57,7 +65,7 @@ candidate_item_ledger:
     confidence_band: "low"
     evidence: ["soft contrast boundary"]
     suggested_role: "hold-for-review"
-    parent_hint: "Canvas/SafeAreaRoot/ScreenRoot"
+    parent_hint: "Root"
     crop_padding: "unknown"
     nine_slice_candidate: false
     review_decision: "hold"
@@ -67,7 +75,7 @@ candidate_item_ledger:
     confidence_band: "medium"
     evidence: ["decorative line"]
     suggested_role: "baked decoration"
-    parent_hint: "Canvas/SafeAreaRoot/ScreenRoot"
+    parent_hint: "Root"
     crop_padding: "none"
     nine_slice_candidate: false
     review_decision: "reject"
@@ -75,11 +83,11 @@ candidate_item_ledger:
 item_rect_plan:
   - item_id: "RepeatedGroup/Item01"
     candidate_id: "candidate/RepeatedGroup/Item01"
-    node_path: "Canvas/SafeAreaRoot/ScreenRoot/RepeatedGroup/Item"
+    node_path: "Root/RepeatedGroup/Item"
     source_rect: {x: 192, y: 216, width: 320, height: 180}
     normalized_rect: {x: 0.1, y: 0.2, width: 0.1667, height: 0.1667}
     parent_local_rect: {x: 0, y: 0, width: 320, height: 180}
-    fit_mode: "layout-flow"
+    fit_mode: "stack-specific parent flow"
     placement_intent: "parent-flow child"
     split_keep_reason: "repeated runtime data"
     asset_plan_id: "asset/RepeatedGroup/ItemFrame"
@@ -87,18 +95,18 @@ asset_plan:
   - asset_plan_id: "asset/RepeatedGroup/ItemFrame"
     item_id: "RepeatedGroup/Item01"
     candidate_id: "candidate/RepeatedGroup/Item01"
-    plan: "reuse existing frame or import a provisional crop"
-    source: "existing sprite preferred"
+    plan: "reuse an existing asset or import a provisional crop"
+    source: "existing asset preferred"
     nine_slice: false
     creates_runtime_node: true
 behavior_plan:
   - behavior_id: "behavior/RepeatedGroup/BindItem"
-    owner: "Canvas/SafeAreaRoot/ScreenRoot/RepeatedGroup"
+    owner: "Root/RepeatedGroup"
     intent: "bind runtime data to each repeated item"
 verification_targets:
   - target: "main screenshot"
-    resolution: "1920x1080"
+    resolution: "<width>x<height>"
     checks: ["parent ownership matches layout_tree", "only accepted candidates create nodes and assets"]
   - target: "alternate aspect screenshot"
-    resolution: "1600x900"
+    resolution: "<alternate width>x<alternate height>"
     checks: ["repeated group remains parent-owned", "item placement remains layout-driven"]

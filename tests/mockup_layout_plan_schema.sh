@@ -76,7 +76,11 @@ REQUIRED_LAYOUT_TREE_KEYS = %w[
 
 REQUIRED_REALIZATION_KEYS = %w[target_surface reusable_asset_type].freeze
 REQUIRED_UGUI_REALIZATION_KEYS = %w[canvas_root reference_resolution].freeze
-REQUIRED_UI_TOOLKIT_REALIZATION_KEYS = %w[root_uxml stylesheets behavior_owner].freeze
+REQUIRED_UI_TOOLKIT_REALIZATION_KEYS = %w[root_uxml stylesheets].freeze
+TEMPLATE_UI_STACK = "<UGUI|UI Toolkit>"
+TEMPLATE_TARGET_SURFACE = "<runtime|editor>"
+TEMPLATE_REUSABLE_ASSET_TYPE = "<prefab|uxml-template>"
+TARGET_SURFACES = %w[runtime editor].freeze
 
 REQUIRED_CANDIDATE_KEYS = %w[
   candidate_id
@@ -150,15 +154,42 @@ def require_unique(path, values, label)
   fail_with(path, "duplicate #{label}: #{duplicates.join(', ')}") unless duplicates.empty?
 end
 
-def recursively_find_keys(value, forbidden_keys, found = [])
+def recursively_find_ugui_keys(value, found = [])
   case value
   when Hash
     value.each do |key, nested_value|
-      found << key if forbidden_keys.include?(key)
-      recursively_find_keys(nested_value, forbidden_keys, found)
+      key_name = key.to_s
+      if %w[creates_unity_object reference_resolution unity_type].include?(key_name) ||
+          key_name.match?(/anchor|prefab|canvas|rect_?transform|layout_?element/i)
+        found << key_name
+      end
+      recursively_find_ugui_keys(nested_value, found)
     end
   when Array
-    value.each { |nested_value| recursively_find_keys(nested_value, forbidden_keys, found) }
+    value.each { |nested_value| recursively_find_ugui_keys(nested_value, found) }
+  end
+  found
+end
+
+NARRATIVE_KEYS = %w[
+  accepted held rejected evidence decision_note split_keep_reason intent plan
+  structure_rule checks mockup_source target
+].freeze
+
+def recursively_find_ugui_values(value, parent_key = nil, found = [])
+  case value
+  when Hash
+    value.each do |key, nested_value|
+      recursively_find_ugui_values(nested_value, key.to_s, found)
+    end
+  when Array
+    value.each { |nested_value| recursively_find_ugui_values(nested_value, parent_key, found) }
+  when String
+    return found if NARRATIVE_KEYS.include?(parent_key)
+
+    if value.match?(/\b(?:RectTransform|LayoutElement|Canvas|prefab)\b/i) || value.match?(/\.prefab\z/i)
+      found << value
+    end
   end
   found
 end
@@ -183,52 +214,74 @@ paths.each do |path|
   require_keys(path, stack_realization, REQUIRED_REALIZATION_KEYS, "stack_realization")
 
   ui_stack = contract.fetch("ui_stack")
-  realization_key = ui_stack == "UGUI" ? "ugui" : "ui_toolkit"
-  realization = stack_realization[realization_key]
-  require_hash(path, realization, "stack_realization.#{realization_key}")
+  target_surface = stack_realization.fetch("target_surface")
+  behavior_plan = data.fetch("behavior_plan")
+  require_array_type(path, behavior_plan, "behavior_plan")
 
-  case ui_stack
-  when "UGUI"
-    if stack_realization.key?("ui_toolkit")
-      fail_with(path, "UGUI plan must not define stack_realization.ui_toolkit")
+  if ui_stack == TEMPLATE_UI_STACK
+    unless target_surface == TEMPLATE_TARGET_SURFACE
+      fail_with(path, "template target_surface must be #{TEMPLATE_TARGET_SURFACE}")
     end
-    require_keys(path, realization, REQUIRED_UGUI_REALIZATION_KEYS, "stack_realization.ugui")
-  when "UI Toolkit"
-    if stack_realization.key?("ugui")
-      fail_with(path, "UI Toolkit plan must not define stack_realization.ugui")
+    unless stack_realization.fetch("reusable_asset_type") == TEMPLATE_REUSABLE_ASSET_TYPE
+      fail_with(path, "template reusable_asset_type must be #{TEMPLATE_REUSABLE_ASSET_TYPE}")
     end
-    require_keys(path, realization, REQUIRED_UI_TOOLKIT_REALIZATION_KEYS, "stack_realization.ui_toolkit")
-    require_array(path, realization.fetch("stylesheets"), "stack_realization.ui_toolkit stylesheets")
-    unless stack_realization.fetch("reusable_asset_type") == "uxml-template"
-      fail_with(path, "stack_realization reusable_asset_type must be uxml-template for UI Toolkit")
-    end
-    forbidden = recursively_find_keys(data, %w[
-      anchor_pivot_intent
-      creates_unity_object
-      prefab_source
-      canvas_root
-      reference_resolution
-      unity_type
-    ])
-    unless forbidden.empty?
-      fail_with(path, "UI Toolkit plan contains forbidden UGUI-only keys: #{forbidden.uniq.join(', ')}")
-    end
+
+    ugui = stack_realization["ugui"]
+    ui_toolkit = stack_realization["ui_toolkit"]
+    require_hash(path, ugui, "stack_realization.ugui template stub")
+    require_hash(path, ui_toolkit, "stack_realization.ui_toolkit template stub")
+    require_keys(path, ugui, REQUIRED_UGUI_REALIZATION_KEYS, "stack_realization.ugui template stub")
+    require_keys(path, ui_toolkit, REQUIRED_UI_TOOLKIT_REALIZATION_KEYS, "stack_realization.ui_toolkit template stub")
+    require_array(path, ui_toolkit.fetch("stylesheets"), "stack_realization.ui_toolkit stylesheets")
+    require_keys(path, ui_toolkit, %w[behavior_owner], "stack_realization.ui_toolkit template stub") unless behavior_plan.empty?
   else
-    fail_with(path, "layout_contract ui_stack must be UGUI or UI Toolkit")
+    unless TARGET_SURFACES.include?(target_surface)
+      fail_with(path, "stack_realization target_surface must be runtime or editor")
+    end
+
+    realization_key = ui_stack == "UGUI" ? "ugui" : "ui_toolkit"
+    realization = stack_realization[realization_key]
+    require_hash(path, realization, "stack_realization.#{realization_key}")
+
+    case ui_stack
+    when "UGUI"
+      if stack_realization.key?("ui_toolkit")
+        fail_with(path, "UGUI plan must not define stack_realization.ui_toolkit")
+      end
+      require_keys(path, realization, REQUIRED_UGUI_REALIZATION_KEYS, "stack_realization.ugui")
+    when "UI Toolkit"
+      if stack_realization.key?("ugui")
+        fail_with(path, "UI Toolkit plan must not define stack_realization.ugui")
+      end
+      require_keys(path, realization, REQUIRED_UI_TOOLKIT_REALIZATION_KEYS, "stack_realization.ui_toolkit")
+      require_array(path, realization.fetch("stylesheets"), "stack_realization.ui_toolkit stylesheets")
+      require_keys(path, realization, %w[behavior_owner], "stack_realization.ui_toolkit") unless behavior_plan.empty?
+      unless stack_realization.fetch("reusable_asset_type") == "uxml-template"
+        fail_with(path, "stack_realization reusable_asset_type must be uxml-template for UI Toolkit")
+      end
+      forbidden_keys = recursively_find_ugui_keys(data)
+      unless forbidden_keys.empty?
+        fail_with(path, "UI Toolkit plan contains forbidden UGUI-only keys: #{forbidden_keys.uniq.join(', ')}")
+      end
+      forbidden_values = recursively_find_ugui_values(data)
+      unless forbidden_values.empty?
+        fail_with(path, "UI Toolkit plan contains forbidden UGUI-only values: #{forbidden_values.uniq.join(', ')}")
+      end
+    else
+      fail_with(path, "layout_contract ui_stack must be UGUI or UI Toolkit")
+    end
   end
 
   layout_tree = data.fetch("layout_tree")
   candidates = data.fetch("candidate_item_ledger")
   item_rects = data.fetch("item_rect_plan")
   asset_plans = data.fetch("asset_plan")
-  behavior_plan = data.fetch("behavior_plan")
   verification_targets = data.fetch("verification_targets")
 
   require_array(path, layout_tree, "layout_tree")
   require_array(path, candidates, "candidate_item_ledger")
   require_array(path, item_rects, "item_rect_plan")
   require_array(path, asset_plans, "asset_plan")
-  require_array_type(path, behavior_plan, "behavior_plan")
   require_array(path, verification_targets, "verification_targets")
 
   layout_paths = layout_tree.map do |node|
@@ -373,6 +426,7 @@ if [[ "$RUN_NEGATIVE_CASES" == true ]]; then
 source_path, output_path = ARGV
 data = YAML.load_file(source_path)
 data["behavior_plan"] = []
+data["stack_realization"]["ui_toolkit"].delete("behavior_owner")
 File.write(output_path, YAML.dump(data))
 RUBY
   if ! bash "$0" "$empty_behavior_plan"; then
@@ -380,55 +434,73 @@ RUBY
     exit 1
   fi
 
-  ruby -ryaml - "$ROOT_DIR/templates/mockup-layout-plan.yaml" \
+  narrative_comparison="$temp_dir/narrative-comparison.yaml"
+  ruby -ryaml - "$ROOT_DIR/examples/mockup-layout-plan-ui-toolkit-example.yaml" "$narrative_comparison" <<'RUBY'
+source_path, output_path = ARGV
+data = YAML.load_file(source_path)
+data["verification_targets"][0]["checks"] << "compare against the prior Canvas, RectTransform, LayoutElement, and prefab result"
+File.write(output_path, YAML.dump(data))
+RUBY
+  if ! bash "$0" "$narrative_comparison"; then
+    printf 'Validator rejected neutral comparison text\n' >&2
+    exit 1
+  fi
+
+  ruby -ryaml - "$ROOT_DIR/examples/mockup-layout-plan-prefab-example.yaml" \
     "$ROOT_DIR/examples/mockup-layout-plan-ui-toolkit-example.yaml" "$temp_dir" >"$manifest" <<'RUBY'
-template_path, toolkit_path, temp_dir = ARGV
+ugui_path, toolkit_path, temp_dir = ARGV
 
 cases = [
-  ["unknown-item-candidate", template_path, "item_rect_plan references undeclared candidates", lambda { |data|
+  ["unknown-item-candidate", ugui_path, "item_rect_plan references undeclared candidates", lambda { |data|
     data["item_rect_plan"][0]["candidate_id"] = "candidate/Undeclared/Item"
   }],
-  ["unknown-asset-candidate", template_path, "asset_plan references undeclared candidates", lambda { |data|
+  ["unknown-asset-candidate", ugui_path, "asset_plan references undeclared candidates", lambda { |data|
     data["asset_plan"][0]["candidate_id"] = "candidate/Undeclared/Asset"
   }],
-  ["duplicate-node-path", template_path, "duplicate node_path", lambda { |data|
+  ["duplicate-node-path", ugui_path, "duplicate node_path", lambda { |data|
     data["layout_tree"] << data["layout_tree"].last.dup
   }],
-  ["duplicate-candidate-id", template_path, "duplicate candidate_id", lambda { |data|
+  ["duplicate-candidate-id", ugui_path, "duplicate candidate_id", lambda { |data|
     data["candidate_item_ledger"] << data["candidate_item_ledger"].first.dup
   }],
-  ["duplicate-item-id", template_path, "duplicate item_id", lambda { |data|
+  ["duplicate-item-id", ugui_path, "duplicate item_id", lambda { |data|
     data["item_rect_plan"] << data["item_rect_plan"].first.dup
   }],
-  ["duplicate-asset-plan-id", template_path, "duplicate asset_plan_id", lambda { |data|
+  ["duplicate-asset-plan-id", ugui_path, "duplicate asset_plan_id", lambda { |data|
     data["asset_plan"] << data["asset_plan"].first.dup
   }],
-  ["duplicate-behavior-id", template_path, "duplicate behavior_id", lambda { |data|
+  ["duplicate-behavior-id", ugui_path, "duplicate behavior_id", lambda { |data|
     data["behavior_plan"] << data["behavior_plan"].first.dup
   }],
-  ["unknown-candidate-parent", template_path, "parent_hint is not declared in layout_tree", lambda { |data|
+  ["unknown-candidate-parent", ugui_path, "parent_hint is not declared in layout_tree", lambda { |data|
     data["candidate_item_ledger"][0]["parent_hint"] = "Canvas/Undeclared"
   }],
-  ["incorrect-root-owner", template_path, "root_owner must identify exactly one layout_tree node", lambda { |data|
+  ["incorrect-root-owner", ugui_path, "root_owner must identify exactly one layout_tree node", lambda { |data|
     data["layout_contract"]["root_owner"] = "Canvas/Undeclared"
   }],
-  ["malformed-parent", template_path, "parent_owner must equal immediate parent path", lambda { |data|
+  ["malformed-parent", ugui_path, "parent_owner must equal immediate parent path", lambda { |data|
     data["layout_tree"][1]["parent_owner"] = data["layout_tree"][2]["node_path"]
   }],
-  ["orphan-asset", template_path, "asset_plan entry must match exactly one item_rect_plan", lambda { |data|
+  ["orphan-asset", ugui_path, "asset_plan entry must match exactly one item_rect_plan", lambda { |data|
     orphan = data["asset_plan"].first.dup
     orphan["asset_plan_id"] = "asset/Orphan"
     orphan["item_id"] = "Orphan/Item"
     data["asset_plan"] << orphan
   }],
-  ["missing-behavior-id", template_path, "behavior_plan entry missing keys: behavior_id", lambda { |data|
+  ["missing-behavior-id", ugui_path, "behavior_plan entry missing keys: behavior_id", lambda { |data|
     data["behavior_plan"][0].delete("behavior_id")
   }],
-  ["missing-behavior-owner", template_path, "behavior_plan entry missing keys: owner", lambda { |data|
+  ["missing-behavior-owner", ugui_path, "behavior_plan entry missing keys: owner", lambda { |data|
     data["behavior_plan"][0].delete("owner")
   }],
-  ["missing-behavior-intent", template_path, "behavior_plan entry missing keys: intent", lambda { |data|
+  ["missing-behavior-intent", ugui_path, "behavior_plan entry missing keys: intent", lambda { |data|
     data["behavior_plan"][0].delete("intent")
+  }],
+  ["nonsense-target-surface", toolkit_path, "target_surface must be runtime or editor", lambda { |data|
+    data["stack_realization"]["target_surface"] = "game-view-ish"
+  }],
+  ["toolkit-anchors", toolkit_path, "forbidden UGUI-only keys: anchors", lambda { |data|
+    data["layout_tree"][0]["anchors"] = {"min" => [0, 0], "max" => [1, 1]}
   }],
   ["toolkit-anchor-pivot", toolkit_path, "forbidden UGUI-only keys: anchor_pivot_intent", lambda { |data|
     data["layout_tree"][0]["anchor_pivot_intent"] = "stretch"
@@ -448,10 +520,22 @@ cases = [
   ["toolkit-unity-type", toolkit_path, "forbidden UGUI-only keys: unity_type", lambda { |data|
     data["layout_tree"][0]["unity_type"] = "VisualElement"
   }],
+  ["toolkit-rect-transform-kind", toolkit_path, "forbidden UGUI-only values: RectTransform container", lambda { |data|
+    data["layout_tree"][0]["node_kind"] = "RectTransform container"
+  }],
+  ["toolkit-rect-transform-value", toolkit_path, "forbidden UGUI-only values: RectTransform", lambda { |data|
+    data["layout_tree"][0]["layout_owner"] = "RectTransform"
+  }],
+  ["toolkit-canvas-value", toolkit_path, "forbidden UGUI-only values: Canvas/Root", lambda { |data|
+    data["layout_tree"][0]["parent_owner"] = "Canvas/Root"
+  }],
+  ["toolkit-layout-element-value", toolkit_path, "forbidden UGUI-only values: LayoutElement", lambda { |data|
+    data["layout_tree"][0]["layout_owner"] = "LayoutElement"
+  }],
   ["toolkit-opposite-branch", toolkit_path, "must not define stack_realization.ugui", lambda { |data|
     data["stack_realization"]["ugui"] = {"canvas_root" => "Canvas", "reference_resolution" => "1920x1080"}
   }],
-  ["ugui-opposite-branch", template_path, "must not define stack_realization.ui_toolkit", lambda { |data|
+  ["ugui-opposite-branch", ugui_path, "must not define stack_realization.ui_toolkit", lambda { |data|
     data["stack_realization"]["ui_toolkit"] = {
       "root_uxml" => "Assets/UI/Invalid.uxml",
       "stylesheets" => ["Assets/UI/Invalid.uss"],
