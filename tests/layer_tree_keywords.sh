@@ -55,6 +55,10 @@ assert_contains "$image_doc" "split/keep" "image-to-layout"
 assert_contains "$image_doc" "asset_plan_id" "image-to-layout"
 assert_contains "$image_doc" "creates_runtime_node" "image-to-layout"
 
+v2_template_sections="layout_contract, stack_realization, layout_tree, candidate_item_ledger, item_rect_plan, asset_plan, behavior_plan, verification_targets"
+assert_contains "$image_doc" "$v2_template_sections" "image-to-layout direct v2 template description"
+assert_contains "$mockup_doc" "$v2_template_sections" "mockup-decomposition direct v2 template description"
+
 for section in layout_tree stack_realization asset_plan behavior_plan; do
   assert_contains "$image_doc" "$section" "image-to-layout v2 template sections"
   assert_contains "$mockup_doc" "$section" "mockup-decomposition v2 template sections"

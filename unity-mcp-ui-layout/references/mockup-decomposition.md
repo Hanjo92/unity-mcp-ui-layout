@@ -2,7 +2,7 @@
 
 Use this guide when a mockup, screenshot, design image, or UI 시안 exists and you need to decide which regions should stay as one asset, which should become reusable layout blocks or Unity UI prefabs, and which should be separated into interactive UI elements.
 
-Use `../../templates/mockup-layout-plan.yaml` when the decomposition needs a concise machine-readable artifact for layer tree, candidate review, item rect, asset crop, and verification target decisions.
+Use `../../templates/mockup-layout-plan.yaml` when the decomposition needs a concise machine-readable v2 plan with `layout_contract, stack_realization, layout_tree, candidate_item_ledger, item_rect_plan, asset_plan, behavior_plan, verification_targets`.
 Use `review-gates-and-assumptions.md` when deciding whether an ambiguity should pause for user confirmation or proceed with named assumptions.
 
 ## Goal

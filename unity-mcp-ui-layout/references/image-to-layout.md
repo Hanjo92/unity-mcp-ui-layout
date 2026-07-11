@@ -4,7 +4,7 @@ Use this guide when the user provides, uploads, attaches, or drops a layout imag
 
 Pair it with `mockup-resolution.md` when the mockup's own native pixel size should become the planning reference frame.
 Pair it with `mockup-decomposition.md` when you need a stricter rule for deciding what should stay as one asset versus what should become runtime-owned UI.
-Use `../../templates/mockup-layout-plan.yaml` when the agent needs a concise machine-readable plan for the layer tree, candidate item ledger, item rect plan, asset crop plan, and verification targets.
+Use `../../templates/mockup-layout-plan.yaml` when the agent needs a concise machine-readable v2 plan with `layout_contract, stack_realization, layout_tree, candidate_item_ledger, item_rect_plan, asset_plan, behavior_plan, verification_targets`.
 
 ## Goal
 
