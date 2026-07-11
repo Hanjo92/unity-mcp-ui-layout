@@ -1,110 +1,69 @@
 # UI Toolkit From Mockup Example
 
-This example turns an attached runtime UI Toolkit inventory/settings mockup into an implementation plan. It uses reusable UI Toolkit assets and does not automatically create a GameObject prefab.
+This scenario adapts the validated [UI Toolkit mockup layout plan](mockup-layout-plan-ui-toolkit-example.yaml) for an attached runtime inventory/settings mockup. That YAML file is the canonical machine-readable `mockup-layout-plan/v2` artifact and is covered by `tests/mockup_layout_plan_schema.sh`; this page does not duplicate it as partial YAML.
 
-## Intake Evidence
+## Scenario Adaptation
 
-- mockup source: attached inventory/settings mockup
-- selected owner: existing `InventorySettingsHost` with `UIDocument`
-- `target_surface`: `runtime`
-- Unity version: read from the live project before choosing binding APIs
-- main target: 1920x1080
-- alternate target: 1366x768
+Keep the canonical artifact's required root sections and ownership rules, then replace its quest-specific values with evidence from this screen:
 
-## v2 Layout Contract
+- set `mockup_source` to the attached inventory/settings mockup and keep `target_surface` runtime
+- set `root_owner` to `InventorySettingsScreen` and map the layout tree to `InventoryPane`, `ItemGrid`, `ItemTile`, and `SettingsPane`
+- adapt the accepted candidate and item rect to `ItemTile/Icon`; keep decorative dividers as USS rather than runtime image nodes
+- point `root_uxml` and `stylesheets` to the inventory/settings assets while retaining `reusable_asset_type: uxml-template`
+- keep the required `behavior_plan` array; use `behavior_plan: []` only if the adapted screen has no callbacks, binding, state, focus, or navigation behavior
+- replace verification targets with main 1920x1080 and alternate 1366x768 runtime checks
 
-```yaml
-schema_version: "mockup-layout-plan/v2"
-layout_contract:
-  ui_stack: "UI Toolkit"
-  mode: "build"
-  mockup_source: "attached runtime inventory/settings mockup"
-  root_owner: "InventorySettingsScreen"
-  structure_rule: "approve neutral regions and repeated units before assets"
-stack_realization:
-  target_surface: "runtime"
-  root_uxml: "Assets/UI/InventorySettings/InventorySettingsScreen.uxml"
-  stylesheets:
-    - "Assets/UI/InventorySettings/InventorySettingsScreen.uss"
-  panel_settings: "Assets/UI/RuntimePanelSettings.asset"
-  ui_document_host: "existing InventorySettingsHost"
+Run the canonical plan validator after adapting the YAML:
+
+```bash
+bash tests/mockup_layout_plan_schema.sh path/to/inventory-settings-plan.yaml
 ```
 
-## v2 Layout Tree
+## Runtime Build
 
-```yaml
-layout_tree:
-  - node_path: "InventorySettingsScreen"
-    role: "screen root"
-    layout_owner: ".inventory-settings-screen column"
-  - node_path: "InventorySettingsScreen/InventoryPane/ItemGrid"
-    role: "scroll owner and repeated item container"
-    layout_owner: ".item-grid wrap and scroll"
-  - node_path: "InventorySettingsScreen/InventoryPane/ItemGrid/ItemTile"
-    role: "repeated inventory unit"
-    node_kind: "TemplateContainer from VisualTreeAsset"
-  - node_path: "InventorySettingsScreen/SettingsPane"
-    role: "settings form"
-    layout_owner: ".settings-pane minimum width"
-```
+Use `manage_ui` to create or update `InventorySettingsScreen.uxml`, `ItemTile.uxml`, and `InventorySettingsScreen.uss`. `ItemTile.uxml` is the reusable UXML template loaded as a `VisualTreeAsset`.
 
-## v2 Candidate and Asset Plans
+Use these stable element names:
 
-```yaml
-candidate_item_ledger:
-  - candidate_id: "candidate/ItemTile/Icon"
-    review_decision: "accept"
-    evidence: ["repeated inventory icon slot", "runtime item data"]
-  - candidate_id: "candidate/SettingsPane/Divider"
-    review_decision: "reject"
-    decision_note: "render with a USS border class"
-item_rect_plan:
-  - item_id: "ItemTile/Icon"
-    candidate_id: "candidate/ItemTile/Icon"
-    fit_mode: "flex-none preserve-aspect"
-    placement_intent: "first child in reusable item tile"
-asset_plan:
-  - asset_plan_id: "asset/ItemTile/Icon"
-    plan: "bind an existing item texture to the template icon element"
-```
+- `inventory-settings-screen`
+- `inventory-scroll-view`
+- `item-grid`
+- `settings-pane`
+- `close-button`
+- `music-toggle`
+- `sfx-slider`
 
-## UI Toolkit Realization
+Use these stable USS classes:
 
-- Use `manage_ui` to create or update `InventorySettingsScreen.uxml` and `InventorySettingsScreen.uss`.
-- Implement `ItemTile.uxml` as the reusable UXML template loaded as a `VisualTreeAsset`.
-- Put repeated styling in USS classes such as `.item-tile`, `.item-tile__icon`, `.settings-row`, and `.settings-toggle`.
-- Reuse the existing `PanelSettings` and attach the screen to the existing `UIDocument` host.
-- Do not create an automatic GameObject prefab. A host prefab is outside this build unless explicit host reuse or scene lifecycle ownership is requested.
+- `.inventory-settings-screen`
+- `.inventory-settings-screen--compact`
+- `.item-grid`
+- `.item-tile`
+- `.item-tile--selected`
+- `.item-tile__icon`
+- `.settings-row`
+- `.settings-control--disabled`
 
-## v2 Behavior Plan
+Reuse a compatible `PanelSettings`. First inspect the scene for an existing `UIDocument` host with the correct lifecycle. If none exists and the runtime screen needs one, create a host GameObject with `manage_gameobject`, then use `attach_ui_document`. This scene object is not a prefab asset. Do not create a host prefab unless explicit host reuse or scene lifecycle requirements call for one.
 
-```yaml
-behavior_plan:
-  - behavior_id: "behavior/Inventory/PopulateTiles"
-    owner: "InventorySettingsController"
-    intent: "clone ItemTile.uxml and bind inventory item state"
-    reusable_template: "Assets/UI/InventorySettings/ItemTile.uxml"
-  - behavior_id: "behavior/Settings/Callbacks"
-    owner: "InventorySettingsController"
-    intent: "register settings callbacks and preserve focus navigation"
-```
+## Behavior Details
 
-## v2 Verification Targets
+Use `InventorySettingsController` as the optional behavior owner. Its adapted `behavior_plan` should name these responsibilities:
 
-```yaml
-verification_targets:
-  - target: "main runtime verification"
-    resolution: "1920x1080"
-    checks:
-      - "inventory and settings regions match the attached mockup"
-      - "reusable UXML template instances share the expected USS classes"
-      - "settings bindings, callbacks, text, and focus state are correct"
-  - target: "alternate runtime verification"
-    resolution: "1366x768"
-    checks:
-      - "inventory scroll ownership remains stable"
-      - "settings pane keeps its minimum width without clipping"
-      - "keyboard or controller navigation remains usable"
-```
+- clone `ItemTile.uxml` into `item-grid` and bind stable item IDs, icon textures, labels, counts, and selected state
+- register `ClickEvent` on `close-button`, `ChangeEvent<bool>` on `music-toggle`, and `ChangeEvent<float>` on `sfx-slider`
+- toggle `.item-tile--selected`, `.settings-control--disabled`, and `.inventory-settings-screen--compact` as explicit state classes
+- set focus order from `close-button` to inventory tiles in row order, then `music-toggle`, then `sfx-slider`
+- define keyboard/controller navigation so arrow input stays within the item grid, Tab advances to settings controls, and cancel invokes the close callback
 
-Finish by checking import and compile results, the console, `get_visual_tree`, and screenshots for both the main and alternate targets. Disclose any MCP limitation and the fallback evidence used.
+Use stable element names and USS classes as query and state contracts; do not query by visual position or transient hierarchy index.
+
+## Executable Verification
+
+1. Run `bash tests/mockup_layout_plan_schema.sh path/to/inventory-settings-plan.yaml` and require exit 0.
+2. Trigger Unity import and compile, then query the console and require no new UXML, USS, or C# errors.
+3. Call `get_visual_tree`; verify one `inventory-settings-screen`, one `inventory-scroll-view`, one `item-grid`, one `settings-pane`, and the expected number of cloned item tiles.
+4. At the main 1920x1080 target, capture a screenshot and verify region proportions, text, bound item state, `.item-tile--selected`, and all three callbacks.
+5. Move focus through the documented order and exercise arrow, Tab, and cancel navigation; record text/state evidence when event injection is unavailable.
+6. At the alternate 1366x768 target, capture a screenshot and verify `.inventory-settings-screen--compact`, inventory scroll ownership, settings minimum width, callback results, and focus continuity.
+7. Record any MCP tool limitation and the UI Debugger, script/test, or manual evidence used instead.

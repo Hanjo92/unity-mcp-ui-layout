@@ -131,6 +131,10 @@ def require_array(path, value, label)
   fail_with(path, "#{label} must be a non-empty list") unless value.is_a?(Array) && !value.empty?
 end
 
+def require_array_type(path, value, label)
+  fail_with(path, "#{label} must be a list") unless value.is_a?(Array)
+end
+
 def require_keys(path, hash, keys, label)
   missing = keys.reject { |key| hash.key?(key) }
   fail_with(path, "#{label} missing keys: #{missing.join(', ')}") unless missing.empty?
@@ -224,7 +228,7 @@ paths.each do |path|
   require_array(path, candidates, "candidate_item_ledger")
   require_array(path, item_rects, "item_rect_plan")
   require_array(path, asset_plans, "asset_plan")
-  require_array(path, behavior_plan, "behavior_plan")
+  require_array_type(path, behavior_plan, "behavior_plan")
   require_array(path, verification_targets, "verification_targets")
 
   layout_paths = layout_tree.map do |node|
@@ -363,6 +367,18 @@ if [[ "$RUN_NEGATIVE_CASES" == true ]]; then
   temp_dir="$(mktemp -d)"
   trap 'rm -rf "$temp_dir"' EXIT
   manifest="$temp_dir/cases.tsv"
+
+  empty_behavior_plan="$temp_dir/empty-behavior-plan.yaml"
+  ruby -ryaml - "$ROOT_DIR/examples/mockup-layout-plan-ui-toolkit-example.yaml" "$empty_behavior_plan" <<'RUBY'
+source_path, output_path = ARGV
+data = YAML.load_file(source_path)
+data["behavior_plan"] = []
+File.write(output_path, YAML.dump(data))
+RUBY
+  if ! bash "$0" "$empty_behavior_plan"; then
+    printf 'Validator rejected valid empty behavior_plan\n' >&2
+    exit 1
+  fi
 
   ruby -ryaml - "$ROOT_DIR/templates/mockup-layout-plan.yaml" \
     "$ROOT_DIR/examples/mockup-layout-plan-ui-toolkit-example.yaml" "$temp_dir" >"$manifest" <<'RUBY'

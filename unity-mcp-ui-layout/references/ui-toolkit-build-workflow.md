@@ -15,7 +15,7 @@ Do not infer the stack from loose asset presence. A runtime `UIDocument`, an Edi
 
 ## 2. Approve the Neutral Plan First
 
-Produce and approve the `mockup-layout-plan/v2` artifact before creating UXML, USS, C#, or host objects. It should define the layout contract, stack realization, layout tree, candidate item ledger, item rect plan, asset plan, optional `behavior_plan`, and main plus alternate verification targets.
+Produce and approve the `mockup-layout-plan/v2` artifact before creating UXML, USS, C#, or host objects. It must include the layout contract, stack realization, layout tree, candidate item ledger, item rect plan, asset plan, `behavior_plan`, and main plus alternate verification targets. The `behavior_plan` section is always present; write `behavior_plan: []` when no behavior is needed.
 
 Resolve containers, repeated units, scroll ownership, responsive intent, and text behavior before choosing assets or tuning styles. Detailed shared-asset edit safety remains in `shared-asset-edit-safety.md`; this workflow only records which shared assets are intended for reuse.
 
@@ -28,10 +28,12 @@ Use `manage_ui` to `create` or `update` the approved UXML and USS. Prefer updati
 1. Create the screen UXML and its USS, or update the existing pair.
 2. For every repeated unit, default to a reusable UXML template backed by a `VisualTreeAsset`, with repeatable appearance expressed as USS classes.
 3. Reuse a compatible `PanelSettings` asset. Otherwise call `create_panel_settings` with values justified by the target and project conventions.
-4. Call `attach_ui_document` only when the screen needs a runtime host. Do not create a host merely because UXML exists.
-5. Call `get_visual_tree` after attachment or while inspecting an existing owner, then compare the resolved hierarchy with the approved layout tree.
+4. Inspect the selected scene and find an existing `UIDocument` host before creating any host object. Reuse it when ownership and lifecycle match the plan.
+5. If the runtime screen needs a host and none exists, use `manage_gameobject` to create a host GameObject.
+6. After the host exists, call `attach_ui_document` with the approved UXML and `PanelSettings`.
+7. Call `get_visual_tree` after attachment or while inspecting an existing owner, then compare the resolved hierarchy with the approved layout tree.
 
-In mockup language, "prefab" usually means reusable intent. Satisfy that intent with a reusable UXML template and USS classes. Create a host prefab only when the user explicitly requires host reuse or the host has scene lifecycle responsibilities.
+Creating a host GameObject in a scene is not creating a prefab asset. In mockup language, "prefab" usually means reusable intent; satisfy that intent with a reusable UXML template and USS classes. Create a host prefab only when the user explicitly requires host reuse or the host has scene lifecycle responsibilities.
 
 ### Editor UI
 
@@ -39,9 +41,9 @@ For `target_surface: editor`, create or update UXML and USS plus the actual Edit
 
 ## 4. Add Behavior Only When Needed
 
-UXML and USS own structure and presentation. Add an optional C# behavior owner when the UI needs callback registration, data binding, a state class or state transitions, focus policy, or keyboard/controller navigation.
+UXML and USS own structure and presentation. The C# behavior owner is optional and is needed only when the UI requires callback registration, data binding, a state class or state transitions, focus policy, or keyboard/controller navigation.
 
-Name the behavior owner and its responsibilities in `behavior_plan`. Keep callback, binding, state, focus, and navigation ownership explicit instead of hiding behavior in asset setup steps.
+Keep the root `behavior_plan` section in every v2 artifact. When behavior exists, name the behavior owner and its responsibilities there; otherwise use `behavior_plan: []`. Keep callback, binding, state, focus, and navigation ownership explicit instead of hiding behavior in asset setup steps.
 
 Bindings and related APIs are version-sensitive. Verify them against the live Unity version and installed API before writing code. Never silently apply Unity 6 binding assumptions to an older Unity version.
 

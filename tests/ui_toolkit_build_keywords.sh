@@ -31,11 +31,29 @@ assert_contains() {
   fi
 }
 
+assert_precedes() {
+  local haystack="$1"
+  local first="$2"
+  local second="$3"
+  local scope="$4"
+  local first_line
+  local second_line
+
+  first_line="$(grep -Fni "$first" <<<"$haystack" | head -n 1 | cut -d: -f1)"
+  second_line="$(grep -Fni "$second" <<<"$haystack" | head -n 1 | cut -d: -f1)"
+
+  if [[ -z "$first_line" || -z "$second_line" || "$first_line" -ge "$second_line" ]]; then
+    printf 'Expected UI Toolkit build precedence in %s: %s before %s\n' "$scope" "$first" "$second" >&2
+    return 1
+  fi
+}
+
 build_keywords=(
   "manage_ui"
   "create"
   "update"
   "create_panel_settings"
+  "manage_gameobject"
   "attach_ui_document"
   "get_visual_tree"
   "UXML"
@@ -61,6 +79,7 @@ build_keywords=(
   "event injection"
   "binding diagnostics"
   "host prefab"
+  "behavior_plan: []"
 )
 
 example_keywords=(
@@ -71,6 +90,11 @@ example_keywords=(
   "behavior_plan"
   "main"
   "alternate"
+  "mockup-layout-plan-ui-toolkit-example.yaml"
+  "stable element names"
+  "state classes"
+  "focus order"
+  "executable verification"
 )
 
 for keyword in "${build_keywords[@]}"; do
@@ -82,3 +106,11 @@ for keyword in "${example_keywords[@]}"; do
 done
 
 assert_contains "$skill_body" "references/ui-toolkit-build-workflow.md" "skill routing"
+
+assert_precedes "$build_doc" 'find an existing `UIDocument` host' "manage_gameobject" "runtime host lifecycle"
+assert_precedes "$build_doc" "manage_gameobject" "attach_ui_document" "runtime host lifecycle"
+assert_contains "$build_doc" "host GameObject" "runtime host lifecycle"
+assert_contains "$build_doc" "prefab asset" "runtime host lifecycle"
+
+bash "$ROOT_DIR/tests/mockup_layout_plan_schema.sh" \
+  "$ROOT_DIR/examples/mockup-layout-plan-ui-toolkit-example.yaml"
