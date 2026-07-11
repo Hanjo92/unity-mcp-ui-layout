@@ -37,6 +37,11 @@ Use this checklist when preparing a tagged release for this repository.
 - run layer/tree keyword checks when mockup decomposition or hierarchy guidance changed
 - run item rect keyword checks when mockup item sizing, source rect, or crop-plan guidance changed
 - run item candidate keyword checks when candidate ledger, confidence, or human review gate guidance changed
+- run `tests/ui_toolkit_docs_keywords.sh` when stack selection, public/discovery routing, platform prompts, or UI Toolkit completion guidance changed
+- run `tests/ui_toolkit_build_keywords.sh` when UI Toolkit build/reuse/verification guidance changed
+- run `tests/ui_toolkit_forward_contract.sh` when reviewing the three clean-context UI Toolkit forward scenarios or their durable evidence contract
+- run YAML parsing when `templates/mockup-layout-plan.yaml` or either canonical plan example changed
+- run `bash -n` across shell tests and `git diff --check` for every documentation-only release candidate
 - if you use the global skill for local testing, sync it once and validate again
 - quickly read the changed entry points as if you were a first-time user
 - make sure new examples still match the actual rules
@@ -50,6 +55,10 @@ Use this checklist when preparing a tagged release for this repository.
 - mockup decomposition이나 hierarchy 지침이 바뀌었다면 layer/tree keyword check를 실행합니다.
 - mockup item sizing, source rect, crop-plan 지침이 바뀌었다면 item rect keyword check를 실행합니다.
 - candidate ledger, confidence, human review gate 지침이 바뀌었다면 item candidate keyword check를 실행합니다.
+- stack selection, public/discovery routing, platform prompt, UI Toolkit completion 지침이 바뀌었다면 `tests/ui_toolkit_docs_keywords.sh`를 실행합니다.
+- UI Toolkit build/reuse/verification 지침이 바뀌었다면 `tests/ui_toolkit_build_keywords.sh`를 실행합니다.
+- `templates/mockup-layout-plan.yaml` 또는 두 정본 plan 예시가 바뀌었다면 YAML parsing을 실행합니다.
+- 모든 shell test에 `bash -n`을 실행하고 문서 릴리스 후보마다 `git diff --check`를 실행합니다.
 - 전역 스킬로도 테스트한다면 한 번 동기화한 뒤 다시 검증합니다.
 - 처음 보는 사용자라고 가정하고 바뀐 진입 문서를 빠르게 다시 읽습니다.
 - 새 examples가 실제 규칙과 어긋나지 않는지 확인합니다.
@@ -66,6 +75,12 @@ bash D:/UnityUICreater/tests/trigger_keywords.sh
 bash D:/UnityUICreater/tests/layer_tree_keywords.sh
 bash D:/UnityUICreater/tests/item_rect_keywords.sh
 bash D:/UnityUICreater/tests/item_candidate_keywords.sh
+bash D:/UnityUICreater/tests/ui_toolkit_docs_keywords.sh
+bash D:/UnityUICreater/tests/ui_toolkit_build_keywords.sh
+bash D:/UnityUICreater/tests/ui_toolkit_forward_contract.sh
+python -c "import yaml; [yaml.safe_load(open(path, encoding='utf-8')) for path in ['D:/UnityUICreater/templates/mockup-layout-plan.yaml', 'D:/UnityUICreater/examples/mockup-layout-plan-prefab-example.yaml', 'D:/UnityUICreater/examples/mockup-layout-plan-ui-toolkit-example.yaml']]"
+Get-ChildItem D:\UnityUICreater\tests\*.sh | ForEach-Object { bash -n $_.FullName }
+git diff --check
 robocopy D:\UnityUICreater\unity-mcp-ui-layout C:\Users\user\.codex\skills\unity-mcp-ui-layout /MIR
 python C:\Users\user\.codex\skills\.system\skill-creator\scripts\quick_validate.py C:\Users\user\.codex\skills\unity-mcp-ui-layout
 ```

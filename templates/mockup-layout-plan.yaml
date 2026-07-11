@@ -1,141 +1,112 @@
-schema_version: "mockup-layout-plan/v1"
-plan_id: "mockup-layout-plan/<screen-or-prefab>"
+# Template mode uses explicit placeholders until the target UI stack is selected.
+# Replace the placeholders and keep only the matching realization stub in a concrete plan.
+schema_version: "mockup-layout-plan/v2"
 layout_contract:
-  ui_stack: "UGUI"
+  ui_stack: "<UGUI|UI Toolkit>"
   mode: "build"
-  mockup_source: "attached mockup image"
-  reference_resolution: "1920x1080"
-  target_resolution: "1920x1080"
-  root_owner: "Canvas/SafeAreaRoot/ScreenRoot"
+  mockup_source: "<mockup source>"
+  target_resolution: "<width>x<height>"
+  root_owner: "Root"
   structure_rule: "parent ownership before leaf sizing"
   candidate_policy:
-    accepted: "may become item rect entries after parent ownership and split reason are reviewed"
-    held: "remain review notes and must not create Unity objects, prefab children, or crops"
-    rejected: "must not create Unity objects, prefab children, or crops"
-layer_tree:
-  - node_path: "Canvas/SafeAreaRoot/ScreenRoot"
+    accepted: "must have item_rect_plan and referenced asset_plan entries"
+    held: "remain review notes and must not create runtime nodes or assets"
+    rejected: "must not create runtime nodes or assets"
+stack_realization:
+  target_surface: "<runtime|editor>"
+  reusable_asset_type: "<prefab|uxml-template>"
+  # UGUI realization stub: remove when ui_stack is UI Toolkit.
+  ugui:
+    canvas_root: "<Canvas root path>"
+    reference_resolution: "<width>x<height>"
+  # UI Toolkit realization stub: remove when ui_stack is UGUI.
+  ui_toolkit:
+    root_uxml: "<Assets/path/to/root.uxml>"
+    stylesheets: ["<Assets/path/to/styles.uss>"]
+    behavior_owner: "<controller or editor window>"
+layout_tree:
+  - node_path: "Root"
     role: "shell"
-    parent_owner: "Canvas/SafeAreaRoot"
-    unity_type: "RectTransform"
-    anchor_pivot_intent: "stretch"
-    layout_owner: "manual shell bounds"
-    geometry_ratios:
-      x: 0.0
-      y: 0.0
-      width: 1.0
-      height: 1.0
+    parent_owner: "<stack root>"
+    node_kind: "container"
+    layout_owner: "stack-specific root layout owner"
+    placement_intent: "fill target surface"
+    geometry_ratios: {x: 0.0, y: 0.0, width: 1.0, height: 1.0}
     split_keep_reason: "root layout container"
-  - node_path: "Canvas/SafeAreaRoot/ScreenRoot/RepeatedGroup"
+  - node_path: "Root/RepeatedGroup"
     role: "reusable group"
-    parent_owner: "Canvas/SafeAreaRoot/ScreenRoot"
-    unity_type: "prefab root"
-    anchor_pivot_intent: "parent-flow child"
-    layout_owner: "layout group"
-    geometry_ratios:
-      x: 0.1
-      y: 0.2
-      width: 0.8
-      height: 0.3
-    split_keep_reason: "repeated runtime item"
-  - node_path: "Canvas/SafeAreaRoot/ScreenRoot/RepeatedGroup/Item"
+    parent_owner: "Root"
+    node_kind: "container"
+    layout_owner: "stack-specific flow owner"
+    placement_intent: "flow within root"
+    geometry_ratios: {x: 0.1, y: 0.2, width: 0.8, height: 0.3}
+    split_keep_reason: "group owns repeated runtime items"
+  - node_path: "Root/RepeatedGroup/Item"
     role: "runtime leaf"
-    parent_owner: "Canvas/SafeAreaRoot/ScreenRoot/RepeatedGroup"
-    unity_type: "RectTransform"
-    anchor_pivot_intent: "parent-flow child"
-    layout_owner: "LayoutElement"
-    geometry_ratios:
-      x: 0.1
-      y: 0.2
-      width: 0.1667
-      height: 0.1667
+    parent_owner: "Root/RepeatedGroup"
+    node_kind: "visual"
+    layout_owner: "parent flow"
+    placement_intent: "parent-flow child"
+    geometry_ratios: {x: 0.1, y: 0.2, width: 0.1667, height: 0.1667}
     split_keep_reason: "repeated runtime data"
 candidate_item_ledger:
   - candidate_id: "candidate/RepeatedGroup/Item01"
-    source_bounds:
-      x: 192
-      y: 216
-      width: 320
-      height: 180
+    source_bounds: {x: 192, y: 216, width: 320, height: 180}
     confidence_band: "high"
-    evidence:
-      - "repeated shape"
-      - "shared baseline"
+    evidence: ["repeated shape", "shared baseline"]
     suggested_role: "repeated item unit"
-    parent_hint: "Canvas/SafeAreaRoot/ScreenRoot/RepeatedGroup"
+    parent_hint: "Root/RepeatedGroup"
     crop_padding: "8px visual shadow"
     nine_slice_candidate: false
     review_decision: "accept"
-    decision_note: "same structure repeats and needs runtime data binding"
+    decision_note: "runtime data requires a distinct item"
   - candidate_id: "candidate/Decorative/Glow"
-    source_bounds:
-      x: 80
-      y: 80
-      width: 260
-      height: 120
+    source_bounds: {x: 80, y: 80, width: 260, height: 120}
     confidence_band: "low"
-    evidence:
-      - "soft contrast boundary"
+    evidence: ["soft contrast boundary"]
     suggested_role: "hold-for-review"
-    parent_hint: "Canvas/SafeAreaRoot/ScreenRoot"
+    parent_hint: "Root"
     crop_padding: "unknown"
     nine_slice_candidate: false
     review_decision: "hold"
-    decision_note: "visual boundary is uncertain; keep as review note"
+    decision_note: "visual boundary is uncertain"
   - candidate_id: "candidate/Frame/InnerLine"
-    source_bounds:
-      x: 100
-      y: 100
-      width: 400
-      height: 2
+    source_bounds: {x: 100, y: 100, width: 400, height: 2}
     confidence_band: "medium"
-    evidence:
-      - "decorative line"
-    suggested_role: "decorative image"
-    parent_hint: "Canvas/SafeAreaRoot/ScreenRoot"
+    evidence: ["decorative line"]
+    suggested_role: "baked decoration"
+    parent_hint: "Root"
     crop_padding: "none"
     nine_slice_candidate: false
     review_decision: "reject"
-    decision_note: "decorative sub-part stays inside baked art"
+    decision_note: "keep inside baked art"
 item_rect_plan:
   - item_id: "RepeatedGroup/Item01"
     candidate_id: "candidate/RepeatedGroup/Item01"
-    node_path: "Canvas/SafeAreaRoot/ScreenRoot/RepeatedGroup/Item"
-    source_rect:
-      x: 192
-      y: 216
-      width: 320
-      height: 180
-    normalized_rect:
-      x: 0.1
-      y: 0.2
-      width: 0.1667
-      height: 0.1667
-    parent_local_rect:
-      x: 0
-      y: 0
-      width: 320
-      height: 180
-    fit_mode: "layout-group child"
-    anchor_pivot_intent: "parent-flow child"
+    node_path: "Root/RepeatedGroup/Item"
+    source_rect: {x: 192, y: 216, width: 320, height: 180}
+    normalized_rect: {x: 0.1, y: 0.2, width: 0.1667, height: 0.1667}
+    parent_local_rect: {x: 0, y: 0, width: 320, height: 180}
+    fit_mode: "stack-specific parent flow"
+    placement_intent: "parent-flow child"
     split_keep_reason: "repeated runtime data"
-    asset_crop_plan_id: "crop/RepeatedGroup/ItemFrame"
-asset_crop_plan:
-  - asset_crop_plan_id: "crop/RepeatedGroup/ItemFrame"
+    asset_plan_id: "asset/RepeatedGroup/ItemFrame"
+asset_plan:
+  - asset_plan_id: "asset/RepeatedGroup/ItemFrame"
     item_id: "RepeatedGroup/Item01"
     candidate_id: "candidate/RepeatedGroup/Item01"
-    plan: "reuse existing prefab frame if available; otherwise placeholder until art import"
-    source: "existing prefab preferred"
+    plan: "reuse an existing asset or import a provisional crop"
+    source: "existing asset preferred"
     nine_slice: false
-    creates_unity_object: true
+    creates_runtime_node: true
+behavior_plan:
+  - behavior_id: "behavior/RepeatedGroup/BindItem"
+    owner: "Root/RepeatedGroup"
+    intent: "bind runtime data to each repeated item"
 verification_targets:
   - target: "main screenshot"
-    resolution: "1920x1080"
-    checks:
-      - "parent-owned hierarchy matches layer_tree"
-      - "accepted candidates mapped to item_rect_plan only after review"
-      - "held and rejected candidates did not create objects or crops"
+    resolution: "<width>x<height>"
+    checks: ["parent ownership matches layout_tree", "only accepted candidates create nodes and assets"]
   - target: "alternate aspect screenshot"
-    resolution: "1600x900"
-    checks:
-      - "repeated group remains parent-owned"
-      - "item size uses fit_mode instead of full-screen offsets"
+    resolution: "<alternate width>x<alternate height>"
+    checks: ["repeated group remains parent-owned", "item placement remains layout-driven"]

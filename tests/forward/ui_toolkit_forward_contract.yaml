@@ -1,0 +1,90 @@
+schema_version: "ui-toolkit-forward-contract/v1"
+issue: 76
+execution:
+  mode: "clean-context-llm-forward-test"
+  llm_invocation: true
+  automated_by_shell: false
+  evidence_basis: "Three independent clean-context LLM forward scenarios were executed and passed; the shell test validates this durable evidence contract but does not invoke an LLM."
+  recorded_on: "2026-07-11"
+  status: "pass"
+scenarios:
+  - id: "explicit-ui-toolkit-mockup-prefab-like-rows"
+    prompt: >-
+      첨부한 설정 화면 시안으로 Unity UI Toolkit UI를 만들어줘. 같은 설정 행은
+      재사용할 수 있게 프리팹처럼 구성하고, 현재 프로젝트 구조에 맞춰줘.
+    executed_on: "2026-07-11"
+    expected:
+      must_include:
+        - "UI Toolkit selected"
+        - "mockup-layout-plan/v2"
+        - "UXML/VisualTreeAsset template"
+        - "USS"
+        - "host only if runtime lifecycle needs it"
+        - "screenshots"
+        - "console"
+        - "visual tree"
+      must_not_include:
+        - "automatic UGUI realization"
+        - "Canvas/RectTransform/prefab as the default realization"
+    observed_outcome_summary: >-
+      The forward response selected UI Toolkit, produced mockup-layout-plan/v2,
+      proposed a UXML/VisualTreeAsset template and USS, qualified host creation by
+      runtime lifecycle need, and requested screenshots, console, and visual-tree
+      verification.
+    evidence_note: "Independent clean-context LLM forward evidence; the fixture test does not invoke an LLM."
+    pass_status: "pass"
+
+  - id: "mixed-project-selected-settings-owner"
+    prompt: >-
+      이 프로젝트에는 Canvas 화면과 UI Toolkit 화면이 섞여 있어. 지금 선택된
+      오브젝트는 SettingsUIDocument이고 연결된 SettingsScreen.uxml과 Settings.uss가
+      있어. 첨부 시안을 기준으로 이 설정 화면을 구현해줘. UI 스택은 따로 지정하지
+      않을게.
+    executed_on: "2026-07-11"
+    expected:
+      must_include:
+        - "UI Toolkit from selected target/ownership"
+        - "SettingsUIDocument"
+        - "SettingsScreen.uxml"
+        - "Settings.uss"
+        - "repair-first"
+        - "no UGUI fallback"
+      must_not_include:
+        - "automatic UGUI realization"
+        - "UGUI fallback without conflicting project evidence"
+    observed_outcome_summary: >-
+      The forward response selected UI Toolkit from the selected SettingsUIDocument
+      and existing SettingsScreen.uxml/Settings.uss ownership, used repair-first
+      guidance, and did not fall back to UGUI.
+    evidence_note: "Independent clean-context LLM forward evidence; the fixture test does not invoke an LLM."
+    pass_status: "pass"
+
+  - id: "unity-2022-runtime-inventory"
+    prompt: >-
+      Unity 2022 LTS 런타임 인벤토리 화면을 UI Toolkit으로 만들어줘. 첨부 시안의
+      반복 아이템, 선택 상태, 데이터 갱신, 클릭 콜백, 키보드와 게임패드 포커스
+      이동까지 포함해야 해. 씬에는 아직 UIDocument가 있는지 모르겠어.
+    executed_on: "2026-07-11"
+    expected:
+      must_include:
+        - "version evidence"
+        - "existing host search/reuse or create runtime host"
+        - "repeated items"
+        - "selection"
+        - "data refresh"
+        - "callbacks"
+        - "keyboard/gamepad focus"
+        - "behavior/focus/navigation"
+        - "no Unity 6 binding assumption"
+      must_not_include:
+        - "automatic UGUI realization"
+        - "Unity 6 binding APIs as an assumed baseline"
+        - "UGUI fallback without runtime evidence"
+    observed_outcome_summary: >-
+      The forward response requested Unity version evidence, searched for or reused an
+      existing runtime host before creating one, covered repeated-item behavior,
+      selection, refresh, callbacks, keyboard/gamepad focus, unknown UIDocument
+      handling, and behavior/focus/navigation verification without assuming Unity 6
+      binding APIs.
+    evidence_note: "Independent clean-context LLM forward evidence; the fixture test does not invoke an LLM."
+    pass_status: "pass"

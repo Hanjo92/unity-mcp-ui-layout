@@ -42,6 +42,12 @@ This includes the newer guidance around:
 - separate hierarchy source inputs from DESIGN.md/design-token style sources
 - out-of-scope direct Stitch/Figma API integration unless explicitly requested
 
+## Mockup Stack Routing / 목업 스택 라우팅
+
+Choose the UI stack before realization, approve the neutral `mockup-layout-plan/v2` layer-to-layout tree, and follow [`ui-stack-selection.md`](../../unity-mcp-ui-layout/references/ui-stack-selection.md), [`ui-toolkit-build-workflow.md`](../../unity-mcp-ui-layout/references/ui-toolkit-build-workflow.md), and [`ui-toolkit-from-mockup-example.md`](../../examples/ui-toolkit-from-mockup-example.md). Use [`mockup-layout-plan.yaml`](../../templates/mockup-layout-plan.yaml), [`mockup-layout-plan-prefab-example.yaml`](../../examples/mockup-layout-plan-prefab-example.yaml), and [`mockup-layout-plan-ui-toolkit-example.yaml`](../../examples/mockup-layout-plan-ui-toolkit-example.yaml) as the public v2 artifacts.
+
+realization 전에 UI stack을 선택하고 중립 layer-to-layout tree를 승인합니다. UGUI realization은 Transform/RectTransform과 prefab 의도로, UI Toolkit realization은 visual tree, UXML, USS, VisualTreeAsset template 의도로 진행합니다. runtime host가 필요할 때만 host GameObject/UIDocument를 만들며, screenshot과 console을 포함한 completion evidence를 기록하기 전에는 완료하지 않습니다.
+
 - 시안 원본 해상도 기준 계획
 - 반자동 raster detection을 위한 candidate item ledger 지침
 - 분리되는 runtime/repeated mockup item의 item-level UI rect 계획

@@ -1,13 +1,13 @@
 ---
 name: unity-mcp-ui-layout
-description: "Use when Unity UI needs layout-focused implementation or repair through `unity-mcp`: attached UI mockup, mockup screenshot, uploaded design image, dropped design image, reference image, wireframe, or UI 시안; analyze visual layers into a layer-to-Transform tree/레이어 트리 구조; create candidate item ledgers; map item-level UI rects; turn or convert into UGUI/UI Toolkit; create Unity UI prefabs/프리팹 생성; or fix drift, safe area, text overflow, structured exports, tokens, or shared prefab reuse."
+description: "Use when Unity UI needs layout-focused implementation or repair through `unity-mcp`: attached UI mockup, mockup screenshot, uploaded design image, dropped design image, reference image, wireframe, or UI 시안; analyze visual layers with a layer-to-layout-tree pass/레이어 트리 구조; create candidate item ledgers; map item-level UI rects; turn or convert into UGUI/UI Toolkit; create Unity UI prefabs/프리팹 생성; or fix drift, safe area, text overflow, structured exports, tokens, or shared prefab reuse."
 ---
 
 # Unity MCP UI Layout
 
 ## Overview
 
-Use this skill for Unity UI work where layout stability matters more than raw pixel imitation. The core idea is to translate visual intent into anchors, containers, scaling rules, text behavior, and verification loops that survive resolution changes.
+Use this skill for Unity UI work where layout stability matters more than raw pixel imitation. The core idea is to translate visual intent into stack-appropriate layout rules, containers, scaling rules, text behavior, and verification loops that survive resolution changes; anchors are a UGUI mechanism, not a universal rule.
 
 **Bias:** Prefer stable structure, scoped changes, and explicit verification over one-shot mockup mimicry. For trivial one-widget nudges, use judgment rather than forcing the full workflow mechanically.
 
@@ -16,7 +16,7 @@ Use this skill for Unity UI work where layout stability matters more than raw pi
 - A mockup, screenshot, or wireframe needs to become runtime Unity UI.
 - An attached UI mockup, layout image, mockup screenshot, uploaded or dropped design/reference image, or UI 시안 should become UGUI, UI Toolkit, or Unity UI prefabs.
 - Natural wording such as "turn this reference image into UI", "convert this mockup to a prefab", "시안 던져줄게", or "프리팹 만들어줘" should trigger this skill.
-- A visual design needs a layer-to-Transform tree pass so the Unity Transform or RectTransform hierarchy is planned before object creation.
+- A visual design needs a layer-to-layout-tree pass so the neutral layout tree is approved before stack-specific object creation.
 - A raster mockup needs a candidate item ledger before item-level UI rects are promoted into Unity objects or crop plans.
 - A provided mockup needs item-level UI rect planning for runtime leaves, repeated cards, slots, rows, icons, or buttons that were intentionally split from the visual design.
 - The user asks to create Unity UI prefabs, 프리팹, prefab variants, or reusable UI blocks from a provided design image.
@@ -43,8 +43,12 @@ Choose these four boundaries before editing anything:
 
 ### 1. UI Stack
 
-- Use **UGUI** when the target uses `Canvas`, `RectTransform`, `CanvasScaler`, `LayoutGroup`, `Image`, or `TextMeshProUGUI`.
-- Use **UI Toolkit** when the target uses `UIDocument`, `UXML`, `USS`, `VisualElement`, or `PanelSettings`.
+- Apply `references/ui-stack-selection.md` before using prefab or Canvas defaults.
+- An **explicit user instruction** for UI Toolkit, a selected `UIDocument`, a resolved visual-tree root, or an editor UI Toolkit owner routes to UI Toolkit before UGUI defaults.
+- Treat `UXML`, `USS`, and `PanelSettings` as corroborating only when referenced by that owner; their mere asset presence is not decisive.
+- Use **UGUI** when the selected target uses `Canvas`, `RectTransform`, `CanvasScaler`, `LayoutGroup`, `Image`, or `TextMeshProUGUI`.
+- Use **UI Toolkit** when the selected target has decisive UI Toolkit ownership evidence.
+- Route UI Toolkit mockup build tasks through `references/ui-toolkit-build-workflow.md` before stack-specific asset creation and completion checks.
 - Do not mix both stacks in one change unless the user explicitly asks for a bridge or migration.
 
 ### 2. Change Mode
@@ -80,7 +84,7 @@ For structured export intake and hierarchy mapping, read `references/stitch-html
 
 - This skill assumes Unity is available through `unity-mcp` or an equivalent MCP bridge.
 - It works best when you can inspect the current scene or UI document and verify with screenshots.
-- When editing existing Unity UI, capture a layout snapshot or equivalent smaller-call evidence before structural edits: active UI root, UI stack, root layout owners, screenshot frame, and console state.
+- When editing existing Unity UI, capture a layout snapshot or equivalent smaller-call evidence before structural edits: target surface, Unity version evidence, selected object (`selection.selected_object`), active UI root (`selection.active_ui_root`), UI stack, root layout owners, screenshot frame, and console state.
 - Structured export artifacts are valid first-class inputs even when direct Figma or Stitch API access is unavailable.
 - If a `DESIGN.md` or token source is present, style decisions should be traced back to that source where practical.
 - `@google/design.md` CLI checks are useful when available, but missing CLI tooling is a supported fallback.
@@ -105,7 +109,7 @@ For structured export intake and hierarchy mapping, read `references/stitch-html
 - Choose the UI stack, change mode, design source, and asset strategy explicitly.
 - If a structured export source exists, normalize it into a semantic tree before copying any coordinates.
 - If a design-system source exists, extract the tokens, prose intent, component states, and any do/don't guardrails before styling.
-- If no structured hierarchy source exists and a mockup, screenshot, reference image, or UI 시안 exists, run a layer-to-Transform tree pass before creating objects and keep that tree as the layout contract.
+- If no structured hierarchy source exists and a mockup, screenshot, reference image, or UI 시안 exists, run a layer-to-layout-tree pass before creating objects and keep that neutral layout tree as the layout contract.
 - If a structured export and a mockup/screenshot both exist, let the structured export own hierarchy and use the raster layer pass as composition validation.
 - If raster item analysis is useful, produce a candidate item ledger as an advisory candidate set with confidence band, evidence, and human review before promoting anything into item-level UI rects.
 - For any runtime leaf or repeated item intentionally split from a mockup, record an item-level UI rect: source rect in the mockup, normalized rect, parent-local rect or Unity fit intent, split/keep reason, and asset/crop plan.
@@ -131,7 +135,7 @@ For structured export intake and hierarchy mapping, read `references/stitch-html
 ### 3. Reuse Carefully and Locally
 
 - Start in layout-only mode and only switch into asset-aware mode when reuse clearly matters.
-- Promote repeated structures into reusable prefabs or reusable layout blocks when repetition is real.
+- Promote repeated structures into the stack's reusable unit when repetition is real: UGUI prefabs for UGUI, or UXML/`VisualTreeAsset` templates plus USS classes for UI Toolkit.
 - For scroll-heavy UIs, keep the scroll shell structural and treat repeated rows/cards/cells as the reusable unit.
 - Prefer scoped variants, wrappers, or screen-owned overrides over direct shared-base edits for one-screen requests.
 - Reserve `RawImage` for texture-driven content such as `RenderTexture`, video, or runtime-generated textures.
@@ -143,7 +147,7 @@ For structured export intake and hierarchy mapping, read `references/stitch-html
 
 - Capture fresh screenshots after structural changes.
 - Verify at the main target plus at least one additional aspect ratio.
-- If scripts changed, refresh Unity and confirm there are no unresolved compile or console errors.
+- If scripts changed, remember that script tools trigger automatic import and compilation; wait for editor state to settle and inspect the console for unresolved errors.
 - If text drives layout, re-check longer labels, counters, or localized strings before calling the task done.
 - Use the completion gate below as the final stop condition.
 
@@ -154,9 +158,9 @@ For structured export intake and hierarchy mapping, read `references/stitch-html
 Do not call the task done until every applicable check below passes:
 
 - A fresh whole-screen verification screenshot exists.
-- For existing Unity UI edits, a layout snapshot or equivalent smaller-call intake identified the active UI root, UI stack, layout ownership, screenshot frame, and console state before structural changes.
+- For existing Unity UI edits, a layout snapshot or equivalent smaller-call intake identified target surface, Unity version evidence, selected object (`selection.selected_object`), active UI root (`selection.active_ui_root`), UI stack, layout ownership, screenshot frame, and console state before structural changes.
 - If a mockup, screenshot, or wireframe was provided, one final review pass was run against it after implementation changes.
-- If no structured hierarchy source existed and a mockup, screenshot, reference image, or UI 시안 drove the work, the final Unity Transform or RectTransform tree still matches the approved layer-to-tree pass.
+- If no structured hierarchy source existed and a mockup, screenshot, reference image, or UI 시안 drove the work, the final stack-specific realization still matches the approved layout tree: UGUI through its `Transform`/`RectTransform`, anchors, layout components, and prefab roots; UI Toolkit through its visual tree, UXML templates or `VisualTreeAsset`, flex/style owners, and optional behavior owner.
 - If a structured export existed alongside a mockup/screenshot, hierarchy still follows the export and the raster image was used for composition validation.
 - If a candidate item ledger was used, accepted candidates passed a human review gate before item-level UI rect planning.
 - If item-level UI rect planning was needed, key split items have source rect, normalized rect, parent-local or fit intent, and asset/crop plan recorded before final visual tuning.
@@ -169,6 +173,7 @@ Do not call the task done until every applicable check below passes:
 - Component text/background pairs were checked for readable contrast where the source defines both values.
 - Shared-asset edits were treated with explicit safety checks.
 - Low-confidence asset reuse stayed clearly provisional.
+- For every UI Toolkit build, asset import and console evidence are clean and the resolved visual tree matches the plan. For each category in bindings, callbacks, state classes, focus, and navigation, record exercised evidence or `not_applicable` with a reason when `behavior_plan: []` or the build is structure-only. Record host lifecycle ownership for runtime UI, or `not_applicable` with the Editor owner and reason for Editor UI. Report any tool limitations with fallback evidence.
 
 ## Use the References
 
@@ -180,6 +185,7 @@ Do not call the task done until every applicable check below passes:
 - `references/common-failures.md`
 - `references/review-checks.md`
 - `references/review-gates-and-assumptions.md`
+- `references/ui-stack-selection.md`
 - `references/scroll-view-patterns.md`
 - `references/ui-change-modes.md`
 
@@ -227,6 +233,7 @@ Do not call the task done until every applicable check below passes:
 
 ### UI Toolkit
 
+- `references/ui-toolkit-build-workflow.md`
 - `references/ui-toolkit-layout-rules.md`
 - `references/ui-toolkit-failures.md`
 

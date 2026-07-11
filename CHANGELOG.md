@@ -13,6 +13,11 @@ This project follows a lightweight documentation-focused release flow.
 - Added a mockup layout plan template, filled prefab-from-mockup example, and schema validator for layer tree, candidate ledger, item rect, asset crop, and verification target planning
 - Added an agent execution runbook with trigger naming, task classification, build/repair/input-mode notes, and final response checklist
 - Added review gate and assumption guidance for hard blockers, soft assumptions, no-human-review fallback, candidate decision examples, and final reporting
+- Added stack selection before realization for mockup-to-UI routing, with neutral layer-to-layout terminology shared by UGUI and UI Toolkit
+- Added the neutral mockup layout plan v2 public path, template links, and both canonical YAML examples for UGUI prefab intent and UI Toolkit realization
+- Added UI Toolkit build and reusable UXML/USS guidance, including VisualTreeAsset templates, qualified runtime hosts, and screenshot/console verification
+- Added UI Toolkit verification completion expectations for import, compile, screenshot, and console evidence
+- Added the UI Toolkit docs keyword test and synchronized public indexes, platform prompts, maintenance, contribution, and release validation triggers
 
 ### Added / 추가
 
@@ -21,6 +26,11 @@ This project follows a lightweight documentation-focused release flow.
 - layer tree, candidate ledger, item rect, asset crop, verification target planning을 위한 mockup layout plan template, prefab-from-mockup 예제, schema validator 추가
 - trigger naming, task classification, build/repair/input-mode note, final response checklist를 포함한 agent execution runbook 추가
 - hard blocker, soft assumption, no-human-review fallback, candidate decision example, final reporting을 다루는 review gate 및 assumption 지침 추가
+- mockup-to-UI routing에서 realization 전에 stack selection을 두고, UGUI와 UI Toolkit이 함께 쓰는 중립 layer-to-layout 용어 추가
+- 중립 mockup layout plan v2 public path, template 링크, UGUI prefab 의도와 UI Toolkit realization을 위한 두 정본 YAML 예시 추가
+- VisualTreeAsset template, 조건부 runtime host, screenshot/console 검증을 포함한 UI Toolkit build와 재사용 가능한 UXML/USS 가이드 추가
+- UI Toolkit 검증 완료 조건으로 import, compile, screenshot, console evidence를 기록하도록 추가
+- UI Toolkit docs keyword test를 추가하고 public index, platform prompt, maintenance, contribution, release validation trigger를 동기화
 
 ## v0.6.0 - 2026-06-26
 

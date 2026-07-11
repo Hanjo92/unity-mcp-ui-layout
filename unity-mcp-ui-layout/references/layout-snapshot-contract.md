@@ -27,6 +27,9 @@ A complete snapshot should include these fields. If a field cannot be inspected,
 ```yaml
 snapshot_id: string
 captured_at: string
+target_surface: runtime | editor
+unity_version: string | unknown
+unity_version_evidence: string
 scene:
   name: string
   path: string
@@ -91,6 +94,18 @@ assets:
   prefabs:
     - path: string
       shared: boolean
+  reusable_uxml_templates:
+    - string
+  stylesheets:
+    - string
+  panel_settings:
+    - string
+  theme_or_style_assets:
+    - string
+  behavior_owners:
+    - path: string
+      behavior_scripts:
+        - string
 console:
   compile_state: clean | errors | unknown
   errors:
@@ -99,11 +114,16 @@ gaps:
   - string
 ```
 
+`selection.selected_object` and `selection.active_ui_root` are the canonical intake names used by `ui-stack-selection.md` and `agent-runbook.md`. Do not introduce parallel selected-target or selected-root fields.
+
 ## UGUI Example Snapshot
 
 ```yaml
 snapshot_id: "layout-snapshot/HUDScene/2026-07-06T10:00:00Z"
 captured_at: "2026-07-06T10:00:00Z"
+target_surface: "runtime"
+unity_version: "2022.3.35f1"
+unity_version_evidence: "ProjectSettings/ProjectVersion.txt"
 scene:
   name: "HUDScene"
   path: "Assets/Scenes/HUDScene.unity"
@@ -183,6 +203,11 @@ assets:
   prefabs:
     - path: "Assets/UI/Prefabs/HUD/CurrencyCluster.prefab"
       shared: true
+  reusable_uxml_templates: []
+  stylesheets: []
+  panel_settings: []
+  theme_or_style_assets: []
+  behavior_owners: []
 console:
   compile_state: "clean"
   errors: []
@@ -194,6 +219,9 @@ gaps: []
 ```yaml
 snapshot_id: "layout-snapshot/SettingsScene/2026-07-06T10:05:00Z"
 captured_at: "2026-07-06T10:05:00Z"
+target_surface: "runtime"
+unity_version: "2022.3.35f1"
+unity_version_evidence: "ProjectSettings/ProjectVersion.txt"
 scene:
   name: "SettingsScene"
   path: "Assets/Scenes/SettingsScene.unity"
@@ -245,6 +273,19 @@ assets:
   materials: []
   tmp_styles: []
   prefabs: []
+  reusable_uxml_templates:
+    - "Assets/UI/Common/SettingsRow.uxml"
+  stylesheets:
+    - "Assets/UI/Settings/SettingsScreen.uss"
+    - "Assets/UI/Common/SettingsControls.uss"
+  panel_settings:
+    - "Assets/UI/PanelSettings.asset"
+  theme_or_style_assets:
+    - "Assets/UI/Themes/DefaultRuntimeTheme.tss"
+  behavior_owners:
+    - path: "SettingsUIDocument"
+      behavior_scripts:
+        - "Assets/UI/Settings/SettingsScreenController.cs"
 console:
   compile_state: "clean"
   errors: []
@@ -256,22 +297,22 @@ gaps:
 
 If a unified layout snapshot tool is unavailable, gather equivalent evidence through smaller calls before editing:
 
-1. Read editor state for scene, selection, play mode, and compile state.
+1. Read editor state for Unity version, target surface, scene, selection, play mode, and compile state.
 2. Find UI roots and classify UGUI, UI Toolkit, mixed, or unknown.
 3. Inspect `Canvas`, `CanvasScaler`, `UIDocument`, `PanelSettings`, safe-area owners, and root layout containers.
 4. Inspect the parent chain and children for the target region, including anchors, pivots, bounds, layout groups, masks, scroll owners, and prefab links.
 5. Inspect key text nodes for component type, sample value, wrapping, overflow, and style ownership.
-6. Inspect referenced sprites, materials, TMP styles, prefabs, and likely shared asset families when asset-aware mode is active.
+6. Inspect referenced sprites, materials, TMP styles, prefabs, reusable UXML templates, stylesheets, `PanelSettings`, theme or style assets, behavior owners, behavior scripts, and likely shared asset families when asset-aware mode is active.
 7. Capture a screenshot and record resolution, aspect ratio, and screenshot path.
 8. Read console or compile status before continuing with script-backed UI changes.
 
-Fallback output can be shorter than the full schema, but it must still name the UI stack, active UI root, screenshot frame, parent ownership, layout controllers, and console state or explain why those fields could not be gathered.
+Fallback output can be shorter than the full schema, but it must still name the target surface, Unity version evidence, UI stack, active UI root, screenshot frame, parent ownership, layout controllers, and console state or explain why those fields could not be gathered.
 
 ## How Agents Should Use The Snapshot
 
 - Use the snapshot to choose UI stack, change mode, design source, and asset strategy before editing.
 - Use snapshot hierarchy as current-state evidence, not as the final intended hierarchy.
-- For mockup-driven work, still produce a layer-to-Transform tree plan before creating objects.
+- For mockup-driven work, still produce a neutral layer-to-layout-tree plan before creating objects, then verify the final UGUI `Transform`/`RectTransform` hierarchy or UI Toolkit visual tree against it.
 - For raster item analysis, keep candidate item ledger decisions separate from snapshot data.
 - For item-level UI rect planning, map accepted runtime or repeated items to the planned hierarchy, not directly to snapshot leaf offsets.
 - If snapshot gaps include unknown stack, unknown active root, compile errors, or missing screenshot, resolve those gaps before structural edits unless the user explicitly requested offline planning only.

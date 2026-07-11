@@ -83,7 +83,7 @@ Use a bounded sequence:
 2. Confirm that the difference is variant-worthy rather than direct reuse or a new base.
 3. Create or update the prefab variant with `manage_prefabs`.
 4. Keep scene placement changes in `manage_gameobject`, not in the variant asset unless the variant root itself needs local layout changes.
-5. If variant-specific behavior depends on scripts or component settings, update them with `manage_script`, then run `refresh_unity` and inspect `read_console`.
+5. If variant-specific behavior depends on scripts or component settings, update them with `manage_script`, wait for automatic import and compilation, then inspect editor state and `read_console`; do not call `refresh_unity` redundantly.
 6. Verify the variant in the target screen and verify that the base prefab family still behaves coherently with `manage_camera`.
 
 ## UGUI Rules
@@ -95,11 +95,14 @@ Use a bounded sequence:
 
 ## UI Toolkit Equivalent
 
-For UI Toolkit, use the same logic for reusable template families:
+Do not translate a UGUI prefab variant directly into UI Toolkit. Start with a base UXML template and shared USS, then express scoped differences through:
 
-- keep one base `UXML` structure
-- apply variant-like differences through scoped classes, optional elements, or wrapper containers
-- avoid copying the base into many almost-identical template files unless inheritance is no longer meaningful
+- template composition or a wrapper UXML
+- scoped USS classes and state classes
+- optional elements controlled by a behavior owner
+- a distinct template when structure diverges enough that the base contract no longer fits
+
+A GameObject prefab variant remains relevant only when the runtime host itself has an explicit reusable lifecycle.
 
 ## Common Anti-Patterns
 
@@ -111,8 +114,16 @@ For UI Toolkit, use the same logic for reusable template families:
 
 ## Verification Questions
 
-- Is the base prefab still the correct conceptual parent for this variant?
-- Could this have been direct reuse with data changes only?
-- Are the overrides limited and easy to explain?
-- Does the variant keep screen-level placement outside the asset?
-- If the base changes later, will this variant still inherit in a predictable way?
+### UGUI Verification
+
+- Is the base prefab still the correct conceptual parent for this prefab variant?
+- Does the prefab variant preserve expected inheritance from the base prefab?
+- Are overrides limited, and does screen-level placement remain outside the variant asset?
+
+### UI Toolkit Verification
+
+- Is the base UXML template still the right reusable contract?
+- Could direct composition or a wrapper UXML express the difference without copying the template?
+- Are scoped USS and state classes sufficient and easy to explain?
+- Does structural divergence justify a distinct template instead of variant-like overrides?
+- If a GameObject host exists, is its optional host lifecycle explicit and actually reusable?

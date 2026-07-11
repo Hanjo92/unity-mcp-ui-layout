@@ -9,6 +9,9 @@ This includes:
 - common sprites
 - shared materials
 - TMP styles or font presentation assets
+- shared UXML templates and `VisualTreeAsset` assets
+- shared USS stylesheets, `PanelSettings`, theme or style assets
+- shared UI Toolkit behavior scripts
 
 The goal is to avoid solving a one-screen task by destabilizing a shared asset family.
 
@@ -86,6 +89,8 @@ Apply similar caution to:
 ## 6. Verification Before Direct Edit
 
 Before directly editing a shared asset, try to verify at least one additional known usage.
+
+For UI Toolkit, check another usage of the shared UXML template, USS, `PanelSettings`, theme/style asset, or behavior script before a direct edit. Prefer a wrapper UXML, scoped class, local stylesheet, local panel asset, or screen-owned behavior when the requested change is not shared.
 
 If another usage cannot be checked:
 

@@ -6,15 +6,17 @@ Use these files when you want a copyable starting point instead of only referenc
 
 ## Quick Rules
 
-- Group the top-level layout by anchor-owned regions before tuning leaf widgets.
-- When a mockup exists, run a layer-to-tree pass before object creation so the Unity Transform tree follows the visual layer structure.
+- Establish top-level region ownership and container relationships before tuning leaf widgets.
+- When a mockup exists, create a neutral layer-to-layout tree before stack-specific realization.
+- Realize that tree with the selected stack's native hierarchy, styling, and reuse mechanisms.
+- Add a screen host only when the selected runtime path requires one; reusable UI intent alone does not require a host object.
 - If semi-automated raster item detection is used, keep candidates in a candidate item ledger until review decisions are made.
 - When split runtime/repeated items need precise sizing, add an item rect plan after parent ownership and split/keep reason are clear.
 - Read provided `DESIGN.md` or design-token sources before styling.
-- Reuse repeated structures through prefabs or reusable layout blocks.
+- Reuse repeated structures through the selected stack's reusable mechanism.
 - Keep likely single-image regions intact unless runtime behavior requires decomposition.
 - Verify structure with screenshots instead of chasing raw pixel alignment.
-- Treat attached UI mockup, design screenshot, reference image, and UI 시안 requests to turn/convert/make/generate Unity UI prefabs or 프리팹 생성 as this workflow even without naming the skill explicitly.
+- Treat attached UI mockup, design screenshot, reference image, and UI 시안 requests to create Unity UI as this workflow even without naming the skill explicitly.
 
 ## Included Examples
 
@@ -45,11 +47,17 @@ Use these files when you want a copyable starting point instead of only referenc
 - `shared-asset-verification-example.md`
 - `ui-toolkit-example.md`
 
+## Mockup-To-UI Toolkit / 목업에서 UI Toolkit으로
+
+Choose the stack before realization with [`ui-stack-selection.md`](../unity-mcp-ui-layout/references/ui-stack-selection.md). Approve the neutral `mockup-layout-plan/v2` artifact from [`mockup-layout-plan.yaml`](../templates/mockup-layout-plan.yaml), then follow [`ui-toolkit-build-workflow.md`](../unity-mcp-ui-layout/references/ui-toolkit-build-workflow.md). The canonical walkthrough is [`ui-toolkit-from-mockup-example.md`](./ui-toolkit-from-mockup-example.md), with [`mockup-layout-plan-prefab-example.yaml`](./mockup-layout-plan-prefab-example.yaml) and [`mockup-layout-plan-ui-toolkit-example.yaml`](./mockup-layout-plan-ui-toolkit-example.yaml) as the two canonical machine-readable examples.
+
+realization 전에 [`ui-stack-selection.md`](../unity-mcp-ui-layout/references/ui-stack-selection.md)에서 스택을 고릅니다. [`mockup-layout-plan.yaml`](../templates/mockup-layout-plan.yaml)의 중립 `mockup-layout-plan/v2` 산출물을 승인한 뒤 [`ui-toolkit-build-workflow.md`](../unity-mcp-ui-layout/references/ui-toolkit-build-workflow.md)를 따릅니다. 정본 walkthrough는 [`ui-toolkit-from-mockup-example.md`](./ui-toolkit-from-mockup-example.md)이며, [`mockup-layout-plan-prefab-example.yaml`](./mockup-layout-plan-prefab-example.yaml)과 [`mockup-layout-plan-ui-toolkit-example.yaml`](./mockup-layout-plan-ui-toolkit-example.yaml)는 두 정본 machine-readable 예시입니다.
+
 ## How to Use
 
 1. Pick the example closest to your task.
 2. Copy the prompt and adapt the target resolution, UI stack, and requested scope.
-3. Keep the top-level layout grouped by anchor-owned regions, reuse repeated structures, and avoid over-splitting likely single-image assets.
+3. Keep top-level region ownership explicit in the neutral layer-to-layout tree, use the selected stack's reuse mechanism, and avoid over-splitting likely single-image assets.
 4. Use the linked reference documents when you need deeper rules or troubleshooting.
 
 ## Pick by Stack
@@ -68,7 +76,7 @@ Use these files when you want a copyable starting point instead of only referenc
 - Start with `mockup-decomposition-example.md` when the main question is what should stay baked, what should split, and what should become a reusable block before layout work begins.
 - Use `mockup-decomposition-example.md` when semi-automated detection needs a candidate item ledger before split candidates become item rect plans.
 - Use `prefab-from-mockup-example.md`, `mockup-decomposition-example.md`, or `mockup-resolution-example.md` when split items need an item rect plan from source rect to Unity fit intent.
-- Use `mockup-decomposition-example.md` for 레이어/트리 구조 work when a UI 시안 should become a cleaner Unity Transform or RectTransform hierarchy.
+- Use `mockup-decomposition-example.md` for 레이어/트리 구조 work when a UI 시안 should become a neutral layer-to-layout tree, then a UI Toolkit visual tree or UGUI Transform/RectTransform hierarchy.
 - Start with `design-md-layout-example.md` when a new screen should be built from a mockup plus `DESIGN.md` or design-token inputs.
 - Start with `design-md-repair-example.md` when an existing screen should be repaired against `DESIGN.md` without drifting from shared tokens.
 - Start with `stitch-html-to-ugui-example.md` when the hierarchy source is a Stitch HTML/CSS export that should become stable UGUI containers.

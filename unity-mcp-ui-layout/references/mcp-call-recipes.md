@@ -8,13 +8,13 @@ These recipes are intentionally practical. Start from discovery, make one bounde
 
 Use this when Unity Editor access is available and the task will edit an existing UI screen, repair a layout, or build a mockup-driven prefab inside a scene.
 
-The ideal output follows `layout-snapshot-contract.md`: active scene, active UI root, UI stack, Canvas or UIDocument settings, parent-owned hierarchy, layout controllers, text behavior, asset references, screenshot metadata, and console state.
+The intake must follow the canonical `layout-snapshot-contract.md`, including `target_surface`, Unity version evidence (`unity_version_evidence`), `selection.selected_object`, and `selection.active_ui_root`. The canonical contract defines the complete field set and explicit `unknown` or fallback values for fields that cannot be inspected.
 
 ### Typical sequence
 
 1. Request a unified layout snapshot if the MCP bridge exposes one
 2. If no unified snapshot exists, gather equivalent fields through smaller calls
-3. Record active UI root, stack, root layout owners, screenshot path, resolution, and console state before editing
+3. Record `target_surface`, Unity version evidence, `selection.selected_object`, `selection.active_ui_root`, stack, root layout owners, screenshot path, resolution, and console state before editing
 4. Resolve blocking gaps such as unknown stack, unknown active root, compile errors, or missing screenshot
 5. Continue into build or repair mode only after the intake artifact is clear
 
@@ -22,7 +22,7 @@ The ideal output follows `layout-snapshot-contract.md`: active scene, active UI 
 
 ```text
 Capture a Unity UI layout snapshot before editing.
-Record the active scene, active UI root, UI stack, Canvas or UIDocument settings, parent-owned hierarchy, layout controllers, text behavior, asset references, screenshot path with resolution, and console state.
+Record `target_surface`, Unity version evidence as `unity_version_evidence`, `selection.selected_object`, and `selection.active_ui_root` first, then follow the complete `layout-snapshot-contract.md` field set for the active scene, UI stack, Canvas or UIDocument settings, parent-owned hierarchy, layout controllers, text behavior, asset references, screenshot path with resolution, and console state.
 If there is no unified snapshot tool, gather the same fields through smaller MCP calls and list any unknown fields explicitly.
 Do not modify UI objects yet.
 ```
@@ -186,8 +186,8 @@ Use this when the UI depends on scripts, custom components, or compiled behavior
 ### Typical sequence
 
 1. Edit or create the required script
-2. Refresh Unity
-3. Read console output
+2. Wait for Unity's automatic import and compilation to settle
+3. Read editor state and console output
 4. Continue UI changes only if compile is clean
 5. Capture a verification screenshot
 
@@ -195,14 +195,14 @@ Use this when the UI depends on scripts, custom components, or compiled behavior
 
 ```text
 Make the required script changes for this UI feature first.
-After editing scripts, run refresh, wait for compile, inspect console errors, then continue with the UI layout work.
+After editing scripts, wait for automatic import and compilation, inspect editor state and console errors, then continue with the UI layout work. Do not call refresh_unity redundantly after script tools.
 Capture a screenshot after the UI is updated.
 ```
 
 ### Common calls
 
 - `manage_script`
-- `refresh_unity`
+- editor state / compilation status
 - `read_console`
 - `manage_camera`
 
@@ -212,16 +212,19 @@ Use this when the project uses `UIDocument`, `UXML`, and `USS`.
 
 ### Typical sequence
 
-1. Identify the active `UIDocument`
-2. Find related `UXML` and `USS`
-3. Adjust parent containers first
-4. Reduce inline style overrides when container rules should own layout
-5. Verify with a screenshot
+1. Start with `ui-stack-selection.md`.
+2. In a mixed-stack project, establish decisive ownership evidence before using UXML/USS assets: a selected UIDocument, a resolved visual-tree root, or an editor UI Toolkit owner.
+3. Identify the active `UIDocument` from that decisive owner evidence.
+4. Find related `UXML` and `USS` only after the owner is resolved.
+5. Adjust parent containers first.
+6. Reduce inline style overrides when container rules should own layout.
+7. Verify with a screenshot.
 
 ### Example prompt
 
 ```text
-Inspect the current UI Toolkit screen and find the active UIDocument, UXML, and USS files.
+Start with ui-stack-selection.md. In a mixed-stack project, establish decisive ownership evidence from the selected UIDocument, resolved visual-tree root, or editor UI Toolkit owner before using UXML/USS assets.
+Inspect the current UI Toolkit screen and find the active UIDocument, UXML, and USS files only after that owner is decisive.
 Fix the layout by adjusting parent containers and style ownership before changing local overrides.
 Then verify with a screenshot.
 ```
@@ -233,6 +236,65 @@ Then verify with a screenshot.
 - `manage_script`
 - `manage_camera`
 - `read_console`
+
+## Build UI Toolkit From a Mockup
+
+Use this compact recipe for an explicit or project-inferred UI Toolkit build. The canonical details and fallback rules live in `ui-toolkit-build-workflow.md`; do not duplicate them here.
+
+### Typical sequence
+
+1. Apply `ui-stack-selection.md` and capture intake evidence.
+2. Produce and approve the neutral `mockup-layout-plan/v2` plan.
+3. Create new owned assets with `manage_ui(action="create", path="Assets/UI/Inventory.uxml", contents="<ui:UXML ...>...</ui:UXML>")`; use the corresponding `.uss` path and contents for the stylesheet.
+4. For an existing owned asset, use `manage_ui(action="update", path="Assets/UI/Inventory.uxml", contents="<ui:UXML ...>...</ui:UXML>")` and update its USS separately as appropriate.
+
+### Stylesheet Linking
+
+Unity-valid canonical syntax is bare `<Style src="..." />`. Verify an existing reference before adding another one.
+
+1. Inspect the available `manage_ui` capabilities before considering `link_stylesheet`.
+2. Only when that action is advertised and its output can be inspected, call `manage_ui(action="link_stylesheet", path="Assets/UI/Inventory.uxml", stylesheet="Assets/UI/Inventory.uss")`.
+3. Read the resulting UXML immediately and verify the stylesheet reference.
+4. If the action emits `<ui:Style>`, `<ui:Style>` is invalid and must not be accepted.
+5. For a new minimal document, replace the bad output with `manage_ui(action="update", path="Assets/UI/Inventory.uxml", contents='<ui:UXML xmlns:ui="UnityEngine.UIElements"><Style src="Inventory.uss" /><ui:VisualElement name="root" /></ui:UXML>')`. For an existing document, read it first and pass the complete updated UXML while preserving every existing element; do not replace its tree with the minimal example.
+6. After the manual update, read the UXML again and confirm the bare style element is present.
+7. Then trigger import for the changed assets.
+8. Finally, read the console for UXML or USS errors before continuing.
+
+Do not invoke `link_stylesheet` blindly. Verify the stylesheet link before owner attachment or visual checks.
+
+### Runtime
+
+1. Inspect the scene for an existing `UIDocument` host and reuse it when lifecycle ownership matches. Use `manage_gameobject` to create a host only when runtime needs one and no compatible owner exists.
+2. Reuse compatible panel settings or call `manage_ui(action="create_panel_settings", path="Assets/UI/RuntimePanelSettings.asset")`.
+3. Attach the approved source to that `UIDocument` host with `manage_ui(action="attach_ui_document", target="InventoryUI", source_asset="Assets/UI/Inventory.uxml", panel_settings="Assets/UI/RuntimePanelSettings.asset")`.
+4. Inspect the attached host with `manage_ui(action="get_visual_tree", target="InventoryUI", max_depth=8)` and compare the resolved tree with the approved plan.
+
+### Editor UI
+
+1. Create or update the actual Editor owner: an `EditorWindow` with `CreateGUI`, a custom inspector, or a property drawer.
+2. Verify that owner can load or clone the intended `VisualTreeAsset`, and that the clone is added to the owner's root visual element.
+3. Verify the loaded or cloned tree and stylesheet through the Editor owner. Do not assume a runtime host lifecycle for an Editor surface.
+
+### Shared verification
+
+1. Add an optional behavior owner only when bindings, callbacks, state classes, focus, or navigation require one.
+2. After script tools return, wait for import and compilation; inspect editor state and the console. Do not call `refresh_unity` redundantly.
+3. For runtime, retain the resolved host visual-tree evidence. For Editor UI, retain owner load or clone evidence for the `VisualTreeAsset`.
+4. Capture the main and alternate screenshots, exercise applicable interactions, and report every tool limitation plus fallback evidence.
+
+### Common calls
+
+- `manage_ui(action="create")`
+- `manage_ui(action="update")`
+- capability inspection, asset readback, and conditional `manage_ui(action="link_stylesheet", ...)`
+- `manage_gameobject`
+- runtime-only `manage_ui(action="create_panel_settings", path=...)`
+- runtime-only `manage_ui(action="attach_ui_document", target=..., source_asset=..., panel_settings=...)`
+- runtime-only `manage_ui(action="get_visual_tree", target=..., max_depth=...)`
+- `manage_script`
+- editor state and `read_console`
+- screenshot and interaction tools
 
 ## 8. Promote a Repeated UI Block to a Prefab
 
