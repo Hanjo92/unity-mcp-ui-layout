@@ -48,6 +48,7 @@ Choose these four boundaries before editing anything:
 - Treat `UXML`, `USS`, and `PanelSettings` as corroborating only when referenced by that owner; their mere asset presence is not decisive.
 - Use **UGUI** when the selected target uses `Canvas`, `RectTransform`, `CanvasScaler`, `LayoutGroup`, `Image`, or `TextMeshProUGUI`.
 - Use **UI Toolkit** when the selected target has decisive UI Toolkit ownership evidence.
+- Route UI Toolkit mockup build tasks through `references/ui-toolkit-build-workflow.md` before stack-specific asset creation and completion checks.
 - Do not mix both stacks in one change unless the user explicitly asks for a bridge or migration.
 
 ### 2. Change Mode
@@ -231,6 +232,7 @@ Do not call the task done until every applicable check below passes:
 
 ### UI Toolkit
 
+- `references/ui-toolkit-build-workflow.md`
 - `references/ui-toolkit-layout-rules.md`
 - `references/ui-toolkit-failures.md`
 
