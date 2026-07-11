@@ -376,8 +376,12 @@ assert_not_contains "$mcp_build_recipe" 'or call `manage_ui(action="link_stylesh
 assert_not_contains "$workflow_surface" 'or call `manage_ui(action="link_stylesheet"' "build workflow unconditional stylesheet guidance"
 assert_not_contains "$mcp_build_recipe" '&quot;' "UI Toolkit MCP recipe executable UXML contents"
 assert_not_contains "$workflow_surface" '&quot;' "build workflow executable UXML contents"
-assert_contains "$mcp_build_recipe" 'contents='"'"'<ui:UXML ...><Style src="Inventory.uss" />...</ui:UXML>'"'"'' "UI Toolkit MCP recipe manual stylesheet fallback"
-assert_contains "$workflow_surface" 'contents='"'"'<ui:UXML ...><Style src="Inventory.uss" />...</ui:UXML>'"'"'' "build workflow manual stylesheet fallback"
+fallback_uxml='<ui:UXML xmlns:ui="UnityEngine.UIElements"><Style src="Inventory.uss" /><ui:VisualElement name="root" /></ui:UXML>'
+assert_contains "$mcp_build_recipe" "contents='$fallback_uxml'" "UI Toolkit MCP recipe manual stylesheet fallback"
+assert_contains "$workflow_surface" "contents='$fallback_uxml'" "build workflow manual stylesheet fallback"
+assert_contains "$mcp_build_recipe" 'pass the complete updated UXML while preserving every existing element' "UI Toolkit MCP recipe existing-tree preservation"
+assert_contains "$workflow_surface" 'pass the complete updated UXML while preserving every existing element' "build workflow existing-tree preservation"
+ruby -r rexml/document -e 'REXML::Document.new(ARGV.fetch(0))' "$fallback_uxml"
 
 for scoped_runtime in "recipe_runtime:$recipe_runtime" "workflow_runtime:$workflow_runtime"; do
   scope="${scoped_runtime%%:*}"

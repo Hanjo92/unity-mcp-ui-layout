@@ -256,7 +256,7 @@ Unity-valid canonical syntax is bare `<Style src="..." />`. Verify an existing r
 2. Only when that action is advertised and its output can be inspected, call `manage_ui(action="link_stylesheet", path="Assets/UI/Inventory.uxml", stylesheet="Assets/UI/Inventory.uss")`.
 3. Read the resulting UXML immediately and verify the stylesheet reference.
 4. If the action emits `<ui:Style>`, `<ui:Style>` is invalid and must not be accepted.
-5. Replace the bad output manually with `manage_ui(action="update", path="Assets/UI/Inventory.uxml", contents='<ui:UXML ...><Style src="Inventory.uss" />...</ui:UXML>')`.
+5. For a new minimal document, replace the bad output with `manage_ui(action="update", path="Assets/UI/Inventory.uxml", contents='<ui:UXML xmlns:ui="UnityEngine.UIElements"><Style src="Inventory.uss" /><ui:VisualElement name="root" /></ui:UXML>')`. For an existing document, read it first and pass the complete updated UXML while preserving every existing element; do not replace its tree with the minimal example.
 6. After the manual update, read the UXML again and confirm the bare style element is present.
 7. Then trigger import for the changed assets.
 8. Finally, read the console for UXML or USS errors before continuing.
