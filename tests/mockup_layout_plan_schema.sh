@@ -19,7 +19,18 @@ assert_contains "$ROOT_DIR/unity-mcp-ui-layout/references/prompt-patterns.md" ".
 assert_contains "$ROOT_DIR/examples/prefab-from-mockup-example.md" "../templates/mockup-layout-plan.yaml"
 assert_contains "$ROOT_DIR/examples/prefab-from-mockup-example.md" "mockup-layout-plan-prefab-example.yaml"
 
-ruby - "$ROOT_DIR/templates/mockup-layout-plan.yaml" "$ROOT_DIR/examples/mockup-layout-plan-prefab-example.yaml" "$ROOT_DIR/examples/mockup-layout-plan-ui-toolkit-example.yaml" <<'RUBY'
+PLAN_PATHS=(
+  "$ROOT_DIR/templates/mockup-layout-plan.yaml"
+  "$ROOT_DIR/examples/mockup-layout-plan-prefab-example.yaml"
+  "$ROOT_DIR/examples/mockup-layout-plan-ui-toolkit-example.yaml"
+)
+RUN_NEGATIVE_CASES=true
+if (( $# > 0 )); then
+  PLAN_PATHS=("$@")
+  RUN_NEGATIVE_CASES=false
+fi
+
+ruby - "${PLAN_PATHS[@]}" <<'RUBY'
 require "yaml"
 
 paths = ARGV
@@ -203,6 +214,13 @@ paths.each do |path|
     node.fetch("node_path")
   end
 
+  layout_tree.drop(1).each do |node|
+    parent_owner = node.fetch("parent_owner")
+    unless layout_paths.include?(parent_owner)
+      fail_with(path, "layout node #{node.fetch('node_path')} parent_owner is not declared in layout_tree: #{parent_owner}")
+    end
+  end
+
   decisions = {}
   candidates.each do |candidate|
     require_hash(path, candidate, "candidate entry")
@@ -239,6 +257,16 @@ paths.each do |path|
   held = decisions.select { |_id, decision| decision == "hold" }.keys
   rejected = decisions.select { |_id, decision| decision == "reject" }.keys
 
+  unknown_item_candidates = item_rect_candidate_ids - decisions.keys
+  unless unknown_item_candidates.empty?
+    fail_with(path, "item_rect_plan references undeclared candidates: #{unknown_item_candidates.join(', ')}")
+  end
+
+  unknown_asset_candidates = asset_candidate_ids - decisions.keys
+  unless unknown_asset_candidates.empty?
+    fail_with(path, "asset_plan references undeclared candidates: #{unknown_asset_candidates.join(', ')}")
+  end
+
   missing_item_rect = accepted - item_rect_candidate_ids
   fail_with(path, "accepted candidates missing item_rect_plan entries: #{missing_item_rect.join(', ')}") unless missing_item_rect.empty?
 
@@ -266,3 +294,30 @@ paths.each do |path|
   end
 end
 RUBY
+
+if [[ "$RUN_NEGATIVE_CASES" == true ]]; then
+  temp_dir="$(mktemp -d)"
+  trap 'rm -rf "$temp_dir"' EXIT
+
+  ruby -ryaml -e '
+    data = YAML.load_file(ARGV[0])
+    data["item_rect_plan"][0]["candidate_id"] = "candidate/Undeclared/Item"
+    File.write(ARGV[1], YAML.dump(data))
+  ' "$ROOT_DIR/templates/mockup-layout-plan.yaml" "$temp_dir/unknown-item.yaml"
+  if bash "$0" "$temp_dir/unknown-item.yaml" >"$temp_dir/unknown-item.out" 2>&1; then
+    printf 'Validator accepted undeclared item candidate\n' >&2
+    exit 1
+  fi
+  grep -Fq "item_rect_plan references undeclared candidates: candidate/Undeclared/Item" "$temp_dir/unknown-item.out"
+
+  ruby -ryaml -e '
+    data = YAML.load_file(ARGV[0])
+    data["asset_plan"][0]["candidate_id"] = "candidate/Undeclared/Asset"
+    File.write(ARGV[1], YAML.dump(data))
+  ' "$ROOT_DIR/templates/mockup-layout-plan.yaml" "$temp_dir/unknown-asset.yaml"
+  if bash "$0" "$temp_dir/unknown-asset.yaml" >"$temp_dir/unknown-asset.out" 2>&1; then
+    printf 'Validator accepted undeclared asset candidate\n' >&2
+    exit 1
+  fi
+  grep -Fq "asset_plan references undeclared candidates: candidate/Undeclared/Asset" "$temp_dir/unknown-asset.out"
+fi

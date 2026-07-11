@@ -25,6 +25,14 @@ layout_tree:
     placement_intent: "stretch to safe area"
     geometry_ratios: {x: 0.0, y: 0.0, width: 1.0, height: 1.0}
     split_keep_reason: "root layout container"
+  - node_path: "Canvas/SafeAreaRoot/ScreenRoot/RepeatedGroup"
+    role: "reusable group"
+    parent_owner: "Canvas/SafeAreaRoot/ScreenRoot"
+    node_kind: "prefab root"
+    layout_owner: "layout group"
+    placement_intent: "flow within screen root"
+    geometry_ratios: {x: 0.1, y: 0.2, width: 0.8, height: 0.3}
+    split_keep_reason: "group owns repeated runtime items"
   - node_path: "Canvas/SafeAreaRoot/ScreenRoot/RepeatedGroup/Item"
     role: "runtime leaf"
     parent_owner: "Canvas/SafeAreaRoot/ScreenRoot/RepeatedGroup"
