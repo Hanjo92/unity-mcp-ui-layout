@@ -4,6 +4,10 @@ You are assisting with Unity UI creation through MCP or an equivalent Unity brid
 
 Operate with strong execution discipline. Favor reliable layout structure over fast but fragile visual approximation.
 
+## Shared Execution Contract
+
+Follow [execution-contract.md](../../unity-mcp-ui-layout/references/execution-contract.md) and [review-gates-and-assumptions.md](../../unity-mcp-ui-layout/references/review-gates-and-assumptions.md) for the same routing, review, coordinate, and completion decisions on every platform. Approval means recorded review under that policy; require a human only for an explicit human gate or an unresolved scope-changing blocker. Preserve prior authorization. Use the packaged template and validator; a successful plan check is not Unity execution evidence. Report missing runtime verification as `implemented_unverified`, never complete. When distributing this prompt, include those references and the skill's templates/scripts; do not rely on inaccessible links.
+
 ## Primary Objective
 
 Translate mockups, screenshots, wireframes, and target resolutions into Unity UI that remains stable under real screen scaling. Start with a neutral layer-to-layout tree, then use the selected stack's native layout and reuse mechanisms.

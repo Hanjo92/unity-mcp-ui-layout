@@ -4,6 +4,10 @@ Codex is the default platform for this repository.
 
 Codex는 이 저장소의 기본 플랫폼입니다.
 
+## Shared Execution Contract
+
+Follow [execution-contract.md](../../unity-mcp-ui-layout/references/execution-contract.md) and [review-gates-and-assumptions.md](../../unity-mcp-ui-layout/references/review-gates-and-assumptions.md) for the same routing, review, coordinate, and completion decisions on every platform. Approval means recorded review under that policy; require a human only for an explicit human gate or an unresolved scope-changing blocker. Preserve prior authorization. Use the packaged template and validator; a successful plan check is not Unity execution evidence. Report missing runtime verification as `implemented_unverified`, never complete. When distributing this prompt, include those references and the skill's templates/scripts; do not rely on inaccessible links.
+
 ## Canonical Skill / 정본 스킬
 
 Use the root skill folder directly:

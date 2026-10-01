@@ -2,6 +2,8 @@
 
 Use this guide when mockup-driven UI work has ambiguity. The goal is to avoid two failure modes: blocking every small task, or silently turning uncertain visual guesses into real Unity objects, prefab children, or crop assets.
 
+This is the canonical review policy for the entrypoint, examples, and platform adapters. “Approve” means record a review decision; it does not itself require a new user confirmation. Honor existing authorization and explicit human review requirements. Use [execution-contract.md](execution-contract.md) for confidence criteria, `review_source`, coordinates, and evidence status.
+
 ## Decision Rule
 
 - Use `ui-planning-workflow.md` for unresolved product, design, or major structure choices in new screens and redesigns. Read-only inspection and a concrete proposal come before asking for a decision.
@@ -13,14 +15,14 @@ Use this guide when mockup-driven UI work has ambiguity. The goal is to avoid tw
 
 ## Hard Blockers: Ask Before Editing
 
-Pause dependent edits when any of these remain unresolved after inspection and checking prior user instructions:
+Ask only if inspected evidence and existing authorization do not resolve one of these scope-changing decisions. Continue independent authorized work while waiting:
 
 - **Unconfirmed design or major structure.** Example: a new shop could use tabs or one scrolling catalog, and neither user input nor a supplied design settles the choice. Present a concrete proposal and resolve it before creating that screen.
 - **Unknown UI stack in a mixed-stack project.** Example: both `Canvas` and `UIDocument` are active, the selected target has no established owner, and the user did not identify the target stack.
 - **Unclear target screen or prefab root.** Example: multiple inventory screens are open and the request only says "fix this UI."
-- **Destructive shared-base change.** Example: the repair would directly edit a common prefab, sprite, material, or TMP style used by other screens.
+- **Destructive shared-base change.** Example: the repair would alter an unauthorized shared contract. Prefer a local override; an already-authorized shared edit needs regression evidence, not repeated permission.
 - **Ambiguous repair versus rebuild scope.** Example: a bounded alignment fix appears to require replacing the parent layout system.
-- **Missing required runtime behavior.** Example: a mockup element may be decorative or clickable, and creating it as a button would change behavior.
+- **Missing required runtime behavior.** Example: behavior is required but unspecified. Hold the uncertain behavior and continue the independent layout; do not invent callbacks.
 
 Hard blocker response pattern:
 
@@ -80,6 +82,7 @@ evidence:
   - "centered icon cluster"
   - "strong contrast boundary"
 parent_hint: "RewardPopupRoot/RewardCard"
+review_source: "agent"
 review_decision: "accept"
 decision_note: "Promote to item rect because the icon changes at runtime and belongs to the RewardCard prefab."
 ```
@@ -92,6 +95,7 @@ confidence_band: "medium"
 evidence:
   - "soft decorative boundary"
 parent_hint: "RewardPopupRoot/RewardCard"
+review_source: "agent"
 review_decision: "hold"
 decision_note: "Keep as review note. It may be baked into the card background, so do not create a prefab child or crop yet."
 ```
@@ -104,6 +108,7 @@ confidence_band: "medium"
 evidence:
   - "decorative separator"
 parent_hint: "RewardPopupRoot/RewardCard"
+review_source: "agent"
 review_decision: "reject"
 decision_note: "Reject as a separate item. It stays inside the baked card background and must not create a Unity object or crop."
 ```
@@ -113,8 +118,8 @@ decision_note: "Reject as a separate item. It stays inside the baked card backgr
 If no human review is available during the current run:
 
 1. Preserve pending design questions. Build the parent-owned layer tree first only within the already agreed scope; otherwise retain it as a proposal.
-2. Accept only high-confidence candidates with a clear parent hint, split reason, and runtime/reuse evidence.
-3. Hold low-confidence or decorative candidates.
+2. Unless the user explicitly requires human review, accept only high-confidence candidates with a clear parent hint, visible boundary, split reason, and request/project-backed runtime/reuse evidence; record `review_source: agent`.
+3. Hold medium/low-confidence unresolved candidates; reject decoration known to remain baked.
 4. Do not create crop assets from held or rejected candidates.
 5. Prefer suitable existing assets or already authorized placeholders over mockup-derived crops when evidence is uncertain. Do not infer temporary-generation authorization from silence.
 6. Report which candidates were accepted, held, and rejected in the final response.

@@ -2,6 +2,10 @@
 
 Use this as the base instruction when Claude is helping design, build, or repair Unity UI from mockups, screenshots, wireframes, or target resolutions.
 
+## Shared Execution Contract
+
+Follow [execution-contract.md](../../unity-mcp-ui-layout/references/execution-contract.md) and [review-gates-and-assumptions.md](../../unity-mcp-ui-layout/references/review-gates-and-assumptions.md) for the same routing, review, coordinate, and completion decisions on every platform. Approval means recorded review under that policy; require a human only for an explicit human gate or an unresolved scope-changing blocker. Preserve prior authorization. Use the packaged template and validator; a successful plan check is not Unity execution evidence. Report missing runtime verification as `implemented_unverified`, never complete. When distributing this prompt, include those references and the skill's templates/scripts; do not rely on inaccessible links.
+
 ## Artifact Goal
 
 Produce Unity UI that matches the intended composition while staying robust under real screen scaling. Treat the artifact as a neutral layer-to-layout tree and verification plan before creating stack-specific assets.

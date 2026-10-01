@@ -22,6 +22,8 @@
 
 안정적인 구조, 범위가 분명한 변경, 명시적인 검증을 우선합니다. 작은 위젯 조정에 모든 계획 단계를 강제하지 않습니다.
 
+[실행 규칙](./unity-mcp-ui-layout/references/execution-contract.md)은 스택 선택, 검토 권한, 좌표 계산, 완료 판정을 통일합니다. 설치형 스킬에 [계획 템플릿](./unity-mcp-ui-layout/templates/mockup-layout-plan.yaml)과 [Ruby 검증기](./unity-mcp-ui-layout/scripts/validate_layout_plan.rb)를 포함하며 저장소 최상위 템플릿은 동기화된 호환 복사본입니다. 판단과 계획 검증을 반복 가능하게 만들지만 모델·Unity 버전 간 픽셀 단위 동일 결과를 보장하지는 않습니다.
+
 ## 단계별 계획과 이미지 리소스
 
 [UI 계획](./unity-mcp-ui-layout/references/ui-planning-workflow.md)을 세운 뒤 [이미지 리소스 흐름](./unity-mcp-ui-layout/references/image-asset-workflow.md)을 따릅니다. 미정인 시안·구조를 확정하고 적합한 프로젝트 이미지를 재사용하며, 자격을 확인한 실행자가 있을 때만 합의한 부족 리소스를 생성합니다. 자산 인덱스가 없으면 프로젝트를 직접 탐색합니다.
@@ -173,6 +175,7 @@ Plan, Current Change, Verification, Next Step 섹션을 둔 artifact 방식으�
 bash tests/agent_runbook_keywords.sh
 bash tests/layout_snapshot_keywords.sh
 bash tests/mockup_layout_plan_schema.sh
+ruby tests/layout_plan_semantics_test.rb
 bash tests/review_gates_keywords.sh
 bash tests/trigger_keywords.sh
 bash tests/layer_tree_keywords.sh

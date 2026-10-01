@@ -114,3 +114,7 @@ flowchart TD
 - 중립 `mockup-layout-plan/v2` template과 두 정본 YAML 예시가 계속 링크되고 파싱되는지 확인합니다.
 - UI Toolkit build, 재사용 가능한 UXML/USS, runtime-host qualification, screenshot, console 검증 지침이 동기화되어 있는지 확인합니다.
 - 공개 문서가 바뀌면 YAML parsing, `bash -n`, `git diff --check`를 실행합니다.
+
+## Execution Contract Validation
+
+When decision rules, plan geometry, or packaging changes, run `ruby tests/layout_plan_semantics_test.rb` and `bash tests/mockup_layout_plan_schema.sh`. Keep `templates/mockup-layout-plan.yaml` byte-identical to the packaged `unity-mcp-ui-layout/templates/mockup-layout-plan.yaml`. Run all shell checks, YAML parsing, skill validation, and `git diff --check` for cross-cutting skill changes. Keyword checks validate documentation coverage only; the historical forward fixture does not run a fresh agent. Record new forward evaluations separately with inputs, observed decisions, and limitations; never relabel historical evidence as a current run.

@@ -83,7 +83,7 @@ Use `manage_camera` for the screenshot capture.
 
 If no explicit target resolution is provided, use the mockup image's native resolution as the reference resolution instead of falling back immediately to `1920x1080`.
 
-When the plan needs fixed sections or will be reused across agents, use `../../templates/mockup-layout-plan.yaml` for the layer tree, candidate item ledger, item rect plan, asset crop plan, and verification targets.
+When the plan needs fixed sections or will be reused across agents, use `../templates/mockup-layout-plan.yaml` for the layer tree, candidate item ledger, item rect plan, asset crop plan, and verification targets.
 
 ## Pattern 6A: Mockup Screenshot To Prefab
 
@@ -97,7 +97,7 @@ For split runtime leaves and repeated prefab units, produce an item-level UI rec
 Create parent containers before leaf widgets, keep decorative baked regions whole unless runtime behavior requires splitting, and verify the prefab instance with a screenshot.
 ```
 
-For a structured planning artifact, copy `../../templates/mockup-layout-plan.yaml` and keep accepted, held, and rejected candidates separated before object creation.
+For a structured planning artifact, copy `../templates/mockup-layout-plan.yaml` and keep accepted, held, and rejected candidates separated before object creation.
 
 ## Pattern 7: Image-Based Layout Repair
 

@@ -121,3 +121,7 @@ Good PRs for this repo usually:
 - keep the change set focused
 - show which file category was chosen and why
 - avoid mixing unrelated documentation improvements in one branch
+
+## Execution Contract Validation
+
+When decision rules, plan geometry, or packaging changes, run `ruby tests/layout_plan_semantics_test.rb` and `bash tests/mockup_layout_plan_schema.sh`. Keep `templates/mockup-layout-plan.yaml` byte-identical to the packaged `unity-mcp-ui-layout/templates/mockup-layout-plan.yaml`. Run all shell checks, YAML parsing, skill validation, and `git diff --check` for cross-cutting skill changes. Keyword checks validate documentation coverage only; the historical forward fixture does not run a fresh agent. Record new forward evaluations separately with inputs, observed decisions, and limitations; never relabel historical evidence as a current run.

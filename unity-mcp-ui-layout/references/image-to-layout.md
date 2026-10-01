@@ -1,11 +1,13 @@
 # Image to Layout Rules
 
+Apply [execution-contract.md](execution-contract.md) for review authority, source coordinates, plan validation, and completion evidence.
+
 Use this guide when the user provides, uploads, attaches, or drops a layout image, reference image, UI design, mockup screenshot, wireframe, UI 시안, or screenshot together with a target resolution or prefab creation request.
 
 Pair it with `mockup-resolution.md` when the mockup's own native pixel size should become the planning reference frame.
 Pair it with `mockup-decomposition.md` when you need a stricter rule for deciding what should stay as one asset versus what should become runtime-owned UI.
 Use `ui-planning-workflow.md` to settle unresolved design/structure choices and temporary-resource use before implementation, and `image-asset-workflow.md` for project image reuse and generated sprite application.
-Use `../../templates/mockup-layout-plan.yaml` when the agent needs a concise machine-readable v2 plan with `layout_contract, stack_realization, layout_tree, candidate_item_ledger, item_rect_plan, asset_plan, behavior_plan, verification_targets`.
+Use `../templates/mockup-layout-plan.yaml` when the agent needs a concise machine-readable v2 plan with `layout_contract, stack_realization, layout_tree, candidate_item_ledger, item_rect_plan, asset_plan, behavior_plan, verification_targets`.
 
 ## Goal
 
@@ -107,7 +109,7 @@ Only accepted candidates can become item-level UI rect entries. Held candidates 
 
 Do not use low-confidence candidates to force a split. If the candidate cannot name a parent hint, split/keep reason, and evidence, keep it in the nearest existing visual layer.
 
-For fixed-column planning output, copy the v2 template at `../../templates/mockup-layout-plan.yaml` and validate it with `../../tests/mockup_layout_plan_schema.sh`. Start with `layout_tree`, select the matching branch in `stack_realization`, connect accepted items to `asset_plan`, and record only known ownership in `behavior_plan`.
+For fixed-column planning output, copy the v2 template at `../templates/mockup-layout-plan.yaml` and validate it with `ruby ../scripts/validate_layout_plan.rb /absolute/path/to/plan.yaml` (run from this references directory). Start with `layout_tree`, select the matching branch in `stack_realization`, connect accepted items to `asset_plan`, and record only known ownership in `behavior_plan`.
 
 ### 3. Run an item rect mapping pass
 
