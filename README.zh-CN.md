@@ -22,6 +22,8 @@
 
 工作流优先考虑稳定的结构、明确的修改范围和有依据的验证。微调单个控件时，不必机械地执行全部规划步骤。
 
+[执行约定](./unity-mcp-ui-layout/references/execution-contract.md)统一技术栈选择、审核权限、坐标计算和完成判定。可安装技能内置[计划模板](./unity-mcp-ui-layout/templates/mockup-layout-plan.yaml)及 [Ruby 验证器](./unity-mcp-ui-layout/scripts/validate_layout_plan.rb)，仓库顶层模板保留为同步的兼容副本。这使决策和计划检查可重复，但不保证不同模型或 Unity 版本产生逐像素一致的结果。
+
 ## 逐步规划与图片资源
 
 先进行 [UI 规划](./unity-mcp-ui-layout/references/ui-planning-workflow.md)，再执行[图片资源工作流](./unity-mcp-ui-layout/references/image-asset-workflow.md)。确认尚未决定的设计与结构，复用合适的项目图片，并且只在有合格执行者时生成已商定的缺失资源。没有资源索引时，直接搜索和检查项目。
@@ -173,6 +175,7 @@ cp -R ./unity-mcp-ui-layout ~/.codex/skills/
 bash tests/agent_runbook_keywords.sh
 bash tests/layout_snapshot_keywords.sh
 bash tests/mockup_layout_plan_schema.sh
+ruby tests/layout_plan_semantics_test.rb
 bash tests/review_gates_keywords.sh
 bash tests/trigger_keywords.sh
 bash tests/layer_tree_keywords.sh

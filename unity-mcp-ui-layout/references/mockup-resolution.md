@@ -1,5 +1,7 @@
 # Mockup Resolution Rules
 
+Apply [execution-contract.md](execution-contract.md) for review authority, source coordinates, plan validation, and completion evidence.
+
 Use this guide when the user provides a mockup, screenshot, wireframe, or design image and the image's own pixel resolution should influence how the UI is planned.
 
 ## Goal

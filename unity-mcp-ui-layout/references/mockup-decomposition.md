@@ -1,8 +1,10 @@
 # Mockup Decomposition Rules
 
+Apply [execution-contract.md](execution-contract.md) for review authority, source coordinates, plan validation, and completion evidence.
+
 Use this guide when a mockup, screenshot, design image, or UI 시안 exists and you need to decide which regions should stay as one asset, which should become stack-appropriate reusable layout units, and which should be separated into interactive UI elements.
 
-Use `../../templates/mockup-layout-plan.yaml` when the decomposition needs a concise machine-readable v2 plan with `layout_contract, stack_realization, layout_tree, candidate_item_ledger, item_rect_plan, asset_plan, behavior_plan, verification_targets`.
+Use `../templates/mockup-layout-plan.yaml` when the decomposition needs a concise machine-readable v2 plan with `layout_contract, stack_realization, layout_tree, candidate_item_ledger, item_rect_plan, asset_plan, behavior_plan, verification_targets`.
 Use `review-gates-and-assumptions.md` when deciding whether an ambiguity should pause for user confirmation or proceed with named assumptions.
 Use `agent-capability-routing.md` when the analyst and implementation worker differ. Raster candidates require verified vision or an attributed visual-analysis handoff; no-human-review fallback does not compensate for a model that cannot see the source image.
 
@@ -61,9 +63,9 @@ Use accept/hold/reject instead of silently deleting uncertain candidates. Accept
 
 The template policy is strict: accepted candidates may become item rect entries after parent ownership and split reason are reviewed, held candidates remain notes, and rejected candidates must not create runtime nodes, reusable-template children, or crops.
 
-Use the v2 template at `../../templates/mockup-layout-plan.yaml`: define the neutral hierarchy in `layout_tree`, select the chosen stack in `stack_realization`, connect accepted item rects to `asset_plan`, and record known ownership only in `behavior_plan`.
+Use the v2 template at `../templates/mockup-layout-plan.yaml`: define the neutral hierarchy in `layout_tree`, select the chosen stack in `stack_realization`, connect accepted item rects to `asset_plan`, and record known ownership only in `behavior_plan`.
 
-If no human review is available, accept only high-confidence candidates with a clear parent hint, split reason, and runtime or reuse evidence within the already agreed design scope. Keep low-confidence or decorative candidates held, build parent structure first only where authorized by that agreement, and avoid creating crop assets from uncertain candidates. Unresolved design or major structure choices remain pending under `ui-planning-workflow.md`.
+If no human review is available, accept only high-confidence candidates with a clear parent hint, split reason, and runtime or reuse evidence within the already agreed design scope. Hold unresolved medium/low-confidence candidates, reject known baked decoration, and honor explicit human approval gates as defined in `review-gates-and-assumptions.md`. Keep unresolved material design choices pending under `ui-planning-workflow.md`; build parent structure first only within agreed scope and avoid creating crop assets from uncertain candidates.
 
 For each runtime or repeated item, record:
 

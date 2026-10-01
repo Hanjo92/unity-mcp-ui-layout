@@ -6,6 +6,13 @@ This project follows a lightweight documentation-focused release flow.
 
 ## Unreleased
 
+### Consistency hardening
+
+- Unified review authority, coordinate conventions, supported-orientation verification, and evidence-based completion across the skill and platform adapters.
+- Packaged the plan template and Ruby validator inside the installable skill. Concrete v2 plans now require measured `mockup_resolution` and candidate `review_source`; old plans need those fields populated from evidence.
+- Added semantic regression checks for geometry, leaf ownership, review decisions, empty raster plans, and genuinely different aspect ratios. Corrected both canonical examples.
+- 승인 주체, 좌표 기준, 지원 화면 방향 및 완료 판정을 통일하고 설치본에 템플릿/검증기를 포함했습니다. v2 계획에 원본 해상도와 검토 주체를 기록하며, 잘못된 좌표·소유 관계·화면 비율을 회귀 검증합니다.
+
 ### Changed / 변경
 
 - Made the main README English-first, added separate Korean and Simplified Chinese pages with top-level language navigation, and consolidated duplicate overview and repository guidance.

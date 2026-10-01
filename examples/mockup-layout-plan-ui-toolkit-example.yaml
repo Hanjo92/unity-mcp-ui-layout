@@ -3,6 +3,7 @@ layout_contract:
   ui_stack: "UI Toolkit"
   mode: "build"
   mockup_source: "attached quest-list mockup"
+  mockup_resolution: "1920x1080"
   target_resolution: "1920x1080"
   root_owner: "QuestScreen"
   structure_rule: "flex owner before leaf sizing"
@@ -45,6 +46,14 @@ layout_tree:
     placement_intent: "row flow with icon and text content"
     geometry_ratios: {x: 0.1, y: 0.2, width: 0.8, height: 0.12}
     split_keep_reason: "runtime quest data repeats"
+  - node_path: "QuestScreen/QuestList/QuestRow/Icon"
+    role: "runtime leaf"
+    parent_owner: "QuestScreen/QuestList/QuestRow"
+    node_kind: "VisualElement"
+    layout_owner: ".quest-row__icon flex item"
+    placement_intent: "first child in quest-row flex flow"
+    geometry_ratios: {x: 0.1198, y: 0.2315, width: 0.05, height: 0.0889}
+    split_keep_reason: "runtime quest category icon"
 candidate_item_ledger:
   - candidate_id: "candidate/QuestRow/Icon"
     source_bounds: {x: 230, y: 250, width: 96, height: 96}
@@ -54,6 +63,7 @@ candidate_item_ledger:
     parent_hint: "QuestScreen/QuestList/QuestRow"
     crop_padding: "4px transparent edge"
     nine_slice_candidate: false
+    review_source: "agent"
     review_decision: "accept"
     decision_note: "runtime icon changes per quest"
   - candidate_id: "candidate/QuestList/BackdropGlow"
@@ -64,6 +74,7 @@ candidate_item_ledger:
     parent_hint: "QuestScreen/QuestList"
     crop_padding: "unknown"
     nine_slice_candidate: false
+    review_source: "agent"
     review_decision: "hold"
     decision_note: "may be a USS background effect"
   - candidate_id: "candidate/QuestRow/Hairline"
@@ -74,15 +85,16 @@ candidate_item_ledger:
     parent_hint: "QuestScreen/QuestList/QuestRow"
     crop_padding: "none"
     nine_slice_candidate: false
+    review_source: "agent"
     review_decision: "reject"
     decision_note: "render with the quest-row USS class"
 item_rect_plan:
   - item_id: "QuestRow/Icon"
     candidate_id: "candidate/QuestRow/Icon"
-    node_path: "QuestScreen/QuestList/QuestRow"
+    node_path: "QuestScreen/QuestList/QuestRow/Icon"
     source_rect: {x: 230, y: 250, width: 96, height: 96}
     normalized_rect: {x: 0.1198, y: 0.2315, width: 0.05, height: 0.0889}
-    parent_local_rect: {x: 20, y: 12, width: 96, height: 96}
+    parent_local_rect: {x: 38, y: 34, width: 96, height: 96}
     fit_mode: "flex-none preserve-aspect"
     placement_intent: "first child in quest-row flex flow"
     split_keep_reason: "runtime quest category icon"
@@ -106,5 +118,5 @@ verification_targets:
     resolution: "1920x1080"
     checks: ["QuestRow UXML template is reused", "quest-list and quest-row flex owners control layout", "only accepted candidates create runtime nodes and assets"]
   - target: "alternate panel screenshot"
-    resolution: "1366x768"
+    resolution: "1440x1080"
     checks: ["quest list remains inside panel", "row text and icon remain in flex flow"]

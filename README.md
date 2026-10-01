@@ -22,6 +22,8 @@ For a small first exercise, use the [first layout pass example](./examples/first
 
 The workflow favors stable structure, scoped changes, and explicit verification. Small widget adjustments do not need every planning step.
 
+The [execution contract](./unity-mcp-ui-layout/references/execution-contract.md) standardizes routing, review authority, coordinates, and completion verdicts. The installable skill includes its [plan template](./unity-mcp-ui-layout/templates/mockup-layout-plan.yaml) and [Ruby validator](./unity-mcp-ui-layout/scripts/validate_layout_plan.rb); the repository-level template is a synchronized compatibility copy. This makes decisions and plan checks repeatable, without promising identical pixels across models or Unity versions.
+
 ## Planning and Image Resources
 
 Follow [UI planning](./unity-mcp-ui-layout/references/ui-planning-workflow.md), then the [image asset workflow](./unity-mcp-ui-layout/references/image-asset-workflow.md). Agree on unresolved design and structure choices, reuse suitable project images, and generate only the agreed gaps when a qualified executor is available. Missing asset indexes use direct project discovery.
@@ -173,6 +175,7 @@ Run the focused checks when release preparation or public workflow guidance chan
 bash tests/agent_runbook_keywords.sh
 bash tests/layout_snapshot_keywords.sh
 bash tests/mockup_layout_plan_schema.sh
+ruby tests/layout_plan_semantics_test.rb
 bash tests/review_gates_keywords.sh
 bash tests/trigger_keywords.sh
 bash tests/layer_tree_keywords.sh

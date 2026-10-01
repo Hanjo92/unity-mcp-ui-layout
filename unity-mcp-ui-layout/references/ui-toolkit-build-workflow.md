@@ -1,5 +1,7 @@
 # UI Toolkit Mockup Build Workflow
 
+Apply [execution-contract.md](execution-contract.md) for review authority, source coordinates, plan validation, and completion evidence.
+
 Use this as the canonical practical workflow when an approved mockup layout plan must become UI Toolkit UI. Keep general layout decisions in the neutral `mockup-layout-plan/v2` contract; use this guide only for UI Toolkit realization.
 
 ## 1. Confirm Intake and Target

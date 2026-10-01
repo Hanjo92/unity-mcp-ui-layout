@@ -3,6 +3,7 @@ layout_contract:
   ui_stack: "UGUI"
   mode: "build"
   mockup_source: "attached reward-card mockup"
+  mockup_resolution: "1920x1080"
   target_resolution: "1920x1080"
   root_owner: "Canvas/SafeAreaRoot/RewardPopupRoot"
   structure_rule: "parent ownership before leaf sizing"
@@ -39,7 +40,7 @@ layout_tree:
     node_kind: "Image"
     layout_owner: "LayoutElement"
     placement_intent: "centered preserve-aspect child"
-    geometry_ratios: {x: 0.455, y: 0.34, width: 0.09, height: 0.16}
+    geometry_ratios: {x: 0.4552, y: 0.3398, width: 0.0896, height: 0.1593}
     split_keep_reason: "dynamic reward icon"
 candidate_item_ledger:
   - candidate_id: "candidate/RewardCard/Icon"
@@ -50,6 +51,7 @@ candidate_item_ledger:
     parent_hint: "Canvas/SafeAreaRoot/RewardPopupRoot/RewardCard"
     crop_padding: "12px glow remains outside icon sprite"
     nine_slice_candidate: false
+    review_source: "agent"
     review_decision: "accept"
     decision_note: "runtime sprite swap requires a distinct image"
   - candidate_id: "candidate/RewardCard/OuterGlow"
@@ -60,6 +62,7 @@ candidate_item_ledger:
     parent_hint: "Canvas/SafeAreaRoot/RewardPopupRoot/RewardCard"
     crop_padding: "unknown"
     nine_slice_candidate: false
+    review_source: "agent"
     review_decision: "hold"
     decision_note: "may be baked into the card background"
   - candidate_id: "candidate/RewardCard/InnerHighlightLine"
@@ -70,6 +73,7 @@ candidate_item_ledger:
     parent_hint: "Canvas/SafeAreaRoot/RewardPopupRoot/RewardCard"
     crop_padding: "none"
     nine_slice_candidate: false
+    review_source: "agent"
     review_decision: "reject"
     decision_note: "keep inside card background art"
 item_rect_plan:
@@ -78,7 +82,7 @@ item_rect_plan:
     node_path: "Canvas/SafeAreaRoot/RewardPopupRoot/RewardCard/Icon"
     source_rect: {x: 874, y: 367, width: 172, height: 172}
     normalized_rect: {x: 0.4552, y: 0.3398, width: 0.0896, height: 0.1593}
-    parent_local_rect: {x: 0, y: -24, width: 172, height: 172}
+    parent_local_rect: {x: 230.8, y: 97, width: 172, height: 172}
     fit_mode: "preserve-aspect"
     placement_intent: "centered VerticalLayoutGroup child"
     split_keep_reason: "dynamic reward icon"
@@ -100,5 +104,5 @@ verification_targets:
     resolution: "1920x1080"
     checks: ["RewardCard owns icon placement", "held and rejected candidates create no nodes or assets"]
   - target: "alternate aspect screenshot"
-    resolution: "1600x900"
+    resolution: "1440x1080"
     checks: ["RewardPopupRoot remains centered", "VerticalLayoutGroup owns card spacing"]

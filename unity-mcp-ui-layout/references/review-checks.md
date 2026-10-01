@@ -126,7 +126,7 @@ Ask:
 
 - Did the ledger stay an advisory candidate set rather than a final manifest?
 - Does every candidate include confidence band, evidence, suggested role, crop padding, 9-slice candidate status, and `review_decision`?
-- Did accepted candidates pass a human review gate before becoming item-level UI rects, runtime nodes, reusable-template children, or mockup-derived crops?
+- Did accepted candidates meet the recorded review policy (and any explicitly required human review gate) before becoming item-level UI rects, runtime nodes, reusable-template children, or mockup-derived crops?
 - Were held candidates left as notes instead of silently becoming objects?
 - Were rejected candidates prevented from creating runtime nodes or crop assets?
 - Was any candidate over-decomposition visible, such as decorative seams becoming fake children without runtime responsibility?
@@ -297,3 +297,5 @@ Do not call the UI complete unless:
 5. the structure does not depend on arbitrary pixel corrections
 6. any provided design-system source is still respected where applicable
 7. any provided structured export source was normalized into stable hierarchy instead of copied literally
+
+Use [execution-contract.md](execution-contract.md) for evidence statuses and completion verdicts. A plan-schema pass or missing tool cannot stand in for Unity screenshot, compile, or behavior evidence.

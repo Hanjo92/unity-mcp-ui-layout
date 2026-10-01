@@ -17,7 +17,7 @@ Use this skill for Unity UI work where layout stability matters more than raw pi
 - A new Unity screen needs sequential planning with the user before its design and structure are implemented.
 - An attached UI mockup, layout image, mockup screenshot, uploaded or dropped design/reference image, or UI 시안 should become UGUI, UI Toolkit, or Unity UI prefabs.
 - Natural wording such as "turn this reference image into UI", "convert this mockup to a prefab", "시안 던져줄게", or "프리팹 만들어줘" should trigger this skill.
-- A visual design needs a layer-to-layout-tree pass so the neutral layout tree is approved before stack-specific object creation.
+- A visual design needs a layer-to-layout-tree pass so the neutral layout tree is reviewed under the review policy before stack-specific object creation.
 - A raster mockup needs a candidate item ledger before item-level UI rects are promoted into Unity objects or crop plans.
 - A provided mockup needs item-level UI rect planning for runtime leaves, repeated cards, slots, rows, icons, or buttons that were intentionally split from the visual design.
 - The user asks to create Unity UI prefabs, 프리팹, prefab variants, or reusable UI blocks from a provided design image.
@@ -37,6 +37,10 @@ Use this skill for Unity UI work where layout stability matters more than raw pi
 - Illustration or asset-painting work where no runtime Unity layout is being built.
 - Non-Unity UI work.
 - Full-stack migration work unless the task is specifically about stabilizing the target UI layout.
+
+## Execution Contract
+
+For implementation and repair, read [references/execution-contract.md](references/execution-contract.md) and [references/agent-runbook.md](references/agent-runbook.md) first. They define proportional planning, source-coordinate conventions, review authority, rerun behavior, and evidence-based completion. Use the bundled [plan template](templates/mockup-layout-plan.yaml) and `scripts/validate_layout_plan.rb` for full mockup plans. A passing plan is not Unity verification.
 
 ## Quick Router
 
@@ -117,7 +121,7 @@ For structured export intake and hierarchy mapping, read `references/stitch-html
 - If a design-system source exists, extract the tokens, prose intent, component states, and any do/don't guardrails before styling.
 - If no structured hierarchy source exists and a mockup, screenshot, reference image, or UI 시안 exists, run a layer-to-layout-tree pass before creating objects and keep that neutral layout tree as the layout contract.
 - If a structured export and a mockup/screenshot both exist, let the structured export own hierarchy and use the raster layer pass as composition validation.
-- If raster item analysis is useful, produce a candidate item ledger as an advisory candidate set with confidence band, evidence, and human review before promoting anything into item-level UI rects.
+- If raster item analysis is useful, produce a candidate item ledger as an advisory candidate set with confidence band, evidence, and recorded review before promoting anything into item-level UI rects. Human review is required only when the user requests it or a hard blocker remains; otherwise follow `references/review-gates-and-assumptions.md`.
 - For any runtime leaf or repeated item intentionally split from a mockup, record an item-level UI rect: source rect in the mockup, normalized rect, parent-local rect or Unity fit intent, split/keep reason, and asset/crop plan.
 - Inspect the root layout owner before touching children.
 - For UGUI, inspect `Canvas`, `CanvasScaler`, parent `RectTransform`, layout components, and safe-area handling.
@@ -125,7 +129,7 @@ For structured export intake and hierarchy mapping, read `references/stitch-html
 - If the UI is scroll-heavy, decide the scroll owner, viewport boundary, content container, and repeated-item strategy before styling rows or cards.
 - Treat any mockup or screenshot as composition guidance first, not as a command to freeze raw pixels.
 
-**The test:** If two reasonable interpretations exist for stack, repair scope, reference resolution, or reuse expectations, do not silently pick one.
+**The test:** Resolve choices from inspected evidence first. Ask only for unresolved scope-changing decisions; record local reversible assumptions and continue.
 
 ### 2. Stabilize Structure Before Polish
 
@@ -171,10 +175,10 @@ Do not call the task done until every applicable check below passes:
 - If a mockup, screenshot, or wireframe was provided, one final review pass was run against it after implementation changes.
 - If no structured hierarchy source existed and a mockup, screenshot, reference image, or UI 시안 drove the work, the final stack-specific realization still matches the approved layout tree: UGUI through its `Transform`/`RectTransform`, anchors, layout components, and prefab roots; UI Toolkit through its visual tree, UXML templates or `VisualTreeAsset`, flex/style owners, and optional behavior owner.
 - If a structured export existed alongside a mockup/screenshot, hierarchy still follows the export and the raster image was used for composition validation.
-- If a candidate item ledger was used, accepted candidates passed a human review gate before item-level UI rect planning.
+- If a candidate item ledger was used, accepted candidates have a recorded `review_source` and meet the review policy before item-level UI rect planning; honor any explicit human review gate.
 - If item-level UI rect planning was needed, key split items have source rect, normalized rect, parent-local or fit intent, and asset/crop plan recorded before final visual tuning.
-- The layout was re-checked at one additional aspect ratio, or portrait plus landscape for mobile-first work.
-- Compile or console errors were cleared if script-backed UI changed.
+- The layout was re-checked at one additional aspect ratio, within supported orientations; test portrait plus landscape only when both are supported.
+- New compile or console errors caused by the change were cleared; pre-existing errors and any verification they block are reported separately.
 - Text behavior still works for longer or more realistic content.
 - UGUI repeated siblings and regular auto-layout/flex groups use layout components, or the manual-placement exception is named.
 - Structured export inputs were normalized into stable containers, repeated blocks, or overlays instead of remaining as noisy one-off copies.
